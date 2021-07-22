@@ -17,7 +17,10 @@ export default {
   },
   methods: {
     text(){
-      getList().then(res=>{
+      let obj={
+        "partner":"01"
+      }
+      getList(obj).then(res=>{
         console.log(res)
       })
     },

@@ -4,6 +4,6 @@ export function getList(params) {
     return request({
         url: '/test',
         method: 'post',
-        params
+        data: params
     })
 }

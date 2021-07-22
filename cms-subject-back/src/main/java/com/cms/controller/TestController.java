@@ -1,6 +1,8 @@
 package com.cms.controller;
 
 
+import com.cms.pojo.TestPojo;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class TestController {
-    @RequestMapping("/test")
-    public String test(){
-        return "hello";
+
+    @PostMapping("/test")
+    public TestPojo test() {
+        TestPojo testPojo = new TestPojo();
+        testPojo.setName("张三");
+        return testPojo;
     }
 }

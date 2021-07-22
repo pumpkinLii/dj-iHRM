@@ -9,5 +9,6 @@ import lombok.Data;
  */
 @Data
 public class TestPojo {
-    private String name;
+    private String partner;
+    private String userName;
 }

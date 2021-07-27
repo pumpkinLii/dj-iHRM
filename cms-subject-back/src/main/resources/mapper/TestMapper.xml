@@ -4,7 +4,8 @@
 <mapper namespace="com.cms.dao.TestDao">
 
     <select id="getList" parameterType="com.cms.pojo.TestPojo" resultType="com.cms.pojo.TestPojo">
-        select username from edm_user_info ${ew.customSqlSegment}
+        select user_name from edm_user_info ${ew.customSqlSegment}
 	</select>
+
 </mapper>
 

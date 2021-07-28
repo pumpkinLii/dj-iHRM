@@ -4,14 +4,14 @@
 
     <breadcrumb class="breadcrumb-container" />
 
-    <div class="right-menu">
+    <!-- <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           
         </el-dropdown-menu>
       </el-dropdown>
-    </div>
+    </div> -->
   </div>
 </template>
 

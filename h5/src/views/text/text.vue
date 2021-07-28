@@ -5,7 +5,7 @@
 </template>
 
 <script>
-
+import { text } from '@/api/user'
 export default {
   name: 'Page404',
   computed: {
@@ -16,6 +16,10 @@ export default {
   created(){
     console.log("dayin")
     console.log(this.$router)
+    text().then(res=>{
+      console.log("接口请求成功")
+      console.log(res)
+    })
   }
 }
 </script>

@@ -23,9 +23,11 @@ export function logout() {
     })
 }
 
-export function text() {
+export function text(data, parme) {
+    let url = parme ? '/test/info' + '?' + parme : '/test/info'
     return request({
-        url: '/test/info',
-        method: 'post'
+        url: url,
+        method: 'post',
+        data
     })
 }

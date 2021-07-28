@@ -24,10 +24,9 @@ public class TestController {
 
     @ApiOperation("测试接口")
     @PostMapping("/info")
-    public String test() {
-//        @RequestBody TestPojo testPojo, int page, int limit
-//        PageUtils list = testService.getList(testPojo, page, limit);
-//        return R.ok().put("page", list);
-        return "hello world";
+    public R test(@RequestBody TestPojo testPojo, int page, int limit) {
+        PageUtils list = testService.getList(testPojo, page, limit);
+        return R.ok().put("page", list);
+//        return "hello world";
     }
 }

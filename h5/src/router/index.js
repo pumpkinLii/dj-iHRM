@@ -31,6 +31,9 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [{
+        path: '/',
+        redirect: '/login'
+    }, {
         path: '/login',
         component: () =>
             import ('@/views/login/index'),
@@ -44,13 +47,12 @@ export const constantRoutes = [{
         hidden: true
     },
 
+
     {
-        path: '/',
+        path: '/dashboard',
         component: Layout,
-        redirect: '/dashboard',
         children: [{
-            path: 'dashboard',
-            name: 'Dashboard',
+            path: '',
             component: () =>
                 import ('@/views/dashboard/index'),
             meta: { title: 'Dashboard', icon: 'dashboard' }
@@ -60,7 +62,7 @@ export const constantRoutes = [{
         path: '/text',
         component: Layout,
         children: [{
-            path: 'text',
+            path: '',
             name: 'text',
             component: () =>
                 import ('@/views/text/text'),
@@ -85,10 +87,5 @@ const createRouter = () => new Router({
 
 const router = createRouter()
 
-// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
-    const newRouter = createRouter()
-    router.matcher = newRouter.matcher // reset router
-}
 
 export default router

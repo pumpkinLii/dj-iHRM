@@ -1,8 +1,8 @@
 spring:
   datasource:
-    username: cmssubjectdat
-    password: CmsSubjectdat#123
-    url: jdbc:mysql://10.219.112.221:3306/cms_subject_dat?characterEncoding=utf8
+    username: cmssubjectdev
+    password: CmsSubjectdev#123
+    url: jdbc:mysql://10.219.112.221:3306/cms_subject_dev?characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
 server:
   port: 9999

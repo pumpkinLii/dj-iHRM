@@ -62,15 +62,7 @@ export default {
       }
     },
     handleLogin() {
-      this.login()
-    },
-    login() {
       this.$store.dispatch('user/login', { username: this.username, password: this.password })
-        .then(r => {
-          console.log(r)
-        }).catch(err => {
-          console.log(err)
-        })
     }
   }
 }

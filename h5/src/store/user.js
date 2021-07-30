@@ -15,7 +15,7 @@ const mutations = {
 }
 
 const actions = {
-  login({ commit }, { param }) {
+  login({ commit }, param) {
     API.login(param)
       .then(
         r => {

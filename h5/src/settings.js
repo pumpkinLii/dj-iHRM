@@ -1,16 +1,16 @@
 module.exports = {
 
-    title: '123123123',
+  title: '123123123',
 
-    /**
+  /**
      * @type {boolean} true | false
      * @description Whether fix the header
      */
-    fixedHeader: false,
+  fixedHeader: false,
 
-    /**
+  /**
      * @type {boolean} true | false
      * @description Whether show the logo in sidebar
      */
-    sidebarLogo: false
+  sidebarLogo: false
 }

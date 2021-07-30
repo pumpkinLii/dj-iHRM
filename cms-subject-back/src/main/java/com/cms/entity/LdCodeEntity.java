@@ -18,7 +18,7 @@ public class LdCodeEntity implements Serializable {
     /**
      * Code类型
      */
-    @TableId
+    @TableId("code_type")
     private String codeType;
     /**
      * code

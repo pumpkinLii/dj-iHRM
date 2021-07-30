@@ -20,7 +20,7 @@ public class LdComNewEntity {
     /**
      * 机构编码
      */
-    @TableId
+    @TableId("com_code")
     private String comCode;
 
     /**

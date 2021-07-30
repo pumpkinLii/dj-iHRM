@@ -19,7 +19,7 @@ public class YlLaAgentAttrEntity {
     /**
      * 人员工号
      */
-    @TableId
+    @TableId("agent_code")
     private String agentCode;
 
     /**

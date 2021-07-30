@@ -19,7 +19,7 @@ public class YlLaAgentManoeuvreEntity {
     /**
      * 转储号码
      */
-    @TableId
+    @TableId("edor_no")
     private String edorNo;
 
     /**

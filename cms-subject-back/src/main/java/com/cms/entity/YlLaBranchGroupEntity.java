@@ -19,7 +19,7 @@ public class YlLaBranchGroupEntity {
     /**
      * 组织内码
      */
-    @TableId
+    @TableId("agent_group")
     private String agentGroup;
 
     /**

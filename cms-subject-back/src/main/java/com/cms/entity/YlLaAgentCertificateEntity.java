@@ -19,7 +19,7 @@ public class YlLaAgentCertificateEntity {
     /**
      * 流水号
      */
-    @TableId
+    @TableId("edor_no")
     private String edorNo;
 
     /**

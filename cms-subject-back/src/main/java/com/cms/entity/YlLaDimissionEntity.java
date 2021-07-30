@@ -19,7 +19,7 @@ public class YlLaDimissionEntity {
     /**
      * 代理人编码
      */
-    @TableId
+    @TableId("agent_code")
     private String agentCode;
 
     /**

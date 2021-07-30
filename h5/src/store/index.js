@@ -7,12 +7,11 @@ import settings from './settings'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-    modules: {
-        app,
-        settings,
-
-    },
-    getters
+  modules: {
+    app,
+    settings
+  },
+  getters
 })
 
 export default store

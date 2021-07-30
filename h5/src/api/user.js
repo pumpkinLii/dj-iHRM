@@ -1,33 +1,33 @@
 import request from '@/utils/request'
 
 export function login(data) {
-    return request({
-        url: '/vue-admin-template/user/login',
-        method: 'post',
-        data
-    })
+  return request({
+    url: '/vue-admin-template/user/login',
+    method: 'post',
+    data
+  })
 }
 
 export function getInfo(token) {
-    return request({
-        url: '/vue-admin-template/user/info',
-        method: 'get',
-        params: { token }
-    })
+  return request({
+    url: '/vue-admin-template/user/info',
+    method: 'get',
+    params: { token }
+  })
 }
 
 export function logout() {
-    return request({
-        url: '/vue-admin-template/user/logout',
-        method: 'post'
-    })
+  return request({
+    url: '/vue-admin-template/user/logout',
+    method: 'post'
+  })
 }
 
 export function text(data, parme) {
-    let url = parme ? '/test/info' + '?' + parme : '/test/info'
-    return request({
-        url: url,
-        method: 'post',
-        data
-    })
+  const url = parme ? '/test/info' + '?' + parme : '/test/info'
+  return request({
+    url: url,
+    method: 'post',
+    data
+  })
 }

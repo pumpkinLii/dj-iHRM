@@ -1,10 +1,9 @@
 import router from './router'
-// import store from './store'
+import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import getPageTitle from '@/utils/get-page-title'
-import { getToken } from '@/utils/auth'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -18,8 +17,8 @@ router.beforeEach(async(to, from, next) => {
   document.title = getPageTitle(to.meta.title)
 
   // determine whether the user has logged in
-  const hasToken = getToken() !== undefined
-  if (hasToken) {
+  const isLogin = store.state.isLogin
+  if (isLogin) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       Message.info('Already logged in, no need to log in again')

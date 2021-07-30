@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import * as User from '@/api/user'
 export default {
   name: 'Login',
   data() {
@@ -66,10 +65,12 @@ export default {
       this.login()
     },
     login() {
-      User.login({
-        username: this.username,
-        password: this.password
-      })
+      this.$store.dispatch('user/login', { username: this.username, password: this.password })
+        .then(r => {
+          console.log(r)
+        }).catch(err => {
+          console.log(err)
+        })
     }
   }
 }
@@ -183,12 +184,5 @@ $light_gray:#eee;
     cursor: pointer;
     user-select: none;
   }
-}
-</style>
-
-<style>
-.login-container{
-  display: flex;
-  justify-content: center;
 }
 </style>

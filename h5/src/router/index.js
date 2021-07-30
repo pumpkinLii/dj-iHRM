@@ -31,61 +31,55 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [{
-        path: '/',
-        redirect: '/login'
-    }, {
-        path: '/login',
-        component: () =>
-            import ('@/views/login/index'),
-        hidden: true
-    },
+  path: '/',
+  redirect: '/login'
+}, {
+  path: '/login',
+  component: () =>
+    import ('@/views/login/index'),
+  hidden: true
+},
 
-    {
-        path: '/404',
-        component: () =>
-            import ('@/views/404'),
-        hidden: true
-    },
+{
+  path: '/404',
+  component: () =>
+    import ('@/views/404'),
+  hidden: true
+},
 
+{
+  path: '/dashboard',
+  component: Layout,
+  children: [{
+    path: '',
+    component: () =>
+      import ('@/views/dashboard/index'),
+    meta: { title: 'Dashboard', icon: 'dashboard' }
+  }]
+},
+{
+  path: '/text',
+  component: Layout,
+  children: [{
+    path: '',
+    name: 'text',
+    component: () =>
+      import ('@/views/text/text'),
+    meta: { title: 'text', icon: 'text' }
+  }],
+  hidden: false
+},
 
-    {
-        path: '/dashboard',
-        component: Layout,
-        children: [{
-            path: '',
-            component: () =>
-                import ('@/views/dashboard/index'),
-            meta: { title: 'Dashboard', icon: 'dashboard' }
-        }]
-    },
-    {
-        path: '/text',
-        component: Layout,
-        children: [{
-            path: '',
-            name: 'text',
-            component: () =>
-                import ('@/views/text/text'),
-            meta: { title: 'text', icon: 'text' }
-        }],
-        hidden: false
-    },
-
-
-
-
-
-    // 404 page must be placed at the end !!!
-    { path: '*', redirect: '/404', hidden: true }
+// 404 page must be placed at the end !!!
+{ path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
-    // mode: 'history', // require service support
-    scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes
 })
 
 const router = createRouter()
-
 
 export default router

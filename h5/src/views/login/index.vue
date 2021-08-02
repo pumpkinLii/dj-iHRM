@@ -35,7 +35,7 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-      <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
     </el-form>
   </div>
 </template>
@@ -62,7 +62,7 @@ export default {
       }
     },
     handleLogin() {
-      this.$store.dispatch('user/login', { username: this.username, password: this.password })
+      this.$store.dispatch('user/login', { userName: this.username, userPassword: this.password })
     }
   }
 }
@@ -121,6 +121,8 @@ $dark_gray:#889aa4;
 $light_gray:#eee;
 
 .login-container {
+  background:url('/back.png') no-repeat;
+  background-size: cover;
   min-height: 100%;
   width: 100%;
   background-color: $bg;
@@ -130,9 +132,11 @@ $light_gray:#eee;
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 100px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+    background-color: rgba(100, 100, 100, 0.5);// extra css
+    margin-top: 200px;
   }
 
   .tips {

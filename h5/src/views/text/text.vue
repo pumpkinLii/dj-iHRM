@@ -3,27 +3,27 @@
 </template>
 
 <script>
-import { text } from "@/api/user";
+import { text } from '@/api/user'
 export default {
-  name: "Page404",
+  name: 'Page404',
   computed: {
     message() {
-      return "The webmaster said that you can not enter this page...";
-    },
+      return 'The webmaster said that you can not enter this page...'
+    }
   },
   created() {
-    console.log("dayin");
-    console.log(this.$router);
-    let obj = {
-      userId: "0",
-    };
+    console.log('dayin')
+    console.log(this.$router)
+    const obj = {
+      userId: '0'
+    }
 
-    let parme =
-      'page=1&limit=10';
+    const parme =
+      'page=1&limit=10'
     text(obj, parme).then((res) => {
-      console.log("接口请求成功");
-      console.log(res);
-    });
-  },
-};
+      console.log('接口请求成功')
+      console.log(res)
+    })
+  }
+}
 </script>

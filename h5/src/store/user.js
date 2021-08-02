@@ -2,7 +2,7 @@ import * as API from '@/api/user'
 import { Message } from 'element-ui'
 
 const state = {
-  isLogin: false
+  isLogin: true
 }
 
 const mutations = {

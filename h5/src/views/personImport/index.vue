@@ -2,10 +2,10 @@
   <div class="app-container">
     <el-form ref="ruleForm" :rules="rules" label-width="160px">
       <!-- 1-->
+      <el-divider />
       <el-row>
         <el-col :span="8">
           <el-form-item label="二级管理机构" prop="manage">
-            <!-- <el-input v-model="ruleForm.name" type="text" placeholder="input your name" style="width:100%;" /> -->
             <el-select v-model="ruleForm.secondManage" placeholder="请选择" style="width:100%">
               <el-option label="区域一" value="shanghai" />
               <el-option label="区域二" value="beijing" />
@@ -168,9 +168,7 @@ export default {
         operatorCode: '' // 操作员代码
 
       },
-      rules: {
-        manage: { required: true, message: '请输入', trigger: 'blur' }
-      }
+      rules: [{ manage: { required: true, message: '请输入', trigger: 'blur' }}]
     }
   }
 }

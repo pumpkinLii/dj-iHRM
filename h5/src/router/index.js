@@ -82,6 +82,16 @@ export const constantRoutes = [
           title: 'sample',
           icon: 'el-icon-eleme'
         }
+      },
+      // test
+      {
+        path: '/test/personImport',
+        name: 'personImport',
+        component: () => import ('@/views/personImport/index'),
+        meta: {
+          title: 'personImport',
+          icon: ''
+        }
       }
     ],
     hidden: false

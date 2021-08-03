@@ -253,18 +253,23 @@
                 addTeamFormRules: {
                     manage: [{
                         required: true,
+                        message: '请选择管理机构',
                     }],
                     teamlevel: [{
                         required: true,
+                        message: '请选择团队级别',
                     }],
                     teamname: [{
                         required: true,
+                        message: '请输入团队名称',
                     }],
                     setdate: [{
                         required: true,
+                        message: '请确定成立时间',
                     }],
                     groupname: [{
                         required: true,
+                        message: '请输入群聊名称',
                     }, ]
                 }
             }
@@ -289,7 +294,7 @@
             addteam() {
                 this.$refs.addTeamFormRef.validate(async valid => {
                     if (!valid) return
-                    //可以进行添加用户
+                    //可以进行添加团队
                     const {
                         data: res
                     } = await this.$http.post("/teamManagement/save", this.addTeamForm)

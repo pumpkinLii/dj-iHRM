@@ -65,7 +65,7 @@ export default {
       }
     },
     handleLogin() {
-      this.$store.dispatch('user/login', { userName: this.username, userPassword: this.password })
+      this.$store.dispatch('user/login', { userId: this.username, userPassword: this.password })
     }
   }
 }

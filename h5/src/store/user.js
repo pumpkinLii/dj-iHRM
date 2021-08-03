@@ -1,5 +1,6 @@
 import * as API from '@/api/user'
 import { Message } from 'element-ui'
+import router from '../router'
 
 const state = {
   isLogin: true
@@ -21,7 +22,8 @@ const actions = {
         r => {
           console.log(r)
           commit('LOGIN')
-          Message.info('登录成功')
+          Message.success('登录成功')
+          router.push('/dashboard')
         }
       ).catch(
         err => {
@@ -36,7 +38,8 @@ const actions = {
         r => {
           console.log(r)
           commit('LOGOUT')
-          Message.info('注销成功')
+          Message.success('注销成功')
+          router.push('/login')
         }
       ).catch(
         err => {

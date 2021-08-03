@@ -332,6 +332,9 @@ export default {
           [{ required: true, message: '请输入开户行所在市', trigger: 'change' }]
       }
     }
+  },
+  created() {
+    this.salesmanNum
   }
 }
 </script>

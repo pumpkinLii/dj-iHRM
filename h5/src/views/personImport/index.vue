@@ -8,7 +8,7 @@
     <el-row>
       <el-col style="text-align:center">
         <el-button type="primary" @click="submitForm">保存</el-button>
-        <el-button type="secondary">重置</el-button>
+        <el-button type="secondary" @click="resetForm">重置</el-button>
       </el-col>
     </el-row>
   </div>
@@ -32,28 +32,37 @@ export default {
       const form1 = this.$refs.agentData.$refs.agentForm
       const form2 = this.$refs.adminData.$refs.adminForm
       form1.validate()
-        .then(valid => {
-          console.log(valid)
+        .then(isValid => {
+          console.log('代理人信息验证通过', isValid)
         })
         .catch(err => {
           error = true
-          console.log(err)
+          console.log('代理人信息验证不通过', err)
         })
         .then(
           () => {
             form2.validate()
               .then(
-                valid => {
-                  console.log('success')
-                  console.log(error)
+                isValid => {
+                  if (!error && isValid) {
+                    console.log('行政信息验证通过', isValid)
+                    // 发起请求
+                    // ......
+                  } else {
+                    console.log('行政信息验证不通过', error)
+                  }
                 },
                 err => {
                   error = true
-                  console.log(err)
+                  console.log('行政信息验证不通过', err)
                 }
               )
           }
         )
+    },
+    resetForm() {
+      this.$refs.agentData.$refs.agentForm.resetFields()
+      this.$refs.adminData.$refs.adminForm.resetFields()
     }
   }
 }

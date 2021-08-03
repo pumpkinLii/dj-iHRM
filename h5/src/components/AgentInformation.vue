@@ -277,11 +277,11 @@ export default {
       },
       rules: {
         salesmanName:
-          [{ required: true, message: '请输入业务员姓名', trigger: 'change' }],
+          [{ required: true, message: '请输入业务员姓名', trigger: 'blur' }],
         certificateType:
           [{ required: true, message: '请输入证件类型', trigger: 'change' }],
         certificateNum:
-          [{ required: true, message: '请输入证件号码', trigger: 'change' }],
+          [{ required: true, message: '请输入证件号码', trigger: 'blur' }],
         birthday:
           [{ required: true, message: '请输入出生日期', trigger: 'change' }],
         sex:
@@ -295,9 +295,9 @@ export default {
         highestDegree:
           [{ required: true, message: '请输入最高学位', trigger: 'change' }],
         graduatedSchool:
-          [{ required: true, message: '请输入毕业院校', trigger: 'change' }],
+          [{ required: true, message: '请输入毕业院校', trigger: 'blur' }],
         major:
-          [{ required: true, message: '请输入专业', trigger: 'change' }],
+          [{ required: true, message: '请输入专业', trigger: 'blur' }],
         nationality:
           [{ required: true, message: '请输入民族', trigger: 'change' }],
         hometown:
@@ -305,27 +305,27 @@ export default {
         lastJobIndustryType:
           [{ required: true, message: '请输入最近一份工作行业类型', trigger: 'change' }],
         recentCareer:
-          [{ required: true, message: '请输入最近一份职业', trigger: 'change' }],
+          [{ required: true, message: '请输入最近一份职业', trigger: 'blur' }],
         recentWorkUnit:
-          [{ required: true, message: '请输入最近一家工作单位', trigger: 'change' }],
+          [{ required: true, message: '请输入最近一家工作单位', trigger: 'blur' }],
         recentJobTitle:
-          [{ required: true, message: '请输入最近一份职务', trigger: 'change' }],
+          [{ required: true, message: '请输入最近一份职务', trigger: 'blur' }],
         workingYears:
-          [{ required: true, message: '请输入从业年限', trigger: 'change' }],
+          [{ required: true, message: '请输入从业年限', trigger: 'blur' }],
         familyAddress:
-          [{ required: true, message: '请输入家庭地址', trigger: 'change' }],
+          [{ required: true, message: '请输入家庭地址', trigger: 'blur' }],
         mobilePhone:
-          [{ required: true, message: '请输入手机', trigger: 'change' }],
+          [{ required: true, message: '请输入手机', trigger: 'blur' }],
         email:
-          [{ required: true, message: '请输入E-mail', trigger: 'change' }],
+          [{ required: true, message: '请输入E-mail', trigger: 'blur' }],
         politicalStatus:
           [{ required: true, message: '请输入政治面貌', trigger: 'change' }],
         accountBankHeadOffice:
           [{ required: true, message: '请输入账户银行总行', trigger: 'change' }],
         bankAccount:
-          [{ required: true, message: '请输入银行账号', trigger: 'change' }],
-        bankCardAccountBankJointNumber: 
-          [{ required: true, message: '请输入银行卡开户行联行号', trigger: 'change' }],
+          [{ required: true, message: '请输入银行账号', trigger: 'blur' }],
+        bankCardAccountBankJointNumber:
+          [{ required: true, message: '请输入银行卡开户行联行号', trigger: 'blur' }],
         bankProvince:
           [{ required: true, message: '请输入开户行省份', trigger: 'change' }],
         cityWhereTheAccountBankIsLocated:

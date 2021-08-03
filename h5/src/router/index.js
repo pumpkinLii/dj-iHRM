@@ -97,15 +97,18 @@ export const constantRoutes = [
         icon: 'el-icon-user'
       }
     }]
-  },{
+  },
+  {
     path: '/teamhold',
     component: Layout,
     children: [{
       path: '',
       name: 'TeamHold',
-      component: () =>
-        import ('@/views/teamhold/index'),
-      meta: { title: '团队维护', icon: 'text' }
+      component: () => import ('@/views/teamhold/index'),
+      meta: {
+        title: '团队维护',
+        icon: 'el-icon-s-cooperation'
+      }
     }],
     hidden: false
   },

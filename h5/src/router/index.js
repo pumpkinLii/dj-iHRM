@@ -81,6 +81,18 @@ export const constantRoutes = [{
   }],
   hidden: false
 },
+{
+  path: '/teamhold',
+  component: Layout,
+  children: [{
+    path: '',
+    name: 'TeamHold',
+    component: () =>
+      import ('@/views/teamhold/index'),
+    meta: { title: '团队维护', icon: 'text' }
+  }],
+  hidden: false
+},
 
 // 404 page must be placed at the end !!!
 { path: '*', redirect: '/404', hidden: true }

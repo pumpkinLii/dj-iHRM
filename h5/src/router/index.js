@@ -30,74 +30,6 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-<<<<<<< HEAD
-export const constantRoutes = [{
-  path: '/',
-  redirect: '/login'
-}, {
-  path: '/login',
-  component: () =>
-    import ('@/views/login/index'),
-  hidden: true
-},
-
-{
-  path: '/404',
-  component: () =>
-    import ('@/views/404'),
-  hidden: true
-},
-
-{
-  path: '/dashboard',
-  component: Layout,
-  children: [{
-    path: '',
-    component: () =>
-      import ('@/views/dashboard/index'),
-    meta: { title: 'Dashboard', icon: 'dashboard' }
-  }]
-},
-{
-  path: '/text',
-  component: Layout,
-  children: [{
-    path: '',
-    name: 'text',
-    component: () =>
-      import ('@/views/text/text'),
-    meta: { title: 'text', icon: 'text' }
-  }],
-  hidden: false
-},
-{
-  path: '/sample',
-  component: Layout,
-  children: [{
-    path: '',
-    name: 'Sample',
-    component: () =>
-      import ('@/views/sample/index'),
-    meta: { title: 'sample', icon: 'text' }
-  }],
-  hidden: false
-},
-{
-  path: '/teamhold',
-  component: Layout,
-  children: [{
-    path: '',
-    name: 'TeamHold',
-    component: () =>
-      import ('@/views/teamhold/index'),
-    meta: { title: '团队维护', icon: 'text' }
-  }],
-  hidden: false
-},
-
-// 404 page must be placed at the end !!!
-{ path: '*', redirect: '/404', hidden: true }
-=======
 export const constantRoutes = [
   {
     path: '/',
@@ -168,7 +100,6 @@ export const constantRoutes = [
   },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
->>>>>>> 21f3d2b6ed773e5c67e98312b34f898669768799
 ]
 
 const createRouter = () => new Router({

@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <h4>团队维护</h4>
-    <el-form :rules="rules" :model="teamForm" label-width="180px">
+    <el-form ref="teamForm" :rules="rules" :model="teamForm" label-width="180px">
       <!-- 上部分表单 -->
       <el-row>
         <el-col :span="8">
-          <el-form-item label="管理机构" prop="manage">
-            <el-select placeholder="大家人寿总公司">
-              <el-option label="大家人寿总公司" value="" />
-              <el-option label="..." value="" />
+          <el-form-item v-model="manage" label="管理机构">
+            <el-select placeholder="请选择">
+              <el-option label="大家人寿总公司" value="1" />
+              <el-option label="..." value="2" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -62,7 +62,7 @@
       </el-row>
       <el-row>
         <el-col style="text-align:center">
-          <el-button type="primary">查询</el-button>
+          <el-button type="primary" @click="handleQuery('teamForm')">查询</el-button>
           <el-button type="success" @click="addDialogVisible = true">新增</el-button>
         </el-col>
       </el-row>
@@ -213,14 +213,6 @@
 export default {
   name: 'Sample',
   data() {
-    // 验证手机号的规则
-    var checkMobile = (rule, value, cb) => {
-      const regMobile = /^1[34578]\d{9}$/
-      if (regMobile.test(value)) {
-        return cb()
-      }
-      cb(new Error('请输入合法的手机号'))
-    }
     return {
       teamForm: {
         manage: '',
@@ -235,7 +227,14 @@ export default {
           trigger: 'blur'
         },
         {
-          validator: checkMobile,
+          // 验证手机号的规则
+          validator: (rule, value, cb) => {
+            const regMobile = /^1[34578]\d{9}$/
+            if (regMobile.test(value)) {
+              return cb()
+            }
+            cb(new Error('请输入合法的手机号'))
+          },
           trigger: 'blur'
         }
         ]
@@ -298,6 +297,18 @@ export default {
     // 监听添加对话框的关闭事件
     addTeamDialogClosed() {
       this.$refs.addFormRef.resetFields()
+    },
+    handleQuery(formName) {
+      this.$refs[formName].validate(
+        (valid) => {
+          if (valid) {
+            alert('submit!')
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        }
+      )
     },
     addteam() {
       this.$refs.addTeamFormRef.validate(async valid => {

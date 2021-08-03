@@ -40,13 +40,13 @@ const actions = {
     commit('LOGOUT')
     Message.success('注销成功')
     router.push('/login')
-      //   }
-      // ).catch(
-      //   err => {
-      //     console.log(err)
-      //     Message.error('注销失败')
-      //   }
-      // )
+    //   }
+    // ).catch(
+    //   err => {
+    //     console.log(err)
+    //     Message.error('注销失败')
+    //   }
+    // )
   }
 }
 

@@ -4,14 +4,16 @@
 
     <breadcrumb class="breadcrumb-container" />
 
-    <!-- <div class="right-menu">
+    <div v-if="$store.getters.user.isLogin" class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
-        
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          
+        <div class="avatar-wrapper">
+          <el-button icon="el-icon-caret-bottom" size="mini" />
+        </div>
+        <el-dropdown-menu slot="dropdown" class="user-dropdown" >
+          <el-dropdown-item @click.native="logout">注销</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -44,6 +46,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.avatar-wrapper{
+  margin: 0!important
+}
 .navbar {
   height: 50px;
   overflow: hidden;

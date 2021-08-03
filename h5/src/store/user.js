@@ -33,20 +33,20 @@ const actions = {
       )
   },
   logout({ commit }) {
-    API.logout()
-      .then(
-        r => {
-          console.log(r)
-          commit('LOGOUT')
-          Message.success('注销成功')
-          router.push('/login')
-        }
-      ).catch(
-        err => {
-          console.log(err)
-          Message.error('注销失败')
-        }
-      )
+    // API.logout()
+    //   .then(
+    //     r => {
+    //       console.log(r)
+    commit('LOGOUT')
+    Message.success('注销成功')
+    router.push('/login')
+    //   }
+    // ).catch(
+    //   err => {
+    //     console.log(err)
+    //     Message.error('注销失败')
+    //   }
+    // )
   }
 }
 

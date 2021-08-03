@@ -52,7 +52,7 @@ export const constantRoutes = [
       path: '',
       component: () => import ('@/views/dashboard/index'),
       meta: {
-        title: '仪表板',
+        title: '首页',
         icon: 'dashboard'
       }
     }]
@@ -97,6 +97,20 @@ export const constantRoutes = [
         icon: 'el-icon-user'
       }
     }]
+  },
+  {
+    path: '/teamhold',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'TeamHold',
+      component: () => import ('@/views/teamhold/index'),
+      meta: {
+        title: '团队维护',
+        icon: 'el-icon-s-cooperation'
+      }
+    }],
+    hidden: false
   },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

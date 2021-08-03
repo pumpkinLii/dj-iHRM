@@ -1,18 +1,12 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: </div>
+    <iframe frameborder="0" src="http://www.djbx.com/" />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
-  name: 'Dashboard',
-  computed: {
-    ...mapGetters([
-    ])
-  }
+  name: 'Dashboard'
 }
 </script>
 
@@ -25,5 +19,14 @@ export default {
     font-size: 30px;
     line-height: 46px;
   }
+}
+iframe{
+  width: 100%;
+  height: 100%;
+}
+.dashboard-container{
+  width: 100%;
+  height: 100vh;
+  margin: 0;
 }
 </style>

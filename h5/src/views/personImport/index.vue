@@ -72,11 +72,4 @@ export default {
 .app-container{
   padding: 20px 5% 20px 1%;
 }
-.el-form-item__label{
-  padding-left: 1rem;
-}
-.title{
-  margin: 1rem;
-  padding: 1rem;
-}
 </style>

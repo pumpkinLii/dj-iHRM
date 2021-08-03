@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <h4>团队维护</h4>
     <el-form :rules="rules" :model="teamForm" label-width="180px">
       <!-- 上部分表单 -->
       <el-row>
@@ -323,3 +324,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.app-container{
+  padding: 20px 5% 20px 1%;
+}
+</style>

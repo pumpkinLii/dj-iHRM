@@ -82,19 +82,21 @@ export const constantRoutes = [
           title: 'sample',
           icon: 'el-icon-eleme'
         }
-      },
-      // test
-      {
-        path: '/test/personImport',
-        name: 'personImport',
-        component: () => import ('@/views/personImport/index'),
-        meta: {
-          title: 'personImport',
-          icon: ''
-        }
       }
     ],
     hidden: false
+  },
+  {
+    path: '/personImport',
+    component: Layout,
+    children: [{
+      path: '',
+      component: () => import ('@/views/personImport/index'),
+      meta: {
+        title: '人员录入',
+        icon: 'el-icon-user'
+      }
+    }]
   },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">欢迎使用</div>
+    <iframe frameborder="0" src="http://www.djbx.com/" />
   </div>
 </template>
 
@@ -19,5 +19,14 @@ export default {
     font-size: 30px;
     line-height: 46px;
   }
+}
+iframe{
+  width: 100%;
+  height: 100%;
+}
+.dashboard-container{
+  width: 100%;
+  height: 100vh;
+  margin: 0;
 }
 </style>

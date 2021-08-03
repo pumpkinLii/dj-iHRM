@@ -61,16 +61,15 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="24" style="padding-left:50px;">
+        <el-col style="text-align:center">
           <el-button type="primary">查询</el-button>
-          <el-button type="primary" @click="addDialogVisible = true">新增</el-button>
-          <el-button type="primary">下载</el-button>
+          <el-button type="success" @click="addDialogVisible = true">新增</el-button>
         </el-col>
       </el-row>
-
     </el-form>
     <!-- 表格 -->
-    <el-table :data="userlist" stripe border style="font-size: 8px;">
+    <el-divider />
+    <el-table :data="userlist" stripe border fit>
       <el-table-column label="管理机构代码" />
       <el-table-column label="管理机构名称" />
       <el-table-column label="团队代码" />
@@ -83,7 +82,7 @@
       <el-table-column label="成立日期" />
       <el-table-column label="停业标志" />
       <el-table-column label="停业时间" />
-      <el-table-column label="操作" width="180px">
+      <el-table-column label="操作" width="180px" fixed="right">
         <template>
           <!-- 修改 -->
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog()" />

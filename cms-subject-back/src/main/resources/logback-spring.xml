@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!--日志输出路径 -->
+	<property name="LOG_HOME" value="./log" />
+	<property name="APP_NAME" value="/lis_cms_cloud_bank" />
+	<property name="LOG_STYLE"
+		value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - [%method,%line] - %msg%n" />
+
+
+
+	<substitutionProperty name="log.pattern"
+		value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(---){faint} %clr(%-80.80logger{79}){cyan} %clr(:){faint} %m%n%wEx" />
+
+	<conversionRule conversionWord="clr"
+		converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+	<conversionRule conversionWord="wex"
+		converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+	<conversionRule conversionWord="wEx"
+		converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+
+	<!--控制台日志输出配置 -->
+	<appender name="consoleLog"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<!--对输出日志进行格式化 -->
+		<encoder>
+			<!-- %d日期,%p日志级别,%file文件名,%line所在行数,%m输出的信息,%n换行 -->
+			<pattern>${log.pattern}</pattern>
+			<!--字符编码 -->
+			<charset>UTF-8</charset><!--此处设置字符集 -->
+		</encoder>
+	</appender>
+
+
+	<!--日志文件配置info -->
+	<appender name="fileInfoLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间 -->
+			<FileNamePattern>${LOG_HOME}/${APP_NAME}/info.%d.log
+			</FileNamePattern>
+			<!-- 日志最大的历史 60天 -->
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+
+		<!--日志输出编码格式化 -->
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>${LOG_STYLE}</pattern>
+		</encoder>
+	</appender>
+
+
+	<!--日志文件配置error -->
+	<appender name="fileErrorLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<!--设置日志级别,过滤掉info日志,只输入error日志 -->
+			<level>ERROR</level>
+		</filter>
+		<encoder>
+			<pattern>${LOG_STYLE}</pattern>
+			<!--字符编码 -->
+			<charset>UTF-8</charset><!--此处设置字符集 -->
+		</encoder>
+		<!--滚动策略 -->
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--路径 -->
+			<fileNamePattern>${LOG_HOME}/${APP_NAME}/error.%d.log
+			</fileNamePattern>
+			<!-- 日志最大的历史 60天 -->
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+
+		<!--日志输出编码格式化 -->
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>${LOG_STYLE}</pattern>
+		</encoder>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="consoleLog" />
+	</root>
+
+	<!-- 开发、测试环境 -->
+	<springProfile name="dev,dat,uat,vir">
+		<logger name="org.springframework" level="warn" />
+		<logger name="com.netflix" level="warn" />
+		<logger name="com.cms" level="debug">
+			<appender-ref ref="fileInfoLog" />
+			<appender-ref ref="fileErrorLog" />
+		</logger>
+	</springProfile>
+
+	<!-- 生产环境 -->
+<!--	<springProfile name="prod">-->
+<!--		<logger name="org.springframework" level="warn" />-->
+<!--		<logger name="com.netflix" level="warn" />-->
+<!--		<logger name="com.sinosoft.lis" level="debug">-->
+<!--			<appender-ref ref="fileInfoLog" />-->
+<!--			<appender-ref ref="fileErrorLog" />-->
+<!--		</logger>-->
+<!--	</springProfile>-->
+</configuration>

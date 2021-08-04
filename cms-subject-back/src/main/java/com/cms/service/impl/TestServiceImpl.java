@@ -8,6 +8,7 @@ import com.cms.entity.YlUserInfoEntity;
 import com.cms.pojo.TestPojo;
 import com.cms.service.TestService;
 import com.cms.util.PageUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  * @description :
  * @create :2021-07-22
  */
+@Slf4j
 @Service
 public class TestServiceImpl extends ServiceImpl<TestDao, YlUserInfoEntity> implements TestService {
 

@@ -17,7 +17,6 @@ router.beforeEach(async(to, from, next) => {
   document.title = getPageTitle(to.meta.title)
 
   // determine whether the user has logged in
-  console.log(store.getters.user.isLogin)
   if (store.getters.user.isLogin) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page

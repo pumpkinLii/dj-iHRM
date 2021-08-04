@@ -14,8 +14,18 @@ export function isValidEmail(email) {
   return /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email)
 }
 
-export function isValidTel(tel) {
-  return /^1(3|4|5|6|7|8|9)d{9}$/.test(tel)
+export function phoneNumberValidator(rule, value, callback) {
+  if (/^1[34578]\d{9}$/.test(value)) {
+    return callback()
+  }
+  callback(new Error('请输入合法的手机号'))
+}
+
+export function phoneNumberValidatorAllowNull(rule, value, callback) {
+  if (/^1[34578]\d{9}$/.test(value) || value.length === 0) {
+    return callback()
+  }
+  callback(new Error('请输入合法的手机号'))
 }
 
 export function isValidIdNumber(idNumber) {

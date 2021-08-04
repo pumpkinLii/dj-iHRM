@@ -1,335 +1,118 @@
 <template>
   <div class="app-container">
     <h4>团队维护</h4>
-    <el-form ref="teamForm" :rules="rules" :model="teamForm" label-width="180px">
-      <!-- 上部分表单 -->
+    <el-form :rules="rules" :model="form" label-width="180px">
       <el-row>
         <el-col :span="8">
-          <el-form-item v-model="manage" label="管理机构">
-            <el-select placeholder="请选择">
-              <el-option label="大家人寿总公司" value="1" />
-              <el-option label="..." value="2" />
+          <el-form-item label="管理机构" prop="manageComCode">
+            <el-select v-model="form.manageComCode" placeholder="请选择" style="width:100%;">
+              <el-option v-for="(option,index) in list.manageComCode" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队级别">
-            <el-select placeholder="请选择">
-              <el-option label="..." value="" />
-              <el-option label="..." value="" />
+            <el-select v-model="form.branchLevel" placeholder="可选项" style="width:100%;">
+              <el-option v-for="(option,index) in list.branchLevel" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="团队代码" prop="teamcode">
-            <el-input type="text" style="width:100%;" />
+          <el-form-item label="团队代码">
+            <el-input v-model="form.branchAttr" type="text" style="width:100%;" placeholder="可选项" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="团队名称" prop="teamname">
-            <el-input v-model="teamForm.manage" type="text" style="width:100%;" />
+          <el-form-item label="负责人代码">
+            <el-input v-model="form.branchManager" type="text" style="width:100%;" placeholder="可选项" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="负责人代码" prop="leadcode">
-            <el-input type="text" style="width:100%;" />
+          <el-form-item label="负责人姓名">
+            <el-input v-model="form.branchManagerName" type="text" style="width:100%;" placeholder="可选项" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="负责人姓名" prop="leadname">
-            <el-input type="text" style="width:100%;" />
+          <el-form-item label="负责人手机号" prop="branchManagerPhone">
+            <el-input v-model="form.branchManagerPhone" type="text" style="width:100%;" placeholder="可选项" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="负责人手机号" prop="leadmobile">
-            <el-input v-model="teamForm.leadmobile" type="text" style="width:100%;" />
+          <el-form-item label="成立时间">
+            <el-date-picker v-model="form.branchEffDate" type="date" placeholder="可选项" style="width:100%;" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="成立时间" prop="setdate">
-            <el-date-picker type="date" placeholder="选择成立时间" style="width:100%;" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="负责人姓名" prop="leadname">
-            <el-input type="text" style="width:100%;" />
+          <el-form-item label="停业标志">
+            <el-select v-model="form.branchStatus" placeholder="可选项" style="width:100%;">
+              <el-option label="否" value="N" />
+              <el-option label="是" value="Y" />
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col style="text-align:center">
-          <el-button type="primary" @click="handleQuery('teamForm')">查询</el-button>
-          <el-button type="success" @click="addDialogVisible = true">新增</el-button>
+          <el-button type="primary">查询</el-button>
+          <el-button type="success" @click="config.groupAddDialogVisible=true">新增</el-button>
         </el-col>
       </el-row>
     </el-form>
-    <!-- 表格 -->
     <el-divider />
-    <el-table :data="userlist" stripe border fit>
-      <el-table-column label="管理机构代码" />
-      <el-table-column label="管理机构名称" />
-      <el-table-column label="团队代码" />
-      <el-table-column label="团队名称" />
-      <el-table-column label="群聊名称" />
-      <el-table-column label="负责人代码" />
-      <el-table-column label="负责人姓名" />
-      <el-table-column label="负责人手机号" />
-      <el-table-column label="当前在职代理人个数" />
-      <el-table-column label="成立日期" />
-      <el-table-column label="停业标志" />
-      <el-table-column label="停业时间" />
-      <el-table-column label="操作" width="180px" fixed="right">
-        <template>
-          <!-- 修改 -->
-          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog()" />
-          <!-- 删除 -->
-          <el-button type="danger" icon="el-icon-delete" size="mini" />
-          <el-tooltip class="item" effect="dark" content="" placement="top" :enterable="false">
-            <el-button type="warning" icon="el-icon-setting" size="mini" />
-          </el-tooltip>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- 分页 -->
-    <el-pagination
-      :current-page="queryInfo.pagenum"
-      :page-sizes="[1, 2, 5, 10]"
-      :page-size="queryInfo.pagesize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
-      style="float: right;"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-    />
-
-    <!-- 新增 -->
-    <el-dialog title="新增" :visible.sync="addDialogVisible" width="80%" @close="addDialogClosed">
-      <!-- 主体 -->
-      <span>
-        <el-form ref="addTeamFormRef" :model="addTeamForm" :rules="addTeamFormRules" label-width="100px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="管理机构" prop="manage">
-                <el-select v-model="addTeamForm.manage" placeholder="大家人寿">
-                  <el-option label="大家人寿总公司" value="" />
-                  <el-option label="..." value="" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="团队级别" prop="teamlevel">
-                <el-select v-model="addTeamForm.teamlevel" placeholder="请选择">
-                  <el-option label="..." value="" />
-                  <el-option label="..." value="" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="团队代码">
-                <el-input type="text" style="width:60%;" disabled />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="团队名称" prop="teamname">
-                <el-input v-model="addTeamForm.teamname" type="text" style="width:60%;" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="负责人代码" prop="leadcode">
-                <el-input type="text" style="width:60%;" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="负责人姓名" prop="leadname">
-                <el-input type="text" style="width:60%;" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="负责人手机号" prop="leadmobile">
-                <el-input v-model="teamForm.leadmobile" type="text" style="width:60%;" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="成立时间" prop="setdate">
-                <el-date-picker
-                  v-model="addTeamForm.setdate"
-                  type="date"
-                  placeholder="选择成立时间"
-                  style="width:60%;"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="停业标志">
-                <el-select v-model="addTeamForm.teamlevel" placeholder="否" disabled>
-                  <el-option label="是" value="yes" />
-                  <el-option label="否" value="no" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="操作员">
-                <el-input type="text" style="width:60%;" placeholder="admin" disabled />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="停业日期" prop="stopdate">
-                <el-date-picker type="date" placeholder="选择成立时间" style="width:60%;" disabled />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="群聊名称" prop="groupname">
-                <el-input v-model="addTeamForm.groupname" type="text" style="width:60%;" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-        </el-form>
-      </span>
-      <!-- 底部 -->
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addteam">保 存</el-button>
-      </span>
-    </el-dialog>
+    <GroupTable />
+    <GroupAddDialog :visible="config.groupAddDialogVisible" @CLOSE_GROUP_ADD_DIALOG="handleGroupAddDialogClose" />
   </div>
 </template>
 
 <script>
+import GroupTable from '@/components/GroupManagement/GroupTable'
+import GroupAddDialog from '@/components/GroupManagement/GroupAddDialog'
+import { phoneNumberValidatorAllowNull } from '@/utils/validate'
+import { getCode } from '@/api/code'
 export default {
-  name: 'Sample',
+  name: 'TeamHold',
+  components: { GroupAddDialog, GroupTable },
   data() {
     return {
-      teamForm: {
-        manage: '',
-        leadmobile: ''
+      config: {
+        groupAddDialogVisible: false
+      },
+      form: {
+        manageComCode: '',
+        branchLevel: '',
+        branchAttr: '',
+        branchManager: '',
+        branchManagerName: '',
+        branchManagerPhone: '',
+        branchEffDate: '',
+        branchStatus: ''
+      },
+      list: {
+        manageComCode: [],
+        branchLevel: []
       },
       rules: {
-        manage: [{
-          required: true
-        }],
-        leadmobile: [{
-          message: '请输入手机号',
-          trigger: 'blur'
-        },
-        {
-          // 验证手机号的规则
-          validator: (rule, value, cb) => {
-            const regMobile = /^1[34578]\d{9}$/
-            if (regMobile.test(value)) {
-              return cb()
-            }
-            cb(new Error('请输入合法的手机号'))
-          },
-          trigger: 'blur'
-        }
-        ]
-      },
-      // 获取用户列表的参数对象
-      queryInfo: {
-        query: '',
-        pagenum: 1,
-        pagesize: 2
-      },
-      userlist: [],
-      total: 0,
-      // 控制添加用户对话框的显示与隐藏
-      addDialogVisible: false,
-      // 添加用户的表单数据
-      addTeamForm: {
-        manage: '',
-        teamlevel: '',
-        teamname: '',
-        setdate: '',
-        groupname: ''
-      },
-      addTeamFormRules: {
-        manage: [{
-          required: true,
-          message: '请选择管理机构'
-        }],
-        teamlevel: [{
-          required: true,
-          message: '请选择团队级别'
-        }],
-        teamname: [{
-          required: true,
-          message: '请输入团队名称'
-        }],
-        setdate: [{
-          required: true,
-          message: '请确定成立时间'
-        }],
-        groupname: [{
-          required: true,
-          message: '请输入群聊名称'
-        }]
+        manageComCode:
+          [{ required: true, message: '请选择管理机构', trigger: 'change' }],
+        branchManagerPhone:
+          [{ validator: phoneNumberValidatorAllowNull, trigger: 'blur' }]
       }
     }
   },
+  created() {
+    this.getInitOptions()
+  },
   methods: {
-    // 监听pagesize改变的事件
-    handleSizeChange(newSize) {
-      // console.log(newSize)
-      this.queryInfo.pagesize = newSize
-      this.getUserList()
+    handleGroupAddDialogClose() {
+      this.config.groupAddDialogVisible = false
     },
-    // 监听 页码值 改变的事件
-    handleCurrentChange(newPage) {
-      // console.log(newPage)
-      this.queryInfo.pagenum = newPage
-      this.getUserList()
-    },
-    // 监听添加对话框的关闭事件
-    addTeamDialogClosed() {
-      this.$refs.addFormRef.resetFields()
-    },
-    handleQuery(formName) {
-      this.$refs[formName].validate(
-        (valid) => {
-          if (valid) {
-            alert('submit!')
-          } else {
-            console.log('error submit!!')
-            return false
-          }
-        }
-      )
-    },
-    addteam() {
-      this.$refs.addTeamFormRef.validate(async valid => {
-        if (!valid) return
-        // 可以进行添加团队
-        const {
-          data: res
-        } = await this.$http.post('/teamManagement/save', this.addTeamForm)
-        if (res.meta.status !== 201) {
-          return this.$message.error('添加团队失败！')
-        }
-        this.$message.success('添加团队成功！')
-        // 隐藏用户对话框
-        this.addTeamDialogVisible = false
-        // 重新获取用户
-        // this.getUserList()
-      })
-    },
-    // 监听添加对话框的关闭事件
-    addDialogClosed() {
-      this.$refs.addTeamFormRef.resetFields()
+    getInitOptions() {
+      // 获取下拉菜单
+      getCode('branchlevel', this.list.branchLevel)
     }
   }
 }

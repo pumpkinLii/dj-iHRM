@@ -18,8 +18,7 @@ export default {
       userId: '0'
     }
 
-    const parme =
-      'page=1&limit=10'
+    const parme = 'page=1&limit=10'
     text(obj, parme).then((res) => {
       console.log('接口请求成功')
       console.log(res)

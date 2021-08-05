@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增" :visible.sync="visible" width="80%" :show-close="false" :close-on-press-escape="false">
+  <el-dialog title="新增" :visible.sync="visible" width="80%" :before-close="handleDialogClose">
     <span>
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
@@ -62,22 +62,22 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="停业标志" prop="branchStatus">
-              <el-select v-model="form.branchStatus" placeholder="否" disabled style="width:60%;">
-                <el-option label="是" value="Y" />
+              <el-select v-model="form.branchStatus" placeholder="否" style="width:60%;" @change="form.branchStatus==='N'?form.branchTerminateEffDate='':''">
                 <el-option label="否" value="N" />
+                <el-option label="是" value="Y" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="操作员" prop="operator">
-              <el-input v-model="form.operator" type="text" style="width:60%;" placeholder="admin" disabled />
+              <el-input v-model="form.operator" type="text" style="width:60%;" disabled />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="停业日期" prop="branchTerminateEffDate">
-              <el-date-picker v-model="form.branchTerminateEffDate" type="date" placeholder="选择停业时间" style="width:60%;" disabled />
+              <el-date-picker v-model="form.branchTerminateEffDate" :disabled="form.branchStatus !== 'Y'" type="date" placeholder="选择停业时间" style="width:60%;" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -92,12 +92,14 @@
     <!-- 底部 -->
     <span slot="footer" class="dialog-footer">
       <el-button type="secondary" @click="$emit('CLOSE_GROUP_ADD_DIALOG')">取 消</el-button>
-      <el-button type="primary" @click="$emit('SUBMIT_GROUP_ADD_DIALOG',form,$refs.form)">保 存</el-button>
+      <el-button type="primary" @click="handleSubmit">保 存</el-button>
     </span>
   </el-dialog>
 </template>
 
 <script>
+import { phoneNumberValidatorAllowNull } from '@/utils/validate'
+import { setCodeByName, getManageComCode4 } from '@/api/code'
 export default {
   name: 'GroupAddDialog',
   props: {
@@ -118,7 +120,7 @@ export default {
         branchEffDate: '',
         branchStatus: '',
         branchTerminateEffDate: '',
-        operator: '',
+        operator: 'admin',
         chatName: ''
       },
       list: {
@@ -127,28 +129,57 @@ export default {
       },
       rules: {
         manageComCode4:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+          [{ required: true, message: '请选择管理机构', trigger: 'blur' }],
         branchLevel:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+          [{ required: true, message: '请选择团队级别', trigger: 'blur' }],
         branchName:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
-        branchManager:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
-        branchManagerName:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+          [{ required: true, message: '请输入团队名称', trigger: 'blur' }],
         branchManagerPhone:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+          [{ validator: phoneNumberValidatorAllowNull, trigger: 'blur' }],
         branchEffDate:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+          [{ required: true, message: '请选择成立时间', trigger: 'blur' }],
         branchStatus:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+          [{ required: true, message: '请选择停业标志', trigger: 'blur' }],
         branchTerminateEffDate:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+          [{ validator: this.branchTerminateEffDateValidator, trigger: 'blur' }],
         operator:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+          [{ required: true, message: '请选择操作员', trigger: 'blur' }],
         chatName:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+          [{ required: true, message: '请输入群聊名称', trigger: 'blur' }]
       }
+    }
+  },
+  created() {
+    this.getInitOptions()
+  },
+  methods: {
+    getInitOptions() {
+      // 获取管理机构下拉菜单
+      getManageComCode4(this.list)
+      // 获取团队级别下拉菜单
+      setCodeByName('branchlevel', this.list.branchLevel)
+    },
+    handleSubmit() {
+      this.$refs['form'].validate(
+        (valid) => {
+          if (valid) {
+            // 发起请求
+            console.log('发起了请求')
+          } else {
+            alert('err')
+          }
+        })
+    },
+    branchTerminateEffDateValidator(rule, value, callback) {
+      if (this.form.branchStatus === 'Y') {
+        if (this.form.branchTerminateEffDate.length === 0) {
+          callback(new Error('请选择停业日期'))
+        }
+      }
+      callback()
+    },
+    handleDialogClose() {
+      this.$emit('CLOSE_GROUP_ADD_DIALOG')
     }
   }
 }

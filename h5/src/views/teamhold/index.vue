@@ -1,11 +1,12 @@
 <template>
   <div class="app-container">
     <h4>团队维护</h4>
-    <el-form :rules="rules" :model="form" label-width="180px">
+    <el-form ref="form" :rules="rules" :model="form" label-width="180px">
       <el-row>
         <el-col :span="8">
           <el-form-item label="管理机构" prop="manageComCode">
             <el-select v-model="form.manageComCode" placeholder="请选择" style="width:100%;">
+              <!--这里label和value是反着的 注意-->
               <el-option v-for="(option,index) in list.manageComCode" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>
@@ -13,6 +14,7 @@
         <el-col :span="8">
           <el-form-item label="团队级别">
             <el-select v-model="form.branchLevel" placeholder="可选项" style="width:100%;">
+              <el-option label="不选择" value="" />
               <el-option v-for="(option,index) in list.branchLevel" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>
@@ -57,13 +59,13 @@
       </el-row>
       <el-row>
         <el-col style="text-align:center">
-          <el-button type="primary">查询</el-button>
+          <el-button type="primary" @click="handleQuery">查询</el-button>
           <el-button type="success" @click="config.groupAddDialogVisible=true">新增</el-button>
         </el-col>
       </el-row>
     </el-form>
     <el-divider />
-    <GroupTable />
+    <GroupTable ref="groupTableData" @QUERY_GROUP="handleQuery(form) " />
     <GroupAddDialog :visible="config.groupAddDialogVisible" @CLOSE_GROUP_ADD_DIALOG="handleGroupAddDialogClose" />
   </div>
 </template>
@@ -72,7 +74,7 @@
 import GroupTable from '@/components/GroupManagement/GroupTable'
 import GroupAddDialog from '@/components/GroupManagement/GroupAddDialog'
 import { phoneNumberValidatorAllowNull } from '@/utils/validate'
-import { getCode } from '@/api/code'
+import { setCodeByName, getManageComCode } from '@/api/code'
 export default {
   name: 'TeamHold',
   components: { GroupAddDialog, GroupTable },
@@ -110,9 +112,21 @@ export default {
     handleGroupAddDialogClose() {
       this.config.groupAddDialogVisible = false
     },
+    handleQuery() {
+      this.config.loading = true
+      this.$refs['form'].validate(valid => {
+        if (valid) {
+          this.$refs.groupTableData.handleQueryGroup(this.form)
+        } else {
+          return false
+        }
+      })
+    },
     getInitOptions() {
-      // 获取下拉菜单
-      getCode('branchlevel', this.list.branchLevel)
+      // 获取管理机构下拉菜单
+      getManageComCode(this.list)
+      // 获取团队级别下拉菜单
+      setCodeByName('branchlevel', this.list.branchLevel)
     }
   }
 }

@@ -20,7 +20,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="团队代码"><!--这里没有对应的数据-->
+            <el-form-item label="团队代码" prop="branchAttr">
               <el-input type="text" style="width:60%;" disabled />
             </el-form-item>
           </el-col>
@@ -114,6 +114,7 @@ export default {
         branchLevel: '',
         branchName: '',
         branchManager: '',
+        branchAttr: '',
         branchManagerName: '',
         branchManagerPhone: '',
         branchEffDate: '',
@@ -150,7 +151,7 @@ export default {
         operator:
           [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
         chatName:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+          [{ required: true, message: '请输入活动名称', trigger: 'blur' }]
       }
     }
   },

@@ -1,23 +1,69 @@
 <template>
   <div class="login-container">
-    登陆页面
+    <el-form ref="loginForm" class="login-form" auto-complete="on" label-position="left">
+      <div class="title-container">
+        <h3 class="title">大家保险销售管理系统</h3>
+      </div>
+      <el-form-item prop="username">
+        <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-input
+          ref="username"
+          v-model="username"
+          placeholder="用户名"
+          name="username"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
+      </el-form-item>
+      <el-form-item>
+        <span class="svg-container">
+          <svg-icon icon-class="password" />
+        </span>
+        <el-input
+          v-model="password"
+          placeholder="密码"
+          :type="passwordType"
+          name="password"
+          tabindex="2"
+          auto-complete="on"
+          @keyup.enter.native="handleLogin"
+        />
+        <span class="show-pwd" @click="showPwd">
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+        </span>
+      </el-form-item>
+      <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+    </el-form>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'Login',
   data() {
     return {
-     
+      username: '',
+      password: '',
+      passwordType: 'password'
     }
   },
   watch: {
-   
+
   },
   methods: {
-    
+    showPwd() {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
+      }
+    },
+    handleLogin() {
+      this.$store.dispatch('user/login', { username: this.username, password: this.password })
+    }
   }
 }
 </script>

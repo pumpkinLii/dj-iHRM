@@ -6,6 +6,7 @@ import com.cms.util.PageUtils;
 import com.cms.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("/test")
+@Slf4j
 @Api("养老人管模块课题")
 public class TestController {
     @Autowired

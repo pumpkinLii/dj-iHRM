@@ -44,9 +44,50 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
             YlLaAgentAttrEntity ylLaAgentAttrEntity = pbListBlacks.get(pbListBlacks.size() - 1);
             str = ylLaAgentAttrEntity.getAgentCode();
         }
-        newstr = getYlNo(str,fg);
+        newstr = this.getYlNo(str,fg);
 
-        //在这验证逻辑结构
+        //在这调用验证信息的方法
+        String checkAgentInfoResult = this.checkAgentInformation(laAgent);
+        if(!checkAgentInfoResult.equals("success")){
+            return checkAgentInfoResult;
+        }
+
+        //在此处调用包装用户信息实体对象，用于数据库操作
+        YlLaAgentAttrEntity ylLaAgentAttrEntity = buildAgentAttrEntity(laAgent);
+
+        int result = this.baseMapper.insert(ylLaAgentAttrEntity);
+        if(result > 0){
+            return "success";
+        }
+        return "录入失败，请程序员检查程序";
+    }
+
+    /**
+     * 此方法用于生成工号，例如传入一个格式为"YL00000000"工号字符串，自动生成"YL00000001"
+     *
+     *
+     */
+    private String getYlNo(String YlNo,boolean fg){
+        String newYlNo;
+        if(fg==false)
+        {
+            newYlNo = "YL00000001";
+            return newYlNo;
+        }
+        else{
+            newYlNo=YlNo.substring(YlNo.length() - 8);
+            long no = Integer.parseInt(newYlNo);
+            long n= ++no;
+            newYlNo= String.format("YL" + "%08d", n);
+        }
+        return newYlNo;
+    }
+
+    /**
+     * 此方法用于检验用户信息是否非法
+     * 此方法传入一个用户信息的pojo对象，然后一次检验其信息，如果错误则直接返回错误信息，如果正确则返回字符串"success"
+     */
+    private String checkAgentInformation(LaAgentPojo laAgent){
         if(laAgent.getAgentGrade() == null){
             return "错误！职级信息为空";
         }
@@ -160,8 +201,7 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         if(laAgent.getIdType().length() > 4){
             return "错误！证件类型信息超出长度范围";
         }
-//        IdCheck idCheck=new IdCheck();
-        int f= idCheck.idcheck(laAgent);
+        int f = idCheck.idcheck(laAgent);
         switch (f)
         {
             case 1:
@@ -172,7 +212,7 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
                 return "该人员离职不满六个月，不可二次入司";
             case 4:
                 break;
-                //return "具有相同证件号码的人已存在且离职，此人员为二次入司";
+            //return "具有相同证件号码的人已存在且离职，此人员为二次入司";
             case 5:
                 return "出现未知错误";
             case 6:
@@ -303,8 +343,15 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         if(laAgent.getOperator().length() > 60){
             return "错误！操作员信息超出长度范围";
         }
+        return "success";
+    }
 
-        //验证后，填充数据库表对应的实体对象的属性，用于存入数据库
+    /**
+     * 此方法用于打包成与数据库对应的实体对象
+     * 使用时传入一个LaAgentPojo对象，返回一个YlLaAgentAttrEntity对象
+     * 返回的对象可以用于对数据库中yl_la_agent_attr表的操作
+     */
+    private YlLaAgentAttrEntity buildAgentAttrEntity(LaAgentPojo laAgent){
         YlLaAgentAttrEntity ylLaAgentAttrEntity = new YlLaAgentAttrEntity();
         ylLaAgentAttrEntity.setAgentCode(newstr);
         ylLaAgentAttrEntity.setBankAccount(laAgent.getBankAccount());
@@ -348,28 +395,6 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         ylLaAgentAttrEntity.setMakeTime(time);
         ylLaAgentAttrEntity.setModifyDate(date);
         ylLaAgentAttrEntity.setModifyTime(time);
-
-        //存入数据库
-        int result = this.baseMapper.insert(ylLaAgentAttrEntity);
-        if(result > 0){
-            return "success";
-        }
-        return "录入失败，请程序员检查程序";
-    }
-
-    public static String getYlNo(String YlNo,boolean fg){//此方法用于生成工号
-        String newYlNo;
-        if(fg==false)
-        {
-            newYlNo = "YL00000001";
-            return newYlNo;
-        }
-        else{
-            newYlNo=YlNo.substring(YlNo.length() - 8);
-            long no = Integer.parseInt(newYlNo);
-            long n= ++no;
-            newYlNo= String.format("YL" + "%08d", n);
-        }
-        return newYlNo;
+        return ylLaAgentAttrEntity;
     }
 }

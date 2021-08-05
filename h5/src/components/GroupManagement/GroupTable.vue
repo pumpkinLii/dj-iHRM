@@ -7,7 +7,7 @@
       <el-table-column label="团队名称" prop="branchName" />
       <el-table-column label="群聊名称" prop="chatName" />
       <el-table-column label="负责人代码" prop="branchManager" />
-      <el-table-column label="负责人姓名" prop="branchManager" />
+      <el-table-column label="负责人姓名" prop="branchManagerName" />
       <el-table-column label="负责人手机号" prop="branchManagerPhone" />
       <el-table-column label="当前在职代理人个数" prop="agentCount" />
       <el-table-column label="成立日期" prop="branchEffDate" />

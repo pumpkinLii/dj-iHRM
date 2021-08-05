@@ -58,10 +58,12 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col style="text-align:center">
-          <el-button type="primary" @click="handleQuery">查询</el-button>
-          <el-button type="success" @click="config.groupAddDialogVisible=true">新增</el-button>
-        </el-col>
+        <el-form-item label="">
+          <el-col style="text-align:left;margin-top: 1rem">
+            <el-button type="primary" @click="handleQuery">查询</el-button>
+            <el-button type="success" @click="config.groupAddDialogVisible=true">新增</el-button>
+          </el-col>
+        </el-form-item>
       </el-row>
     </el-form>
     <el-divider />

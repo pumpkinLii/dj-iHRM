@@ -1,27 +1,23 @@
 <template>
-  <el-dialog title="修改" :visible.sync="visible" width="80%" :show-close="false" :close-on-press-escape="false">
+  <el-dialog title="修改" :visible.sync="visible" width="80%" :before-close="handleDialogClose">
     <span>
       <el-form ref="groupModify" :model="form" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="管理机构" prop="manageComCode4">
-              <el-select v-model="form.manageComCode4" placeholder="请选择" disabled style="width:60%;">
-                <el-option v-for="(option,index) in list.manageComCode4" :key="index" :label="option.label" :value="option.value" />
-              </el-select>
+            <el-form-item label="管理机构" prop="manageCom">
+              <el-input v-model="form.manageCom" type="text" style="width:60%;" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="团队级别" prop="branchLevel">
-              <el-select v-model="form.branchLevel" placeholder="请选择" disabled style="width:60%;">
-                <el-option v-for="(option,index) in list.branchLevel" :key="index" :label="option.label" :value="option.value" />
-              </el-select>
+              <el-input v-model="form.branchLevel" type="text" style="width:60%;" disabled />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="团队代码" prop="branchAttr">
-              <el-input type="text" style="width:60%;" disabled />
+              <el-input v-model="form.branchAttr" type="text" style="width:60%;" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -91,13 +87,14 @@
     <span slot="footer" class="dialog-footer">
       <!--emit为子组件向父组件发送事件与数据，以实现父子组件的数据流通-->
       <el-button type="secondary" @click="$emit('CLOSE_GROUP_MODIFY_DIALOG')">取 消</el-button>
-      <el-button type="primary" @click="$emit('SUBMIT_GROUP_MODIFY_DIALOG',form,$refs.form)">保 存</el-button>
+      <el-button type="primary" @click="handleSubmit">保 存</el-button>
     </span>
   </el-dialog>
 </template>
 
 <script>
-import { phoneNumberValidator } from '@/utils/validate'
+import { phoneNumberValidatorAllowNull } from '@/utils/validate'
+import { modifyGroup } from '@/api/group'
 export default {
   name: 'GroupModifyDialog',
   props: {
@@ -110,7 +107,7 @@ export default {
     return {
       // 表单数据（用于数据双向绑定）
       form: {
-        manageComCode4: '',
+        manageCom: '',
         branchLevel: '',
         branchName: '',
         branchManager: '',
@@ -123,35 +120,16 @@ export default {
         operator: '',
         chatName: ''
       },
-      // 下拉菜单数据（用于v-for填充下拉菜单）
-      list: {
-        manageComCode4: [],
-        branchLevel: []
-      },
       // 数据校验规则
       rules: {
-        manageComCode4:
-        [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
-        branchLevel:
-        [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
         branchName:
         [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
-        branchManager:
-        [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
-        branchManagerName:
-        [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
         branchManagerPhone:
-        [{ validator: phoneNumberValidator, trigger: 'blur' }],
-        branchEffDate:
-        [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+        [{ validator: phoneNumberValidatorAllowNull, trigger: 'blur' }],
         branchStatus:
         [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
         branchTerminateEffDate:
-        [{ validator: this.branchTerminateEffDateValidator, trigger: 'blur' }],
-        operator:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
-        chatName:
-          [{ required: true, message: '请输入活动名称', trigger: 'blur' }]
+        [{ validator: this.branchTerminateEffDateValidator, trigger: 'blur' }]
       }
     }
   },
@@ -162,6 +140,29 @@ export default {
       } else {
         callback()
       }
+    },
+    handleSubmit() {
+      console.log(this.$refs['groupModify'].validate)
+      this.$refs['groupModify'].validate(
+        valid => {
+          if (valid) {
+            modifyGroup(this.form)
+              .then(
+                r => {
+                  console.log(r)
+                })
+              .catch(
+                err => {
+                  console.log(err)
+                })
+          } else {
+            console.log('no valid')
+            return false
+          }
+        })
+    },
+    handleDialogClose() {
+      this.$emit('CLOSE_GROUP_MODIFY_DIALOG')
     }
   }
 }

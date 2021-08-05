@@ -66,7 +66,7 @@ export default {
       this.$refs.adminData.$refs.adminForm.resetFields()
     },
     sendSubmitRequest() {
-      addPerson({ ... this.$refs.agentData.agentForm, ... this.$refs.adminData.adminForm })
+      addPerson({ ...this.$refs.agentData.agentForm, ...this.$refs.adminData.adminForm })
     }
   }
 }

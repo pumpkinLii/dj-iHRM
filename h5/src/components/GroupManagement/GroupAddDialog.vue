@@ -62,7 +62,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="停业标志" prop="branchStatus">
-              <el-select v-model="form.branchStatus" placeholder="否" style="width:60%;" @change="form.branchStatus==='N'?form.branchTerminateEffDate='':''">
+              <el-select v-model="form.branchStatus" placeholder="否" style="width:60%;" disabled>
                 <el-option label="否" value="N" />
                 <el-option label="是" value="Y" />
               </el-select>
@@ -77,7 +77,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="停业日期" prop="branchTerminateEffDate">
-              <el-date-picker v-model="form.branchTerminateEffDate" :disabled="form.branchStatus !== 'Y'" type="date" placeholder="选择停业时间" style="width:60%;" />
+              <el-date-picker v-model="form.branchTerminateEffDate" disabled type="date" placeholder="选择停业时间" style="width:60%;" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -100,6 +100,7 @@
 <script>
 import { phoneNumberValidatorAllowNull } from '@/utils/validate'
 import { setCodeByName, getManageComCode4 } from '@/api/code'
+import { addGroup } from '@/api/group'
 export default {
   name: 'GroupAddDialog',
   props: {
@@ -118,7 +119,7 @@ export default {
         branchManagerName: '',
         branchManagerPhone: '',
         branchEffDate: '',
-        branchStatus: '',
+        branchStatus: 'N',
         branchTerminateEffDate: '',
         operator: 'admin',
         chatName: ''
@@ -138,10 +139,6 @@ export default {
           [{ validator: phoneNumberValidatorAllowNull, trigger: 'blur' }],
         branchEffDate:
           [{ required: true, message: '请选择成立时间', trigger: 'blur' }],
-        branchStatus:
-          [{ required: true, message: '请选择停业标志', trigger: 'blur' }],
-        branchTerminateEffDate:
-          [{ validator: this.branchTerminateEffDateValidator, trigger: 'blur' }],
         operator:
           [{ required: true, message: '请选择操作员', trigger: 'blur' }],
         chatName:
@@ -165,8 +162,9 @@ export default {
           if (valid) {
             // 发起请求
             console.log('发起了请求')
+            this.sendSubmitRequest(this.form)
           } else {
-            alert('err')
+            return false
           }
         })
     },
@@ -180,6 +178,17 @@ export default {
     },
     handleDialogClose() {
       this.$emit('CLOSE_GROUP_ADD_DIALOG')
+    },
+    sendSubmitRequest(data) {
+      addGroup(data)
+        .then(r => {
+          this.$emit('CLOSE_GROUP_ADD_DIALOG')
+          this.$message.success('添加成功')
+          console.log(r)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }

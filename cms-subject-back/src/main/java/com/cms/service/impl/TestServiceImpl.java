@@ -9,6 +9,7 @@ import com.cms.pojo.TestPojo;
 import com.cms.service.TestService;
 import com.cms.util.PageUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class TestServiceImpl extends ServiceImpl<TestDao, YlUserInfoEntity> impl
     public PageUtils getList(TestPojo testPojo, int page, int limit) {
         Page<TestPojo> pages = new Page<>(page, limit);
         QueryWrapper<YlUserInfoEntity> qw = new QueryWrapper<>();
-        qw.eq("user_id", testPojo.getUserId());
+        qw.eq(!StringUtils.isEmpty(testPojo.getUserId()),"user_id", testPojo.getUserId());
         List<TestPojo> list = this.baseMapper.getList(pages, qw);
         pages.setRecords(list);
         return new PageUtils(pages);

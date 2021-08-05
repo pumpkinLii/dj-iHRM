@@ -17,6 +17,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, YlUserInfoEntity> impl
 
     //自动装填好了
 
+
     @Override
     public  boolean login(String userId, String userPassword) {
         QueryWrapper<YlUserInfoEntity> sectionQueryWrapper = new QueryWrapper<>();

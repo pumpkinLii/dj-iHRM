@@ -2,11 +2,13 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.cms.common.IdCheck;
 import com.cms.dao.LaAgentAttrDao;
 import com.cms.entity.YlLaAgentAttrEntity;
 import com.cms.entity.YlUserInfoEntity;
 import com.cms.pojo.LaAgentPojo;
 import com.cms.service.LaAgentServiceAttr;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -15,6 +17,8 @@ import java.util.List;
 
 @Service
 public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgentAttrEntity> implements LaAgentServiceAttr {
+    @Autowired
+    public IdCheck idCheck;
 
     private String newstr;
 
@@ -64,7 +68,7 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         if(laAgent.getBankAccount() == null){
             return "错误！银行账号信息为空";
         }
-        if(laAgent.getBankAccount().length() < 200){
+        if(laAgent.getBankAccount().length() > 200){
             return "错误！银行账号信息超出长度范围";
         }
         if(laAgent.getBankCity() == null){
@@ -150,17 +154,34 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         if(laAgent.getHomephone() != null && laAgent.getHomephone().length() > 16){
             return "错误！宅电信息超出长度范围";
         }
-        if(laAgent.getIdNo() == null){//此处调用身份证号验证模块
-            return "错误！证件号码信息错为空";
-        }
-        if(false){//此处调用身份证号验证模块
-            return "错误！证件号码信息错误";
-        }
         if(laAgent.getIdType() == null){
             return "错误！证件类型信息为空";
         }
         if(laAgent.getIdType().length() > 4){
             return "错误！证件类型信息超出长度范围";
+        }
+//        IdCheck idCheck=new IdCheck();
+        int f= idCheck.idcheck(laAgent);
+        switch (f)
+        {
+            case 1:
+                break;
+            case 2:
+                return "具有相同证件号码的人已经存在或此人已在其他渠道任职，并且尚未离职";
+            case 3:
+                return "该人员离职不满六个月，不可二次入司";
+            case 4:
+                return "具有相同证件号码的人已存在且离职，此人员为二次入司";
+            case 5:
+                return "出现未知错误";
+            case 6:
+                return "请输入证件号码";
+            case 7:
+                return "证件号码不是字母数字格式";
+            case 8:
+                return "证件号码应小于等于18位";
+            case 9:
+                return "身份证号码错误";
         }
         if(laAgent.getMajor() == null){
             return "错误！专业信息为空";

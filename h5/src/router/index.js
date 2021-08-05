@@ -58,40 +58,12 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/test',
-    component: Layout,
-    meta: {
-      title: '测试内容',
-      icon: 'el-icon-view'
-    },
-    children: [
-      {
-        path: '/test/text',
-        name: 'text',
-        component: () => import ('@/views/text/text'),
-        meta: {
-          title: 'text',
-          icon: 'el-icon-document'
-        }
-      },
-      {
-        path: '/test/sample',
-        name: 'Sample',
-        component: () => import ('@/views/sample/index'),
-        meta: {
-          title: 'sample',
-          icon: 'el-icon-eleme'
-        }
-      }
-    ],
-    hidden: false
-  },
-  {
-    path: '/personImport',
+    path: '/personimport',
     component: Layout,
     children: [{
       path: '',
-      component: () => import ('@/views/personImport/index'),
+      name: 'PersonImport',
+      component: () => import ('@/views/personimport/index'),
       meta: {
         title: '人员录入',
         icon: 'el-icon-user'

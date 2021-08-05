@@ -17,6 +17,7 @@
 <script>
 import AdministrativeInformation from '@/components/AdministrativeInformation.vue'
 import AgentInformation from '@/components/AgentInformation.vue'
+import { addPerson } from '@/api/person'
 
 export default {
   name: 'PersonImport',
@@ -47,7 +48,7 @@ export default {
                   if (!error && isValid) {
                     console.log('行政信息验证通过', isValid)
                     // 发起请求
-                    // ......
+                    this.sendSubmitRequest()
                   } else {
                     console.log('行政信息验证不通过', error)
                   }
@@ -63,6 +64,9 @@ export default {
     resetForm() {
       this.$refs.agentData.$refs.agentForm.resetFields()
       this.$refs.adminData.$refs.adminForm.resetFields()
+    },
+    sendSubmitRequest() {
+      addPerson({ ... this.$refs.agentData.agentForm, ... this.$refs.adminData.adminForm })
     }
   }
 }

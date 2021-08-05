@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 @RestController
 @CrossOrigin
 @RequestMapping({"/test"})
@@ -25,12 +27,10 @@ public class IdCheckController {
     @ApiOperation("测试接口")
     @PostMapping({"/idCheck"})
     public R idcheck(IdCheckPojo idCheckPojo) {
-        System.out.println(idCheckPojo.getIdNo());
-        System.out.println(idCheckPojo.getIdType());
         int fg = nIdCheckService.idcheck(idCheckPojo);
         switch(fg) {
             case 1:
-                return R.ok().put("0", "证件检验正确");
+                return R.ok().put("0","证件校验成功");
             case 2:
                 return R.error(500, "具有相同证件号码的人已经存在或此人已在其他渠道任职，并且尚未离职");
             case 3:

@@ -53,7 +53,7 @@ class NIdCheckServiceImpl extends ServiceImpl<IdCheckDao, YlLaAgentEntity> imple
                 IdCheckAllPojo idCheckOne = (IdCheckAllPojo)list.get(0);
                 String state = idCheckOne.getAgentState();
                 if (state.equals("01")) {
-                    return 1;
+                    return 2;
                 } else {
                     if (state.equals("04")) {
                         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");

@@ -171,7 +171,8 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
             case 3:
                 return "该人员离职不满六个月，不可二次入司";
             case 4:
-                return "具有相同证件号码的人已存在且离职，此人员为二次入司";
+                break;
+                //return "具有相同证件号码的人已存在且离职，此人员为二次入司";
             case 5:
                 return "出现未知错误";
             case 6:
@@ -371,6 +372,4 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         }
         return newYlNo;
     }
-
-
 }

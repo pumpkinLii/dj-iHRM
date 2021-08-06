@@ -55,7 +55,7 @@ public class UYllaBranchGroupController {
     public R find(@RequestParam String agentCode) {
         UYllaBranchGroupReturnPojo uYllaBranchGroupReturnPojo = uYllaBranchGroupReturnService.updataRe(agentCode);
         if (uYllaBranchGroupReturnPojo != null) {
-            if (uYllaBranchGroupReturnPojo.getAgentGrade() == "主管") {
+            if (uYllaBranchGroupReturnPojo.getAgentGrade() == "MA01"||uYllaBranchGroupReturnPojo.getAgentGrade() == "MA02"||uYllaBranchGroupReturnPojo.getAgentGrade() == "MA03") {
                 return R.ok().put("data", uYllaBranchGroupReturnPojo);
             } else return R.error("该员工不是主管");
         } else {

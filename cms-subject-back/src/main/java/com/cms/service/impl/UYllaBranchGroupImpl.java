@@ -47,7 +47,7 @@ public class UYllaBranchGroupImpl extends ServiceImpl<YllaBranchGroupDao, YlLaBr
         try {
             Date eef = simpleDateFormat.parse(mes.getBranchEffDate());
             Date teef;
-            if (!mes.getBranchTerminateEffDate().isEmpty()) {
+            if (!mes.getBranchTerminateEffDate().isEmpty()||!(mes.getBranchTerminateEffDate()==null)) {
                 teef = simpleDateFormat.parse(mes.getBranchTerminateEffDate());
             } else {
                 teef = null;

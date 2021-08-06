@@ -13,7 +13,7 @@ public class AgentGroupImpl extends ServiceImpl<RYlLaBranchGroupDao, YlLaBranchG
     public String getAgentGroup() {
         List<YlLaBranchGroupEntity> list=this.baseMapper.selectList(null);
         if (list.size()==0){
-            return "0000000001";
+            return "1000000001";
         }else {
             int temp=0;
             for (int i = 0; i < list.size(); i++) {

@@ -71,7 +71,7 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
             if (list.get(i).getBranchEffDate() != null) {
                 r_ylLaBranchGrou_return.setBranchEffDate(simpleDateFormat.format(list.get(i).getBranchEffDate()));
             } else {
-                r_ylLaBranchGrou_return.setBranchEffDate("数据库中无数据");
+                r_ylLaBranchGrou_return.setBranchEffDate("");
             }
             queryWrapper1.eq("agent_group", list.get(i).getBranchAttr());
             //在人员表中 获取与团队名称相同的人的
@@ -82,7 +82,7 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
             if (list.get(i).getBranchTerminateEffDate() != null) {
                 r_ylLaBranchGrou_return.setBranchTerminateEffDate(simpleDateFormat.format(list.get(i).getBranchTerminateEffDate()));
             } else {
-                r_ylLaBranchGrou_return.setBranchTerminateEffDate("无数据");
+                r_ylLaBranchGrou_return.setBranchTerminateEffDate("");
             }
 
             //根据管理机构 获取代码

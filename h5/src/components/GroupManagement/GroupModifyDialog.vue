@@ -142,7 +142,6 @@ export default {
       }
     },
     handleSubmit() {
-      console.log(this.$refs['groupModify'].validate)
       this.$refs['groupModify'].validate(
         valid => {
           if (valid) {
@@ -150,6 +149,7 @@ export default {
               .then(
                 r => {
                   console.log(r)
+                  this.commit('RESET_TABLE')
                 })
               .catch(
                 err => {

@@ -33,7 +33,7 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <GroupModifyDialog ref="groupModifyDialog" :visible="config.groupModifyDialogVisible" @CLOSE_GROUP_MODIFY_DIALOG="handleGroupModifyDialogClose" />
+    <GroupModifyDialog ref="groupModifyDialog" :visible="config.groupModifyDialogVisible" @RESET_TABLE="resetTable" @CLOSE_GROUP_MODIFY_DIALOG="handleGroupModifyDialogClose" />
   </div>
 </template>
 
@@ -63,6 +63,9 @@ export default {
     },
     handleGroupModifyDialogClose() {
       this.config.groupModifyDialogVisible = false
+    },
+    resetTable() {
+      this.$refs['groupModifyDialog'].resetFields()
     },
     handleQueryGroup(data) {
       queryGroup(data, this.page, this)

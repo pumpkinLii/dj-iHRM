@@ -8,7 +8,6 @@ export function queryGroup(data, page, buffer) {
     data
   })
     .then(r => {
-      console.log(r)
       buffer.list = r.list
       page.totalCount = r.totalcount
     })

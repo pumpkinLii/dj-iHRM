@@ -75,6 +75,7 @@
         <el-form-item label="劳动合同起期" prop="contractStartDate">
           <el-date-picker
             v-model="form.contractStartDate"
+            value-format="yyyy-MM-dd"
             type="date"
             placeholder="选择日期"
             style="width:100%"
@@ -85,6 +86,7 @@
         <el-form-item label="劳动合同止期" prop="contractEndDate">
           <el-date-picker
             v-model="form.contractEndDate"
+            value-format="yyyy-MM-dd"
             type="date"
             placeholder="选择日期"
             style="width:100%"
@@ -95,6 +97,7 @@
         <el-form-item label="入司日期" prop="employDate">
           <el-date-picker
             v-model="form.employDate"
+            value-format="yyyy-MM-dd"
             type="date"
             placeholder="2021-07-28"
             style="width:100%"

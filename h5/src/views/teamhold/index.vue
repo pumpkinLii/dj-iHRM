@@ -45,7 +45,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="成立时间">
-            <el-date-picker v-model="form.branchEffDate" type="date" placeholder="可选项" style="width:100%;" />
+            <el-date-picker v-model="form.branchEffDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -68,7 +68,7 @@
     </el-form>
     <el-divider />
     <GroupTable ref="groupTableData" @QUERY_GROUP="handleQuery(false)" />
-    <GroupAddDialog :visible="config.groupAddDialogVisible" @REFRESH_QUERY="handleQuery(false)" @CLOSE_GROUP_ADD_DIALOG="handleGroupAddDialogClose" />
+    <GroupAddDialog :visible="config.groupAddDialogVisible" @QUERY_GROUP="handleQuery(false)" @CLOSE_GROUP_ADD_DIALOG="handleGroupAddDialogClose" />
   </div>
 </template>
 
@@ -115,7 +115,6 @@ export default {
       this.config.groupAddDialogVisible = false
     },
     handleQuery(withWarning) { // withWarning:表单检查失败时是否会红色提醒用户 true:会 false:不会提醒用户
-      this.config.loading = true
       this.$refs['form'].validate(valid => {
         if (valid) {
           this.$refs.groupTableData.handleQueryGroup(this.form)

@@ -34,7 +34,7 @@
     <el-row>
       <el-col :span="8">
         <el-form-item label="出生日期" prop="birthday">
-          <el-date-picker v-model="form.birthday" type="date" placeholder="填写您的出生日期" style="width:100%;" />
+          <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="填写您的出生日期" style="width:100%;" />
         </el-form-item>
       </el-col>
       <el-col :span="8">

@@ -52,6 +52,7 @@
             <el-form-item label="成立时间" prop="branchEffDate">
               <el-date-picker
                 v-model="form.branchEffDate"
+                value-format="yyyy-MM-dd"
                 type="date"
                 placeholder=""
                 style="width:60%;"
@@ -163,6 +164,7 @@ export default {
             // 发起请求
             console.log('发起了请求')
             this.sendSubmitRequest(this.form)
+            thi
           } else {
             return false
           }

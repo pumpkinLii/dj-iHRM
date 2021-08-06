@@ -48,6 +48,7 @@
             <el-form-item label="成立时间" prop="branchEffDate">
               <el-date-picker
                 v-model="form.branchEffDate"
+                value-format="yyyy-MM-dd"
                 type="date"
                 placeholder=""
                 style="width:60%;"
@@ -151,8 +152,8 @@ export default {
               .then(
                 r => {
                   this.$message.success('修改成功')
+                  this.$emit('REFRESH_QUERY')
                   this.$emit('CLOSE_GROUP_MODIFY_DIALOG')
-                  this.$emit('QUERY_GROUP')
                 })
               .catch(
                 err => {

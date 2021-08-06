@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cms.dao.YllaAgentaDao">
+
+    <select id="getManagerInfo" parameterType="com.cms.pojo.UYllaBranchGroupReturnPojo"
+            resultType="com.cms.pojo.UYllaBranchGroupReturnPojo">
+        SELECT yl_la_agent.agent_code  as agentCode,
+               yl_la_agent.agent_name  as agentName,
+               yl_la_agent_attr.phone  as phone,
+               yl_la_agent.agent_grade as agentGrade
+        FROM yl_la_agent
+                 join yl_la_agent_attr on yl_la_agent.agent_code = yl_la_agent_attr.agent_code
+            ${ew.customSqlSegment}
+    </select>
+
+</mapper>

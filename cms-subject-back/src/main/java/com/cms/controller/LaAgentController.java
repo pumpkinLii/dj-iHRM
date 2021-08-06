@@ -36,4 +36,20 @@ public class LaAgentController {
             return R.error(agentSubmit);
         }
     }
+
+    @PostMapping("/update")
+    @ApiOperation("人员信息修改接口")
+    public R laAgentUpdate(@RequestBody LaAgentPojo laAgent){
+        String agentUpdate = laAgentServiceAttr.agentUpdate(laAgent);
+        if(agentUpdate.equals("success")){
+            if(laAgentService.laAgentUpdate(laAgent)){
+                return R.ok("操作成功！");
+            }
+            return R.error("录入失败,程序有bug");
+        }
+        else{
+            return R.error(agentUpdate);
+        }
+    }
+
 }

@@ -15,7 +15,7 @@ import java.util.Map;
 @RestController
 @CrossOrigin
 @RequestMapping("/start")
-@Api("团队查询课题")
+@Api("码表资源课题")
 public class PageResourceController {
     @Autowired
     IdCodeService idCodeService;
@@ -27,7 +27,7 @@ public class PageResourceController {
         return idCodeService.getResource();
     }*/
 
-    @ApiOperation("团队查询接口")
+    @ApiOperation("码表资源接口")
     @PostMapping("/get")
     public R getResource(){
 

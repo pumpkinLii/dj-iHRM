@@ -6,8 +6,14 @@ import java.util.List;
 public class SlelectPage {
     public static List getPage(int limit,int page,List list) {
         //使用介绍 传入第几页 还有限制 包含所有结果集合的list,得到的是当前页面的list内容
-        int tataocount;
-        tataocount = list.size();//总数
+        if (list==null){
+            return list;
+
+        }        int tataocount=0;
+        if (list !=null){
+            tataocount = list.size();//总数
+        }
+
         int tatalpage;
         int returni=0;
         //如何获取索引呢？

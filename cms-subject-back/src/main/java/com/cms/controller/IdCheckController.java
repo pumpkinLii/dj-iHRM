@@ -26,7 +26,7 @@ public class IdCheckController {
 
     @ApiOperation("测试接口")
     @PostMapping({"/idCheck"})
-    public R idcheck(IdCheckPojo idCheckPojo) {
+    public R idcheck(@RequestBody IdCheckPojo idCheckPojo) {
         int fg = nIdCheckService.idcheck(idCheckPojo);
         switch(fg) {
             case 1:

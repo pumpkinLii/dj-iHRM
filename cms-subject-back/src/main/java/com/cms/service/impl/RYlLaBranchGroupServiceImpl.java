@@ -42,7 +42,7 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
         queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchManager()), "branch_manager", r_ylLaBranchGroupPojo.getBranchManager());
         queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchManagerName()), "branch_manager_name", r_ylLaBranchGroupPojo.getBranchManagerName());
         queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchManagerPhone()), "branch_manager_phone", r_ylLaBranchGroupPojo.getBranchManagerPhone());
-        queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchEffDate()), "branch_eff_date", r_ylLaBranchGroupPojo.getBranchEffDate());
+        queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchEffDate()), "branch_eff_date",r_ylLaBranchGroupPojo.getBranchEffDate());
         queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchStatus()), "branch_status", r_ylLaBranchGroupPojo.getBranchStatus());
         List<RYlLaBranchGrouReturn> Return_list = new ArrayList<>();
         List<YlLaBranchGroupEntity> list = this.baseMapper.selectList(queryWrapper);

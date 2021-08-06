@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("test")
+@RequestMapping("/agent")
 @Api("养老渠道-人员管理-人员入司与信息维护")
 public class YlAgentInfoController {
 

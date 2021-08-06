@@ -2,13 +2,16 @@ package com.cms.controller;
 
 import com.cms.pojo.TestPojo;
 import com.cms.service.TestService;
-import com.cms.util.PageUtils;
 import com.cms.util.R;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author :zhanhaoze
@@ -27,8 +30,11 @@ public class TestController {
     @ApiOperation("测试接口")
     @PostMapping("/info")
     public R test(@RequestBody TestPojo testPojo, int page, int limit) {
-        PageUtils list = testService.getList(testPojo, page, limit);
-        return R.ok().put("page", list);
+        PageInfo<TestPojo> list = testService.getList(testPojo, page, limit);
+        Map<Object,Object> map =new HashMap<>();
+        map.put("total",list.getTotal());
+        map.put("list",list.getList());
+        return R.ok().put("page", map);
 //        return "hello world";
     }
 }

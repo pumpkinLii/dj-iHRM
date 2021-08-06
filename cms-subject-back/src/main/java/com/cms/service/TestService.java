@@ -1,7 +1,7 @@
 package com.cms.service;
 
 import com.cms.pojo.TestPojo;
-import com.cms.util.PageUtils;
+import com.github.pagehelper.PageInfo;
 
 
 /**
@@ -10,5 +10,5 @@ import com.cms.util.PageUtils;
  * @create :2021-07-22
  */
 public interface TestService {
-    PageUtils getList(TestPojo testPojo, int page, int limit);
+    PageInfo<TestPojo> getList(TestPojo testPojo, int page, int limit);
 }

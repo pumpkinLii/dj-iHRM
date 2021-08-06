@@ -35,7 +35,7 @@ export function isValidIdNumber(rule, value, callback) {
 }
 
 export function isValidChineseName(rule, value, callback) {
-  if (/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(name)) {
+  if (/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(value)) {
     return callback()
   }
   callback(new Error('请输入合法的中文姓名'))

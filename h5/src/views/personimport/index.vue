@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import AdministrativeInformation from '@/components/AdministrativeInformation.vue'
-import AgentInformation from '@/components/AgentInformation.vue'
+import AdministrativeInformation from '@/components/PersonImport/AdministrativeInformation.vue'
+import AgentInformation from '@/components/PersonImport/AgentInformation.vue'
 import { addPerson } from '@/api/person'
 
 export default {
@@ -30,8 +30,8 @@ export default {
   methods: {
     submitForm() {
       let error = false
-      const form1 = this.$refs.agentData.$refs.agentForm
-      const form2 = this.$refs.adminData.$refs.adminForm
+      const form1 = this.$refs.agentData.$refs.form
+      const form2 = this.$refs.adminData.$refs.form
       form1.validate()
         .then(isValid => {
           console.log('代理人信息验证通过', isValid)
@@ -62,11 +62,18 @@ export default {
         )
     },
     resetForm() {
-      this.$refs.agentData.$refs.agentForm.resetFields()
-      this.$refs.adminData.$refs.adminForm.resetFields()
+      this.$refs.agentData.$refs.form.resetFields()
+      this.$refs.adminData.$refs.form.resetFields()
     },
     sendSubmitRequest() {
-      addPerson({ ...this.$refs.agentData.agentForm, ...this.$refs.adminData.adminForm })
+      addPerson({ ...this.$refs.agentData.form, ...this.$refs.adminData.form })
+        .then(r => {
+          this.$message.success('添加成功')
+        })
+        .catch(err => {
+          this.$message.error('添加失败')
+          console.log(err)
+        })
     }
   }
 }

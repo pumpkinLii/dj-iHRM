@@ -19,7 +19,7 @@ export function queryGroup(data, page, buffer) {
 // 修改团队信息
 export function modifyGroup(data) {
   return request({
-    url: 'http://10.11.114.126:9999/test/UpdateGroup',
+    url: '/test/UpdateGroup',
     method: 'post',
     data
   })

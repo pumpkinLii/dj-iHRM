@@ -183,6 +183,7 @@ export default {
       addGroup(data)
         .then(r => {
           this.$emit('CLOSE_GROUP_ADD_DIALOG')
+          this.$emit('REFRESH_QUERY')
           this.$message.success('添加成功')
           console.log(r)
         })

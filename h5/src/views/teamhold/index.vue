@@ -60,15 +60,15 @@
       <el-row>
         <el-form-item label="">
           <el-col style="text-align:left;margin-top: 1rem">
-            <el-button type="primary" @click="handleQuery">查询</el-button>
+            <el-button type="primary" @click="handleQuery(true)">查询</el-button>
             <el-button type="success" @click="config.groupAddDialogVisible=true">新增</el-button>
           </el-col>
         </el-form-item>
       </el-row>
     </el-form>
     <el-divider />
-    <GroupTable ref="groupTableData" @QUERY_GROUP="handleQuery(form) " />
-    <GroupAddDialog :visible="config.groupAddDialogVisible" @CLOSE_GROUP_ADD_DIALOG="handleGroupAddDialogClose" />
+    <GroupTable ref="groupTableData" @QUERY_GROUP="handleQuery(false)" />
+    <GroupAddDialog :visible="config.groupAddDialogVisible" @REFRESH_QUERY="handleQuery(false)" @CLOSE_GROUP_ADD_DIALOG="handleGroupAddDialogClose" />
   </div>
 </template>
 
@@ -114,15 +114,20 @@ export default {
     handleGroupAddDialogClose() {
       this.config.groupAddDialogVisible = false
     },
-    handleQuery() {
+    handleQuery(withWarning) { // withWarning:表单检查失败时是否会红色提醒用户 true:会 false:不会提醒用户
       this.config.loading = true
       this.$refs['form'].validate(valid => {
         if (valid) {
           this.$refs.groupTableData.handleQueryGroup(this.form)
         } else {
-          return false
+          if (withWarning) {
+            return false
+          }
         }
       })
+    },
+    handleRefreshTable() {
+      this.$refs.groupTableData.handleQueryGroup(this.form)
     },
     getInitOptions() {
       // 获取管理机构下拉菜单

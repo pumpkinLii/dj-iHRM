@@ -58,7 +58,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="停业标志" prop="branchStatus">
-              <el-select v-model="form.branchStatus" placeholder="请选择" style="width:60%;">
+              <el-select v-model="form.branchStatus" placeholder="请选择" style="width:60%;" @change="form.branchStatus!=='Y'?form.branchTerminateEffDate='':''">
                 <el-option label="是" value="Y" />
                 <el-option label="否" value="N" />
               </el-select>
@@ -122,6 +122,8 @@ export default {
       },
       // 数据校验规则
       rules: {
+        chatName:
+        [{ required: true, message: '请输入群聊名称', trigger: 'blur' }],
         branchName:
         [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
         branchManagerPhone:
@@ -148,12 +150,14 @@ export default {
             modifyGroup(this.form)
               .then(
                 r => {
-                  console.log(r)
-                  this.commit('RESET_TABLE')
+                  this.$message.success('修改成功')
+                  this.$emit('CLOSE_GROUP_MODIFY_DIALOG')
+                  this.$emit('QUERY_GROUP')
                 })
               .catch(
                 err => {
                   console.log(err)
+                  this.$message.error('修改失败')
                 })
           } else {
             console.log('no valid')

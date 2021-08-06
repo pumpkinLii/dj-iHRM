@@ -5,9 +5,7 @@ import java.util.List;
 
 public class SlelectPage {
     public static List getPage(int limit,int page,List list) {
-        // limit 2 page 2
-        //limit为当前第几页 page为当前的页面限制;
-        //对于List进行筛选
+        //使用介绍 传入第几页 还有限制 包含所有结果集合的list,得到的是当前页面的list内容
         int tataocount;
         tataocount = list.size();//总数
         int tatalpage;

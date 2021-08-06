@@ -60,7 +60,7 @@ public class CYlLaBranchGroupServiceImpl extends ServiceImpl<CYlLaBranchGroupDao
         //下列数据不需要判空 必须操作
         YlLaBranchGroupEntity ybge=new YlLaBranchGroupEntity();
         ybge.setManageCom(c_ylLaBranchGroupPojo.getManageComCode4());//管理机构代码
-        ybge.setBranchLevel(c_ylLaBranchGroupPojo.getBranchLevel());//团队等级
+        ybge.setBranchLevel("1");//团队等级 默认为1
         ybge.setBranchName(c_ylLaBranchGroupPojo.getBranchName());//团队名
         SimpleDateFormat xx=new SimpleDateFormat("yyyy-MM-dd");
         String format =c_ylLaBranchGroupPojo.getBranchEffDate();

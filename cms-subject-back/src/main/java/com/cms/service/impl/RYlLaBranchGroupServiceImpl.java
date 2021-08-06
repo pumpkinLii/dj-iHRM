@@ -37,7 +37,7 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getManageComCode()), "manage_com", r_ylLaBranchGroupPojo.getManageComCode());
-        queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchLevel()), "branch_level", r_ylLaBranchGroupPojo.getBranchLevel());
+        //queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchLevel()), "branch_level", r_ylLaBranchGroupPojo.getBranchLevel());
         queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchAttr()), "branch_attr", r_ylLaBranchGroupPojo.getBranchAttr());
         queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchManager()), "branch_manager", r_ylLaBranchGroupPojo.getBranchManager());
         queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchManagerName()), "branch_manager_name", r_ylLaBranchGroupPojo.getBranchManagerName());
@@ -54,7 +54,7 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
         for (int i = 0; i < list.size(); i++) {
             RYlLaBranchGrouReturn r_ylLaBranchGrou_return = new RYlLaBranchGrouReturn();
             r_ylLaBranchGrou_return.setBranchAttr(list.get(i).getBranchAttr());
-            r_ylLaBranchGrou_return.setBranchLevel(list.get(i).getBranchLevel());
+            r_ylLaBranchGrou_return.setBranchLevel("1");//默认的大下为1 随机设置就可以了
             r_ylLaBranchGrou_return.setBranchManager(list.get(i).getBranchManager());
             r_ylLaBranchGrou_return.setBranchStatus(list.get(i).getBranchStatus());
             /*branchstatus,N,否,

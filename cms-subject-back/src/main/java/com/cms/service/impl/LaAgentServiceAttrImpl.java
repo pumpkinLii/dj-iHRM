@@ -1,6 +1,7 @@
 package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.IdCheck;
 import com.cms.dao.LaAgentAttrDao;
@@ -8,6 +9,7 @@ import com.cms.entity.YlLaAgentAttrEntity;
 import com.cms.entity.YlUserInfoEntity;
 import com.cms.pojo.LaAgentPojo;
 import com.cms.service.LaAgentServiceAttr;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +55,7 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         }
 
         //在此处调用包装用户信息实体对象，用于数据库操作
-        YlLaAgentAttrEntity ylLaAgentAttrEntity = buildAgentAttrEntity(laAgent);
+        YlLaAgentAttrEntity ylLaAgentAttrEntity = this.buildAgentAttrEntity(laAgent);
 
         int result = this.baseMapper.insert(ylLaAgentAttrEntity);
         if(result > 0){
@@ -61,11 +63,31 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         }
         return "录入失败，请程序员检查程序";
     }
+    /**
+     *
+     *更新信息
+     */
+    @Override
+    public String agentUpdate(LaAgentPojo laAgent){
+        //在这里调用验证信息的方法
+        String checkAgentInfoUpdateResult = this.checkAgentInfoUpdate(laAgent);
+        if(!checkAgentInfoUpdateResult.equals("success")){
+            return  checkAgentInfoUpdateResult;
+        }
+        UpdateWrapper<YlLaAgentAttrEntity> updateWrapper = new UpdateWrapper<>();
+        YlLaAgentAttrEntity ylLaAgentAttrEntity =  this.buildUpdateAgentAttrEntity(laAgent);
+        updateWrapper.eq("agentCode",laAgent.getAgentCode());
+        int affectRows = this.baseMapper.update(ylLaAgentAttrEntity,updateWrapper);
+        if(affectRows > 0){
+            return "success";
+        }
+        else{
+            return "更新失败，请联系系统管理员zxc";
+        }
+    }
 
     /**
      * 此方法用于生成工号，例如传入一个格式为"YL00000000"工号字符串，自动生成"YL00000001"
-     *
-     *
      */
     private String getYlNo(String YlNo,boolean fg){
         String newYlNo;
@@ -84,7 +106,7 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
     }
 
     /**
-     * 此方法用于检验用户信息是否非法
+     * 此方法用于检验录入模块用户信息是否非法
      * 此方法传入一个用户信息的pojo对象，然后一次检验其信息，如果错误则直接返回错误信息，如果正确则返回字符串"success"
      */
     private String checkAgentInformation(LaAgentPojo laAgent){
@@ -149,6 +171,9 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         }
         if(laAgent.getContractEndDate() == null){
             return "错误！劳动合同止期信息为空";
+        }
+        if(laAgent.getContractStartDate() == null){
+            return "错误！劳动合同起期信息为空";
         }
         if(laAgent.getContractType() == null){
             return "错误！合同类型信息为空";
@@ -393,6 +418,220 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         String time = df.format(date);//获取String类型的时间
         ylLaAgentAttrEntity.setMakeDate(date);
         ylLaAgentAttrEntity.setMakeTime(time);
+        ylLaAgentAttrEntity.setModifyDate(date);
+        ylLaAgentAttrEntity.setModifyTime(time);
+        return ylLaAgentAttrEntity;
+    }
+
+    /**
+     * 此方法用于检验修改模块用户信息是否非法
+     * 此方法传入一个用户信息的pojo对象，然后一次检验其信息，如果错误则直接返回错误信息，如果正确则返回字符串"success"
+     */
+    private String checkAgentInfoUpdate(LaAgentPojo laAgent){
+        if(laAgent.getAgentCode() == null){
+            return "错误！代理人工号信息为空";
+        }
+        if(laAgent.getAgentCode().length() > 60){
+            return "错误！代理人工号超出长度范围";
+        }
+        if(laAgent.getAgentGrade() == null){
+            return "错误！职级信息为空";
+        }
+        if(laAgent.getAgentGrade().length() > 10){
+            return "错误！职级信息超出长度范围";
+        }
+        if(laAgent.getBankAccount() == null){
+            return "错误！银行账号信息为空";
+        }
+        if(laAgent.getBankAccount().length() > 200){
+            return "错误！银行账号信息超出长度范围";
+        }
+        if(laAgent.getBankCity() == null){
+            return "错误！开户行地市信息为空";
+        }
+        if(laAgent.getBankCity().length() > 10){
+            return "错误！开户行地市信息超出长度范围";
+        }
+        if(laAgent.getBankCode() == null){
+            return "错误！银行类别信息为空";
+        }
+        if(laAgent.getBankCode().length() > 20){
+            return "错误！银行类别信息超出长度范围";
+        }
+        if(laAgent.getBankProvince() == null){
+            return "错误！开户行省份信息为空";
+        }
+        if(laAgent.getBankProvince().length() > 10){
+            return "错误！开户行省份信息超出长度范围";
+        }
+        if(laAgent.getContractEndDate() == null){
+            return "错误！劳动合同止期信息为空";
+        }
+        if(laAgent.getContractStartDate() == null){
+            return "错误！劳动合同起期信息为空";
+        }
+        if(laAgent.getContractType() == null){
+            return "错误！合同类型信息为空";
+        }
+        if(laAgent.getContractType().length() > 6){
+            return "错误！合同类型信息超出长度范围";
+        }
+        if(laAgent.getDegree() == null){
+            return "错误！最高学位信息为空";
+        }
+        if(laAgent.getDegree().length() > 4){
+            return "错误！最高学位信息超出长度范围";
+        }
+        if(laAgent.getEmail() == null){
+            return "错误！邮箱信息为空";
+        }
+        if(laAgent.getEmail().length() > 100){
+            return "错误！邮箱信息超出长度范围";
+        }
+        if(laAgent.getFirstDegree() != null && laAgent.getFirstDegree().length() > 2){
+            return "错误！第一学历信息超出长度范围";
+        }
+        if(laAgent.getGraduateSchool() == null){
+            return "错误！毕业院校信息为空";
+        }
+        if(laAgent.getGraduateSchool().length() > 40){
+            return "错误！毕业院校信息超出长度范围";
+        }
+        if(laAgent.getHighestDegree() == null){
+            return "错误！最高学历信息为空";
+        }
+        if(laAgent.getHighestDegree().length() > 2){
+            return "错误！最高学历信息超出长度范围";
+        }
+        if(laAgent.getHomeAddress() == null){
+            return "错误！家庭地址信息为空";
+        }
+        if(laAgent.getHomeAddress().length() > 50){
+            return "错误！家庭地址信息超出长度范围";
+        }
+        if(laAgent.getHomephone() != null && laAgent.getHomephone().length() > 16){
+            return "错误！宅电信息超出长度范围";
+        }
+        if(laAgent.getMajor() == null){
+            return "错误！专业信息为空";
+        }
+        if(laAgent.getMajor().length() > 40){
+            return "错误！专业信息超出长度范围";
+        }
+        if(laAgent.getNationality() == null){
+            return "错误！民族信息为空";
+        }
+        if(laAgent.getNationality().length() > 50){
+            return "错误！民族信息超出长度范围";
+        }
+        if(laAgent.getNativeplace() == null){
+            return "错误！籍贯信息为空";
+        }
+        if(laAgent.getNativeplace().length() > 3){
+            return "错误！籍贯信息超出长度范围";
+        }
+        if(laAgent.getOldIndustryType() == null){
+            return "错误！最近一份工作行业类型信息为空";
+        }
+        if(laAgent.getOldIndustryType().length() > 2){
+            return "错误！最近一份工作行业类型信息超出长度范围";
+        }
+        if(laAgent.getOldJobDuty() == null){
+            return "错误！最近一份工作职务信息为空";
+        }
+        if(laAgent.getOldJobDuty().length() > 60){
+            return "错误！最近一份工作职务信息超出长度范围";
+        }
+        if(laAgent.getOldOccupation() == null){
+            return "错误！最近一份职业信息为空";
+        }
+        if(laAgent.getOldOccupation().length() > 20){
+            return "错误！最近一份职业信息超出长度范围";
+        }
+        if(laAgent.getOutlookStatus() == null){
+            return "错误！政治面貌信息为空";
+        }
+        if(laAgent.getOutlookStatus().length() > 4){
+            return "错误！政治面貌信息超出长度范围";
+        }
+        if(laAgent.getPhone() == null){
+            return "错误！手机号码信息为空";
+        }
+        if(laAgent.getPhone().length() > 64){
+            return "错误！手机号码信息超出长度范围";
+        }
+        if(laAgent.getPostcode() != null && laAgent.getPostcode().length() > 10){
+            return "错误！邮编信息超出长度范围";
+        }
+        if(laAgent.getRgtProvince() == null){
+            return "错误！户口所在省信息为空";
+        }
+        if(laAgent.getRgtProvince().length() > 60){
+            return "错误！户口所在省信息超出长度范围";
+        }
+        if(laAgent.getRgtType() == null){
+            return "错误！户口类型信息为空";
+        }
+        if(laAgent.getRgtType().length() > 2){
+            return "错误！户口类型信息超出长度范围";
+        }
+        if(laAgent.getUniteBankNum() == null){
+            return "错误！银行卡开户行联行号信息为空";
+        }
+        if(laAgent.getUniteBankNum().length() > 60){
+            return "错误！银行卡开户行联行号信息超出长度范围";
+        }
+        if(laAgent.getWorkAge() == null){
+            return "错误！从业年限信息为空";
+        }
+        if(laAgent.getWorkAge().length() > 10){
+            return "错误！从业年限信息超出长度范围";
+        }
+        if(laAgent.getOperator() == null){
+            return "错误！操作员信息为空";
+        }
+        if(laAgent.getOperator().length() > 60){
+            return "错误！操作员信息超出长度范围";
+        }
+        return "success";
+    }
+
+    /**
+     * 此方法用于打包与数据库对应的实体对象，用于update操作
+     */
+    private YlLaAgentAttrEntity buildUpdateAgentAttrEntity(LaAgentPojo laAgent){
+        YlLaAgentAttrEntity ylLaAgentAttrEntity = new YlLaAgentAttrEntity();
+        ylLaAgentAttrEntity.setBankAccount(laAgent.getBankAccount());
+        ylLaAgentAttrEntity.setBankCity(laAgent.getBankCity());
+        ylLaAgentAttrEntity.setBankCode(laAgent.getBankCode());
+        ylLaAgentAttrEntity.setBankProvince(laAgent.getBankProvince());
+        ylLaAgentAttrEntity.setContractEndDate(laAgent.getContractEndDate());
+        ylLaAgentAttrEntity.setContractStartDate(laAgent.getContractStartDate());
+        ylLaAgentAttrEntity.setContractType(laAgent.getContractType());
+        ylLaAgentAttrEntity.setDegree(laAgent.getDegree());
+        ylLaAgentAttrEntity.setEmail(laAgent.getEmail());
+        ylLaAgentAttrEntity.setFirstDegree(laAgent.getFirstDegree());
+        ylLaAgentAttrEntity.setGraduateSchool(laAgent.getGraduateSchool());
+        ylLaAgentAttrEntity.setHighestDegree(laAgent.getHighestDegree());
+        ylLaAgentAttrEntity.setAddress(laAgent.getHomeAddress());
+        ylLaAgentAttrEntity.setHomephone(laAgent.getHomephone());
+        ylLaAgentAttrEntity.setMajor(laAgent.getMajor());
+        ylLaAgentAttrEntity.setNationality(laAgent.getNationality());
+        ylLaAgentAttrEntity.setNativeplace(laAgent.getNativeplace());
+        ylLaAgentAttrEntity.setOldIndustryType(laAgent.getOldIndustryType());
+        ylLaAgentAttrEntity.setOldOccupation(laAgent.getOldOccupation());
+        ylLaAgentAttrEntity.setOldJobDuty(laAgent.getOldJobDuty());
+        ylLaAgentAttrEntity.setOutlookStatus(laAgent.getOutlookStatus());
+        ylLaAgentAttrEntity.setPhone(laAgent.getPhone());
+        ylLaAgentAttrEntity.setPostcode(laAgent.getPostcode());
+        ylLaAgentAttrEntity.setRgtType(laAgent.getRgtType());
+        ylLaAgentAttrEntity.setRegAddress(laAgent.getRgtProvince());
+        ylLaAgentAttrEntity.setUniteBankNum(laAgent.getUniteBankNum());
+        ylLaAgentAttrEntity.setWorkAge(laAgent.getWorkAge());
+        ylLaAgentAttrEntity.setOperator(laAgent.getOperator());
+        Date date = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");//设置日期格式
+        String time = df.format(date);//获取String类型的时间
         ylLaAgentAttrEntity.setModifyDate(date);
         ylLaAgentAttrEntity.setModifyTime(time);
         return ylLaAgentAttrEntity;

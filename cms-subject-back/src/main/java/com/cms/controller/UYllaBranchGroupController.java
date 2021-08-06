@@ -23,17 +23,17 @@ public class UYllaBranchGroupController {
     @PostMapping("/UpdateGroup")
     @ApiOperation("团队修改接口")
     public R updataGroup(@RequestBody UYllabranchGroupPojo uYllabranchGroupPojo) {
-        if (uYllabranchGroupPojo.getManageComCode().equals("")) return R.error("管理机构不能为空");
-        if (uYllabranchGroupPojo.getBranchLevel().equals("")) return R.error("组织级别不能为空");
-        if (uYllabranchGroupPojo.getBranchName().equals("")) return R.error("组织名称不能为空");
-        if (uYllabranchGroupPojo.getBranchEffDate().equals("")) return R.error("成立时间不能为空");
-        if (uYllabranchGroupPojo.getBranchStatus().equals("")) return R.error("停业标志不能为空");
-        if (uYllabranchGroupPojo.getBranchStatus().equals("Y") && uYllabranchGroupPojo.getBranchTerminateEffDate().equals(""))
+        if (uYllabranchGroupPojo.getManageComCode()==null||uYllabranchGroupPojo.getManageComCode().equals("")) return R.error("管理机构不能为空");
+        if (uYllabranchGroupPojo.getBranchLevel()==null||uYllabranchGroupPojo.getBranchLevel().equals("")) return R.error("组织级别不能为空");
+        if (uYllabranchGroupPojo.getBranchName()==null||uYllabranchGroupPojo.getBranchName().equals("")) return R.error("组织名称不能为空");
+        if (uYllabranchGroupPojo.getBranchEffDate()==null||uYllabranchGroupPojo.getBranchEffDate().equals("")) return R.error("成立时间不能为空");
+        if (uYllabranchGroupPojo.getBranchStatus()==null||uYllabranchGroupPojo.getBranchStatus().equals("")) return R.error("停业标志不能为空");
+        if (uYllabranchGroupPojo.getBranchStatus().equals("Y") &&(uYllabranchGroupPojo.getBranchTerminateEffDate()==null|| uYllabranchGroupPojo.getBranchTerminateEffDate().equals("")))
             return R.error("停业时停业时间不能为空");
-        if(uYllabranchGroupPojo.getBranchStatus().equals("N")&&!uYllabranchGroupPojo.getBranchTerminateEffDate().equals(""))
+        if(uYllabranchGroupPojo.getBranchStatus().equals("N")&&uYllabranchGroupPojo.getBranchTerminateEffDate()!=null&&!uYllabranchGroupPojo.getBranchTerminateEffDate().equals(""))
             return R.error("尚未停业");
-        if (uYllabranchGroupPojo.getOperator().equals("")) return R.error("操作员不能为空");
-        if (uYllabranchGroupPojo.getChatName().equals("")) return R.error("群聊名称不能为空");
+        if (uYllabranchGroupPojo.getOperator()==null||uYllabranchGroupPojo.getOperator().equals("")) return R.error("操作员不能为空");
+        if (uYllabranchGroupPojo.getChatName()==null||uYllabranchGroupPojo.getChatName().equals("")) return R.error("群聊名称不能为空");
         YlLaBranchGroupEntity uu = uyllaBranchGroupService.update(uYllabranchGroupPojo);
         if (uu != null) {
             if (uu.getBranchManager() != null) {

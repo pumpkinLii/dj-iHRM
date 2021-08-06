@@ -34,8 +34,11 @@ public class RYlLaBranchGroupController {
         //  List<RYlLaBranchGrouReturn> list = r_YlLaBranchGroupService.Retrieve_group(r_ylLaBranchGroupPojo,page,limit);
 
         List list = r_YlLaBranchGroupService.Retrieve_group(r_ylLaBranchGroupPojo);
-        Integer totalcount;
-        totalcount = list.size();
+        Integer totalcount=0;
+        if (list!=null){
+            totalcount = list.size();
+        }
+
         return R.ok().put("list", SlelectPage.getPage(limit,page,list)).put("totalcount", totalcount);
     }
 }

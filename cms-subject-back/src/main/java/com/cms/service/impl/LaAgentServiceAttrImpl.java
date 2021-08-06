@@ -53,7 +53,7 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         }
 
         //在此处调用包装用户信息实体对象，用于数据库操作
-        YlLaAgentAttrEntity ylLaAgentAttrEntity = buildAgentAttrEntity(laAgent);
+        YlLaAgentAttrEntity ylLaAgentAttrEntity = this.buildAgentAttrEntity(laAgent);
 
         int result = this.baseMapper.insert(ylLaAgentAttrEntity);
         if(result > 0){
@@ -64,8 +64,6 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
 
     /**
      * 此方法用于生成工号，例如传入一个格式为"YL00000000"工号字符串，自动生成"YL00000001"
-     *
-     *
      */
     private String getYlNo(String YlNo,boolean fg){
         String newYlNo;

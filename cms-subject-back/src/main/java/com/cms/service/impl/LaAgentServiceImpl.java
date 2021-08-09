@@ -1,6 +1,7 @@
 package com.cms.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.dao.LaAgentDao;
@@ -8,6 +9,7 @@ import com.cms.common.IdCheck;
 import com.cms.entity.YlLaAgentAttrEntity;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.pojo.LaAgentPojo;
+import com.cms.pojo.LaAgentUpdatePojo;
 import com.cms.service.LaAgentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class LaAgentServiceImpl extends ServiceImpl<LaAgentDao, YlLaAgentEntity>
     @Autowired
     public IdCheck idCheck;
 
+    /**
+     * 增加人员信息方法，传入LaAgentPojo，返回boolean值结果
+     */
     @Override
     public boolean laAgentSubmit(LaAgentPojo laAgent){
         //在此处调用创建YlLaAgentEntity的方法，用于数据库操作
@@ -33,11 +38,14 @@ public class LaAgentServiceImpl extends ServiceImpl<LaAgentDao, YlLaAgentEntity>
         return false;
     }
 
+    /**
+     * 修改人员信息方法，传入LaAgentPojo，返回boolean值结果
+     */
     @Override
-    public boolean laAgentUpdate(LaAgentPojo laAgent) {
+    public boolean laAgentUpdate(LaAgentUpdatePojo laAgent) {
         YlLaAgentEntity ylLaAgentEntity = this.buildUpdateAgentEntity(laAgent);
         UpdateWrapper<YlLaAgentEntity> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("agentCode",laAgent.getAgentCode());
+        updateWrapper.eq("agent_code",laAgent.getAgentCode());
         int affectRows = this.baseMapper.update(ylLaAgentEntity,updateWrapper);
         if(affectRows > 0){
             return true;
@@ -48,7 +56,7 @@ public class LaAgentServiceImpl extends ServiceImpl<LaAgentDao, YlLaAgentEntity>
     }
 
     /**
-     * 此方法传入一个LaAgentPojo对象，返回一个YlLaAgentEntity对象，YlLaAgentEntity可以用于对数据库中yl_la_agent表进行操作
+     * 此方法传入一个LaAgentPojo对象，返回一个YlLaAgentEntity对象，YlLaAgentEntity可以用于对数据库中yl_la_agent表进行insert操作
      */
     private YlLaAgentEntity buildAgentEntity(LaAgentPojo laAgent){
         YlLaAgentEntity ylLaAgentEntity = new YlLaAgentEntity();
@@ -78,11 +86,13 @@ public class LaAgentServiceImpl extends ServiceImpl<LaAgentDao, YlLaAgentEntity>
     }
 
     /**
-     * 此方法传入一个LaAgentPojo对象，返回一个YlLaAgentEntity对象，用于yl_la_agent表的update操作
+     * 此方法传入一个LaAgentUpdatePojo对象，返回一个YlLaAgentEntity对象，用于yl_la_agent表的update操作
      *
      */
-    private YlLaAgentEntity buildUpdateAgentEntity(LaAgentPojo laAgent){
-        YlLaAgentEntity ylLaAgentEntity = new YlLaAgentEntity();
+    private YlLaAgentEntity buildUpdateAgentEntity(LaAgentUpdatePojo laAgent){
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("agent_code",laAgent.getAgentCode());
+        YlLaAgentEntity ylLaAgentEntity = this.baseMapper.selectOne(queryWrapper);
         ylLaAgentEntity.setAgentGrade(laAgent.getAgentGrade());
         ylLaAgentEntity.setOperator(laAgent.getOperator());
         Date date = new Date();

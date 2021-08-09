@@ -1,6 +1,7 @@
 package com.cms.controller;
 
 import com.cms.pojo.LaAgentPojo;
+import com.cms.pojo.LaAgentUpdatePojo;
 import com.cms.service.LaAgentService;
 import com.cms.service.LaAgentServiceAttr;
 import com.cms.util.R;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/test")
-@Api("人员录入与导入")
+@RequestMapping("/agent")
+@Api("养老渠道-人员管理-人员入司与信息添加")
 public class LaAgentController {
     @Autowired
     private LaAgentServiceAttr laAgentServiceAttr;
@@ -37,19 +38,6 @@ public class LaAgentController {
         }
     }
 
-    @PostMapping("/update")
-    @ApiOperation("人员信息修改接口")
-    public R laAgentUpdate(@RequestBody LaAgentPojo laAgent){
-        String agentUpdate = laAgentServiceAttr.agentUpdate(laAgent);
-        if(agentUpdate.equals("success")){
-            if(laAgentService.laAgentUpdate(laAgent)){
-                return R.ok("操作成功！");
-            }
-            return R.error("录入失败,程序有bug");
-        }
-        else{
-            return R.error(agentUpdate);
-        }
-    }
+
 
 }

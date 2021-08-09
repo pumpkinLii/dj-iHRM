@@ -10,7 +10,7 @@
           <el-button icon="el-icon-caret-bottom" size="mini" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown" >
-          <el-dropdown-item @click.native="logout">注销</el-dropdown-item>
+          <el-dropdown-item @click.native.prevent="logout">注销</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -39,7 +39,7 @@ export default {
     },
     async logout() {
       await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      await this.$router.push(`/login`)
     }
   }
 }

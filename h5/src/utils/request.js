@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import { Message } from 'element-ui'
 import store from '@/store'
 
 // create an axios instance
@@ -61,7 +61,7 @@ service.interceptors.response.use(
       // }
       if (res.code === 500) {
         Message({
-          message: res.msg || 'Error',
+          message: res.msg || '请求时发生错误',
           type: 'error',
           duration: 5 * 1000
         })
@@ -72,7 +72,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('err' + error) // for debug
+    console.log('错误:' + error) // for debug
     Message({
       message: error.message,
       type: 'error',

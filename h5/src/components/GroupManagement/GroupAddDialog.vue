@@ -13,7 +13,7 @@
           <el-col :span="12">
             <el-form-item label="团队级别" prop="branchLevel">
               <el-select v-model="form.branchLevel" placeholder="请选择" style="width:60%;">
-                <el-option v-for="(option,index) in list.branchLevel" :key="index" :label="option.label" :value="option.value" />
+                <el-option label="行政区划" value="1" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -33,19 +33,19 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="负责人代码" prop="branchManager">
-              <el-input v-model="form.branchManager" type="text" style="width:60%;" />
+              <el-input v-model="form.branchManager" placeholder="输入后自动获取姓名与手机号" type="text" style="width:60%;" @blur="handleBranchManagerQuery" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="负责人姓名" prop="branchManagerName">
-              <el-input v-model="form.branchManagerName" type="text" style="width:60%;" />
+              <el-input v-model="form.branchManagerName" type="text" style="width:60%;" disabled />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="负责人手机号" prop="branchManagerPhone">
-              <el-input v-model="form.branchManagerPhone" type="text" style="width:60%;" />
+              <el-input v-model="form.branchManagerPhone" type="text" style="width:60%;" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -100,8 +100,9 @@
 
 <script>
 import { phoneNumberValidatorAllowNull } from '@/utils/validate'
-import { setCodeByName, getManageComCode4 } from '@/api/code'
+import { getManageComCode } from '@/api/code'
 import { addGroup } from '@/api/group'
+import { getManagerInfoByCode } from '@/api/branchManager'
 export default {
   name: 'GroupAddDialog',
   props: {
@@ -113,8 +114,12 @@ export default {
   data() {
     return {
       form: {
+        default: {
+          branchLevel: '1',
+          branchStatus: 'N',
+          operator: 'admin'
+        },
         manageComCode4: '',
-        branchLevel: '',
         branchName: '',
         branchManager: '',
         branchManagerName: '',
@@ -123,6 +128,7 @@ export default {
         branchStatus: 'N',
         branchTerminateEffDate: '',
         operator: 'admin',
+        branchLevel: '1',
         chatName: ''
       },
       list: {
@@ -153,23 +159,34 @@ export default {
   methods: {
     getInitOptions() {
       // 获取管理机构下拉菜单
-      getManageComCode4(this.list)
-      // 获取团队级别下拉菜单
-      setCodeByName('branchlevel', this.list.branchLevel)
+      getManageComCode()
+        .then(
+          r => {
+            this.list.manageComCode4 = r.list4
+          }
+        )
     },
     handleSubmit() {
       this.$refs['form'].validate(
         (valid) => {
           if (valid) {
             // 发起请求
-            console.log('发起了请求')
             this.sendSubmitRequest(this.form)
-            thi
           } else {
             return false
           }
         })
     },
+    // 通过负责人代码查询负责人姓名和负责人电话号
+    handleBranchManagerQuery() {
+      getManagerInfoByCode(this.form.branchManager)
+        .then(r => {
+          this.form.branchManagerName = r.branchManagerName
+          this.form.branchManagerPhone = r.branchManagerPhone
+          this.$message.success('获取负责人代码/电话号成功')
+        })
+    },
+    // 停业日期校验器
     branchTerminateEffDateValidator(rule, value, callback) {
       if (this.form.branchStatus === 'Y') {
         if (this.form.branchTerminateEffDate.length === 0) {
@@ -185,8 +202,9 @@ export default {
       addGroup(data)
         .then(r => {
           this.$emit('CLOSE_GROUP_ADD_DIALOG')
-          this.$emit('REFRESH_QUERY')
+          this.$emit('QUERY_GROUP')
           this.$message.success('添加成功')
+          this.form = { default: this.form.default, ...this.form.default }
           console.log(r)
         })
         .catch(err => {

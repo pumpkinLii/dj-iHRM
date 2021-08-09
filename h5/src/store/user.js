@@ -3,7 +3,7 @@ import { Message } from 'element-ui'
 import router from '../router'
 
 const state = {
-  isLogin: true
+  isLogin: sessionStorage.getItem('isLogin') === 'true'
 }
 
 const mutations = {
@@ -20,33 +20,18 @@ const actions = {
     API.login(param)
       .then(
         r => {
-          console.log(r)
+          sessionStorage.setItem('isLogin', 'true')
           commit('LOGIN')
           Message.success('登录成功')
           router.push('/dashboard')
         }
-      ).catch(
-        err => {
-          console.log(err)
-          Message.error('登录失败')
-        }
       )
   },
   logout({ commit }) {
-    // API.logout()
-    //   .then(
-    //     r => {
-    //       console.log(r)
+    sessionStorage.setItem('isLogin', 'false')
     commit('LOGOUT')
     Message.success('注销成功')
     router.push('/login')
-    //   }
-    // ).catch(
-    //   err => {
-    //     console.log(err)
-    //     Message.error('注销失败')
-    //   }
-    // )
   }
 }
 

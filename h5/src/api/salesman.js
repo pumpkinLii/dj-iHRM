@@ -15,12 +15,12 @@ export function getSelectOptional() {
 
 // 王佳智的ip
 export function check(data) {
-  const Url = '/test/idCheck' + '?' + 'idNo=' + data.idNo + '&idType=' + data.idType
+  const Url = '/test/idCheck'
   return request({
     url: Url,
     method: 'post',
     // data:data
-    params: { data }
+    data
   })
 }
 
@@ -38,8 +38,6 @@ export function getCode(name, buffer) {
     method: 'post'
   }).then(
     r => {
-      console.log(r)
-      console.log(buffer)
       if (!r.resource[name]) {
         return
       }

@@ -29,7 +29,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="负责人代码" prop="branchManager">
-              <el-input v-model="form.branchManager" type="text" style="width:60%;" />
+              <el-input v-model="form.branchManager" type="text" style="width:60%;" @blur="handleBranchManagerQuery()" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -86,7 +86,6 @@
       </el-form>
     </span>
     <span slot="footer" class="dialog-footer">
-      <!--emit为子组件向父组件发送事件与数据，以实现父子组件的数据流通-->
       <el-button type="secondary" @click="$emit('CLOSE_GROUP_MODIFY_DIALOG')">取 消</el-button>
       <el-button type="primary" @click="handleSubmit">保 存</el-button>
     </span>
@@ -96,6 +95,7 @@
 <script>
 import { phoneNumberValidatorAllowNull } from '@/utils/validate'
 import { modifyGroup } from '@/api/group'
+import { getManagerInfoByCode } from '@/api/branchManager'
 export default {
   name: 'GroupModifyDialog',
   props: {
@@ -143,6 +143,15 @@ export default {
       } else {
         callback()
       }
+    },
+    // 通过负责人代码查询负责人姓名和负责人电话号
+    handleBranchManagerQuery() {
+      getManagerInfoByCode(this.form.branchManager)
+        .then(r => {
+          this.form.branchManagerName = r.branchManagerName
+          this.form.branchManagerPhone = r.branchManagerPhone
+          this.$message.success('获取负责人代码/电话号成功')
+        })
     },
     handleSubmit() {
       this.$refs['groupModify'].validate(

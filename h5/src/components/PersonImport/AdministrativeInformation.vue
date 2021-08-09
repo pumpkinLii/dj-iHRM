@@ -11,14 +11,14 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="三级管理机构" prop="manageCom3">
-          <el-select v-model="form.manageCom3" placeholder="请选择" style="width:100%">
+          <el-select v-model="form.manageCom3" placeholder="请选择" style="width:100%" :disabled="!form.manageCom2||form.manageCom2.length===0">
             <el-option v-for="(item,index) in list.manageCom3" :key="index" :value="item.value" :label="item.label" />
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="四级管理机构" prop="manageCom4">
-          <el-select v-model="form.manageCom4" placeholder="请选择" style="width:100%" @change="ranks">
+          <el-select v-model="form.manageCom4" placeholder="请选择" style="width:100%" :disabled="!form.manageCom3||form.manageCom3.length===0" @change="ranks">
             <el-option v-for="(item,index) in list.manageCom4" :key="index" :value="item.value" :label="item.label" />
           </el-select>
         </el-form-item>
@@ -36,7 +36,7 @@
       </el-col>
       <el-col :span="8">
         <el-form-item label="人员职级" prop="agentGrade">
-          <el-select v-model="form.agentGrade" placeholder="请选择" style="width:100%">
+          <el-select v-model="form.agentGrade" placeholder="请选择" style="width:100%" :disabled="form.agentJob.length===0">
             <el-option v-for="(item,index) in list.agentGrade" :key="index" :value="item.label" :label="item.value" />
           </el-select>
         </el-form-item>
@@ -90,6 +90,7 @@
             type="date"
             placeholder="选择日期"
             style="width:100%"
+            @change="dateCheck"
           />
         </el-form-item>
       </el-col>
@@ -217,8 +218,18 @@ export default {
     })
   },
   methods: {
+    dateCheck() {
+      if (this.form.contractStartDate > this.form.contractEndDate) {
+        this.$message.error('终止日期不能小于起始时期')
+        this.form.contractEndDate = ''
+      } else {
+        console.log('日期校验失败')
+      }
+    },
     // 人员职级
     rank() {
+      this.list.agentGrade = []
+      this.form.agentGrade = ''
       if (this.form.agentJob === '总监') {
         A.posit().then(r => {
           this.list.agentGrade = r.list

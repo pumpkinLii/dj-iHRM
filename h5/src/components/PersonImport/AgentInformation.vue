@@ -15,7 +15,7 @@
     <el-row>
       <el-col :span="8">
         <el-form-item label="业务员姓名" prop="agentName">
-          <el-input v-model="form.agentName" type="text" style="width:100%;" /> <!-- @blur="blurtest1" -->
+          <el-input v-model="form.agentName" type="text" style="width:100%;" />
         </el-form-item>
       </el-col>
       <el-col :span="8">
@@ -140,14 +140,14 @@
         </el-form-item>
       </el-col>
       <el-col :span="8">
-        <el-form-item label="邮编">
-          <el-input v-model="form.postcode" type="text" style="width:100%;" />
+        <el-form-item label="邮编" prop="postCode">
+          <el-input v-model="form.postCode" type="text" style="width:100%;" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="8">
-        <el-form-item label="住宅电话">
+        <el-form-item label="住宅电话" prop="homephone">
           <el-input v-model="form.homephone" type="text" style="width:100%;" />
         </el-form-item>
       </el-col>
@@ -216,10 +216,17 @@
 
 <script>
 import * as API from '@/api/salesman'
+import { isIdentityId, isValidChineseName, isValidEmail, isValidTel, isZip, phoneNumberValidator, isNum } from '@/utils/validate'
 
 export default {
   name: 'AgentInformation',
   data() {
+    const checkIdentityId = (rule, value, callback) => {
+      const errorMsg = isIdentityId(value)
+      if (errorMsg !== '') {
+        callback(new Error(errorMsg))
+      }
+    }
     return {
       list: {
         idType: [],
@@ -272,15 +279,21 @@ export default {
       },
       rules: {
         agentName:
-          [{ required: true, message: '请输入业务员姓名', trigger: 'blur' }],
+          [{ required: true, message: '请输入业务员姓名', trigger: 'blur' },
+            { validator: isValidChineseName, trigger: 'blur' }],
         idType:
           [{ required: true, message: '请输入证件类型', trigger: 'change' }],
+        postCode:
+          [{ validator: isZip, trigger: 'blur' }],
         idNo:
-          [{ required: true, message: '请输入证件号码', trigger: 'blur' }],
+          [{ required: true, message: '请输入证件号码', trigger: 'blur' },
+            { validator: checkIdentityId, trigger: 'blur' }],
         birthday:
           [{ required: true, message: '请输入出生日期', trigger: 'change' }],
         bankCode:
-          [{ required: true, message: '请输入性别', trigger: 'change' }],
+          [{ required: true, message: '请输入银行类别', trigger: 'change' }],
+        homephone:
+          [{ validator: isValidTel, trigger: 'blur' }],
         sex:
           [{ required: true, message: '请输入性别', trigger: 'change' }],
         rgtType:
@@ -298,7 +311,7 @@ export default {
         nationality:
           [{ required: true, message: '请输入民族', trigger: 'change' }],
         nativeplace:
-          [{ required: true, message: '籍贯', trigger: 'change' }],
+          [{ required: true, message: '籍贯', trigger: 'blur' }],
         oldIndustryType:
           [{ required: true, message: '请输入最近一份工作行业类型', trigger: 'change' }],
         oldOccupation:
@@ -308,13 +321,16 @@ export default {
         oldJobDuty:
           [{ required: true, message: '请输入最近一份职务', trigger: 'blur' }],
         workAge:
-          [{ required: true, message: '请输入从业年限', trigger: 'blur' }],
+          [{ required: true, message: '请输入从业年限', trigger: 'blur' },
+            { validator: isNum, trigger: 'blur' }],
         homeAddress:
           [{ required: true, message: '请输入家庭地址', trigger: 'blur' }],
         phone:
-          [{ required: true, message: '请输入手机', trigger: 'blur' }],
+          [{ required: true, message: '请输入手机', trigger: 'blur' },
+            { validator: phoneNumberValidator, trigger: 'blur' }],
         email:
-          [{ required: true, message: '请输入E-mail', trigger: 'blur' }],
+          [{ required: true, message: '请输入E-mail', trigger: 'blur' },
+            { validator: isValidEmail, trigger: 'blur' }],
         outlookStatus:
           [{ required: true, message: '请输入政治面貌', trigger: 'change' }],
         accountBankHeadOffice:
@@ -349,15 +365,16 @@ export default {
   },
   methods: {
     submit() {
-      console.log(this.form)
-      API.check(this.form).then((res) => {
-        console.log(res.data.code)
+      const data = {
+        idNo: this.form.idNo,
+        idType: this.form.idType
+      }
+      API.check(data).then((res) => {
         if (res.data.code === 0) { this.$message.success('成功') } else { this.$message.error(res.data.msg) }
       })
     },
     searchCity(province) {
       this.list.city = this.reslist[province]
-      console.log(this.list.city)
     }
   }
 }

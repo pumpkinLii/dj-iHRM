@@ -6,16 +6,14 @@
         <el-col :span="8">
           <el-form-item label="管理机构" prop="manageComCode">
             <el-select v-model="form.manageComCode" placeholder="请选择" style="width:100%;">
-              <!--这里label和value是反着的 注意-->
               <el-option v-for="(option,index) in list.manageComCode" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队级别">
-            <el-select v-model="form.branchLevel" placeholder="可选项" style="width:100%;">
-              <el-option label="不选择" value="" />
-              <el-option v-for="(option,index) in list.branchLevel" :key="index" :label="option.label" :value="option.value" />
+            <el-select v-model="form.branchLevel" style="width:100%;">
+              <el-option label="行政区划" value="1" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -76,7 +74,7 @@
 import GroupTable from '@/components/GroupManagement/GroupTable'
 import GroupAddDialog from '@/components/GroupManagement/GroupAddDialog'
 import { phoneNumberValidatorAllowNull } from '@/utils/validate'
-import { setCodeByName, getManageComCode } from '@/api/code'
+import { getManageComCode } from '@/api/code'
 export default {
   name: 'TeamHold',
   components: { GroupAddDialog, GroupTable },
@@ -87,7 +85,7 @@ export default {
       },
       form: {
         manageComCode: '',
-        branchLevel: '',
+        branchLevel: '1', // 团队级别 label='行政区划' value='1' 写死
         branchAttr: '',
         branchManager: '',
         branchManagerName: '',
@@ -130,9 +128,17 @@ export default {
     },
     getInitOptions() {
       // 获取管理机构下拉菜单
-      getManageComCode(this.list)
-      // 获取团队级别下拉菜单
-      setCodeByName('branchlevel', this.list.branchLevel)
+      getManageComCode()
+        .then(
+          r => {
+            this.list.manageComCode = r.totallist
+          }
+        )
+        .catch(
+          err => {
+            this.$message.error('错误:' + err)
+          }
+        )
     }
   }
 }

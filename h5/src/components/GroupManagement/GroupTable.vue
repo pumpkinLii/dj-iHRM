@@ -74,9 +74,6 @@ export default {
           this.page.totalCount = r.totalcount
           this.$message.success('查询完毕')
         })
-        .catch(err => {
-          console.log(err)
-        })
     },
     handleSizeChange(size) {
       this.page.pageSize = size

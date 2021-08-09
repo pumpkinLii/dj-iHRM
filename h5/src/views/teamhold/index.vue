@@ -134,11 +134,6 @@ export default {
             this.list.manageComCode = r.totallist
           }
         )
-        .catch(
-          err => {
-            this.$message.error('错误:' + err)
-          }
-        )
     }
   }
 }

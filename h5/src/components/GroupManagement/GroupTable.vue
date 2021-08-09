@@ -14,7 +14,7 @@
       <el-table-column label="停业标志" prop="branchStatus" />
       <el-table-column label="停业时间" prop="branchTerminateEffDate" />
       <el-table-column label="操作员代码" prop="operator" />
-      <el-table-column label="操作" width="180px" fixed="right">
+      <el-table-column label="操作" width="100px" fixed="right">
         <template scope="scope">
           <!-- 修改 -->
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(list[scope.$index])">修改</el-button>

@@ -36,7 +36,7 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
     public List Retrieve_group(RYlLaBranchGroupPojo r_ylLaBranchGroupPojo) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getManageComCode()), "manage_com", r_ylLaBranchGroupPojo.getManageComCode());
+        //queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getManageComCode()), "manage_com", r_ylLaBranchGroupPojo.getManageComCode());
         //queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchLevel()), "branch_level", r_ylLaBranchGroupPojo.getBranchLevel());
         queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchAttr()), "branch_attr", r_ylLaBranchGroupPojo.getBranchAttr());
         queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchManager()), "branch_manager", r_ylLaBranchGroupPojo.getBranchManager());

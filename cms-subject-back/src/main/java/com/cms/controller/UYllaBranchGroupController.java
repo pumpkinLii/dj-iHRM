@@ -1,6 +1,7 @@
 package com.cms.controller;
 
 import com.cms.entity.YlLaBranchGroupEntity;
+import com.cms.pojo.ManagerCodePojo;
 import com.cms.pojo.UYllaBranchGroupReturnPojo;
 import com.cms.pojo.UYllabranchGroupPojo;
 import com.cms.service.UYllaBranchGroupReturnService;
@@ -50,12 +51,12 @@ public class UYllaBranchGroupController {
     @Autowired
     UYllaBranchGroupReturnService uYllaBranchGroupReturnService;
 
-    @PostMapping("/UpdateGroupManager")
+    @PostMapping("/getGroupManager")
     @ApiOperation("查询接口")
-    public R find(@RequestParam String agentCode) {
-        UYllaBranchGroupReturnPojo uYllaBranchGroupReturnPojo = uYllaBranchGroupReturnService.updataRe(agentCode);
+    public R find(@RequestBody ManagerCodePojo manager) {
+        UYllaBranchGroupReturnPojo uYllaBranchGroupReturnPojo = uYllaBranchGroupReturnService.updataRe(manager.getAgentCode());
         if (uYllaBranchGroupReturnPojo != null) {
-            if (uYllaBranchGroupReturnPojo.getAgentGrade().equals( "MA01")||uYllaBranchGroupReturnPojo.getAgentGrade().equals( "MA02")||uYllaBranchGroupReturnPojo.getAgentGrade().equals("MA03")) {
+            if (uYllaBranchGroupReturnPojo.getAgentGrade().equals( "MA01")||uYllaBranchGroupReturnPojo.getAgentGrade().equals( "MA02")||uYllaBranchGroupReturnPojo.getAgentGrade() .equals( "MA03")) {
                 return R.ok().put("data", uYllaBranchGroupReturnPojo);
             } else return R.error("该员工不是主管");
         } else {

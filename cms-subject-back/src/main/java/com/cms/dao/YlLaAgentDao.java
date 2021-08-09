@@ -8,5 +8,6 @@ import com.cms.entity.YlLaAgentEntity;
  * @description :
  * @create :2021-08-03
  */
-public interface YlLaAgentDao extends BaseMapper<YlLaAgentEntity> {
+public interface
+YlLaAgentDao extends BaseMapper<YlLaAgentEntity> {
 }

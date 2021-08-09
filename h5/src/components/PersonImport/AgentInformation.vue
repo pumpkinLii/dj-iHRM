@@ -34,12 +34,12 @@
     <el-row>
       <el-col :span="8">
         <el-form-item label="出生日期" prop="birthday">
-          <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="填写您的出生日期" style="width:100%;" />
+          <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="填写您的出生日期" style="width:100%;" disabled />
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="性别" prop="sex">
-          <el-select v-model="form.sex" type="text" style="width:100%;">
+          <el-select v-model="form.sex" type="text" style="width:100%;" disabled>
             <el-option v-for="(option,index) in list.sex" :key="index" :label="option.label" :value="option.value" />
           </el-select>
         </el-form-item>
@@ -387,7 +387,19 @@ export default {
         idType: this.form.idType
       }
       API.check(data).then((res) => {
-        if (res.data.code === 0) { this.$message.success('成功') } else { this.$message.error(res.data.msg) }
+        if (res.code === 0) {
+          this.$message.success('成功')
+          const strBirthday = this.form.idNo.slice(6, 10) + '-' + this.form.idNo.slice(10, 12) + '-' + this.form.idNo.slice(12, 14)
+          const strSex = this.form.idNo.slice(16, 17)
+          const strProvince = this.form.idNo.slice(0, 2)
+          console.log(this.list.nativeplace)
+          this.form.sex = String((parseInt(strSex) + 1) % 2)
+          this.form.birthday = strBirthday
+          this.form.rgtProvince = String(strProvince)
+        } else {
+          this.$message.error(res.msg)
+          this.form.idNO = ''
+        }
       })
     },
     searchCity(province) {

@@ -404,6 +404,7 @@ export default {
     },
     searchCity(province) {
       this.list.city = this.reslist[province]
+      this.form.bankCity = ''
     }
   }
 }

@@ -244,7 +244,7 @@ export default {
       reslist: {
       },
       form: {
-        sapCode: '', // SAP工号
+        sapCode: '', // SAP
         agentName: '', // 业务员姓名
         idType: '', // 证件类型
         idNo: '', // 证件号码

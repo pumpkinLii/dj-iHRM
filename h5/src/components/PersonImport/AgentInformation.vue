@@ -233,9 +233,16 @@ export default {
   name: 'AgentInformation',
   data() {
     const checkIdentityId = (rule, value, callback) => {
-      const errorMsg = isIdentityId(value)
-      if (errorMsg !== '') {
-        callback(new Error(errorMsg))
+      if (this.form.idType === '0') {
+        const errorMsg = isIdentityId(value)
+        if (errorMsg !== '') {
+          callback(new Error(errorMsg))
+        }
+      } else {
+        if ((/^\d{1,18}$/.test(value)) || value === '') {
+          return callback()
+        }
+        callback(new Error('证件号小于等于18位'))
       }
     }
     return {

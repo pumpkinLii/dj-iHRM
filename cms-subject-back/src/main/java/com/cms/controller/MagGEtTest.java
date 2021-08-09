@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -22,7 +24,7 @@ public class MagGEtTest {
     @ApiOperation("码表资源接口")
     @PostMapping("/da")
     public R test(String s){
-        List<String> son = comnewSon.getSon(s);
+        List<Map<String, String>> son = comnewSon.getSon(s);
         return R.ok().put("list",son);
     }
 

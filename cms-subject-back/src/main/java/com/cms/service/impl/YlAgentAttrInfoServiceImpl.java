@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.IdCheck;
-import com.cms.dao.LaAgentAttrDao;
+import com.cms.dao.YlLaAgentAttrDao;
 import com.cms.entity.YlLaAgentAttrEntity;
-import com.cms.entity.YlUserInfoEntity;
 import com.cms.pojo.LaAgentPojo;
 import com.cms.pojo.LaAgentUpdatePojo;
-import com.cms.service.LaAgentServiceAttr;
+import com.cms.service.YlAgentAttrInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,45 +17,28 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+/**
+ *
+ */
 @Service
-public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgentAttrEntity> implements LaAgentServiceAttr {
+@Slf4j
+public class YlAgentAttrInfoServiceImpl extends ServiceImpl<YlLaAgentAttrDao, YlLaAgentAttrEntity> implements YlAgentAttrInfoService {
     @Autowired
     public IdCheck idCheck;
 
-
-    private String newstr;
-
     /**
-     * 获取生成的工号，无参方法，返回储存在newstr的工号，请务必在调用agentSubmit一次后调用，否则会出现空指针或者生成的工号被覆盖
+     * 获取生成的工号，无参方法，调用私有方法生成新工号
      */
     @Override
     public String getNewstr(){
-        return this.newstr;
+        return buildAgentCode();
     }
 
-
     /**
-     * 新增人员信息，传入一个LaAgentPojo对象，返回字符串，成功则返回"success",校验失败则返回失败原因。导入失败则返回“请联系管理员的问题”
+     * 新增人员信息，传入一个LaAgentPojo对象，返回字符串，成功则返回"success",校验失败则返回失败原因。导入失败则返回“请联系管理员”
      */
     @Override
     public String agentSubmit(LaAgentPojo laAgent){
-        //检查数据库中的工号，调用方法生成新工号
-        QueryWrapper<YlUserInfoEntity> sectionQueryWrapper = new QueryWrapper<>();
-        List<YlLaAgentAttrEntity> pbListBlacks =this.baseMapper.selectList(null);
-        boolean fg = false;
-        String str = "";
-        if(pbListBlacks.size() == 0){
-            fg = false;
-        }
-        else{
-            fg = true;
-        }
-        if(fg == true) {
-            YlLaAgentAttrEntity ylLaAgentAttrEntity = pbListBlacks.get(pbListBlacks.size() - 1);
-            str = ylLaAgentAttrEntity.getAgentCode();
-        }
-        newstr = this.getYlNo(str,fg);
-
         //在这调用验证信息的方法
         String checkAgentInfoResult = this.checkAgentInformation(laAgent);
         if(!checkAgentInfoResult.equals("success")){
@@ -73,7 +56,7 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
     }
 
     /**
-     *更新人员信息，传入一个LaAgentPojo对象，返回字符串，成功则返回"success",校验失败则返回失败原因。导入失败则返回“请联系管理员的问题”
+     *更新人员信息，传入一个LaAgentPojo对象，返回字符串，成功则返回"success",校验失败则返回失败原因。导入失败则返回“请联系管理员”
      */
     @Override
     public String agentUpdate(LaAgentUpdatePojo laAgent){
@@ -95,22 +78,22 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
     }
 
     /**
-     * 此方法用于生成工号，例如传入一个格式为"YL00000000"工号字符串，自动生成"YL00000001"
+     * 此方法用于生成工号,无参方法，返回一个String的新工号
      */
-    private String getYlNo(String YlNo,boolean fg){
-        String newYlNo;
-        if(fg==false)
-        {
-            newYlNo = "YL00000001";
-            return newYlNo;
+    private String buildAgentCode(){
+        QueryWrapper<YlLaAgentAttrEntity> queryWrapper = new QueryWrapper<>();
+        List<YlLaAgentAttrEntity> resultSet = this.baseMapper.selectList(queryWrapper);
+        if(resultSet.size() == 0){
+            return "YL00000001";
         }
         else{
-            newYlNo=YlNo.substring(YlNo.length() - 8);
-            long no = Integer.parseInt(newYlNo);
-            long n= ++no;
-            newYlNo= String.format("YL" + "%08d", n);
+            YlLaAgentAttrEntity ylLaAgentAttrEntity = resultSet.get(resultSet.size() - 1);
+            String newAgentCode;
+            newAgentCode = ylLaAgentAttrEntity.getAgentCode();
+            newAgentCode = newAgentCode.substring(2);
+            int agentCode = Integer.parseInt(newAgentCode) + 1;
+            return "YL" + String.format("%08d", agentCode);
         }
-        return newYlNo;
     }
 
     /**
@@ -386,7 +369,7 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
      */
     private YlLaAgentAttrEntity buildAgentAttrEntity(LaAgentPojo laAgent){
         YlLaAgentAttrEntity ylLaAgentAttrEntity = new YlLaAgentAttrEntity();
-        ylLaAgentAttrEntity.setAgentCode(newstr);
+        ylLaAgentAttrEntity.setAgentCode(laAgent.getAgentCode());
         ylLaAgentAttrEntity.setBankAccount(laAgent.getBankAccount());
         ylLaAgentAttrEntity.setBankCity(laAgent.getBankCity());
         ylLaAgentAttrEntity.setBankCode(laAgent.getBankCode());
@@ -436,6 +419,12 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
      * 此方法传入一个用户信息的pojo对象，然后一次检验其信息，如果错误则直接返回错误信息，如果正确则返回字符串"success"
      */
     private String checkAgentInfoUpdate(LaAgentUpdatePojo laAgent){
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("agent_code",laAgent.getAgentCode());
+        List<YlLaAgentAttrEntity> agentList = this.baseMapper.selectList(queryWrapper);
+        if(agentList.size() != 1){
+            return "代理人工号信息错误！";
+        }
         if(laAgent.getAgentCode() == null){
             return "错误！代理人工号信息为空";
         }

@@ -21,7 +21,10 @@
       <el-col :span="8">
         <el-form-item label="证件类型" prop="idType">
           <el-select v-model="form.idType" type="text" style="width:100%;">
-            <el-option v-for="(option,index) in list.idType" :key="index" :label="option.label" :value="option.value" />
+            <el-option v-for="(option,index) in list.idType" :key="index" :label="option.label" :value="option.value">
+              <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+              <span style="float: right">{{ option.label }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -47,7 +50,10 @@
       <el-col :span="8">
         <el-form-item label="户口类型" prop="rgtType">
           <el-select v-model="form.rgtType" type="text" style="width:100%;">
-            <el-option v-for="(option,index) in list.rgtType" :key="index" :label="option.label" :value="option.value" />
+            <el-option v-for="(option,index) in list.rgtType" :key="index" :label="option.label" :value="option.value">
+              <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+              <span style="float: right">{{ option.label }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -56,21 +62,30 @@
       <el-col :span="8">
         <el-form-item label="户口所在省" prop="rgtProvince">
           <el-select v-model="form.rgtProvince" type="text" style="width:100%;">
-            <el-option v-for="(option,index) in list.nativeplace" :key="index" :label="option.label" :value="option.value" />
+            <el-option v-for="(option,index) in list.nativeplace" :key="index" :label="option.label" :value="option.value">
+              <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+              <span style="float: right">{{ option.label }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="最高学历" prop="highestDegree">
           <el-select v-model="form.highestDegree" type="text" style="width:100%;">
-            <el-option v-for="(option,index) in list.highestDegree" :key="index" :label="option.label" :value="option.value" />
+            <el-option v-for="(option,index) in list.highestDegree" :key="index" :label="option.label" :value="option.value">
+              <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+              <span style="float: right">{{ option.label }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="第一学历">
           <el-select v-model="form.firstDegree" type="text" style="width:100%;">
-            <el-option v-for="(option,index) in list.highestDegree" :key="index" :label="option.label" :value="option.value" />
+            <el-option v-for="(option,index) in list.highestDegree" :key="index" :label="option.label" :value="option.value">
+              <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+              <span style="float: right">{{ option.label }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -79,7 +94,10 @@
       <el-col :span="8">
         <el-form-item label="最高学位" prop="degree">
           <el-select v-model="form.degree" type="text" style="width:100%;">
-            <el-option v-for="(option,index) in list.degree" :key="index" :label="option.label" :value="option.value" />
+            <el-option v-for="(option,index) in list.degree" :key="index" :label="option.label" :value="option.value">
+              <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+              <span style="float: right">{{ option.label }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -98,7 +116,10 @@
       <el-col :span="8">
         <el-form-item label="民族" prop="nationality">
           <el-select v-model="form.nationality" type="text" style="width:100%;">
-            <el-option v-for="(option,index) in list.nationality" :key="index" :label="option.label" :value="option.value" />
+            <el-option v-for="(option,index) in list.nationality" :key="index" :label="option.label" :value="option.value">
+              <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+              <span style="float: right">{{ option.label }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -168,7 +189,10 @@
       <el-col :span="8">
         <el-form-item label="政治面貌" prop="outlookStatus">
           <el-select v-model="form.outlookStatus" type="text" style="width:100%;">
-            <el-option v-for="(option,index) in list.dajiapolityvisage" :key="index" :label="option.label" :value="option.value" />
+            <el-option v-for="(option,index) in list.dajiapolityvisage" :key="index" :label="option.label" :value="option.value">
+              <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+              <span style="float: right">{{ option.label }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -192,14 +216,20 @@
       <el-col :span="8">
         <el-form-item label="开户行省份" prop="bankProvince">
           <el-select v-model="form.bankProvince" type="text" style="width:100%;" @change="searchCity(form.bankProvince)">
-            <el-option v-for="(option,index) in list.bankProvince" :key="index" :label="option.label" :value="option.label" />
+            <el-option v-for="(option,index) in list.bankProvince" :key="index" :label="option.label" :value="option.label">
+              <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+              <span style="float: right">{{ option.label }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="开户行所在市" prop="bankCity">
           <el-select v-model="form.bankCity" type="text" style="width:100%;" :disabled="form.bankProvince===''">  <!-- :disabled="data.isdisabled2" -->
-            <el-option v-for="(option,index) in list.city" :key="index" :label="option.name" :value="option.code" />
+            <el-option v-for="(option,index) in list.city" :key="index" :label="option.name" :value="option.code">
+              <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
+              <span style="float: right">{{ option.name }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -208,7 +238,10 @@
       <el-col :span="8">
         <el-form-item label="银行类型" prop="bankCode">
           <el-select v-model="form.bankCode" type="text" style="width:100%;">
-            <el-option v-for="(option,index) in list.bankCode" :key="index" :label="option.label" :value="option.label" />
+            <el-option v-for="(option,index) in list.bankCode" :key="index" :label="option.label" :value="option.label">
+              <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+              <span style="float: right">{{ option.label }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
       </el-col>

@@ -1,8 +1,9 @@
 package com.cms.controller;
 
+import com.cms.pojo.LaAgentPojo;
 import com.cms.pojo.LaAgentUpdatePojo;
-import com.cms.service.LaAgentService;
-import com.cms.service.LaAgentServiceAttr;
+import com.cms.service.YlAgentAttrInfoService;
+import com.cms.service.YlAgentInfoService;
 import com.cms.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,24 +22,43 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/agent")
 @Api("养老渠道-人员管理-人员入司与信息维护")
 public class YlAgentInfoController {
+
     @Autowired
-    private LaAgentServiceAttr laAgentServiceAttr;
+    private YlAgentAttrInfoService ylAgentAttrInfoService;
+
     @Autowired
-    private LaAgentService laAgentService;
+    private YlAgentInfoService ylAgentInfoService;
+
+    private String agentCode;
+    @PostMapping("/doSave")
+    @ApiOperation("人员录入与导入接口")
+    public R laAgentSubmit(@RequestBody LaAgentPojo laAgent){
+        agentCode = ylAgentAttrInfoService.getNewstr();
+        laAgent.setAgentCode(agentCode);
+        String agentSubmit = ylAgentAttrInfoService.agentSubmit(laAgent);
+        if(agentSubmit.equals("success")){
+            if(ylAgentInfoService.laAgentSubmit(laAgent)){
+                return R.ok("操作成功，人员工号为：" + agentCode);
+            }
+            return R.error("录入失败,程序有bug");
+        }
+        else{
+            return R.error(agentSubmit);
+        }
+    }
+
     @PostMapping("/update")
     @ApiOperation("人员信息修改接口")
     public R laAgentUpdate(@RequestBody LaAgentUpdatePojo laAgent){
-        String agentUpdate = laAgentServiceAttr.agentUpdate(laAgent);
+        String agentUpdate = ylAgentAttrInfoService.agentUpdate(laAgent);
         if(agentUpdate.equals("success")){
-            if(laAgentService.laAgentUpdate(laAgent)){
+            if(ylAgentInfoService.laAgentUpdate(laAgent)){
                 return R.ok("操作成功！");
             }
-            return R.error("录入失败,程序有bug");
+            return R.error("录入失败,请联系后端维护人员");
         }
         else{
             return R.error(agentUpdate);
         }
     }
-
-
 }

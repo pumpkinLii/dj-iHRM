@@ -31,7 +31,7 @@ public class AgentGroupImpl extends ServiceImpl<RYlLaBranchGroupDao, YlLaBranchG
     public String teamCode() {
         List<YlLaBranchGroupEntity> list=this.baseMapper.selectList(null);
         if (list.size()==0){
-            return "000001";
+            return "100001";
         }else {
             Integer teap=0;
             StringBuffer stringBuffer=new StringBuffer();

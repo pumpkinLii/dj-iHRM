@@ -27,37 +27,10 @@ public class CYlLaBranchGroupServiceImpl extends ServiceImpl<CYlLaBranchGroupDao
     @Override
     public R creat(CYlLaBranchGroupPojo c_ylLaBranchGroupPojo) throws ParseException {
 
-        /*
-        * 在数据正确的情况下
-        * 哪些数据是我从前端获取的 哪些数据是我需要去自己添加的
-        * （数据上面加上*说明为必须要填入的数据）
-        * 需要从前端获取的数据：
-        * {必须要设置的选项：
-        *manageComCode4	管理机构 ---》managerCom 管理机构 需要接受的是Code 由前端给我数据
-         branchLevel	组织级别 ---》branchLevel
-         branchName	团队名称
-         branchEffDate	成立时间 ---》brancheffDate makedate maketime modifydate modifytime
-         branchStatus	停业标志
-         operator	操作员
-         chatName	群聊名称
-        * 不是必须要设置的选项：
-        *branchManager	负责人代码
-         branchManagerName	负责人姓名
-         branchManagerPhone	负责人手机号
-         branchTerminateEffDate	停业日期(这个数据前端无法传递给我 先设置为空)
-        * }
-        * 需要自己进行设置的数据
-        * setAgentGroup("10");组织内码 需要我调用自己写好的方法去创建一个组织内码
-        * setBranchType("4");码表中养老为4
-        * setBranchAttr("");根据下拉机构去 创建团队的组指编码？ ok 在哪个管理机构下面 就创建在哪里
-        * setOperator("张三")//这里要获取用户的登陆信息？然后加进去代码
-        * */
-        //如何判断 没有进行赋值 都是null 对吧？
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format1 = simpleDateFormat.format(new Date());
         String[] s = format1.split(" ");
         System.out.println(c_ylLaBranchGroupPojo);
-        //下列数据不需要判空 必须操作
         YlLaBranchGroupEntity ybge=new YlLaBranchGroupEntity();
         ybge.setManageCom(c_ylLaBranchGroupPojo.getManageComCode4());//管理机构代码
         ybge.setBranchLevel("1");//团队等级 默认为1
@@ -71,9 +44,6 @@ public class CYlLaBranchGroupServiceImpl extends ServiceImpl<CYlLaBranchGroupDao
         ybge.setModifyTime(s[1]);
         ybge.setBranchStatus(c_ylLaBranchGroupPojo.getBranchStatus());
         ybge.setChatName(c_ylLaBranchGroupPojo.getChatName());//群聊名称
-        //不必要的值
-
-
         if (StringUtils.isEmpty(c_ylLaBranchGroupPojo.getBranchManager())==false){
             ybge.setBranchManager(c_ylLaBranchGroupPojo.getBranchManager());//负责人代码
         }
@@ -86,14 +56,12 @@ public class CYlLaBranchGroupServiceImpl extends ServiceImpl<CYlLaBranchGroupDao
         ybge.setBranchTerminateEffDate(null);//停业时间 前端给不了 而且不为空
         //必须去设置的值 我自己设置
         ybge.setOperator(c_ylLaBranchGroupPojo.getOperator());
-
         ybge.setAgentGroup(String.valueOf(agentGroup.getAgentGroup()));//组织内码 需要我调用自己写好的方法去创建一个组织内码
         ybge.setBranchType("4");//码表中养老为4
         StringBuffer stringBuffer=new StringBuffer();
         stringBuffer.append("T").append(c_ylLaBranchGroupPojo.getManageComCode4().substring(2,6)).append(agentGroup.teamCode());
         ybge.setBranchAttr(stringBuffer.toString());//根据下拉机构去创建团队的组指编码？ ok 在哪个管理机构下面 就创建在哪里
         ybge.setBranchStatus(c_ylLaBranchGroupPojo.getBranchStatus());
-
         /*
         branchtype,1,个险,,sys
         branchtype,3,银保,,sys

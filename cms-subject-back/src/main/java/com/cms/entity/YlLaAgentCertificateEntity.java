@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
@@ -15,6 +16,7 @@ import java.util.Date;
 @TableName("yl_la_agent_certificate")
 @Data
 @EqualsAndHashCode(callSuper = false)
+@Component
 public class YlLaAgentCertificateEntity {
     /**
      * 流水号

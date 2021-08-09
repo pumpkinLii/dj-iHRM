@@ -216,7 +216,16 @@
 
 <script>
 import * as API from '@/api/salesman'
-import { isIdentityId, isValidChineseName, isValidEmail, isValidTel, isZip, phoneNumberValidator, isNum } from '@/utils/validate'
+import {
+  isIdentityId,
+  isValidChineseName,
+  isValidEmail,
+  isValidTel,
+  isZip,
+  phoneNumberValidator,
+  isNum,
+  isValidateBankNo
+} from '@/utils/validate'
 
 export default {
   name: 'AgentInformation',
@@ -336,7 +345,8 @@ export default {
         accountBankHeadOffice:
           [{ required: true, message: '请输入账户银行总行', trigger: 'change' }],
         bankAccount:
-          [{ required: true, message: '请输入银行账号', trigger: 'blur' }],
+          [{ required: true, message: '请输入银行账号', trigger: 'blur' },
+            { validator: isValidateBankNo, trigger: 'blur' }],
         uniteBankNum:
           [{ required: true, message: '请输入银行卡开户行联行号', trigger: 'blur' }],
         bankProvince:

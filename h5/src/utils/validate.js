@@ -56,7 +56,7 @@ export function isZip(rule, value, callback) {
 }
 
 export function isNum(rule, value, callback) {
-  if ((/^-?([1-9]\d*|0)(.\d+)?$/.test(value)) || value === '') {
+  if ((/^[1-9][0-9]*$/.test(value)) || value === '') {
     return callback()
   }
   callback(new Error('请输入数字!'))
@@ -134,3 +134,11 @@ export function isIdentityId(identityId) {
   }
   return errorMsg
 }
+
+export function isValidateBankNo(rule, value, callback) {
+  if ((/^([1-9]{1})(\d{14}|\d{18}|\d{15})$/.test(value)) || value === '') {
+    return callback()
+  }
+  callback(new Error('请输入正确的银行卡号!'))
+}
+

@@ -8,8 +8,8 @@ import com.cms.dao.LaAgentAttrDao;
 import com.cms.entity.YlLaAgentAttrEntity;
 import com.cms.entity.YlUserInfoEntity;
 import com.cms.pojo.LaAgentPojo;
+import com.cms.pojo.LaAgentUpdatePojo;
 import com.cms.service.LaAgentServiceAttr;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +22,21 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
     @Autowired
     public IdCheck idCheck;
 
+
     private String newstr;
 
+    /**
+     * 获取生成的工号，无参方法，返回储存在newstr的工号，请务必在调用agentSubmit一次后调用，否则会出现空指针或者生成的工号被覆盖
+     */
     @Override
-    public String getNewstr(){//此方法用于返回工号
+    public String getNewstr(){
         return this.newstr;
     }
 
+
+    /**
+     * 新增人员信息，传入一个LaAgentPojo对象，返回字符串，成功则返回"success",校验失败则返回失败原因。导入失败则返回“请联系管理员的问题”
+     */
     @Override
     public String agentSubmit(LaAgentPojo laAgent){
         //检查数据库中的工号，调用方法生成新工号
@@ -63,12 +71,12 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         }
         return "录入失败，请程序员检查程序";
     }
+
     /**
-     *
-     *更新信息
+     *更新人员信息，传入一个LaAgentPojo对象，返回字符串，成功则返回"success",校验失败则返回失败原因。导入失败则返回“请联系管理员的问题”
      */
     @Override
-    public String agentUpdate(LaAgentPojo laAgent){
+    public String agentUpdate(LaAgentUpdatePojo laAgent){
         //在这里调用验证信息的方法
         String checkAgentInfoUpdateResult = this.checkAgentInfoUpdate(laAgent);
         if(!checkAgentInfoUpdateResult.equals("success")){
@@ -76,7 +84,7 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
         }
         UpdateWrapper<YlLaAgentAttrEntity> updateWrapper = new UpdateWrapper<>();
         YlLaAgentAttrEntity ylLaAgentAttrEntity =  this.buildUpdateAgentAttrEntity(laAgent);
-        updateWrapper.eq("agentCode",laAgent.getAgentCode());
+        updateWrapper.eq("agent_code",laAgent.getAgentCode());
         int affectRows = this.baseMapper.update(ylLaAgentAttrEntity,updateWrapper);
         if(affectRows > 0){
             return "success";
@@ -374,7 +382,7 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
     /**
      * 此方法用于打包成与数据库对应的实体对象
      * 使用时传入一个LaAgentPojo对象，返回一个YlLaAgentAttrEntity对象
-     * 返回的对象可以用于对数据库中yl_la_agent_attr表的操作
+     * 返回的对象可以用于对数据库中yl_la_agent_attr表的insert操作
      */
     private YlLaAgentAttrEntity buildAgentAttrEntity(LaAgentPojo laAgent){
         YlLaAgentAttrEntity ylLaAgentAttrEntity = new YlLaAgentAttrEntity();
@@ -427,7 +435,7 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
      * 此方法用于检验修改模块用户信息是否非法
      * 此方法传入一个用户信息的pojo对象，然后一次检验其信息，如果错误则直接返回错误信息，如果正确则返回字符串"success"
      */
-    private String checkAgentInfoUpdate(LaAgentPojo laAgent){
+    private String checkAgentInfoUpdate(LaAgentUpdatePojo laAgent){
         if(laAgent.getAgentCode() == null){
             return "错误！代理人工号信息为空";
         }
@@ -598,9 +606,12 @@ public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgen
 
     /**
      * 此方法用于打包与数据库对应的实体对象，用于update操作
+     * 传入一个LaAgentUpdatePojo对象，返回一个YlLaAgnetAttrEntity对象，该对象中的部分值已被更新，可用来对yl_la_agent_attr表进行更新操作
      */
-    private YlLaAgentAttrEntity buildUpdateAgentAttrEntity(LaAgentPojo laAgent){
-        YlLaAgentAttrEntity ylLaAgentAttrEntity = new YlLaAgentAttrEntity();
+    private YlLaAgentAttrEntity buildUpdateAgentAttrEntity(LaAgentUpdatePojo laAgent){
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("agent_code",laAgent.getAgentCode());
+        YlLaAgentAttrEntity ylLaAgentAttrEntity = this.baseMapper.selectOne(queryWrapper);
         ylLaAgentAttrEntity.setBankAccount(laAgent.getBankAccount());
         ylLaAgentAttrEntity.setBankCity(laAgent.getBankCity());
         ylLaAgentAttrEntity.setBankCode(laAgent.getBankCode());

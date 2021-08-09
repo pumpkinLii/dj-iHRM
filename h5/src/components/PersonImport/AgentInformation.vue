@@ -349,8 +349,6 @@ export default {
   created() {
     API.getcity().then(res => {
       this.reslist = res
-    }).catch(err => {
-      console.log('获取省市失败', err)
     })
     API.getCode('idtype', this.list.idType)
     API.getCode('sex', this.list.sex)

@@ -93,7 +93,6 @@
 </template>
 
 <script>
-import { phoneNumberValidatorAllowNull } from '@/utils/validate'
 import { modifyGroup } from '@/api/group'
 import { getManagerInfoByCode } from '@/api/branchManager'
 export default {
@@ -126,11 +125,9 @@ export default {
         chatName:
         [{ required: true, message: '请输入群聊名称', trigger: 'blur' }],
         branchName:
-        [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
-        branchManagerPhone:
-        [{ validator: phoneNumberValidatorAllowNull, trigger: 'blur' }],
+        [{ required: true, message: '请输入团队名称', trigger: 'blur' }],
         branchStatus:
-        [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
+        [{ required: true, message: '请选择停业标志', trigger: 'blur' }],
         branchTerminateEffDate:
         [{ validator: this.branchTerminateEffDateValidator, trigger: 'blur' }]
       }
@@ -146,10 +143,13 @@ export default {
     },
     // 通过负责人代码查询负责人姓名和负责人电话号
     handleBranchManagerQuery() {
-      getManagerInfoByCode(this.form.branchManager)
+      const data = {
+        'agentCode': this.form.branchManager
+      }
+      getManagerInfoByCode(data)
         .then(r => {
-          this.form.branchManagerName = r.branchManagerName
-          this.form.branchManagerPhone = r.branchManagerPhone
+          this.form.branchManagerName = r.data.agentName
+          this.form.branchManagerPhone = r.data.phone
           this.$message.success('获取负责人代码/电话号成功')
         })
     },

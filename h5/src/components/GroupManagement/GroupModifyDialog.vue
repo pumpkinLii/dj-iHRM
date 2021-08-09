@@ -164,11 +164,6 @@ export default {
                   this.$emit('REFRESH_QUERY')
                   this.$emit('CLOSE_GROUP_MODIFY_DIALOG')
                 })
-              .catch(
-                err => {
-                  console.log(err)
-                  this.$message.error('修改失败')
-                })
           } else {
             console.log('no valid')
             return false

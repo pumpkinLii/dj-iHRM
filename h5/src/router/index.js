@@ -84,6 +84,20 @@ export const constantRoutes = [
     }],
     hidden: false
   },
+  {
+    path: '/qualification',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'Qualification',
+      component: () => import ('@/views/qualification/index'),
+      meta: {
+        title: '资格证管理',
+        icon: 'el-icon-s-management'
+      }
+    }],
+    hidden: false
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

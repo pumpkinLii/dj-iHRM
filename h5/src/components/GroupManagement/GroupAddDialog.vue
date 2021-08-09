@@ -6,14 +6,20 @@
           <el-col :span="12">
             <el-form-item label="管理机构" prop="manageComCode4">
               <el-select v-model="form.manageComCode4" placeholder="请选择管理机构" style="width:60%;">
-                <el-option v-for="(option,index) in list.manageComCode4" :key="index" :label="option.label" :value="option.value" />
+                <el-option v-for="(option,index) in list.manageComCode4" :key="index" :label="option.label" :value="option.value">
+                  <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                  <span style="float: right">{{ option.label }}</span>
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="团队级别" prop="branchLevel">
               <el-select v-model="form.branchLevel" placeholder="请选择" style="width:60%;">
-                <el-option label="行政区划" value="1" />
+                <el-option label="行政区划" value="1">
+                  <span style="float: left; color: #8492a6; font-size: 13px">1</span>
+                  <span style="float: right">行政区划</span>
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>

@@ -1,25 +1,19 @@
 <template>
   <div class="app-container">
-    <h4>团队维护</h4>
+    <h4>资格证管理</h4>
     <el-form ref="form" :rules="rules" :model="form" label-width="180px">
       <el-row>
         <el-col :span="8">
           <el-form-item label="管理机构" prop="manageComCode">
             <el-select v-model="form.manageComCode" placeholder="请选择" style="width:100%;">
-              <el-option v-for="(option,index) in list.manageComCode" :key="index" :label="option.label" :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
+              <el-option v-for="(option,index) in list.manageComCode" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队级别">
             <el-select v-model="form.branchLevel" style="width:100%;">
-              <el-option label="行政区划" value="1">
-                <span style="float: left; color: #8492a6; font-size: 13px">1</span>
-                <span style="float: right">行政区划</span>
-              </el-option>
+              <el-option label="行政区划" value="1" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -82,7 +76,7 @@ import GroupAddDialog from '@/components/GroupManagement/GroupAddDialog'
 import { phoneNumberValidatorAllowNull } from '@/utils/validate'
 import { getManageComCode } from '@/api/code'
 export default {
-  name: 'TeamHold',
+  name: 'Qualification',
   components: { GroupAddDialog, GroupTable },
   data() {
     return {
@@ -91,7 +85,7 @@ export default {
       },
       form: {
         manageComCode: '',
-        branchLevel: '1', // 团队级别 label='行政区划' value='1' 写死
+        branchLevel: '1',
         branchAttr: '',
         branchManager: '',
         branchManagerName: '',

@@ -47,7 +47,7 @@ public class UYllaBranchGroupImpl extends ServiceImpl<YllaBranchGroupDao, YlLaBr
         try {
             Date eef = simpleDateFormat.parse(mes.getBranchEffDate());
             Date teef;
-            if (!mes.getBranchTerminateEffDate().isEmpty()||!(mes.getBranchTerminateEffDate()==null)) {
+            if ((mes.getBranchTerminateEffDate()!=null)&&!mes.getBranchTerminateEffDate().isEmpty()) {
                 teef = simpleDateFormat.parse(mes.getBranchTerminateEffDate());
             } else {
                 teef = null;
@@ -68,7 +68,11 @@ public class UYllaBranchGroupImpl extends ServiceImpl<YllaBranchGroupDao, YlLaBr
             return ylLaBranchGroupEntity;
         }
         if (mes.getBranchStatus().equals("Y")) {
-            if (!GroupStopCheck(mes.getAgentGroup())||!ylLaBranchGroupEntity.getBranchManager().isEmpty()) {
+            if(ylLaBranchGroupEntity.getBranchManager()!=null&&!ylLaBranchGroupEntity.getBranchManager().isEmpty()){
+                ylLaBranchGroupEntity.setAgentGroup("该团队下有在职员工");
+                return ylLaBranchGroupEntity;
+            }
+            if (!GroupStopCheck(mes.getAgentGroup())) {
                 ylLaBranchGroupEntity.setAgentGroup("该团队下有在职员工");
                 return ylLaBranchGroupEntity;
             }

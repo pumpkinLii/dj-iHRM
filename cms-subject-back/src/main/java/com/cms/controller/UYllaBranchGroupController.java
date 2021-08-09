@@ -50,12 +50,12 @@ public class UYllaBranchGroupController {
     @Autowired
     UYllaBranchGroupReturnService uYllaBranchGroupReturnService;
 
-    @PostMapping("/UpdataGroupManager")
+    @PostMapping("/UpdateGroupManager")
     @ApiOperation("查询接口")
     public R find(@RequestParam String agentCode) {
         UYllaBranchGroupReturnPojo uYllaBranchGroupReturnPojo = uYllaBranchGroupReturnService.updataRe(agentCode);
         if (uYllaBranchGroupReturnPojo != null) {
-            if (uYllaBranchGroupReturnPojo.getAgentGrade() == "MA01"||uYllaBranchGroupReturnPojo.getAgentGrade() == "MA02"||uYllaBranchGroupReturnPojo.getAgentGrade() == "MA03") {
+            if (uYllaBranchGroupReturnPojo.getAgentGrade().equals( "MA01")||uYllaBranchGroupReturnPojo.getAgentGrade().equals( "MA02")||uYllaBranchGroupReturnPojo.getAgentGrade().equals("MA03")) {
                 return R.ok().put("data", uYllaBranchGroupReturnPojo);
             } else return R.error("该员工不是主管");
         } else {

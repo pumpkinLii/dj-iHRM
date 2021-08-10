@@ -20,6 +20,8 @@ import java.util.Date;
  * @author :zhanhaoze
  * @description :
  * @create :2021-08-03
+ * 此类提供两个方法,laAgentSubmit(LaAgentPojo laAgent)用于在数据库的yl_la_agent表插入数据,
+ * laAgentUpdate(LaAgentUpdatePojo laAgent)用于在数据库的yl_la_agent表更新数据
  */
 @Service
 @Slf4j
@@ -44,7 +46,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
     }
 
     /**
-     * 修改人员信息方法，传入LaAgentPojo，返回boolean值结果
+     * 修改人员信息方法，传入LaAgenUpdatetPojo，返回boolean值结果
      */
     @Override
     public boolean laAgentUpdate(LaAgentUpdatePojo laAgent) {

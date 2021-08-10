@@ -18,7 +18,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * 此类提供三个方法,getNewstr()用于获取生成新工号
+ * laAgentSubmit(LaAgentPojo laAgent)用于在数据库的yl_la_agent表插入数据,
+ * laAgentUpdate(LaAgentUpdatePojo laAgent)用于在数据库的yl_la_agent表更新数据
  */
 @Service
 @Slf4j
@@ -56,7 +58,7 @@ public class YlAgentAttrInfoServiceImpl extends ServiceImpl<YlLaAgentAttrDao, Yl
     }
 
     /**
-     *更新人员信息，传入一个LaAgentPojo对象，返回字符串，成功则返回"success",校验失败则返回失败原因。导入失败则返回“请联系管理员”
+     *更新人员信息，传入一个LaAgentUpdatePojo对象，返回字符串，成功则返回"success",校验失败则返回失败原因。导入失败则返回“请联系管理员”
      */
     @Override
     public String agentUpdate(LaAgentUpdatePojo laAgent){

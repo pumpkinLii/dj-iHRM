@@ -424,11 +424,11 @@ export default {
           this.$message.success('成功')
           const strBirthday = this.form.idNo.slice(6, 10) + '-' + this.form.idNo.slice(10, 12) + '-' + this.form.idNo.slice(12, 14)
           const strSex = this.form.idNo.slice(16, 17)
-          const strProvince = this.form.idNo.slice(0, 2)
-          console.log(this.list.nativeplace)
+          // const strProvince = this.form.idNo.slice(0, 2)
+          // console.log(this.list.nativeplace)
           this.form.sex = String((parseInt(strSex) + 1) % 2)
           this.form.birthday = strBirthday
-          this.form.rgtProvince = String(strProvince)
+          // this.form.rgtProvince = String(strProvince)
         } else {
           this.$message.error(res.msg)
           this.form.idNO = ''

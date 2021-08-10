@@ -4,53 +4,61 @@
     <el-form ref="form" :rules="rules" :model="form" label-width="180px">
       <el-row>
         <el-col :span="8">
-          <el-form-item label="管理机构" prop="manageComCode">
-            <el-select v-model="form.manageComCode" placeholder="请选择" style="width:100%;">
-              <el-option v-for="(option,index) in list.manageComCode" :key="index" :label="option.label" :value="option.value" />
+          <el-form-item label="二级管理机构" prop="mangeCom2">
+            <el-select v-model="form.mangeCom2" placeholder="请选择" style="width:100%;">
+              <el-option v-for="(option,index) in list.mangeCom2" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="团队级别">
-            <el-select v-model="form.branchLevel" style="width:100%;">
-              <el-option label="行政区划" value="1" />
+          <el-form-item label="三级管理机构">
+            <el-select v-model="form.mangeCom3" style="width:100%;">
+              <el-option v-for="(option,index) in list.mangeCom3" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="团队代码">
-            <el-input v-model="form.branchAttr" type="text" style="width:100%;" placeholder="可选项" />
+          <el-form-item label="四级管理机构">
+            <el-select v-model="form.mangeCom4" style="width:100%;">
+              <el-option v-for="(option,index) in list.mangeCom4" :key="index" :label="option.label" :value="option.value" />
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="负责人代码">
-            <el-input v-model="form.branchManager" type="text" style="width:100%;" placeholder="可选项" />
+          <el-form-item label="团队">
+            <el-select v-model="form.branchAttr" style="width:100%;">
+              <el-option v-for="(option,index) in list.branchAttr" :key="index" :label="option.label" :value="option.value" />
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="负责人姓名">
-            <el-input v-model="form.branchManagerName" type="text" style="width:100%;" placeholder="可选项" />
+          <el-form-item label="人员工号">
+            <el-input v-model="form.agentCode" type="text" style="width:100%;" placeholder="可选项" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="负责人手机号" prop="branchManagerPhone">
-            <el-input v-model="form.branchManagerPhone" type="text" style="width:100%;" placeholder="可选项" />
+          <el-form-item label="人员姓名">
+            <el-input v-model="form.agentName" type="text" style="width:100%;" placeholder="可选项" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="成立时间">
-            <el-date-picker v-model="form.branchEffDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" />
+          <el-form-item label="有效起期">
+            <el-date-picker v-model="form.startEffectiveDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="停业标志">
-            <el-select v-model="form.branchStatus" placeholder="可选项" style="width:100%;">
-              <el-option label="否" value="N" />
-              <el-option label="是" value="Y" />
+          <el-form-item label="有效止期">
+            <el-date-picker v-model="form.endEffectiveDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="资格证书名称">
+            <el-select v-model="form.certificateType" placeholder="可选项" style="width:100%;">
+              <el-option v-for="(option,index) in list.certificateType" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -58,64 +66,64 @@
       <el-row>
         <el-form-item label="">
           <el-col style="text-align:left;margin-top: 1rem">
-            <el-button type="primary" @click="handleQuery(true)">查询</el-button>
-            <el-button type="success" @click="config.groupAddDialogVisible=true">新增</el-button>
+            <el-button type="primary" icon="el-icon-search" @click="handleQuery(true)">查询</el-button>
+            <el-button type="success" icon="el-icon-edit" @click="config.groupAddDialogVisible=true">新增</el-button>
           </el-col>
         </el-form-item>
       </el-row>
     </el-form>
     <el-divider />
-    <GroupTable ref="groupTableData" @QUERY_GROUP="handleQuery(false)" />
-    <GroupAddDialog :visible="config.groupAddDialogVisible" @QUERY_GROUP="handleQuery(false)" @CLOSE_GROUP_ADD_DIALOG="handleGroupAddDialogClose" />
+    <QualificationTable ref="qualificationTableData" @QUERY_GROUP="handleQuery(false)" />
+    <QualificationAddDialog :visible="config.qualificationAddDialogVisible" @QUERY_GROUP="handleQuery(false)" @CLOSE_GROUP_ADD_DIALOG="handleQualificationAddDialogClose" />
   </div>
 </template>
 
 <script>
-import GroupTable from '@/components/GroupManagement/GroupTable'
-import GroupAddDialog from '@/components/GroupManagement/GroupAddDialog'
-import { phoneNumberValidatorAllowNull } from '@/utils/validate'
+import QualificationTable from '@/components/Qualification/QualificationGroupTable'
+import QualificationAddDialog from '@/components/Qualification/QualificationAddDialog'
 import { getManageComCode } from '@/api/code'
 export default {
   name: 'Qualification',
-  components: { GroupAddDialog, GroupTable },
+  components: { QualificationAddDialog, QualificationTable },
   data() {
     return {
       config: {
-        groupAddDialogVisible: false
+        qualificationAddDialogVisible: false
       },
       form: {
-        manageComCode: '',
-        branchLevel: '1',
+        mangeCom2: '',
+        mangeCom3: '',
+        mangeCom4: '',
         branchAttr: '',
-        branchManager: '',
-        branchManagerName: '',
-        branchManagerPhone: '',
-        branchEffDate: '',
-        branchStatus: ''
+        agentCode: '',
+        agentName: '',
+        startEffectiveDate: '',
+        endEffectiveDate: '',
+        certificateType: ''
       },
       list: {
-        manageComCode: [],
-        branchLevel: []
+        mangeCom2: [],
+        mangeCom3: [],
+        mangeCom4: [],
+        branchAttr: [],
+        certificateType: []
       },
       rules: {
-        manageComCode:
-          [{ required: true, message: '请选择管理机构', trigger: 'change' }],
-        branchManagerPhone:
-          [{ validator: phoneNumberValidatorAllowNull, trigger: 'blur' }]
       }
     }
   },
   created() {
-    this.getInitOptions()
+    // this.getInitOptions()
   },
   methods: {
-    handleGroupAddDialogClose() {
-      this.config.groupAddDialogVisible = false
+    handleQualificationAddDialogClose() {
+      this.config.qualificationAddDialogVisible = false
     },
     handleQuery(withWarning) { // withWarning:表单检查失败时是否会红色提醒用户 true:会 false:不会提醒用户
       this.$refs['form'].validate(valid => {
         if (valid) {
-          this.$refs.groupTableData.handleQueryGroup(this.form)
+          // 要在qualificationtable.vue 中加入handleQueryGroup方法查询
+          this.$refs.qualificationTableData.handleQueryGroup(this.form)
         } else {
           if (withWarning) {
             return false
@@ -124,17 +132,18 @@ export default {
       })
     },
     handleRefreshTable() {
-      this.$refs.groupTableData.handleQueryGroup(this.form)
-    },
-    getInitOptions() {
-      // 获取管理机构下拉菜单
-      getManageComCode()
-        .then(
-          r => {
-            this.list.manageComCode = r.totallist
-          }
-        )
+      // 要在qualificationtable.vue 中加入handleQueryGroup方法查询
+      this.$refs.qualificationTableData.handleQueryGroup(this.form)
     }
+    // getInitOptions() {
+    //   // 获取管理机构下拉菜单
+    //   getManageComCode()
+    //     .then(
+    //       r => {
+    //         this.list.manageComCode = r.totallist
+    //       }
+    //     )
+    // }
   }
 }
 </script>

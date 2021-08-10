@@ -33,16 +33,16 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <GroupModifyDialog ref="groupModifyDialog" :visible="config.groupModifyDialogVisible" @REFRESH_QUERY="$emit('QUERY_GROUP')" @CLOSE_GROUP_MODIFY_DIALOG="handleGroupModifyDialogClose" />
+    <QualificationModifyDialog ref="groupModifyDialog" :visible="config.groupModifyDialogVisible" @REFRESH_QUERY="$emit('QUERY_GROUP')" @CLOSE_GROUP_MODIFY_DIALOG="handleGroupModifyDialogClose" />
   </div>
 </template>
 
 <script>
-import GroupModifyDialog from '@/components/GroupManagement/GroupModifyDialog'
 import { queryGroup } from '@/api/group'
+import QualificationModifyDialog from '@/components/Qualification/QualificationModifyDialog'
 export default {
-  name: 'GroupTable',
-  components: { GroupModifyDialog },
+  name: 'QualificationTable',
+  components: { QualificationModifyDialog },
   data() {
     return {
       config: {

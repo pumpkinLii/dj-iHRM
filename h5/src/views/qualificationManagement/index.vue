@@ -79,9 +79,8 @@
 </template>
 
 <script>
-import QualificationTable from '@/components/Qualification/QualificationGroupTable'
+import QualificationTable from '@/components/Qualification/QualificationTable'
 import QualificationAddDialog from '@/components/Qualification/QualificationAddDialog'
-import { getManageComCode } from '@/api/code'
 export default {
   name: 'Qualification',
   components: { QualificationAddDialog, QualificationTable },

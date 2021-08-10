@@ -58,17 +58,18 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/personimport',
+    path: '/employeeEntry',
     component: Layout,
     children: [{
       path: '',
       name: 'PersonImport',
-      component: () => import ('@/views/personimport/index'),
+      component: () => import ('@/views/employeeEntry/index'),
       meta: {
         title: '人员录入',
         icon: 'el-icon-user'
       }
-    }]
+    }],
+    hidden: false
   },
   {
     path: '/zc-three',
@@ -84,12 +85,12 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/teamhold',
+    path: '/teamMaintenance',
     component: Layout,
     children: [{
       path: '',
       name: 'TeamHold',
-      component: () => import ('@/views/teamhold/index'),
+      component: () => import ('@/views/teamMaintenance/index'),
       meta: {
         title: '团队维护',
         icon: 'el-icon-s-cooperation'
@@ -98,12 +99,12 @@ export const constantRoutes = [
     hidden: false
   },
   {
-    path: '/qualification',
+    path: '/qualificationManagement',
     component: Layout,
     children: [{
       path: '',
       name: 'Qualification',
-      component: () => import ('@/views/qualification/index'),
+      component: () => import ('@/views/qualificationManagement/index'),
       meta: {
         title: '资格证管理',
         icon: 'el-icon-s-management'

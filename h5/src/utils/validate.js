@@ -141,4 +141,3 @@ export function isValidateBankNo(rule, value, callback) {
   }
   callback(new Error('请输入正确的银行卡号!'))
 }
-

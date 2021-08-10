@@ -72,7 +72,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('错误:' + error) // for debug
+    console.log(error) // for debug
     Message({
       message: error.message,
       type: 'error',

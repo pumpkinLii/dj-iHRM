@@ -71,6 +71,19 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/zc-three',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'PersonImport',
+      component: () => import ('@/views/zc-three/index'),
+      meta: {
+        title: '帅哥一号',
+        icon: 'el-icon-user'
+      }
+    }]
+  },
+  {
     path: '/teamhold',
     component: Layout,
     children: [{

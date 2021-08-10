@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- 修改 -->
-    <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog()" />
-    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="90%" @close="editDialogClosed">
+<!--    <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog()" />-->
+    <el-dialog title="修改用户" :visible.sync="visible1" width="90%" @close="editDialogClosed">
       <!-- 主体 -->
       <span>
         <h4>代理人信息</h4>
@@ -414,7 +414,13 @@ import {
 
 export default {
   name: 'PersonEdit',
+  mounted() {
+    this.$bus.$on("agentcode",()=>{
+      this.visible1 = true
+    })
+  },
   data() {
+
     const checkIdentityId = (rule, value, callback) => {
       if (this.form.idType === '0') {
         const errorMsg = isIdentityId(value)
@@ -429,6 +435,7 @@ export default {
       }
     }
     return {
+      visible1 :false,
       list: {
         idType: [],
         sex: [],
@@ -590,7 +597,7 @@ export default {
         operator: { required: true, message: '该项不可为空', trigger: 'change' } // 操作员代码
       },
       // 窗口显示
-      editDialogVisible: false
+      //visible1: false
     }
   },
   created() {
@@ -706,13 +713,13 @@ export default {
             this.$message.success('根据agentCode查询人员成功')
             this.form = res.data // 可能有问题wwwwwwwww
 
-            this.editDialogVisible = true
+            this.visible1 = true
           } else {
             this.$message.error(res.msg)
           }
         })
       })
-      this.editDialogVisible = true
+      this.visible1 = true
     },
     // 修改用户信息并提交
     editUserInfo() {
@@ -721,7 +728,7 @@ export default {
           this.$message.success('修改成功')
         }
       )
-      this.editDialogVisible = false
+      this.visible1 = false
     }
   }
 }

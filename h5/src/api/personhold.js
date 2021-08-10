@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+import Vue from 'vue'
 // 查询人员信息
 export function queryPerson(data,page){
   return request({
@@ -29,15 +29,22 @@ export function download(){
 // 管理机构下拉列表
 export function xiala(abc){
   return request({
-    url:'http://10.11.115.18:9999/get/gets?Code='+abc,
+    url:Vue.config.productionTip===true?'/get/gets?Code='+abc:'http://10.11.115.18:9999/get/gets?Code='+abc,
     method:'post',
   })
 }
 export function xiala1(){
   return request({
-    url:'http://10.11.115.18:9999/get/gets?Code=86',
+    url:Vue.config.productionTip===true?'/get/gets?Code=86':'http://10.11.115.18:9999/get/gets?Code=86',
     method:'post'
   })
 }
+// 团队下拉列表
+// export function xiala3(){
+//   return request({
+//     url:'',
+//     method:'post'
+//   })
+// }
 //Excel 导入
 //导出

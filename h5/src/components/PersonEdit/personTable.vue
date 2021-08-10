@@ -28,21 +28,19 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <GroupModifyDialog  :visible="config.groupModifyDialogVisible" @REFRESH_QUERY="$emit('QUERY_GROUP')" @CLOSE_GROUP_MODIFY_DIALOG="handleGroupModifyDialogClose" />
+    <GroupModifyDialog1 />
+
   </div>
 </template>
 
 <script>
-import GroupModifyDialog from '@/components/GroupManagement/GroupModifyDialog'
+import GroupModifyDialog1 from '@/components/PersonEdit/PersonEdit'
 import * as V from '@/api/personhold'
 export default {
   name: 'GroupTable',
-  components: { GroupModifyDialog },
+  components: { GroupModifyDialog1 },
   data() {
     return {
-      config: {
-        groupModifyDialogVisible: false
-      },
       list: [],
       page: {
         currentPage: 1,
@@ -53,41 +51,31 @@ export default {
   },
   methods: {
     showModifyDialog(item) {
-      // 告知子组件的传入项目 即需要修改的数据
       this.$bus.$emit("agentcode",item)
-      // 显示窗口
-      this.config.groupModifyDialogVisible = true
     },
-    handleGroupModifyDialogClose() {
-      // 隐藏窗口
-      this.config.groupModifyDialogVisible = false
-    },
-    handleQueryGroup(data) {
-      queryGroup(data, this.page, this)
-        .then(() => {
-          this.$message.success('查询完毕')
-        })
-    },
+    // 一页有几行
     handleSizeChange(size) {
       this.page.pageSize = size
-      this.$emit('QUERY_GROUP')
     },
+    // 第几页
     handleCurrentChange(page) {
       this.page.currentPage = page
-      this.$emit('QUERY_GROUP')
     }
   },
   mounted() {
     // 查询结果  res 是传过来的数据
     this.$bus.$on("form2",res =>{
+      this.list = ''
       V.queryPerson(res,{ pageSize: this.page.pageSize, currentPage: this.page.currentPage })
         .then(r => {
           this.list = r.list
           this.page.totalCount = r.totalCount
           this.$message.success('查询完毕')
         });
-      console.log("传入成功")
     })
+  },
+  beforeDestroy(){
+    this.$bus.$off('form2')
   }
 }
 </script>

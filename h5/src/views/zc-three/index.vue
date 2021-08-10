@@ -116,21 +116,14 @@
   </div>
 </template>
 <script>
-import GroupTable from '@/views/zc-three/personTable'
+import GroupTable from '@/components/PersonEdit/personTable'
 import * as V from '@/api/personhold';
-// 模拟数据导入
-// import testData  from '@/views/zc-three/text.json'
 
 export default {
   name: 'zc',
   components:{GroupTable },
   data() {
-    // 模拟数据
-    // const date =[];
     return {
-      //模拟数据
-
-      // date ,
       // 数据绑定
       form: {
         manageCom2: '', //二级管理机构
@@ -151,8 +144,6 @@ export default {
         manageCom4: [],
         agentState: []
       },
-
-
     }
   },
   created() {
@@ -160,34 +151,22 @@ export default {
     V.xiala1().then((r) => {
       this.list.manageCom2 = r.list
     });
-    // this.date = testData.list
   },
   methods:{
-    // 测试中
-
-
-
+    // 查询
     handleQuery1(){
       this.$bus.$emit("form2",this.form)
-      console.log("传出成功")
-      console.log(this.form)
     },
-
-
 
     // 三四级下拉列表渲染
     select(abc) {
       V.xiala(abc).then((r)=>{
-        if(abc.length==4){
+        if(abc.length===4){
           this.list.manageCom3 = r.list
-        }else if(abc.length==6){
+        }else if(abc.length===6){
           this.list.manageCom4 = r.list
         }
       })
-    },
-    // 查询
-    handleQuery(withWarning){
-      this.$bus.$emit("form1",this.form)
     },
     // 文件下载
     download1() {

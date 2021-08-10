@@ -80,7 +80,7 @@ export const constantRoutes = [
       component: () => import ('@/views/zc-three/index'),
       meta: {
         title: '帅哥一号',
-        icon: 'el-icon-user'
+        icon: 'el-icon-ship'
       }
     }]
   },

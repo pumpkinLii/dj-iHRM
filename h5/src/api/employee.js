@@ -47,7 +47,7 @@ export function submit(data) {
 // 获取管理机构下拉列表 data:{code:'管理机构code'}
 export function getManageCom(code) {
   return request({
-    url: '/get/gets?Code=' + code,
+    url: 'http://10.11.115.18:9999/get/gets?Code=' + code,
     method: 'post'
   })
 }

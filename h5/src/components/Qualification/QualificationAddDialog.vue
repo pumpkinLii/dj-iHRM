@@ -33,44 +33,48 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="发放日期" prop="releaseDate" @change="dateCheck">
+            <el-form-item label="发放日期" prop="releaseDate">
               <el-date-picker
                 v-model="form.releaseDate"
                 value-format="yyyy-MM-dd"
                 type="date"
                 style="width:60%;"
+                @change="dateCheck"
               />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="补发日期" prop="reissueDate" @change="dateCheck">
+            <el-form-item label="补发日期" prop="reissueDate">
               <el-date-picker
                 v-model="form.reissueDate"
                 value-format="yyyy-MM-dd"
                 type="date"
                 style="width:60%;"
+                @change="dateCheck"
               />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="有效起期" prop="startEffectiveDate" @change="effDateCheck">
+            <el-form-item label="有效起期" prop="startEffectiveDate">
               <el-date-picker
                 v-model="form.startEffectiveDate"
                 value-format="yyyy-MM-dd"
                 type="date"
                 style="width:60%;"
+                @change="effDateCheck"
               />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="有效止期" prop="endEffectiveDate" @change="effDateCheck">
+            <el-form-item label="有效止期" prop="endEffectiveDate">
               <el-date-picker
                 v-model="form.endEffectiveDate"
                 value-format="yyyy-MM-dd"
                 type="date"
                 style="width:60%;"
+                @change="effDateCheck"
               />
             </el-form-item>
           </el-col>
@@ -165,6 +169,7 @@ export default {
             // 发起请求
             this.sendSubmitRequest(this.form)
           } else {
+            this.$message.warning('请检查表单是否有误')
             return false
           }
         })
@@ -180,22 +185,28 @@ export default {
         })
     },
     dateCheck() {
-      if (this.form.reissueDate.length !== 0 && this.form.releaseDate > this.form.reissueDate) {
+      if (this.form.reissueDate.length !== 0 &&
+        this.form.releaseDate.length !== 0 &&
+        new Date(this.form.releaseDate) > new Date(this.form.reissueDate)
+      ) {
         this.form.reissueDate = ''
-        this.$message.warning('发放日期不能大于补发日期') // TODO 日期校验
+        this.$message.warning('发放日期不能大于补发日期')
       }
     },
     effDateCheck() {
-      if (this.form.startEffectiveDate.length !== 0 && this.form.startEffectiveDate > this.form.endEffectiveDate) {
+      if (this.form.startEffectiveDate.length !== 0 &&
+        this.form.endEffectiveDate.length !== 0 &&
+        new Date(this.form.startEffectiveDate) > new Date(this.form.endEffectiveDate)) {
         this.form.endEffectiveDate = ''
-        this.$message.warning('有效起期不能大于有效止期') // TODO 日期校验
+        this.$message.warning('有效起期不能大于有效止期')
       }
     },
     getAgentName() {
+      this.form.agentName = ''
       if (this.form.agentCode.length !== 0) {
         getAgentNameByAgentCode({ agentCode: this.form.agentCode })
           .then(r => {
-            this.form.agentName = r['agentName'] // TODO 格式不对
+            this.form.agentName = r['agentName']
             this.$message.success('获取人员姓名成功')
           })
       }

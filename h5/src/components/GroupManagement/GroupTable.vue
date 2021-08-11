@@ -18,6 +18,8 @@
         <template scope="scope">
           <!-- 修改 -->
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(list[scope.$index])">修改</el-button>
+
+
         </template>
       </el-table-column>
     </el-table>
@@ -33,7 +35,7 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <GroupModifyDialog ref="groupModifyDialog" :visible="config.groupModifyDialogVisible" @REFRESH_QUERY="$emit('QUERY_GROUP')" @CLOSE_GROUP_MODIFY_DIALOG="handleGroupModifyDialogClose" />
+    <GroupModifyDialog />
   </div>
 </template>
 
@@ -50,12 +52,13 @@ export default {
       },
       list: [],
       page: {
-        currentPage: 1,
+        currentPage: 1,  //第几页
         totalCount: 0,
         pageSize: 10
       }
     }
   },
+
   methods: {
     showModifyDialog(item) {
       // 告知子组件的传入项目 即需要修改的数据

@@ -19,32 +19,34 @@ export function modifyPerson(data){
 }
 // 模板下载
 
-export function download(){
-  return request({
-    url:'',
-    method:'post',
-    responseType:'blob'
-  })
-}
+// export function download(){
+//   return request({
+//     url:'',
+//     method:'post',
+//     responseType:'blob'
+//   })
+// }
 // 管理机构下拉列表
 export function xiala(abc){
   return request({
-    url:Vue.config.productionTip===true?'/get/gets?Code='+abc:'http://10.11.115.18:9999/get/gets?Code='+abc,
+    url:'/get/gets?Code='+abc,
     method:'post',
   })
 }
 export function xiala1(){
   return request({
-    url:Vue.config.productionTip===true?'/get/gets?Code=86':'http://10.11.115.18:9999/get/gets?Code=86',
+    url:'/get/gets?Code=86',
     method:'post'
   })
 }
 // 团队下拉列表
-// export function xiala3(){
-//   return request({
-//     url:'',
-//     method:'post'
-//   })
-// }
+export function xiala3(data){
+  return request({
+    url:'http://10.11.114.129:9999/test/QueryGroup',
+    // Vue.config.productionTip===true?'/test/QueryGroup':
+    method:'post',
+    data
+  })
+}
 //Excel 导入
 //导出

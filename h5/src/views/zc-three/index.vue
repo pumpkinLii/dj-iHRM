@@ -25,7 +25,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="四级管理机构" prop="manageCom4">
-            <el-select v-model="form.manageCom4" placeholder="请选择" style="width:100%" :disabled="!form.manageCom3||form.manageCom3.length===0">
+            <el-select v-model="form.manageCom4" placeholder="请选择" style="width:100%" :disabled="!form.manageCom3||form.manageCom3.length===0" @change="group(form.manageCom4)">
               <el-option v-for="(item,index) in list.manageCom4" :key="index" :value="item.comcode" :label="item.name">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ item.comcode }}</span>
                 <span style="float: right">{{ item.name }}</span>
@@ -39,6 +39,10 @@
         <el-col :span="8">
           <el-form-item label="团队">
             <el-select placeholder="请选择" style="width: 100%" v-model="form.branchAttr"/>
+              <el-option v-for="(item,index) in list.branchAttr" :key="index" :value="item.value" :label="item.label">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+                <span style="float: right">{{ item.label }}</span>
+              </el-option>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -142,7 +146,7 @@ export default {
         manageCom2: [],
         manageCom3: [],
         manageCom4: [],
-        agentState: []
+        branchAttr: []
       },
     }
   },
@@ -153,6 +157,13 @@ export default {
     });
   },
   methods:{
+    //团队下拉列表
+    group(data){
+      const f ={"manageCom4" : data}
+      V.xiala3(f).then((r)=>{
+        this.list.branchAttr = r.list
+      })
+    },
     // 查询
     handleQuery1(){
       this.$bus.$emit("form2",this.form)

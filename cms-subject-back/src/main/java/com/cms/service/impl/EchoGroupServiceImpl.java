@@ -24,21 +24,20 @@ public class EchoGroupServiceImpl extends ServiceImpl<EchoGroupDao, YlLaBranchGr
         queryWrapper.eq("manage_com", staffPojo.getManagerCom());
         List<YlLaBranchGroupEntity> list = this.baseMapper.selectList(queryWrapper);
         List<Map<String,String>> listMap = new ArrayList<>();
-            if (list.size() > 0) {
-                for (YlLaBranchGroupEntity branchGroup:list){
-                    Map<String,String> map = new HashMap<>();
-                    if(staffPojo.getGradeName().equals("总监") && branchGroup.getBranchManager()!=null)
-                    {
-                        continue;
-                    }
-                    map.put("value",branchGroup.getBranchAttr());
-                    map.put("label",branchGroup.getBranchName());
+        if (list.size() > 0) {
+            for (YlLaBranchGroupEntity branchGroup:list){
+                Map<String,String> map = new HashMap<>();
+                if(staffPojo.getGradeName().equals("总监") && branchGroup.getAgentGroup()!=null) {
+                    continue;
+                }
+                map.put("value",branchGroup.getAgentGroup());
+                map.put("label",branchGroup.getBranchName());
                     /*map.put("label",branchGroup.getBranchAttr());
                     map.put("value",branchGroup.getBranchName());*/
-                    listMap.add(map);
-                }
-                return listMap;
-            } else {
+                listMap.add(map);
+            }
+            return listMap;
+        } else {
                 return null;
             }
 

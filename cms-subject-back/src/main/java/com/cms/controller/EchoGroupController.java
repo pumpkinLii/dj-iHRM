@@ -24,7 +24,7 @@ public class EchoGroupController {
 
     @PostMapping("/EchoGroup")
     @ApiOperation("回显团队架构接口")
-    public R echoManager(@RequestBody StaffPojo staffPojo) {
+    public R echoGroup(@RequestBody StaffPojo staffPojo) {
         List<Map<String, String>> mapList = echoGroupService.getGroup(staffPojo);
         if (mapList != null) {
             return R.ok().put("list",mapList);

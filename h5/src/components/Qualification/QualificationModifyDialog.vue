@@ -93,6 +93,8 @@
 
 <script>
 import { update } from '@/api/qualification'
+
+const { getAllCode } = require('@/api/code')
 export default {
   name: 'QualificationModifyDialog',
   data() {
@@ -135,6 +137,15 @@ export default {
   mounted() {
     this.$bus.$on('OPEN_QUALIFICATION_MODIFY_DIALOG', (item) => {
       console.log(item)
+      getAllCode()
+        .then(r => {
+          Object.keys(r['resource']['certificatename']).forEach(key => {
+            if (key === this.certificateName) {
+              this.certificateName = r['resource']['certificatename'][key]
+            }
+          })
+          this.certificateName = '未查到资格证名'
+        })
       this.config.visible = true
     })
   },
@@ -161,6 +172,7 @@ export default {
       update(data)
         .then(r => {
           this.$bus.$emit('QUALIFICATION_SUCCESS')
+          this.config.visible = false
           this.$message.success('添加成功')
         })
     },

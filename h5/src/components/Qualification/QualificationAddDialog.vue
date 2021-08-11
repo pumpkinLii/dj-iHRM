@@ -181,6 +181,7 @@ export default {
       insert(data)
         .then(r => {
           this.$bus.$emit('QUALIFICATION_SUCCESS')
+          this.config.visible = false
           this.$message.success('添加成功')
         })
     },

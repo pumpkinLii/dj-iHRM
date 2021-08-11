@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="人员工号" prop="agentCode">
-              <el-input v-model="form.agentCode" placeholder="请输入人员工号" type="text" style="width:60%;" />
+              <el-input v-model="form.agentCode" placeholder="请输入人员工号" type="text" style="width:60%;" @blur="getAgentName" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -17,7 +17,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="资格证书名称" prop="certificateCode"><!--????????-->
-              <el-select v-model="form.certificateCode" style="width:60%;" disabled>
+              <el-select v-model="form.certificateCode" style="width:60%;">
                 <el-option v-for="(option,index) in list.certificateCode" :key="index" :label="option.label" :value="option.value">
                   <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
                   <span style="float: right">{{ option.label }}</span>
@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { insert } from '@/api/qualification'
+import { insert, getAgentNameByAgentCode } from '@/api/qualification'
 export default {
   name: 'QualificationAddDialog',
   data() {
@@ -159,7 +159,7 @@ export default {
     sendSubmitRequest(data) {
       insert(data)
         .then(r => {
-          this.$bus.$emit('QUALIFICATION_ADD_SUCCESS')
+          this.$bus.$emit('QUALIFICATION_SUCCESS')
           this.$message.success('添加成功')
         })
     },
@@ -173,6 +173,15 @@ export default {
       if (this.form.startEffectiveDate.length !== 0 && this.form.startEffectiveDate > this.form.endEffectiveDate) {
         this.form.endEffectiveDate = ''
         this.$message.warning('有效起期不能大于有效止期')
+      }
+    },
+    getAgentName() {
+      if (this.form.agentCode.length !== 0) {
+        getAgentNameByAgentCode({ key: this.form.agentCode })
+          .then(r => {
+            this.form.agentName = r.agentName
+            this.$message.success('获取人员姓名成功')
+          })
       }
     }
   }

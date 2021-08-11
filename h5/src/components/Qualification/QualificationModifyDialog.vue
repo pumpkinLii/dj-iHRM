@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="人员工号" prop="agentCode">
-              <el-input v-model="form.agentCode" placeholder="请输入人员工号" type="text" style="width:60%;" />
+              <el-input v-model="form.agentCode" placeholder="请输入人员工号" type="text" style="width:60%;" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -17,12 +17,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="资格证书名称" prop="certificateCode"><!--????????-->
-              <el-select v-model="form.certificateCode" style="width:60%;" disabled>
-                <el-option v-for="(option,index) in list.certificateCode" :key="index" :label="option.label" :value="option.value">
-                  <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                  <span style="float: right">{{ option.label }}</span>
-                </el-option>
-              </el-select>
+              <el-input v-model="form.certificateCode" type="text" style="width:60%;" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -159,7 +154,7 @@ export default {
     sendSubmitRequest(data) {
       update(data)
         .then(r => {
-          this.$bus.$emit('QUALIFICATION_MODIFY_SUCCESS')
+          this.$bus.$emit('QUALIFICATION_SUCCESS')
           this.$message.success('添加成功')
         })
     },

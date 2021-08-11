@@ -18,6 +18,15 @@ export function update(data) {
   })
 }
 
+// 通过人员工号获取人员姓名
+export function getAgentNameByAgentCode(data) {
+  return request({
+    url: '/test', // 待修改
+    method: 'post',
+    data
+  })
+}
+
 export function queryQualification(data, page) {
   return request({
     url: 'xxx/xxx?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,

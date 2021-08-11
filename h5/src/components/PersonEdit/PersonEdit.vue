@@ -222,7 +222,7 @@
         <el-col :span="8">
           <el-form-item label="账户银行总行" prop="bankCode">
                 <el-select v-model="form.bankCode" type="text" style="width:100%;">
-                  <el-option v-for="(option,index) in list.bankCode" :key="index" :label="option.label" :value="option.label">
+                  <el-option v-for="(option,index) in list.bankCode" :key="index" :label="option.label" :value="option.value">
                     <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
                     <span style="float: right">{{ option.label }}</span>
                   </el-option>
@@ -641,20 +641,18 @@ export default {
       API.queryAgent(r).then((res) => {
         if (res.code === 0) {
           // this.$message.success('根据agentCode查询人员成功')
-          console.log(res.form)
+          // console.log(res.form)
           this.form = res.form
           console.log(this.form.agentJob)
-
-          if (this.form.agentJob === '总监') {
+          if (this.form.agentJob === '0') {
             API.posit().then(r => {
               this.list.agentGrade = r['list']
             })
-          } else if (this.form.agentJob === '经理') {
+          } else if (this.form.agentJob === '1') {
             API.posit1().then(r => {
               this.list.agentGrade = r['list']
             })
           }
-
           this.editDialogVisible = true
         } else {
           this.$message.error(res.msg)
@@ -839,8 +837,8 @@ export default {
         (res) => {
           if (res.code === 0) {
             this.$message.success('修改成功')
-            console.log('resresres')
-            console.log(res)
+            // console.log('resresres')
+            // console.log(res)
           }
         }
       )

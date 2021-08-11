@@ -57,16 +57,15 @@ export default {
   },
   mounted() {
     this.$bus.$on('Query', () => {
-      // A发送来的消息
-      // 调用查询方法
-      this.handleQueryQualification(this.data())
+      // 把表单的数据,页面大小,当前页面传给服务器
+      this.handleQueryQualification(this.form)
+    })
+    this.$bus.$on('QUALIFICATION_SUCCESS', () => {
+      this.handleQueryQualification(this.form)
     })
   },
   methods: {
     showModifyDialog(item) {
-      // 告知子组件的传入项目 即需要修改的数据
-      // this.$bus.$emit('SEND_QUALIFICATION_ITEM', item)
-      // 告知子组件显示窗口
       this.$bus.$emit('OPEN_ADD_QUALIFICATION_DIALOG', item)
     },
     // 发送请求进行查询 得到列表
@@ -84,7 +83,6 @@ export default {
     handleCurrentChange(page) {
       this.page.currentPage = page
     }
-    // 做一个三级级联
   }
 }
 </script>

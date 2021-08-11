@@ -59,12 +59,12 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="有效起期">
-            <el-date-picker v-model="form.startEffectiveDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" />
+            <el-date-picker v-model="form.startEffectiveDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" @change="changeStartEffectiveDate" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="有效止期">
-            <el-date-picker v-model="form.endEffectiveDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" />
+          <el-form-item label="有效止期" prop="endEffectiveDate">
+            <el-date-picker v-model="form.endEffectiveDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" :disabled="form.startEffectiveDate === ''" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -81,7 +81,7 @@
       <el-row>
         <el-form-item label="">
           <el-col style="text-align:left;margin-top: 1rem">
-            <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
+            <el-button type="primary" icon="el-icon-search" @click="handleQuery(true)">查询</el-button>
             <el-button type="success" icon="el-icon-edit" @click="showQualificationAddDialog">新增</el-button>
           </el-col>
         </el-form-item>
@@ -101,6 +101,16 @@ export default {
   name: 'Qualification',
   components: { QualificationAddDialog, QualificationTable },
   data() {
+    const dataValid = (rule, value, callback) => {
+      const startDate = new Date(Date.parse(this.form.startEffectiveDate.replace(/-/g, '/')))
+      const endDate = new Date(Date.parse(this.form.endEffectiveDate.replace(/-/g, '/')))
+      console.log('startDate' + startDate)
+      console.log('endDate' + endDate)
+      console.log(startDate > endDate)
+      if (startDate > endDate) {
+        callback(new Error('截至日期不能小于起始日期'))
+      }
+    }
     return {
       form: {
         manageCom2: '',
@@ -122,6 +132,8 @@ export default {
         certificateTypeList: []
       },
       rules: {
+        endEffectiveDate:
+          [{ validator: dataValid, trigger: 'change' }]
       }
     }
   },
@@ -173,20 +185,10 @@ export default {
         this.list.branchAttrList = res.teamList
       })
       this.form.branchAttr = ''
+    },
+    changeStartEffectiveDate() {
+      this.form.endEffectiveDate = ''
     }
-    // handleRefreshTable() {
-    //   // 要在qualificationtable.vue 中加入handleQueryGroup方法查询
-    //   this.$refs.qualificationTableData.handleQueryGroup(this.form)
-    // }
-    // getInitOptions() {
-    //   // 获取管理机构下拉菜单
-    //   getManageComCode()
-    //     .then(
-    //       r => {
-    //         this.list.manageComCode = r.totallist
-    //       }
-    //     )
-    // }
   }
 }
 </script>

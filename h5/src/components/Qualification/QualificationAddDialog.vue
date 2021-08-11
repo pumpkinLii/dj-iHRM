@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增" :visible.sync="config.visible" width="80%" :before-close="handleDialogClose">
+  <el-dialog title="新增" :visible.sync="config.visible" width="80%" :before-close="config.visible=false">
     <span>
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
@@ -18,41 +18,36 @@
           <el-col :span="12">
             <el-form-item label="资格证书名称"><!--????????-->
               <el-select v-model="form.certificateCode" placeholder="否" style="width:60%;" disabled>
-                <el-option label="否" value="N" />
+                <el-option v-for="(option,index) in list.certificateCode" :key="index" :label="option.label" :value="option.value">
+                  <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                  <span style="float: right">{{ option.label }}</span>
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="团队名称" prop="branchName">
-              <el-input v-model="form.branchName" type="text" style="width:60%;" />
+            <el-form-item label="资格证书号" prop="certificateNo">
+              <el-input v-model="form.certificateNo" placeholder="请输入资格证书号" type="text" style="width:60%;" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="负责人代码" prop="branchManager">
-              <el-input v-model="form.branchManager" placeholder="输入后自动获取姓名与手机号" type="text" style="width:60%;" @blur="handleBranchManagerQuery" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="负责人姓名" prop="branchManagerName">
-              <el-input v-model="form.branchManagerName" type="text" style="width:60%;" disabled />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="负责人手机号" prop="branchManagerPhone">
-              <el-input v-model="form.branchManagerPhone" type="text" style="width:60%;" disabled />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="成立时间" prop="branchEffDate">
+            <el-form-item label="发放日期" prop="releaseDate">
               <el-date-picker
-                v-model="form.branchEffDate"
+                v-model="form.releaseDate"
                 value-format="yyyy-MM-dd"
                 type="date"
-                placeholder=""
+                style="width:60%;"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="补发日期" prop="reissueDate">
+              <el-date-picker
+                v-model="form.reissueDate"
+                value-format="yyyy-MM-dd"
+                type="date"
                 style="width:60%;"
               />
             </el-form-item>
@@ -60,37 +55,38 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="停业标志" prop="branchStatus">
-              <el-select v-model="form.branchStatus" placeholder="否" style="width:60%;" disabled>
-                <el-option label="否" value="N" />
-                <el-option label="是" value="Y" />
-              </el-select>
+            <el-form-item label="有效起期" prop="startEffectiveDate">
+              <el-date-picker
+                v-model="form.startEffectiveDate"
+                value-format="yyyy-MM-dd"
+                type="date"
+                style="width:60%;"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="操作员" prop="operator">
-              <el-input v-model="form.operator" type="text" style="width:60%;" disabled />
+            <el-form-item label="有效止期" prop="endEffectiveDate">
+              <el-date-picker
+                v-model="form.endEffectiveDate"
+                value-format="yyyy-MM-dd"
+                type="date"
+                style="width:60%;"
+              />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="停业日期" prop="branchTerminateEffDate">
-              <el-date-picker v-model="form.branchTerminateEffDate" disabled type="date" placeholder="选择停业时间" style="width:60%;" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="群聊名称" prop="chatName">
-              <el-input v-model="form.chatName" type="text" style="width:60%;" />
+            <el-form-item label="批准单位" prop="approveBy">
+              <el-input v-model="form.approveBy" type="text" style="width:60%;" />
             </el-form-item>
           </el-col>
         </el-row>
-
       </el-form>
     </span>
     <!-- 底部 -->
     <span slot="footer" class="dialog-footer">
-      <el-button type="secondary" @click="$emit('CLOSE_GROUP_ADD_DIALOG')">取 消</el-button>
+      <el-button type="secondary" @click="config.visible=false">取 消</el-button>
       <el-button type="primary" @click="handleSubmit">保 存</el-button>
     </span>
   </el-dialog>
@@ -98,7 +94,57 @@
 
 <script>
 export default {
-  name: 'QualificationAddDialog'
+  name: 'QualificationAddDialog',
+  data() {
+    return {
+      config: {
+        visible: false
+      },
+      form: {
+        agentCode: '', // 人员工号
+        agentName: '', // 人员姓名
+        certificateCode: '', // 资格证书名称
+        certificateNo: '', // 资格证书号
+        releaseDate: '', // 发放日期
+        reissueDate: '', // 补发日期
+        startEffectiveDate: '', // 有效起期
+        endEffectiveDate: '', // 有效止期
+        approveBy: '' // 批准单位
+      },
+      list: {
+        certificateCode: []
+      },
+      rules: {
+        agentCode:
+          [{ required: true, message: '请输入人员工号', trigger: 'blur' }],
+        agentName:
+          [{ required: true, message: '人员姓名获取失败', trigger: 'blur' }],
+        certificateCode:
+          [{ required: true, message: '请选择资格证书类型', trigger: 'blur' }],
+        certificateNo:
+          [{ required: true, message: '请输入资格证书号', trigger: 'blur' }],
+        releaseDate:
+          [{ required: true, message: '请选择发放日期', trigger: 'blur' }],
+        startEffectiveDate:
+          [{ required: true, message: '请选择有效起期', trigger: 'blur' }],
+        endEffectiveDate:
+          [{ required: true, message: '请选择有效止期', trigger: 'blur' }]
+      }
+    }
+  },
+  mounted() {
+    this.$bus.$on('OPEN_QUALIFICATION_ADD_DIALOG', () => {
+      this.config.visible = true
+    })
+  },
+  beforeDestroy() {
+    this.$bus.$off('OPEN_QUALIFICATION_ADD_DIALOG')
+  },
+  methods: {
+    handleSubmit() {
+      console.log('提交')
+    }
+  }
 }
 </script>
 

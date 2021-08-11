@@ -48,20 +48,6 @@ export default {
     return {
       selectOption: [],
       list: [
-        { manageComCode: '1',
-          manageCom: '1',
-          branchAttr: '1',
-          branchName: '1',
-          chatName: '1',
-          branchManager: '1',
-          branchManagerName: '1',
-          branchManagerPhone: '1',
-          agentCount: '1',
-          branchEffDate: '1',
-          branchStatus: '1',
-          branchTerminateEffDate: '1',
-          operator: '1'
-        }
       ],
       page: {
         currentPage: 1,
@@ -81,7 +67,7 @@ export default {
   },
   methods: {
     showModifyDialog(item) {
-      this.$bus.$emit('OPEN_ADD_QUALIFICATION_DIALOG', item)
+      this.$bus.$emit('OPEN_QUALIFICATION_MODIFY_DIALOG', item)
     },
     // 发送请求进行查询 得到列表
     handleQueryQualification(data) {

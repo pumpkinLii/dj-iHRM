@@ -93,8 +93,8 @@
 
 <script>
 import { update } from '@/api/qualification'
+import { getAllCode } from '@/api/code'
 
-const { getAllCode } = require('@/api/code')
 export default {
   name: 'QualificationModifyDialog',
   data() {
@@ -136,7 +136,6 @@ export default {
   },
   mounted() {
     this.$bus.$on('OPEN_QUALIFICATION_MODIFY_DIALOG', (item) => {
-      console.log(item)
       this.form = item
       getAllCode()
         .then(r => {

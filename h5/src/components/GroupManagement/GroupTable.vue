@@ -19,7 +19,6 @@
           <!-- 修改 -->
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(list[scope.$index])">修改</el-button>
 
-
         </template>
       </el-table-column>
     </el-table>
@@ -52,7 +51,7 @@ export default {
       },
       list: [],
       page: {
-        currentPage: 1,  //第几页
+        currentPage: 1,
         totalCount: 0,
         pageSize: 10
       }

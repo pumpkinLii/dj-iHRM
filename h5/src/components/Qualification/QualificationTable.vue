@@ -47,7 +47,22 @@ export default {
   data() {
     return {
       selectOption: [],
-      list: [],
+      list: [
+        { manageComCode: '1',
+          manageCom: '1',
+          branchAttr: '1',
+          branchName: '1',
+          chatName: '1',
+          branchManager: '1',
+          branchManagerName: '1',
+          branchManagerPhone: '1',
+          agentCount: '1',
+          branchEffDate: '1',
+          branchStatus: '1',
+          branchTerminateEffDate: '1',
+          operator: '1'
+        }
+      ],
       page: {
         currentPage: 1,
         totalCount: 0,

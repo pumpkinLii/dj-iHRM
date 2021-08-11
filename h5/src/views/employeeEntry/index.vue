@@ -127,12 +127,22 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="籍贯" prop="nativeplace">
-            <el-input v-model="form.nativeplace" type="text" style="width:100%;" />
+            <el-select v-model="form.nativeplace" type="text" style="width:100%;">
+              <el-option v-for="(option,index) in list.nativeplace" :key="index" :label="option.label" :value="option.value">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                <span style="float: right">{{ option.label }}</span>
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="最近一份工作行业类型" prop="oldIndustryType">
-            <el-input v-model="form.oldIndustryType" type="text" style="width:100%;" />
+            <el-select v-model="form.oldIndustryType" type="text" style="width:100%;">
+              <el-option v-for="(option,index) in list.oldIndustryType" :key="index" :label="option.label" :value="option.value">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                <span style="float: right">{{ option.label }}</span>
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -217,8 +227,8 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="开户行省份" prop="bankProvince">
-            <el-select v-model="form.bankProvince" type="text" style="width:100%;" @change="searchCity(form.bankProvince)">
-              <el-option v-for="(option,index) in list.bankProvince" :key="index" :label="option.label" :value="option.label">
+            <el-select v-model="form.bankProvince" type="text" style="width:100%;" @change="getCitiesByProvince(form.bankProvince)">
+              <el-option v-for="(option,index) in list.bankProvince" :key="index" :label="option.label" :value="option.value">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
                 <span style="float: right">{{ option.label }}</span>
               </el-option>
@@ -227,10 +237,10 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="开户行所在市" prop="bankCity">
-            <el-select v-model="form.bankCity" type="text" style="width:100%;" :disabled="form.bankProvince===''">  <!-- :disabled="data.isdisabled2" -->
-              <el-option v-for="(option,index) in list.city" :key="index" :label="option.name" :value="option.code">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
-                <span style="float: right">{{ option.name }}</span>
+            <el-select v-model="form.bankCity" type="text" style="width:100%;" :disabled="form.bankProvince===''">
+              <el-option v-for="(option,index) in list.city" :key="index" :label="option.label" :value="option.value">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                <span style="float: right">{{ option.label }}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -240,7 +250,7 @@
         <el-col :span="8">
           <el-form-item label="银行类型" prop="bankCode">
             <el-select v-model="form.bankCode" type="text" style="width:100%;">
-              <el-option v-for="(option,index) in list.bankCode" :key="index" :label="option.label" :value="option.label">
+              <el-option v-for="(option,index) in list.bankCode" :key="index" :label="option.label" :value="option.value">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
                 <span style="float: right">{{ option.label }}</span>
               </el-option>
@@ -410,10 +420,12 @@ export default {
         const errorMsg = validator.isIdentityId(value)
         if (errorMsg !== '') {
           callback(new Error(errorMsg))
+        } else {
+          callback()
         }
       } else {
         if ((/^\d{1,18}$/.test(value)) || value === '') {
-          return callback()
+          callback()
         }
         callback(new Error('证件号小于等于18位'))
       }
@@ -430,8 +442,10 @@ export default {
         degree: [],
         nationality: [],
         dajiapolityvisage: [],
+        oldIndustryType: [], // 最近一份工作
         bankProvince: [],
         city: [],
+        cityObject: [], // 同时有省和市
         bankCode: [],
         // 行政信息
         manageCom2: [],
@@ -517,15 +531,15 @@ export default {
         homephone:
           [{ validator: validator.isValidTel, trigger: 'blur' }],
         sex:
-          [{ required: true, message: '请输入性别', trigger: 'change' }],
+          [{ required: true, message: '请选择性别', trigger: 'change' }],
         rgtType:
-          [{ required: true, message: '请输入户口类型', trigger: 'change' }],
+          [{ required: true, message: '请选择户口类型', trigger: 'change' }],
         rgtProvince:
-          [{ required: true, message: '请输入户口所在省', trigger: 'change' }],
+          [{ required: true, message: '请选择户口所在省', trigger: 'change' }],
         degree:
-          [{ required: true, message: '请输入最高学历', trigger: 'change' }],
+          [{ required: true, message: '请选择第一学历', trigger: 'change' }],
         highestDegree:
-          [{ required: true, message: '请输入最高学位', trigger: 'change' }],
+          [{ required: true, message: '请选择最高学位', trigger: 'change' }],
         graduatedSchool:
           [{ required: true, message: '请输入毕业院校', trigger: 'blur' }],
         major:
@@ -533,7 +547,7 @@ export default {
         nationality:
           [{ required: true, message: '请输入民族', trigger: 'change' }],
         nativeplace:
-          [{ required: true, message: '籍贯', trigger: 'blur' }],
+          [{ required: true, message: '请选择籍贯', trigger: 'blur' }],
         oldIndustryType:
           [{ required: true, message: '请输入最近一份工作行业类型', trigger: 'change' }],
         oldOccupation:
@@ -567,38 +581,37 @@ export default {
             { validator: validator.isValidateBankNo, trigger: 'blur' }
           ],
         uniteBankNum:
-          [{ required: true, message: '请输入银行卡开户行联行号', trigger: 'blur' }],
+          [
+            { required: true, message: '请输入银行卡开户行联行号', trigger: 'blur' },
+            { validator: validator.isNum, trigger: 'blur' }
+          ],
         bankProvince:
           [{ required: true, message: '请输入开户行省份', trigger: 'change' }],
         bankCity:
           [{ required: true, message: '请输入开户行所在市', trigger: 'change' }],
         // 行政信息
         manageCom2:
-          [{ required: true, message: '该项不可为空', trigger: 'change' }], // 二级管理系统
+          [{ required: true, message: '请选择二级管理系统', trigger: 'change' }], // 二级管理系统
         manageCom3:
-          [{ required: true, message: '该项不可为空', trigger: 'change' }], // 三级管理系统
+          [{ required: true, message: '请选择三级管理系统', trigger: 'change' }], // 三级管理系统
         manageCom4:
-          [{ required: true, message: '该项不可为空', trigger: 'change' }], // 四级管理系统
+          [{ required: true, message: '请选择四级管理系统', trigger: 'change' }], // 四级管理系统
         agentJob:
-          [{ required: true, message: '该项不可为空', trigger: 'change' }], // 岗位
+          [{ required: true, message: '请选择岗位', trigger: 'change' }], // 岗位
         agentGrade:
-          [{ required: true, message: '该项不可为空', trigger: 'change' }], // 人员职级
+          [{ required: true, message: '请选择人员职级', trigger: 'change' }], // 人员职级
         branchAttr:
-          [{ required: true, message: '该项不可为空', trigger: 'change' }], // 团队架构
-        teamSupervisorId:
-          [{ required: false, message: '该项不可为空', trigger: 'change' }], // 团队主管工号
-        teamSupervisorName:
-          [{ required: false, message: '该项不可为空', trigger: 'change' }], // 团队主管姓名
+          [{ required: true, message: '请选择团队架构', trigger: 'change' }], // 团队架构
         contractType:
-          [{ required: true, message: '该项不可为空', trigger: 'change' }], // 合同类型
+          [{ required: true, message: '请选择合同类型', trigger: 'change' }], // 合同类型
         contractStartDate:
-          [{ required: true, message: '该项不可为空', trigger: 'change' }], // 劳动合同起期
+          [{ required: true, message: '请选择劳动合同起期', trigger: 'change' }], // 劳动合同起期
         contractEndDate:
-          [{ required: true, message: '该项不可为空', trigger: 'change' }], // 劳动合同止期
+          [{ required: true, message: '请选择劳动合同止期', trigger: 'change' }], // 劳动合同止期
         employDate:
-          [{ required: true, message: '该项不可为空', trigger: 'change' }], // 入司日期
+          [{ required: true, message: '请选择入司日期', trigger: 'change' }], // 入司日期
         operator:
-          [{ required: true, message: '该项不可为空', trigger: 'change' }] // 操作员代码
+          [{ required: true, message: '操作员代码不正确', trigger: 'change' }] // 操作员代码
       }
     }
   },
@@ -614,7 +627,8 @@ export default {
         })
       API.getCityList().then(
         r => {
-          this.reslist = r
+          this.list.cityObject = r
+          this.list.bankProvince = r['province']
         })
       this.getManageComCode(1)
     },
@@ -626,13 +640,22 @@ export default {
       }
       this.setCodes('idtype', this.list.idType)
       this.setCodes('sex', this.list.sex)
+      this.setCodes('sex', this.list.sex)
       this.setCodes('rgttype', this.list.rgtType)
       this.setCodes('nativeplace', this.list.nativeplace)
       this.setCodes('highestdegree', this.list.highestDegree)
       this.setCodes('degree', this.list.degree)
       this.setCodes('nationality', this.list.nationality)
+      this.setCodes('industrytype', this.list.oldIndustryType)
+      // 排序民族
+      this.list.nationality.sort((a, b) => {
+        return a.value - b.value
+      })
       this.setCodes('dajiapolityvisage', this.list.dajiapolityvisage)
-      this.setCodes('nativeplace', this.list.bankProvince)
+      // 排序籍贯
+      this.list.nativeplace.sort((a, b) => {
+        return a.value - b.value
+      })
       this.setCodes('bankcode', this.list.bankCode)
     },
     // 通过以获取的码表数据填充某一列表
@@ -653,11 +676,9 @@ export default {
       this.$refs['form'].validate()
         .then(() => {
           this.sendSubmitRequest()
-          console.log('已发送请求')
         })
         .catch(() => {
-          this.sendSubmitRequest()
-          console.log('验证失败catch到了')
+          this.$message.warning('请检查表单是否有误')
         })
     },
     // 重置表单
@@ -667,8 +688,10 @@ export default {
     // 发送提交请求
     sendSubmitRequest() {
       API.submit(this.form)
-        .then(() => {
+        .then((r) => {
+          alert(r['msg'])
           this.$message.success('添加成功')
+          this.$refs['form'].resetFields()
         })
         .catch(() => {
           this.$message.error('添加失败')
@@ -722,13 +745,17 @@ export default {
             this.form.sex = String((parseInt(strSex) + 1) % 2)
             this.form.birthday = strBirthday
           } else {
-            this.$message.error(res.msg)
+            this.$message.error(res['msg'])
             this.form.idNO = ''
           }
         })
     },
-    searchCity(province) {
-      this.list.city = this.reslist[province]
+    getCitiesByProvince(provinceCode) {
+      this.list.cityObject.province.forEach(item => {
+        if (item.value === provinceCode) {
+          this.list.city = item.list
+        }
+      })
       this.form.bankCity = ''
     },
     dateCheck() {

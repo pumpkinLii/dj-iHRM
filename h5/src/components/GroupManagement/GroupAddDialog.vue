@@ -185,6 +185,9 @@ export default {
       const data = {
         'agentCode': this.form.branchManager
       }
+      if (this.form.branchManager.length === 0) {
+        return
+      }
       getManagerInfoByCode(data)
         .then(r => {
           this.form.branchManagerName = r.data.agentName

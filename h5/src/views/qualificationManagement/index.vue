@@ -4,23 +4,32 @@
     <el-form ref="form" :rules="rules" :model="form" label-width="180px">
       <el-row>
         <el-col :span="8">
-          <el-form-item label="二级管理机构" prop="mangeCom2">
-            <el-select v-model="form.mangeCom2" placeholder="请选择" style="width:100%;">
-              <el-option v-for="(option,index) in list.mangeCom2" :key="index" :label="option.label" :value="option.value" />
+          <el-form-item label="二级管理机构" prop="manageCom2">
+            <el-select v-model="form.manageCom2" placeholder="请选择" style="width:100%;" @change="changeCom2">
+              <el-option v-for="(option,index) in list.manageCom2List" :key="index" :label="option.name" :value="option.code">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
+                <span style="float: right">{{ option.name }}</span>
+              </el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="三级管理机构">
-            <el-select v-model="form.mangeCom3" style="width:100%;">
-              <el-option v-for="(option,index) in list.mangeCom3" :key="index" :label="option.label" :value="option.value" />
+            <el-select v-model="form.manageCom3" placeholder="选择上一级下拉列表" style="width:100%;" @change="changeCom3">
+              <el-option v-for="(option,index) in list.manageCom3List" :key="index" :label="option.name" :value="option.code">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
+                <span style="float: right">{{ option.name }}</span>
+              </el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="四级管理机构">
-            <el-select v-model="form.mangeCom4" style="width:100%;">
-              <el-option v-for="(option,index) in list.mangeCom4" :key="index" :label="option.label" :value="option.value" />
+            <el-select v-model="form.manageCom4" placeholder="选择上一级下拉列表" style="width:100%;" @change="changeCom4">
+              <el-option v-for="(option,index) in list.manageCom4List" :key="index" :label="option.name" :value="option.code">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
+                <span style="float: right">{{ option.name }}</span>
+              </el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -28,8 +37,11 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="团队">
-            <el-select v-model="form.branchAttr" style="width:100%;">
-              <el-option v-for="(option,index) in list.branchAttr" :key="index" :label="option.label" :value="option.value" />
+            <el-select v-model="form.branchAttr" style="width:100%;" placeholder="选择上一级下拉列表">
+              <el-option v-for="(option,index) in list.branchAttrList" :key="index" :label="option.name" :value="option.code">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
+                <span style="float: right">{{ option.name }}</span>
+              </el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -58,7 +70,10 @@
         <el-col :span="8">
           <el-form-item label="资格证书名称">
             <el-select v-model="form.certificateType" placeholder="可选项" style="width:100%;">
-              <el-option v-for="(option,index) in list.certificateType" :key="index" :label="option.label" :value="option.value" />
+              <el-option v-for="(option,index) in list.certificateTypeList" :key="index" :label="option.name" :value="option.code">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
+                <span style="float: right">{{ option.name }}</span>
+              </el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -66,63 +81,65 @@
       <el-row>
         <el-form-item label="">
           <el-col style="text-align:left;margin-top: 1rem">
-            <el-button type="primary" icon="el-icon-search" @click="handleQuery(true)">查询</el-button>
-            <el-button type="success" icon="el-icon-edit" @click="config.groupAddDialogVisible=true">新增</el-button>
+            <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
+            <el-button type="success" icon="el-icon-edit" @click="showQualificationAddDialog">新增</el-button>
           </el-col>
         </el-form-item>
       </el-row>
     </el-form>
     <el-divider />
-    <QualificationTable ref="qualificationTableData" @QUERY_GROUP="handleQuery(false)" />
-    <QualificationAddDialog :visible="config.qualificationAddDialogVisible" @QUERY_GROUP="handleQuery(false)" @CLOSE_GROUP_ADD_DIALOG="handleQualificationAddDialogClose" />
+    <QualificationTable />
+    <QualificationAddDialog />
   </div>
 </template>
 
 <script>
 import QualificationTable from '@/components/Qualification/QualificationTable'
 import QualificationAddDialog from '@/components/Qualification/QualificationAddDialog'
+import { getInitializeList, getNextOptions } from '@/api/qualification'
 export default {
   name: 'Qualification',
   components: { QualificationAddDialog, QualificationTable },
   data() {
     return {
-      config: {
-        qualificationAddDialogVisible: false
-      },
       form: {
-        mangeCom2: '',
-        mangeCom3: '',
-        mangeCom4: '',
+        manageCom2: '',
+        manageCom3: '',
+        manageCom4: '',
         branchAttr: '',
         agentCode: '',
         agentName: '',
         startEffectiveDate: '',
         endEffectiveDate: '',
-        certificateType: ''
+        certificateType: '',
+        code: ''
       },
       list: {
-        mangeCom2: [],
-        mangeCom3: [],
-        mangeCom4: [],
-        branchAttr: [],
-        certificateType: []
+        manageCom2List: [],
+        manageCom3List: [],
+        manageCom4List: [],
+        branchAttrList: [],
+        certificateTypeList: []
       },
       rules: {
       }
     }
   },
   created() {
-    // this.getInitOptions()
+    getInitializeList().then(res => {
+      this.list.manageCom2List = res.com2List
+      this.list.certificateTypeList = res.certificateTypeList
+    })
   },
   methods: {
-    handleQualificationAddDialogClose() {
-      this.config.qualificationAddDialogVisible = false
+    showQualificationAddDialog() {
+      this.$bus.$emit('OPEN_QUALIFICATION_ADD_DIALOG')
     },
     handleQuery(withWarning) { // withWarning:表单检查失败时是否会红色提醒用户 true:会 false:不会提醒用户
       this.$refs['form'].validate(valid => {
         if (valid) {
           // 要在qualificationtable.vue 中加入handleQueryGroup方法查询
-          this.$refs.qualificationTableData.handleQueryGroup(this.form)
+          this.$bus.$emit('QUERY')
         } else {
           if (withWarning) {
             return false
@@ -130,10 +147,37 @@ export default {
         }
       })
     },
-    handleRefreshTable() {
-      // 要在qualificationtable.vue 中加入handleQueryGroup方法查询
-      this.$refs.qualificationTableData.handleQueryGroup(this.form)
+    changeCom2() {
+      this.form.code = this.form.manageCom2
+      getNextOptions(this.form.code).then(res => {
+        this.list.manageCom3List = res.com3List
+      })
+      this.form.manageCom3 = ''
+      this.form.manageCom4 = ''
+      this.form.branchAttr = ''
+      this.list.manageCom4List = ''
+      this.list.branchAttrList = ''
+    },
+    changeCom3() {
+      this.form.code = this.form.manageCom3
+      getNextOptions(this.form.code).then(res => {
+        this.list.manageCom4List = res.com4List
+      })
+      this.form.manageCom4 = ''
+      this.form.branchAttr = ''
+      this.list.branchAttrList = ''
+    },
+    changeCom4() {
+      this.form.code = this.form.manageCom4
+      getNextOptions(this.form.code).then(res => {
+        this.list.branchAttrList = res.teamList
+      })
+      this.form.branchAttr = ''
     }
+    // handleRefreshTable() {
+    //   // 要在qualificationtable.vue 中加入handleQueryGroup方法查询
+    //   this.$refs.qualificationTableData.handleQueryGroup(this.form)
+    // }
     // getInitOptions() {
     //   // 获取管理机构下拉菜单
     //   getManageComCode()

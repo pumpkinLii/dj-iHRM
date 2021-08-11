@@ -24,7 +24,6 @@ public class CYlLaBranchGroupController {
     @PostMapping("/group")
     public R creat(@RequestBody CYlLaBranchGroupPojo c_ylLaBranchGroupPojo) throws ParseException {
         //抛出异常 是因为 前端传进来的Date的不会有错误的
-        c_ylLaBranchGroupService.creat(c_ylLaBranchGroupPojo);
-        return new R();
+        return c_ylLaBranchGroupService.creat(c_ylLaBranchGroupPojo);
     }
 }

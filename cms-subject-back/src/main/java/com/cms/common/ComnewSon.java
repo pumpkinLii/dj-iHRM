@@ -67,7 +67,7 @@ public class ComnewSon {
                 for (int i1 = 0; i1 < listson.size(); i1++) {
                     Map map = new HashMap();
                     map.put("name", listson.get(i).getName());
-                    map.put("code", listson.get(i).getComCode());
+                    map.put("comcode", listson.get(i).getComCode());
                     result.add(map);
                 }
             }

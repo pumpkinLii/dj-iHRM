@@ -27,8 +27,8 @@ public class EmpServiceImpl extends ServiceImpl<EmpDao, LaAgentGradeEntity> impl
         List<LaAgentGradeEntity> laAgentGradeEntities = this.baseMapper.selectList(qw);
         for (int i = 0; i < laAgentGradeEntities.size(); i++) {
             Map map = new HashMap();
-            map.put("label",laAgentGradeEntities.get(i).getGradeCode());
-            map.put("value",laAgentGradeEntities.get(i).getGradeName());
+            map.put("value",laAgentGradeEntities.get(i).getGradeCode());
+            map.put("label",laAgentGradeEntities.get(i).getGradeName());
             list.add(map);
         }
         return list;
@@ -43,8 +43,8 @@ public class EmpServiceImpl extends ServiceImpl<EmpDao, LaAgentGradeEntity> impl
         List<LaAgentGradeEntity> laAgentGradeEntities = this.baseMapper.selectList(qw);
         for (int i = 0; i < laAgentGradeEntities.size(); i++) {
             Map map = new HashMap();
-            map.put("label",laAgentGradeEntities.get(i).getGradeCode());
-            map.put("value",laAgentGradeEntities.get(i).getGradeName());
+            map.put("value",laAgentGradeEntities.get(i).getGradeCode());
+            map.put("label",laAgentGradeEntities.get(i).getGradeName());
             list.add(map);
         }
         return  list;

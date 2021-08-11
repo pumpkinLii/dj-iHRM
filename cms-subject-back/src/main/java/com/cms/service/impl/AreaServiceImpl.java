@@ -3,7 +3,9 @@ package com.cms.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.dao.AreaDao;
 import com.cms.entity.YlLaAreaEntity;
+import com.cms.pojo.AreaPojo;
 import com.cms.service.AreaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,12 +15,12 @@ import java.util.Map;
 
 @Service
 public class AreaServiceImpl extends ServiceImpl<AreaDao, YlLaAreaEntity> implements AreaService {
+
     @Override
-    public HashMap<String,List> getArea() {
-        HashMap hashMap=new HashMap();
+    public List<AreaPojo> getArea() {
+        List result=new ArrayList();
         List<YlLaAreaEntity> list = this.baseMapper.selectList(null);
         Map map=new HashMap();
-        Map type_map=new HashMap();
         for (int i = 0; i < list.size(); i++) {
             YlLaAreaEntity ylLaAreaEntity = list.get(i);//获取每一行的数据
             if ("01".equals(ylLaAreaEntity.getPlaceType())){
@@ -29,29 +31,30 @@ public class AreaServiceImpl extends ServiceImpl<AreaDao, YlLaAreaEntity> implem
         }
         //map为每个省名对应了一个List 接下来就是往对应的List添加数据
         for (int j = 0; j < list.size(); j++) {
+            AreaPojo areaPojo=new AreaPojo();
             //大循环
             List provinList=new ArrayList();//包含这个省的对象的集合
             YlLaAreaEntity ylLaAreaEntityfather = list.get(j);//获取每一行的数据
             if ("01".equals(ylLaAreaEntityfather.getPlaceType())) {
                 //为每个省的List 添加Map对象 有多少个市 添加多少个Map对象
                 for (int i = 0; i < list.size(); i++) {
-                    Map<String, String> maps = new HashMap<>();
                     YlLaAreaEntity ylLaAreaEntityson = list.get(i);//获取每一行的数据
                     if ("02".equals(ylLaAreaEntityson.getPlaceType())==true&&ylLaAreaEntityson.getUpPlaceName().equals(ylLaAreaEntityfather.getPlaceCode())==true) {
                         //是市级单位 然后还是这个省的子集
                         Map mapson=new HashMap();
-                        mapson.put("name",ylLaAreaEntityson.getPlaceName());
-                        mapson.put("code",ylLaAreaEntityson.getPlaceCode());
+                        mapson.put("label",ylLaAreaEntityson.getPlaceName());
+                        mapson.put("value",ylLaAreaEntityson.getPlaceCode());
                         //得到这个省的List
                         provinList.add(mapson);
-                        map.put(ylLaAreaEntityfather.getPlaceName(),provinList);
                     }
                 }
-                List lists  = (List) map.get(ylLaAreaEntityfather.getPlaceName());
-                hashMap.put(ylLaAreaEntityfather.getPlaceName(),map.get(ylLaAreaEntityfather.getPlaceName()));
+                areaPojo.setList(provinList);
+                areaPojo.setLabel(ylLaAreaEntityfather.getPlaceName());
+                areaPojo.setValue(ylLaAreaEntityfather.getPlaceCode());
+                result.add(areaPojo);
             }
         }
-        return hashMap;
+                return result;
     }
 
     //要进行的操作是 返回数据 大的List放每个省 小的List放每个省里面的数据

@@ -16,9 +16,9 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="资格证书名称" prop="certificateCode"><!--????????-->
-              <el-select v-model="form.certificateCode" style="width:60%;">
-                <el-option v-for="(option,index) in list.certificateCode" :key="index" :label="option.label" :value="option.value">
+            <el-form-item label="资格证书名称" prop="certificateName">
+              <el-select v-model="form.certificateName" style="width:60%;">
+                <el-option v-for="(option,index) in list.certificateName" :key="index" :label="option.label" :value="option.value">
                   <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
                   <span style="float: right">{{ option.label }}</span>
                 </el-option>
@@ -77,8 +77,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="批准单位" prop="approveBy">
-              <el-input v-model="form.approveBy" type="text" style="width:60%;" />
+            <el-form-item label="批准单位" prop="approver">
+              <el-input v-model="form.approver" type="text" style="width:60%;" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -94,6 +94,7 @@
 
 <script>
 import { insert, getAgentNameByAgentCode } from '@/api/qualification'
+import { getAllCode } from '@/api/code'
 export default {
   name: 'QualificationAddDialog',
   data() {
@@ -104,23 +105,24 @@ export default {
       form: {
         agentCode: '', // 人员工号
         agentName: '', // 人员姓名
-        certificateCode: '', // 资格证书名称
+        certificateName: '', // 资格证书名称(对码值)
+        certificateType: '1', // 写死
         certificateNo: '', // 资格证书号
         releaseDate: '', // 发放日期
         reissueDate: '', // 补发日期
         startEffectiveDate: '', // 有效起期
         endEffectiveDate: '', // 有效止期
-        approveBy: '' // 批准单位
+        approver: '' // 批准单位
       },
       list: {
-        certificateCode: []
+        certificateName: []
       },
       rules: {
         agentCode:
           [{ required: true, message: '请输入人员工号', trigger: 'blur' }],
         agentName:
           [{ required: true, message: '人员姓名获取失败', trigger: 'blur' }],
-        certificateCode:
+        certificateName:
           [{ required: true, message: '请选择资格证书类型', trigger: 'blur' }],
         certificateNo:
           [{ required: true, message: '请输入资格证书号', trigger: 'blur' }],
@@ -137,11 +139,25 @@ export default {
     this.$bus.$on('OPEN_QUALIFICATION_ADD_DIALOG', () => {
       this.config.visible = true
     })
+    this.getInitOptions()
   },
   beforeDestroy() {
     this.$bus.$off('OPEN_QUALIFICATION_ADD_DIALOG')
   },
   methods: {
+    getInitOptions() {
+      getAllCode()
+        .then(r => {
+          Object.keys(r['resource']['certificatename']).forEach(key => {
+            this.list.certificateName.push(
+              {
+                label: r['resource']['certificatename'][key],
+                value: key
+              }
+            )
+          })
+        })
+    },
     handleSubmit() {
       this.$refs['form'].validate(
         (valid) => {
@@ -166,20 +182,20 @@ export default {
     dateCheck() {
       if (this.form.reissueDate.length !== 0 && this.form.releaseDate > this.form.reissueDate) {
         this.form.reissueDate = ''
-        this.$message.warning('发放日期不能大于补发日期')
+        this.$message.warning('发放日期不能大于补发日期') // TODO 日期校验
       }
     },
     effDateCheck() {
       if (this.form.startEffectiveDate.length !== 0 && this.form.startEffectiveDate > this.form.endEffectiveDate) {
         this.form.endEffectiveDate = ''
-        this.$message.warning('有效起期不能大于有效止期')
+        this.$message.warning('有效起期不能大于有效止期') // TODO 日期校验
       }
     },
     getAgentName() {
       if (this.form.agentCode.length !== 0) {
-        getAgentNameByAgentCode({ key: this.form.agentCode })
+        getAgentNameByAgentCode({ agentCode: this.form.agentCode })
           .then(r => {
-            this.form.agentName = r.agentName
+            this.form.agentName = r['agentName'] // TODO 格式不对
             this.$message.success('获取人员姓名成功')
           })
       }

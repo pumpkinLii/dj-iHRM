@@ -12,7 +12,7 @@ export function insert(data) {
 // 修改一个新的资格证信息
 export function update(data) {
   return request({
-    url: '/...', // 待修改
+    url: '/certificate/Update',
     method: 'post',
     data
   })
@@ -21,7 +21,7 @@ export function update(data) {
 // 通过人员工号获取人员姓名
 export function getAgentNameByAgentCode(data) {
   return request({
-    url: '/test', // 待修改
+    url: '/certificate/NoIdcheck',
     method: 'post',
     data
   })

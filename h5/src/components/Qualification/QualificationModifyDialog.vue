@@ -16,8 +16,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="资格证书名称" prop="certificateCode"><!--????????-->
-              <el-input v-model="form.certificateCode" type="text" style="width:60%;" disabled />
+            <el-form-item label="资格证书名称" prop="certificateName">
+              <el-input v-model="form.certificateName" type="text" style="width:60%;" disabled />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -72,8 +72,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="批准单位" prop="approveBy">
-              <el-input v-model="form.approveBy" type="text" style="width:60%;" />
+            <el-form-item label="批准单位" prop="approver">
+              <el-input v-model="form.approver" type="text" style="width:60%;" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -99,23 +99,23 @@ export default {
       form: {
         agentCode: '', // 人员工号
         agentName: '', // 人员姓名
-        certificateCode: '', // 资格证书名称
+        certificateName: '', // 资格证书名称
         certificateNo: '', // 资格证书号
         releaseDate: '', // 发放日期
         reissueDate: '', // 补发日期
         startEffectiveDate: '', // 有效起期
         endEffectiveDate: '', // 有效止期
-        approveBy: '' // 批准单位
-      },
-      list: {
-        certificateCode: []
+        approver: '', // 批准单位
+
+        certificateType: '1', // 写死
+        oldCertificateNo: '' // TODO 旧的资格证书号 需要父组件传进来
       },
       rules: {
         agentCode:
           [{ required: true, message: '请输入人员工号', trigger: 'blur' }],
         agentName:
           [{ required: true, message: '人员姓名获取失败', trigger: 'blur' }],
-        certificateCode:
+        certificateName:
           [{ required: true, message: '请选择资格证书类型', trigger: 'blur' }],
         certificateNo:
           [{ required: true, message: '请输入资格证书号', trigger: 'blur' }],
@@ -129,7 +129,8 @@ export default {
     }
   },
   mounted() {
-    this.$bus.$on('OPEN_QUALIFICATION_MODIFY_DIALOG', () => {
+    this.$bus.$on('OPEN_QUALIFICATION_MODIFY_DIALOG', (item) => {
+      console.log(item)
       this.config.visible = true
     })
   },

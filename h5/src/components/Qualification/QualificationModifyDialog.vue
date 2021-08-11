@@ -137,6 +137,7 @@ export default {
   mounted() {
     this.$bus.$on('OPEN_QUALIFICATION_MODIFY_DIALOG', (item) => {
       console.log(item)
+      this.form = item
       getAllCode()
         .then(r => {
           Object.keys(r['resource']['certificatename']).forEach(key => {

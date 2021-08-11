@@ -16,8 +16,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="资格证书名称"><!--????????-->
-              <el-select v-model="form.certificateCode" placeholder="否" style="width:60%;" disabled>
+            <el-form-item label="资格证书名称" prop="certificateCode"><!--????????-->
+              <el-select v-model="form.certificateCode" style="width:60%;" disabled>
                 <el-option v-for="(option,index) in list.certificateCode" :key="index" :label="option.label" :value="option.value">
                   <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
                   <span style="float: right">{{ option.label }}</span>
@@ -33,7 +33,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="发放日期" prop="releaseDate">
+            <el-form-item label="发放日期" prop="releaseDate" @change="dateCheck">
               <el-date-picker
                 v-model="form.releaseDate"
                 value-format="yyyy-MM-dd"
@@ -43,7 +43,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="补发日期" prop="reissueDate">
+            <el-form-item label="补发日期" prop="reissueDate" @change="dateCheck">
               <el-date-picker
                 v-model="form.reissueDate"
                 value-format="yyyy-MM-dd"
@@ -55,7 +55,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="有效起期" prop="startEffectiveDate">
+            <el-form-item label="有效起期" prop="startEffectiveDate" @change="effDateCheck">
               <el-date-picker
                 v-model="form.startEffectiveDate"
                 value-format="yyyy-MM-dd"
@@ -65,7 +65,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="有效止期" prop="endEffectiveDate">
+            <el-form-item label="有效止期" prop="endEffectiveDate" @change="effDateCheck">
               <el-date-picker
                 v-model="form.endEffectiveDate"
                 value-format="yyyy-MM-dd"
@@ -93,6 +93,7 @@
 </template>
 
 <script>
+import { insert } from '@/api/qualification'
 export default {
   name: 'QualificationAddDialog',
   data() {
@@ -142,7 +143,34 @@ export default {
   },
   methods: {
     handleSubmit() {
-      console.log('提交')
+      this.$refs['form'].validate(
+        (valid) => {
+          if (valid) {
+            // 发起请求
+            this.sendSubmitRequest(this.form)
+          } else {
+            return false
+          }
+        })
+    },
+    sendSubmitRequest(data) {
+      insert(data)
+        .then(r => {
+          this.$bus.$emit('QUALIFICATION_ADD_SUCCESS')
+          this.$message.success('添加成功')
+        })
+    },
+    dateCheck() {
+      if (this.form.reissueDate.length !== 0 && this.form.releaseDate > this.form.reissueDate) {
+        this.form.reissueDate = ''
+        this.$message.warning('发放日期不能大于补发日期')
+      }
+    },
+    effDateCheck() {
+      if (this.form.startEffectiveDate.length !== 0 && this.form.startEffectiveDate > this.form.endEffectiveDate) {
+        this.form.endEffectiveDate = ''
+        this.$message.warning('有效起期不能大于有效止期')
+      }
     }
   }
 }

@@ -1,10 +1,178 @@
 <template>
-  <p>test</p>
+  <el-dialog title="新增" :visible.sync="config.visible" width="80%" :before-close="config.visible=false">
+    <span>
+      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="人员工号" prop="agentCode">
+              <el-input v-model="form.agentCode" placeholder="请输入人员工号" type="text" style="width:60%;" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="人员姓名" prop="agentName">
+              <el-input v-model="form.agentName" type="text" style="width:60%;" disabled />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="资格证书名称" prop="certificateCode"><!--????????-->
+              <el-select v-model="form.certificateCode" style="width:60%;" disabled>
+                <el-option v-for="(option,index) in list.certificateCode" :key="index" :label="option.label" :value="option.value">
+                  <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                  <span style="float: right">{{ option.label }}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="资格证书号" prop="certificateNo">
+              <el-input v-model="form.certificateNo" placeholder="请输入资格证书号" type="text" style="width:60%;" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="发放日期" prop="releaseDate" @change="dateCheck">
+              <el-date-picker
+                v-model="form.releaseDate"
+                value-format="yyyy-MM-dd"
+                type="date"
+                style="width:60%;"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="补发日期" prop="reissueDate" @change="dateCheck">
+              <el-date-picker
+                v-model="form.reissueDate"
+                value-format="yyyy-MM-dd"
+                type="date"
+                style="width:60%;"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="有效起期" prop="startEffectiveDate" @change="effDateCheck">
+              <el-date-picker
+                v-model="form.startEffectiveDate"
+                value-format="yyyy-MM-dd"
+                type="date"
+                style="width:60%;"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="有效止期" prop="endEffectiveDate" @change="effDateCheck">
+              <el-date-picker
+                v-model="form.endEffectiveDate"
+                value-format="yyyy-MM-dd"
+                type="date"
+                style="width:60%;"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="批准单位" prop="approveBy">
+              <el-input v-model="form.approveBy" type="text" style="width:60%;" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </span>
+    <!-- 底部 -->
+    <span slot="footer" class="dialog-footer">
+      <el-button type="secondary" @click="config.visible=false">取 消</el-button>
+      <el-button type="primary" @click="handleSubmit">保 存</el-button>
+    </span>
+  </el-dialog>
 </template>
 
 <script>
+import { update } from '@/api/qualification'
 export default {
-  name: 'QualificationModifyDialog'
+  name: 'QualificationModifyDialog',
+  data() {
+    return {
+      config: {
+        visible: false
+      },
+      form: {
+        agentCode: '', // 人员工号
+        agentName: '', // 人员姓名
+        certificateCode: '', // 资格证书名称
+        certificateNo: '', // 资格证书号
+        releaseDate: '', // 发放日期
+        reissueDate: '', // 补发日期
+        startEffectiveDate: '', // 有效起期
+        endEffectiveDate: '', // 有效止期
+        approveBy: '' // 批准单位
+      },
+      list: {
+        certificateCode: []
+      },
+      rules: {
+        agentCode:
+          [{ required: true, message: '请输入人员工号', trigger: 'blur' }],
+        agentName:
+          [{ required: true, message: '人员姓名获取失败', trigger: 'blur' }],
+        certificateCode:
+          [{ required: true, message: '请选择资格证书类型', trigger: 'blur' }],
+        certificateNo:
+          [{ required: true, message: '请输入资格证书号', trigger: 'blur' }],
+        releaseDate:
+          [{ required: true, message: '请选择发放日期', trigger: 'blur' }],
+        startEffectiveDate:
+          [{ required: true, message: '请选择有效起期', trigger: 'blur' }],
+        endEffectiveDate:
+          [{ required: true, message: '请选择有效止期', trigger: 'blur' }]
+      }
+    }
+  },
+  mounted() {
+    this.$bus.$on('OPEN_QUALIFICATION_MODIFY_DIALOG', () => {
+      this.config.visible = true
+    })
+  },
+  beforeDestroy() {
+    this.$bus.$off('OPEN_QUALIFICATION_MODIFY_DIALOG')
+  },
+  methods: {
+    handleSubmit() {
+      this.$refs['form'].validate(
+        (valid) => {
+          if (valid) {
+            // 发起请求
+            this.sendSubmitRequest(this.form)
+          } else {
+            return false
+          }
+        })
+    },
+    sendSubmitRequest(data) {
+      update(data)
+        .then(r => {
+          this.$bus.$emit('QUALIFICATION_MODIFY_SUCCESS')
+          this.$message.success('添加成功')
+        })
+    },
+    dateCheck() {
+      if (this.form.reissueDate.length !== 0 && this.form.releaseDate > this.form.reissueDate) {
+        this.form.reissueDate = ''
+        this.$message.warning('发放日期不能大于补发日期')
+      }
+    },
+    effDateCheck() {
+      if (this.form.startEffectiveDate.length !== 0 && this.form.startEffectiveDate > this.form.endEffectiveDate) {
+        this.form.endEffectiveDate = ''
+        this.$message.warning('有效起期不能大于有效止期')
+      }
+    }
+  }
 }
 </script>
 

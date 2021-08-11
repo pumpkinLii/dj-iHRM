@@ -79,7 +79,7 @@ export const constantRoutes = [
       name: 'PersonImport',
       component: () => import ('@/views/zc-three/index'),
       meta: {
-        title: '帅哥一号',
+        title: '人员维护',
         icon: 'el-icon-ship'
       }
     }]

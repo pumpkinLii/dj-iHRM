@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增" :visible.sync="config.visible" width="80%" :before-close="config.visible=false">
+  <el-dialog title="新增" :visible.sync="config.visible" width="80%" :before-close="handleClose">
     <span>
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
@@ -86,7 +86,7 @@
     </span>
     <!-- 底部 -->
     <span slot="footer" class="dialog-footer">
-      <el-button type="secondary" @click="config.visible=false">取 消</el-button>
+      <el-button type="secondary" @click="handleClose">取 消</el-button>
       <el-button type="primary" @click="handleSubmit">保 存</el-button>
     </span>
   </el-dialog>
@@ -152,6 +152,9 @@ export default {
             return false
           }
         })
+    },
+    handleClose() {
+      this.config.visible = false
     },
     sendSubmitRequest(data) {
       insert(data)

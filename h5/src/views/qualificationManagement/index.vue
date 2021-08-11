@@ -73,8 +73,8 @@
       </el-row>
     </el-form>
     <el-divider />
-    <QualificationTable ref="qualificationTableData" @QUERY_GROUP="handleQuery(false)" />
-    <QualificationAddDialog :visible="config.qualificationAddDialogVisible" @QUERY_GROUP="handleQuery(false)" @CLOSE_GROUP_ADD_DIALOG="handleQualificationAddDialogClose" />
+    <QualificationTable />
+    <QualificationAddDialog />
   </div>
 </template>
 

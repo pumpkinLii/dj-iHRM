@@ -86,8 +86,12 @@ public class ComnewSon {
         if (ldComNewEntity == null) {
             return null;
         } else {
-            map.put("comcode", ldComNewEntity.getUpUpComCode());//返回父机构的代码
-            map.put("name", ldComNewEntity.getName());
+            map.put("comcode", ldComNewEntity.getUpComCode());//返回父机构的代码
+            QueryWrapper q=new QueryWrapper();
+            q.eq("com_code",ldComNewEntity.getUpComCode());
+            LdComNewEntity ldComNewEntity1 = magService.getBaseMapper().selectOne(q);
+            map.put("name", ldComNewEntity1.getName());
+            System.out.println(map);
             return map;
         }
     }

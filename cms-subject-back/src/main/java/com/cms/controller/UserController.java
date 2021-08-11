@@ -25,9 +25,10 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiOperation("登陆接口")
-    public R login(@RequestBody UserPojo userPojo) throws InvalidKeyException, NoSuchAlgorithmException {
+    public R login(@RequestBody UserPojo userPojo,HttpServletRequest httpServletRequest) throws InvalidKeyException, NoSuchAlgorithmException {
         String creattoken= TokenUtils.SH256parse(userPojo.toString());
-        if (StringUtils.isEmpty(userPojo.getToken())==true||userPojo.getToken()==null){
+        String token=httpServletRequest.getHeader("x-token");
+        if (StringUtils.isEmpty(token)==true||token==null){
             boolean bl = userService.login(userPojo.getUserId(),userPojo.getUserPassword());
             if (bl==true){
                 return R.ok().put("token",creattoken);
@@ -35,13 +36,20 @@ public class UserController {
                 return R.error("账号密码错误");
             }
         }else{
-            if (creattoken.equals(userPojo.getToken())){
+            if (creattoken.equals(token)){
                 return R.ok().put("msg","通过token登陆成功(未从数据库验证用户信息 节省服务器资源)");
             }else {
-                return R.ok().put("code",501).put("msg","您的token过期请您重新登陆");
+                return R.ok().put("code",502).put("msg","您的token过期请您重新登陆");
             }
         }
 
 
+    }
+    @PostMapping("/out")
+    @ApiOperation("登陆接口")
+    public R loginout(){
+        TokenUtils.setsecret_key();
+        //密钥更新完毕
+        return R.ok();
     }
 }

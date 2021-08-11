@@ -17,3 +17,25 @@ export function update(data) {
     data
   })
 }
+
+export function queryQualification(data, page) {
+  return request({
+    url: 'xxx/xxx?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,
+    method: 'post',
+    data
+  })
+}
+
+export function getNextOptions(code) {
+  return request({
+    url: 'xxx/xxx?code=' + code,
+    method: 'post'
+  })
+}
+
+export function getInitializeList() {
+  return request({
+    url: 'xxx/xxx?code=',
+    method: 'post'
+  })
+}

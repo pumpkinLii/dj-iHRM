@@ -38,16 +38,15 @@
 </template>
 
 <script>
-import { queryGroup } from '@/api/group'
+import { queryQualification } from '@/api/qualification'
 import QualificationModifyDialog from '@/components/Qualification/QualificationModifyDialog'
+
 export default {
   name: 'QualificationTable',
   components: { QualificationModifyDialog },
   data() {
     return {
-      config: {
-        groupModifyDialogVisible: false
-      },
+      selectOption: [],
       list: [],
       page: {
         currentPage: 1,
@@ -56,19 +55,23 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$bus.$on('Query', () => {
+      // A发送来的消息
+      // 调用查询方法
+      this.handleQueryQualification(this.data())
+    })
+  },
   methods: {
     showModifyDialog(item) {
       // 告知子组件的传入项目 即需要修改的数据
-      this.$refs.groupModifyDialog.form = item
-      // 显示窗口
-      this.config.groupModifyDialogVisible = true
+      // this.$bus.$emit('SEND_QUALIFICATION_ITEM', item)
+      // 告知子组件显示窗口
+      this.$bus.$emit('OPEN_ADD_QUALIFICATION_DIALOG', item)
     },
-    handleGroupModifyDialogClose() {
-      // 隐藏窗口
-      this.config.groupModifyDialogVisible = false
-    },
-    handleQueryGroup(data) {
-      queryGroup(data, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
+    // 发送请求进行查询 得到列表
+    handleQueryQualification(data) {
+      queryQualification(data, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
         .then(r => {
           this.list = r.list
           this.page.totalCount = r.totalcount
@@ -77,12 +80,11 @@ export default {
     },
     handleSizeChange(size) {
       this.page.pageSize = size
-      this.$emit('QUERY_GROUP')
     },
     handleCurrentChange(page) {
       this.page.currentPage = page
-      this.$emit('QUERY_GROUP')
     }
+    // 做一个三级级联
   }
 }
 </script>

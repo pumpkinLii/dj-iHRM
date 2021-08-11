@@ -9,7 +9,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="业务员代码">
-            <el-input type="text" disabled/>
+            <el-input type="text" placeholder="admin" disabled/>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -347,13 +347,13 @@
           <!--3 -->
       <el-row>
         <el-col :span="8">
-          <el-form-item label="团队主管工号" prop="teamSupervisorId">
-            <el-input v-model="form.teamSupervisorId" type="text" style="width:100%;" disabled/>
+          <el-form-item label="团队主管工号" prop="branchManager">
+            <el-input v-model="form.branchManager" type="text" style="width:100%;" disabled/>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="团队主管姓名" prop="teamSupervisorName">
-            <el-input v-model="form.teamSupervisorName" type="text" style="width:100%;" disabled/>
+          <el-form-item label="团队主管姓名" prop="branchManagerName">
+            <el-input v-model="form.branchManagerName" type="text" style="width:100%;" disabled/>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -519,8 +519,8 @@ export default {
         contractEndDate: '', // 劳动合同止期
         employDate: '', // 入司日期
         // 行政信息请求中无需注意的部分，后端不接收
-        teamSupervisorId: '', // 团队主管工号
-        teamSupervisorName: '', // 团队主管姓名
+        branchManager: '', // 团队主管工号
+        branchManagerName: '', // 团队主管姓名
         operator: 'admin', // 操作员代码
         contractType: '02' // 合同类型
       },
@@ -640,12 +640,20 @@ export default {
     this.$bus.$on('agentcode', (r) => {
       API.queryAgent(r).then((res) => {
         if (res.code === 0) {
-          this.$message.success('根据agentCode查询人员成功')
-          console.log('resresres')
-          console.log(res)
-          console.log('res.formres.formres.form')
+          // this.$message.success('根据agentCode查询人员成功')
           console.log(res.form)
           this.form = res.form
+          console.log(this.form.agentJob)
+
+          if (this.form.agentJob === '总监') {
+            API.posit().then(r => {
+              this.list.agentGrade = r['list']
+            })
+          } else if (this.form.agentJob === '经理') {
+            API.posit1().then(r => {
+              this.list.agentGrade = r['list']
+            })
+          }
 
           this.editDialogVisible = true
         } else {
@@ -708,12 +716,10 @@ export default {
           })
         })
     },
-
     // 重置表单
     resetForm() {
       this.$refs['form'].resetFields()
     },
-
     getManageComCode(level) {
       let comCode = 0
       if (level === 1) {
@@ -818,8 +824,8 @@ export default {
         groupId: this.form.branchAttr
       }
       API.huixian(data).then(r => {
-        this.form.teamSupervisorId = r.data.branchManager
-        this.form.teamSupervisorName = r.data.branchManagerName
+        this.form.branchManager = r.data.branchManager
+        this.form.branchManagerName = r.data.branchManagerName
       })
     },
     // 监听修改用户对话框的关闭事件
@@ -840,6 +846,9 @@ export default {
       )
       this.editDialogVisible = false
     }
+  },
+  beforeDestroy() {
+    this.$bus.$off("agentcode")
   }
 }
 </script>

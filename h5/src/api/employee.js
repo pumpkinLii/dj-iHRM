@@ -28,7 +28,7 @@ export function getCityList() {
 }
 
 // 获取码表
-export function getCodes(name, buffer) {
+export function getCodes() {
   return request({
     url: '/start/get',
     method: 'post'
@@ -81,6 +81,23 @@ export function zhiji(data) {
 export function huixian(data) {
   return request({
     url: '/test/EchoManager',
+    method: 'post',
+    data
+  })
+}
+
+// 根据agentCode查询人员信息接口
+export function queryAgent(agentCode) {
+  return request({
+    url: Vue.config.productionTip === true ? '/test/QueryWithCode?agentCode=' + agentCode : 'http://10.11.114.129:9999/test/QueryWithCode?agentCode=' + agentCode,
+    method: 'post'
+  })
+}
+
+// 修改团队信息
+export function editPerson(data) {
+  return request({
+    url: Vue.config.productionTip === true ? '/agent/update' : 'http://10.11.114.123:9999/agent/update',
     method: 'post',
     data
   })

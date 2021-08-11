@@ -167,12 +167,14 @@ export default {
         })
     },
     handleClose() {
+      this.$refs['form'].resetFields()
       this.config.visible = false
     },
     sendSubmitRequest(data) {
       update(data)
         .then(r => {
           this.$bus.$emit('QUALIFICATION_SUCCESS')
+          this.$refs['form'].resetFields()
           this.config.visible = false
           this.$message.success('添加成功')
         })

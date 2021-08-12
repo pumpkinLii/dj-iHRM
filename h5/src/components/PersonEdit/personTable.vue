@@ -44,14 +44,30 @@ export default {
       list: [],
       page: {
         currentPage: 1, // 当前第几页
-        totalCount: 0,  // 总共有几条
+        totalCount: 0, // 总共有几条
         pageSize: 10 // 每页的项目数
       }
     }
   },
+  mounted() {
+    // 查询结果  res 是传过来的数据
+    this.$bus.$on('form2', res => {
+      this.list = []
+      V.queryPerson(res, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
+        .then(r => {
+          console.log(r)
+          this.list = r.list
+          this.page.totalCount = r.totalCount
+          this.$message.success('查询完毕')
+        })
+    })
+  },
+  beforeDestroy() {
+    this.$bus.$off('form2')
+  },
   methods: {
     showModifyDialog(item) {
-      this.$bus.$emit("agentcode",item)
+      this.$bus.$emit('agentcode', item)
     },
     // 一页有几行
     handleSizeChange(size) {
@@ -61,21 +77,6 @@ export default {
     handleCurrentChange(page) {
       this.page.currentPage = page
     }
-  },
-  mounted() {
-    // 查询结果  res 是传过来的数据
-    this.$bus.$on("form2",res =>{
-      this.list = ''
-      V.queryPerson(res,{ pageSize: this.page.pageSize, currentPage: this.page.currentPage })
-        .then(r => {
-          this.list = r.list
-          this.page.totalCount = r.totalCount
-          this.$message.success('查询完毕')
-        });
-    })
-  },
-  beforeDestroy(){
-    this.$bus.$off('form2')
   }
 }
 </script>

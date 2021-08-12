@@ -43,9 +43,9 @@ export default {
     return {
       list: [],
       page: {
-        currentPage: 1,
-        totalCount: 0,
-        pageSize: 10
+        currentPage: 1, // 当前第几页
+        totalCount: 0,  // 总共有几条
+        pageSize: 10 // 每页的项目数
       }
     }
   },

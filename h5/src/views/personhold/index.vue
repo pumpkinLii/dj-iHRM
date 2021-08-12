@@ -27,7 +27,7 @@
           <el-form-item label="四级管理机构" prop="manageCom4">
             <el-select v-model="form.manageCom4" placeholder="请选择" style="width:100%" :disabled="!form.manageCom3||form.manageCom3.length===0" @change="group(form.manageCom4)">
               <el-option v-for="(item,index) in list.manageCom4" :key="index" :value="item.comcode" :label="item.name">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.comcode }}</span>
+                <span style="float: left; color: #313336; font-size: 13px">{{ item.comcode }}</span>
                 <span style="float: right">{{ item.name }}</span>
               </el-option>
             </el-select>
@@ -38,11 +38,12 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="团队">
-            <el-select placeholder="请选择" style="width: 100%" v-model="form.branchAttr"/>
+            <el-select placeholder="请选择" style="width: 100%" v-model="form.branchAttr">
               <el-option v-for="(item,index) in list.branchAttr" :key="index" :value="item.value" :label="item.label">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
                 <span style="float: right">{{ item.label }}</span>
               </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -106,7 +107,7 @@
           <el-col style="text-align:left;margin-top: 1rem">
 <!--            <el-button type="primary" icon="el-icon-search" @click="handleQuery(true)">查询</el-button>-->
             <el-button type="primary" icon="el-icon-search" @click="handleQuery1()">查询</el-button>
-            <el-button type="primary" icon="el-icon-download" >导出</el-button>
+            <el-button type="primary" icon="el-icon-download" @click="download2" >导出</el-button>
             <el-button type="primary" icon="el-icon-upload2">Excel导入</el-button>
             <el-button type="primary" icon="el-icon-download" @click="download1">模板下载</el-button>
           </el-col>
@@ -133,7 +134,6 @@ export default {
         manageCom2: '', //二级管理机构
         manageCom3: '' ,// 三级管理机构
         manageCom4: '' , //四级管理机构
-
         branchAttr: '', // 团队
         agentCode: '',  // 人员工号
         agentName: '',  //人员姓名
@@ -162,13 +162,13 @@ export default {
       const f ={"manageCom4" : data}
       V.xiala3(f).then((r)=>{
         this.list.branchAttr = r.list
+        console.log("成功导入")
       })
     },
-    // 查询
+    // 查询按钮
     handleQuery1(){
       this.$bus.$emit("form2",this.form)
     },
-
     // 三四级下拉列表渲染
     select(abc) {
       V.xiala(abc).then((r)=>{
@@ -179,17 +179,30 @@ export default {
         }
       })
     },
-    // 文件下载
+    // 模板下载
     download1() {
       V.download().then((res) => {
-        let url = window.URL.createObjectURL(new Blob([res.data]));
-        let link =document.createElement("a");
-        link.style.display = "none";
-        //link.target = '_blank'
-        link.href = url;
-        link.setAttribute("download","all_sample.xls");
-        document.body.appendChild(link);
-        link.click();
+        const link = document.createElement('a')
+        const blob = new Blob([res], { type: 'application/vnd.ms-excel' })
+        link.style.display = 'none'
+        link.href = URL.createObjectURL(blob)
+        link.setAttribute('download', `${"员工批量导入模板"}.xlsx`)
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      })
+    },
+    // 结果导出
+    download2(){
+      V.download1(this.form).then((res) =>{
+        const link = document.createElement('a')
+        const blob = new Blob([res], { type: 'application/vnd.ms-excel' })
+        link.style.display = 'none'
+        link.href = URL.createObjectURL(blob)
+        link.setAttribute('download', `${"查询结果导出"}.xlsx`)
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
       })
     }
   }

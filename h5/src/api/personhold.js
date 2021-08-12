@@ -3,29 +3,39 @@ import Vue from 'vue'
 // 查询人员信息
 export function queryPerson(data,page){
   return request({
-    url: 'http://10.11.114.129:9999/test/QueryStaff?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,
+    url: 'http://10.11.114.32:9999/test/QueryStaff?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,
     method:'post',
     data
   })
 }
 
-//修改人员信息
-export function modifyPerson(data){
-  return request({
-    url:'',
-    method:'post',
-    data
-  })
-}
-// 模板下载
-
-// export function download(){
+//修改人员信息  搁置
+// export function modifyPerson(data){
 //   return request({
 //     url:'',
 //     method:'post',
-//     responseType:'blob'
+//     data
 //   })
 // }
+// 模板下载
+
+export function download(){
+  return request({
+    url: Vue.config.productionTip===true?'/test/board':'http://10.11.114.128:9999/test/board',
+    method: 'post',
+    responseType:'blob'
+  })
+}
+
+// 导出
+export function download1(data){
+  return request({
+    url:Vue.config.productionTip===true?'/test/ylLaAgentAttrExcelOut':'http://10.11.114.128:9999/test/ylLaAgentAttrExcelOut',
+    method:'post',
+    responseType:'blob',
+    data
+  })
+}
 // 管理机构下拉列表
 export function xiala(abc){
   return request({
@@ -48,7 +58,6 @@ export function xiala3(data){
     data
   })
 }
-//Excel 导入\lala
+//Excel 导入  搁置
 
 
-//导出

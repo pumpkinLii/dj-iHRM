@@ -72,12 +72,12 @@ export const constantRoutes = [
     hidden: false
   },
   {
-    path: '/zc-three',
+    path: '/personhold',
     component: Layout,
     children: [{
       path: '',
       name: 'PersonImport',
-      component: () => import ('@/views/zc-three/index'),
+      component: () => import ('@/views/personhold/index'),
       meta: {
         title: '人员维护',
         icon: 'el-icon-ship'

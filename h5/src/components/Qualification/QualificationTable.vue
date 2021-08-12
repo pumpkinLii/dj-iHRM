@@ -17,7 +17,7 @@
       <el-table-column label="操作" width="100px" fixed="right">
         <template scope="scope">
           <!-- 修改 -->
-          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(list[scope.$index])">修改</el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(list[scope.$index],scope.row)">修改</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -71,7 +71,8 @@ export default {
     this.$bus.$off('QUERY')
   },
   methods: {
-    showModifyDialog(item) {
+    showModifyDialog(item, row) {
+      // console.log(this.list[row].certificateCode)
       this.$bus.$emit('OPEN_QUALIFICATION_MODIFY_DIALOG', item)
     },
     // 发送请求进行查询 得到列表
@@ -80,15 +81,17 @@ export default {
         .then(r => {
           this.list = []
           this.list = r.list
-          this.page.totalCount = r.totalcountx
+          this.page.totalCount = r.totalcount
           this.$message.success('查询完毕')
         })
     },
     handleSizeChange(size) {
       this.page.pageSize = size
+      this.$bus.$emit('QUALIFICATION_SUCCESS')
     },
     handleCurrentChange(page) {
       this.page.currentPage = page
+      this.$bus.$emit('QUALIFICATION_SUCCESS')
     }
   }
 }

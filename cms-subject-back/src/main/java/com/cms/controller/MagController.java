@@ -55,10 +55,4 @@ public class MagController {
             return R.ok().put("list",comnewSon.getSonManageCom(Code));
         }
     }
-
-    @ApiOperation("获取父亲机构")
-    @PostMapping("/getsd")
-    public R getMapp(String code){
-        return R.ok().put("list",comnewSon.getFatherManageCom(code));
-    }
 }

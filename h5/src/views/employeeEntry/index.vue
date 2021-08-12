@@ -64,7 +64,7 @@
         <el-col :span="8">
           <el-form-item label="户口所在省" prop="rgtProvince">
             <el-select v-model="form.rgtProvince" type="text" style="width:100%;">
-              <el-option v-for="(option,index) in list.nativeplace" :key="index" :label="option.label" :value="option.value">
+              <el-option v-for="(option,index) in list.bankProvince" :key="index" :label="option.label" :value="option.value">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
                 <span style="float: right">{{ option.label }}</span>
               </el-option>
@@ -201,7 +201,7 @@
         <el-col :span="8">
           <el-form-item label="政治面貌" prop="outlookStatus">
             <el-select v-model="form.outlookStatus" type="text" style="width:100%;">
-              <el-option v-for="(option,index) in list.dajiapolityvisage" :key="index" :label="option.label" :value="option.value">
+              <el-option v-for="(option,index) in list.outlookStatus" :key="index" :label="option.label" :value="option.value">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
                 <span style="float: right">{{ option.label }}</span>
               </el-option>
@@ -441,7 +441,7 @@ export default {
         highestDegree: [],
         degree: [],
         nationality: [],
-        dajiapolityvisage: [],
+        outlookStatus: [],
         oldIndustryType: [], // 最近一份工作
         bankProvince: [],
         city: [],
@@ -640,23 +640,22 @@ export default {
       }
       this.setCodes('idtype', this.list.idType)
       this.setCodes('sex', this.list.sex)
-      this.setCodes('sex', this.list.sex)
       this.setCodes('rgttype', this.list.rgtType)
       this.setCodes('nativeplace', this.list.nativeplace)
       this.setCodes('highestdegree', this.list.highestDegree)
       this.setCodes('degree', this.list.degree)
       this.setCodes('nationality', this.list.nationality)
       this.setCodes('industrytype', this.list.oldIndustryType)
+      this.setCodes('bankcode', this.list.bankCode)
+      this.setCodes('polityvisage', this.list.outlookStatus)
       // 排序民族
       this.list.nationality.sort((a, b) => {
         return a.value - b.value
       })
-      this.setCodes('dajiapolityvisage', this.list.dajiapolityvisage)
       // 排序籍贯
       this.list.nativeplace.sort((a, b) => {
         return a.value - b.value
       })
-      this.setCodes('bankcode', this.list.bankCode)
     },
     // 通过以获取的码表数据填充某一列表
     setCodes(name, buffer) {

@@ -30,7 +30,7 @@ export function getAgentNameByAgentCode(data) {
 
 export function queryQualification(data, page) {
   return request({
-    url: 'xxx/xxx?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,
+    url: 'http://10.11.114.126:9999/certificate/retrieve?pageSize=' + page.pageSize + '&' + 'currentPage=' + page.currentPage,
     method: 'post',
     data
   })
@@ -38,14 +38,14 @@ export function queryQualification(data, page) {
 
 export function getNextOptions(code) {
   return request({
-    url: 'xxx/xxx?code=' + code,
+    url: 'http://10.11.114.126:9999/certificate/returnCom?code=' + code,
     method: 'post'
   })
 }
 
 export function getInitializeList() {
   return request({
-    url: 'xxx/xxx?code=',
+    url: 'http://10.11.114.126:9999/certificate/initList',
     method: 'post'
   })
 }

@@ -47,8 +47,7 @@ export default {
   data() {
     return {
       selectOption: [],
-      list: [
-      ],
+      list: [],
       page: {
         currentPage: 1,
         totalCount: 0,
@@ -57,13 +56,16 @@ export default {
     }
   },
   mounted() {
-    this.$bus.$on('Query', () => {
+    this.$bus.$on('QUERY', (data) => {
       // 把表单的数据,页面大小,当前页面传给服务器
-      this.handleQueryQualification(this.form)
+      this.handleQueryQualification(data)
     })
-    this.$bus.$on('QUALIFICATION_SUCCESS', () => {
-      this.handleQueryQualification(this.form)
-    })
+    // this.$bus.$on('QUALIFICATION_SUCCESS', (data) => {
+    //   this.handleQueryQualification(data)
+    // })
+  },
+  beforeDestroy() {
+    this.$bus.$off('QUERY')
   },
   methods: {
     showModifyDialog(item) {
@@ -74,7 +76,7 @@ export default {
       queryQualification(data, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
         .then(r => {
           this.list = r.list
-          this.page.totalCount = r.totalcount
+          this.page.totalCount = r.totalcountx
           this.$message.success('查询完毕')
         })
     },

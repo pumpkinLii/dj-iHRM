@@ -6,8 +6,8 @@
         <el-col :span="8">
           <el-form-item label="二级管理机构" prop="manageCom2">
             <el-select v-model="form.manageCom2" placeholder="请选择" style="width:100%;" @change="changeCom2">
-              <el-option v-for="(option,index) in list.manageCom2List" :key="index" :label="option.name" :value="option.code">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
+              <el-option v-for="(option,index) in list.manageCom2List" :key="index" :label="option.name" :value="option.comcode">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.comcode }}</span>
                 <span style="float: right">{{ option.name }}</span>
               </el-option>
             </el-select>
@@ -16,8 +16,8 @@
         <el-col :span="8">
           <el-form-item label="三级管理机构">
             <el-select v-model="form.manageCom3" placeholder="选择上一级下拉列表" style="width:100%;" @change="changeCom3">
-              <el-option v-for="(option,index) in list.manageCom3List" :key="index" :label="option.name" :value="option.code">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
+              <el-option v-for="(option,index) in list.manageCom3List" :key="index" :label="option.name" :value="option.comcode">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.comcode }}</span>
                 <span style="float: right">{{ option.name }}</span>
               </el-option>
             </el-select>
@@ -26,8 +26,8 @@
         <el-col :span="8">
           <el-form-item label="四级管理机构">
             <el-select v-model="form.manageCom4" placeholder="选择上一级下拉列表" style="width:100%;" @change="changeCom4">
-              <el-option v-for="(option,index) in list.manageCom4List" :key="index" :label="option.name" :value="option.code">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
+              <el-option v-for="(option,index) in list.manageCom4List" :key="index" :label="option.name" :value="option.comcode">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.comcode }}</span>
                 <span style="float: right">{{ option.name }}</span>
               </el-option>
             </el-select>
@@ -104,12 +104,10 @@ export default {
     const dataValid = (rule, value, callback) => {
       const startDate = new Date(Date.parse(this.form.startEffectiveDate.replace(/-/g, '/')))
       const endDate = new Date(Date.parse(this.form.endEffectiveDate.replace(/-/g, '/')))
-      console.log('startDate' + startDate)
-      console.log('endDate' + endDate)
-      console.log(startDate > endDate)
       if (startDate > endDate) {
         callback(new Error('截至日期不能小于起始日期'))
       }
+      callback()
     }
     return {
       form: {
@@ -121,9 +119,9 @@ export default {
         agentName: '',
         startEffectiveDate: '',
         endEffectiveDate: '',
-        certificateType: '',
-        code: ''
+        certificateType: ''
       },
+      code: '',
       list: {
         manageCom2List: [],
         manageCom3List: [],
@@ -137,6 +135,14 @@ export default {
       }
     }
   },
+  beforeDestroy() {
+    this.$bus.$off('QUALIFICATION_SUCCESS')
+  },
+  mounted() {
+    this.$bus.$on('QUALIFICATION_SUCCESS', () => {
+      this.$bus.$emit('QUERY', this.form)
+    })
+  },
   created() {
     getInitializeList().then(res => {
       this.list.manageCom2List = res.com2List
@@ -145,13 +151,12 @@ export default {
   },
   methods: {
     showQualificationAddDialog() {
-      this.$bus.$emit('OPEN_QUALIFICATION_ADD_DIALOG')
+      this.$bus.$emit('OPEN_QUALIFICATION_ADD_DIALOG', this.form)
     },
     handleQuery(withWarning) { // withWarning:表单检查失败时是否会红色提醒用户 true:会 false:不会提醒用户
       this.$refs['form'].validate(valid => {
         if (valid) {
-          // 要在qualificationtable.vue 中加入handleQueryGroup方法查询
-          this.$bus.$emit('QUERY')
+          this.$bus.$emit('QUERY', this.form)
         } else {
           if (withWarning) {
             return false
@@ -160,9 +165,10 @@ export default {
       })
     },
     changeCom2() {
-      this.form.code = this.form.manageCom2
-      getNextOptions(this.form.code).then(res => {
-        this.list.manageCom3List = res.com3List
+      console.log(this.form.manageCom2)
+      this.code = this.form.manageCom2
+      getNextOptions(this.code).then(res => {
+        this.list.manageCom3List = res.comList
       })
       this.form.manageCom3 = ''
       this.form.manageCom4 = ''
@@ -171,18 +177,19 @@ export default {
       this.list.branchAttrList = ''
     },
     changeCom3() {
-      this.form.code = this.form.manageCom3
-      getNextOptions(this.form.code).then(res => {
-        this.list.manageCom4List = res.com4List
+      this.code = this.form.manageCom3
+      console.log('this.code' + this.code)
+      getNextOptions(this.code).then(res => {
+        this.list.manageCom4List = res.comList
       })
       this.form.manageCom4 = ''
       this.form.branchAttr = ''
       this.list.branchAttrList = ''
     },
     changeCom4() {
-      this.form.code = this.form.manageCom4
-      getNextOptions(this.form.code).then(res => {
-        this.list.branchAttrList = res.teamList
+      this.code = this.form.manageCom4
+      getNextOptions(this.code).then(res => {
+        this.list.branchAttrList = res.comList
       })
       this.form.branchAttr = ''
     },

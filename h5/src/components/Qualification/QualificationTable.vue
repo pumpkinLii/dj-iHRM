@@ -79,8 +79,7 @@ export default {
       queryQualification(data, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
         .then(r => {
           this.list = []
-          console.log(r.list)
-          console.log('this.list', this.list)
+          this.list = r.list
           this.page.totalCount = r.totalcountx
           this.$message.success('查询完毕')
         })

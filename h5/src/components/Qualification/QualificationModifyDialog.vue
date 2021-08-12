@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增" :visible.sync="config.visible" width="80%" :before-close="handleClose">
+  <el-dialog title="修改" :visible.sync="config.visible" width="80%" :before-close="handleClose">
     <span>
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
@@ -17,7 +17,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="资格证书名称" prop="certificateName">
-              <el-input v-model="form.certificateName" type="text" style="width:60%;" disabled />
+              <el-select v-model="form.certificateName" style="width:60%;" disabled>
+                <el-option :label="form.certificateName" :value="form.certificateCode">
+                  <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                  <span style="float: right">{{ option.label }}</span>
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -105,7 +110,8 @@ export default {
       form: {
         agentCode: '', // 人员工号
         agentName: '', // 人员姓名
-        certificateName: '', // 资格证书名称
+        certificateName: '', // 资格证书名称中文名
+        certificateCode: '', // 资格证书码值
         certificateNo: '', // 资格证书号
         releaseDate: '', // 发放日期
         reissueDate: '', // 补发日期
@@ -115,6 +121,9 @@ export default {
 
         certificateType: '1', // 写死
         oldCertificateNo: '' // TODO 旧的资格证书号 需要父组件传进来
+      },
+      list: {
+        certificateObject: []
       },
       rules: {
         agentCode:
@@ -135,19 +144,21 @@ export default {
     }
   },
   mounted() {
+    getAllCode()
+      .then(r => {
+        Object.keys(r['resource']['certificatename']).forEach(key => {
+          this.list.certificateObject.push(
+            {
+              label: r['resource']['certificatename'][key],
+              value: key
+            }
+          )
+        })
+      })
     this.$bus.$on('OPEN_QUALIFICATION_MODIFY_DIALOG', (item) => {
       this.form = item
       this.form.approver = item['approveBy'] // 接口格式谈崩，做的补丁化处理
       this.form.oldCertificateNo = item['certificateNo']
-      getAllCode()
-        .then(r => {
-          Object.keys(r['resource']['certificatename']).forEach(key => {
-            if (key === this.certificateName) {
-              this.certificateName = r['resource']['certificatename'][key]
-            }
-          })
-          this.certificateName = '未查到资格证名'
-        })
       this.config.visible = true
     })
   },

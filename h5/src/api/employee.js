@@ -89,7 +89,7 @@ export function huixian(data) {
 // 根据agentCode查询人员信息接口
 export function queryAgent(agentCode) {
   return request({
-    url: Vue.config.productionTip === true ? '/test/QueryWithCode?agentCode=' + agentCode : 'http://10.11.114.129:9999/test/QueryWithCode?agentCode=' + agentCode,
+    url: Vue.config.productionTip === true ? '/test/QueryWithCode?agentCode=' + agentCode : 'http://10.11.114.32:9999/test/QueryWithCode?agentCode=' + agentCode,
     method: 'post'
   })
 }

@@ -1,226 +1,262 @@
 <template>
   <div>
 
-    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="90%" :before-close="editDialogClosed">
+    <el-dialog title="修改人员信息" :visible.sync="editDialogVisible" width="90%" :before-close="editDialogClosed">
       <!-- 主体 -->
       <span>
         <el-form ref="form" :rules="rules" :model="form" label-width="180px">
-      <h4>代理人信息</h4>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="业务员代码">
-            <el-input type="text" placeholder="admin" disabled/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="业务员姓名" prop="agentName">
-            <el-input v-model="form.agentName" type="text" style="width:100%;" disabled/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="证件类型" prop="idType">
-            <el-select v-model="form.idType" type="text" style="width:100%;" disabled>
-              <el-option v-for="(option,index) in list.idType" :key="index" :label="option.label" :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="证件号码" prop="idNo">
-            <el-input v-model="form.idNo" type="text" style="width:100%;" disabled/>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="出生日期" prop="birthday">
-            <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="填写您的出生日期"
-                            style="width:100%;" disabled/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="性别" prop="sex">
-            <el-select v-model="form.sex" type="text" style="width:100%;" disabled>
-              <el-option v-for="(option,index) in list.sex" :key="index" :label="option.label" :value="option.value"/>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="户口类型" prop="rgtType">
-            <el-select v-model="form.rgtType" type="text" style="width:100%;">
-              <el-option v-for="(option,index) in list.rgtType" :key="index" :label="option.label"
-                         :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="户口所在省" prop="rgtProvince">
-            <el-select v-model="form.rgtProvince" type="text" style="width:100%;">
-              <el-option v-for="(option,index) in list.nativeplace" :key="index" :label="option.label"
-                         :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="最高学历" prop="highestDegree">
-            <el-select v-model="form.highestDegree" type="text" style="width:100%;">
-              <el-option v-for="(option,index) in list.highestDegree" :key="index" :label="option.label"
-                         :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="第一学历">
-            <el-select v-model="form.firstDegree" type="text" style="width:100%;">
-              <el-option v-for="(option,index) in list.highestDegree" :key="index" :label="option.label"
-                         :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="最高学位" prop="degree">
-            <el-select v-model="form.degree" type="text" style="width:100%;">
-              <el-option v-for="(option,index) in list.degree" :key="index" :label="option.label" :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="毕业院校" prop="graduateSchool">
-            <el-input v-model="form.graduateSchool" type="text" style="width:100%;"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="专业" prop="major">
-            <el-input v-model="form.major" type="text" style="width:100%;"/>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="民族" prop="nationality">
-            <el-select v-model="form.nationality" type="text" style="width:100%;">
-              <el-option v-for="(option,index) in list.nationality" :key="index" :label="option.label"
-                         :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="籍贯" prop="nativeplace">
-            <el-select v-model="form.nativeplace" type="text" style="width:100%;">
-              <el-option v-for="(option,index) in list.nativeplace" :key="index" :label="option.label"
-                         :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="最近一份工作行业类型" prop="oldIndustryType">
-            <el-select v-model="form.oldIndustryType" type="text" style="width:100%;">
-              <el-option v-for="(option,index) in list.oldIndustryType" :key="index" :label="option.label"
-                         :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="最近一份职业" prop="oldOccupation">
-            <el-input v-model="form.oldOccupation" type="text" style="width:100%;"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="最近一家工作单位" prop="oldCom">
-            <el-input v-model="form.oldCom" type="text" style="width:100%;" disabled/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="最近一份工作职务" prop="oldJobDuty">
-            <el-input v-model="form.oldJobDuty" type="text" style="width:100%;"/>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="从业年限" prop="workAge">
-            <el-input v-model="form.workAge" type="text" style="width:100%;"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="家庭地址" prop="homeAddress">
-            <el-input v-model="form.homeAddress" type="text" style="width:100%;"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="邮编" prop="postcode">
-            <el-input v-model="form.postcode" type="text" style="width:100%;"/>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="住宅电话" prop="homephone">
-            <el-input v-model="form.homephone" type="text" style="width:100%;"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="手机" prop="phone">
-            <el-input v-model="form.phone" type="text" style="width:100%;"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="E-mail" prop="email">
-            <el-input v-model="form.email" type="text" style="width:100%;"/>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="政治面貌" prop="outlookStatus">
-            <el-select v-model="form.outlookStatus" type="text" style="width:100%;">
-              <el-option v-for="(option,index) in list.dajiapolityvisage" :key="index" :label="option.label"
-                         :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="账户银行总行" prop="bankCode">
+          <h4>代理人信息</h4>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="业务员代码">
+                <el-input type="text" placeholder="admin" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" />
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="业务员姓名" prop="agentName">
+                <el-input v-model="form.agentName" type="text" style="width:100%;" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="证件类型" prop="idType">
+                <el-select v-model="form.idType" type="text" style="width:100%;" disabled>
+                  <el-option v-for="(option,index) in list.idType" :key="index" :label="option.label" :value="option.value">
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                    <span style="float: right">{{ option.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="证件号码" prop="idNo">
+                <el-input v-model="form.idNo" type="text" style="width:100%;" disabled />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="出生日期" prop="birthday">
+                <el-date-picker
+                  v-model="form.birthday"
+                  value-format="yyyy-MM-dd"
+                  type="date"
+                  placeholder="填写您的出生日期"
+                  style="width:100%;"
+                  disabled
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="性别" prop="sex">
+                <el-select v-model="form.sex" type="text" style="width:100%;" disabled>
+                  <el-option v-for="(option,index) in list.sex" :key="index" :label="option.label" :value="option.value" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="户口类型" prop="rgtType">
+                <el-select v-model="form.rgtType" type="text" style="width:100%;">
+                  <el-option
+                    v-for="(option,index) in list.rgtType"
+                    :key="index"
+                    :label="option.label"
+                    :value="option.value"
+                  >
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                    <span style="float: right">{{ option.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="户口所在省" prop="rgtProvince">
+                <el-select v-model="form.rgtProvince" type="text" style="width:100%;">
+                  <el-option
+                    v-for="(option,index) in list.bankProvince"
+                    :key="index"
+                    :label="option.label"
+                    :value="option.value"
+                  >
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                    <span style="float: right">{{ option.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="最高学历" prop="highestDegree">
+                <el-select v-model="form.highestDegree" type="text" style="width:100%;">
+                  <el-option
+                    v-for="(option,index) in list.highestDegree"
+                    :key="index"
+                    :label="option.label"
+                    :value="option.value"
+                  >
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                    <span style="float: right">{{ option.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="第一学历">
+                <el-select v-model="form.firstDegree" type="text" style="width:100%;">
+                  <el-option
+                    v-for="(option,index) in list.highestDegree"
+                    :key="index"
+                    :label="option.label"
+                    :value="option.value"
+                  >
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                    <span style="float: right">{{ option.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="最高学位" prop="degree">
+                <el-select v-model="form.degree" type="text" style="width:100%;">
+                  <el-option v-for="(option,index) in list.degree" :key="index" :label="option.label" :value="option.value">
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                    <span style="float: right">{{ option.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="毕业院校" prop="graduateSchool">
+                <el-input v-model="form.graduateSchool" type="text" style="width:100%;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="专业" prop="major">
+                <el-input v-model="form.major" type="text" style="width:100%;" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="民族" prop="nationality">
+                <el-select v-model="form.nationality" type="text" style="width:100%;">
+                  <el-option
+                    v-for="(option,index) in list.nationality"
+                    :key="index"
+                    :label="option.label"
+                    :value="option.value"
+                  >
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                    <span style="float: right">{{ option.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="籍贯" prop="nativeplace">
+                <el-select v-model="form.nativeplace" type="text" style="width:100%;">
+                  <el-option
+                    v-for="(option,index) in list.nativeplace"
+                    :key="index"
+                    :label="option.label"
+                    :value="option.value"
+                  >
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                    <span style="float: right">{{ option.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="最近一份工作行业类型" prop="oldIndustryType">
+                <el-select v-model="form.oldIndustryType" type="text" style="width:100%;">
+                  <el-option
+                    v-for="(option,index) in list.oldIndustryType"
+                    :key="index"
+                    :label="option.label"
+                    :value="option.value"
+                  >
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                    <span style="float: right">{{ option.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="最近一份职业" prop="oldOccupation">
+                <el-input v-model="form.oldOccupation" type="text" style="width:100%;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="最近一家工作单位" prop="oldCom">
+                <el-input v-model="form.oldCom" type="text" style="width:100%;" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="最近一份工作职务" prop="oldJobDuty">
+                <el-input v-model="form.oldJobDuty" type="text" style="width:100%;" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="从业年限" prop="workAge">
+                <el-input v-model="form.workAge" type="text" style="width:100%;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="家庭地址" prop="homeAddress">
+                <el-input v-model="form.homeAddress" type="text" style="width:100%;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="邮编" prop="postcode">
+                <el-input v-model="form.postcode" type="text" style="width:100%;" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="住宅电话" prop="homephone">
+                <el-input v-model="form.homephone" type="text" style="width:100%;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="手机" prop="phone">
+                <el-input v-model="form.phone" type="text" style="width:100%;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="E-mail" prop="email">
+                <el-input v-model="form.email" type="text" style="width:100%;" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="政治面貌" prop="outlookStatus">
+                <el-select v-model="form.outlookStatus" type="text" style="width:100%;">
+                  <el-option
+                    v-for="(option,index) in list.outlookStatus"
+                    :key="index"
+                    :label="option.label"
+                    :value="option.value"
+                  >
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                    <span style="float: right">{{ option.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="账户银行总行" prop="bankCode">
                 <el-select v-model="form.bankCode" type="text" style="width:100%;">
                   <el-option v-for="(option,index) in list.bankCode" :key="index" :label="option.label" :value="option.value">
                     <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
@@ -228,191 +264,203 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="银行账号" prop="bankAccount">
-            <el-input v-model="form.bankAccount" type="text" style="width:100%;"/>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="银行开户行联行号" prop="uniteBankNum">
-            <el-input v-model="form.uniteBankNum" type="text" style="width:100%;"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="开户行省份" prop="bankProvince">
-            <el-select v-model="form.bankProvince" type="text" style="width:100%;"
-                       @change="getCitiesByProvince(form.bankProvince)">
-              <el-option v-for="(option,index) in list.bankProvince" :key="index" :label="option.label"
-                         :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="开户行所在市" prop="bankCity">
-            <el-select v-model="form.bankCity" type="text" style="width:100%;" :disabled="form.bankProvince===''">
-              <el-option v-for="(option,index) in list.city" :key="index" :label="option.label" :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="专业资格证书号">
-            <el-input v-model="form.certificateNo" type="text" style="width:100%;" disabled/>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-divider/>
-      <h4>行政信息</h4>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="银行账号" prop="bankAccount">
+                <el-input v-model="form.bankAccount" type="text" style="width:100%;" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="银行开户行联行号" prop="uniteBankNum">
+                <el-input v-model="form.uniteBankNum" type="text" style="width:100%;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="开户行省份" prop="bankProvince">
+                <el-select
+                  v-model="form.bankProvince"
+                  type="text"
+                  style="width:100%;"
+                  @change="getCitiesByProvince(form.bankProvince)"
+                >
+                  <el-option
+                    v-for="(option,index) in list.bankProvince"
+                    :key="index"
+                    :label="option.label"
+                    :value="option.value"
+                  >
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                    <span style="float: right">{{ option.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="开户行所在市" prop="bankCity">
+                <el-select v-model="form.bankCity" type="text" style="width:100%;" :disabled="form.bankProvince===''">
+                  <el-option v-for="(option,index) in list.city" :key="index" :label="option.label" :value="option.value">
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                    <span style="float: right">{{ option.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="专业资格证书号">
+                <el-input v-model="form.certificateNo" type="text" style="width:100%;" disabled />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-divider />
+          <h4>行政信息</h4>
           <!-- 1-->
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="二级管理机构" prop="manageCom2">
-            <el-select v-model="form.manageCom2" placeholder="请选择" style="width:100%" @change="getManageComCode(2)" disabled>
-              <el-option v-for="(item,index) in list.manageCom2" :key="index" :value="item.value" :label="item.label">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
-                <span style="float: right">{{ item.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="三级管理机构" prop="manageCom3">
-            <el-select v-model="form.manageCom3" placeholder="请选择" style="width:100%" disabled>
-              <el-option v-for="(item,index) in list.manageCom3" :key="index" :value="item.value" :label="item.label">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
-                <span style="float: right">{{ item.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="四级管理机构" prop="manageCom4">
-            <el-select v-model="form.manageCom4" placeholder="请选择" style="width:100%" disabled>
-              <el-option v-for="(item,index) in list.manageCom4" :key="index" :value="item.value" :label="item.label">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
-                <span style="float: right">{{ item.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="二级管理机构" prop="manageCom2">
+                <el-select v-model="form.manageCom2" placeholder="请选择" style="width:100%" disabled @change="getManageComCode(2)">
+                  <el-option v-for="(item,index) in list.manageCom2" :key="index" :value="item.value" :label="item.label">
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+                    <span style="float: right">{{ item.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="三级管理机构" prop="manageCom3">
+                <el-select v-model="form.manageCom3" placeholder="请选择" style="width:100%" disabled>
+                  <el-option v-for="(item,index) in list.manageCom3" :key="index" :value="item.value" :label="item.label">
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+                    <span style="float: right">{{ item.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="四级管理机构" prop="manageCom4">
+                <el-select v-model="form.manageCom4" placeholder="请选择" style="width:100%" disabled>
+                  <el-option v-for="(item,index) in list.manageCom4" :key="index" :value="item.value" :label="item.label">
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+                    <span style="float: right">{{ item.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
           <!--2 -->
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="岗位" prop="agentJob">
-            <el-select v-model="form.agentJob" placeholder="请选择" style="width:100%" @change="handleRankChange" disabled>
-              <el-option label="总监" value="0">
-                <span style="float: left; color: #8492a6; font-size: 13px">0</span>
-                <span style="float: right">总监</span>
-              </el-option>
-              <el-option label="经理" value="1">
-                <span style="float: left; color: #8492a6; font-size: 13px">1</span>
-                <span style="float: right">经理</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="人员职级" prop="agentGrade">
-            <el-select v-model="form.agentGrade" placeholder="请选择" style="width:100%"
-                       :disabled="form.agentJob.length===0">
-              <el-option v-for="(item,index) in list.agentGrade" :key="index" :value="item.value" :label="item.label">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
-                <span style="float: right">{{ item.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="团队架构" prop="branchAttr">
-            <el-select v-model="form.branchAttr" placeholder="请选择" style="width:100%" @change="getTeamsByBranchAttr" disabled>
-              <el-option v-for="(item,index) in list.branchAttr" :key="index" :value="item.value" :label="item.label">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
-                <span style="float: right">{{ item.label }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="岗位" prop="agentJob">
+                <el-select v-model="form.agentJob" placeholder="请选择" style="width:100%" disabled @change="handleRankChange">
+                  <el-option label="总监" value="0">
+                    <span style="float: left; color: #8492a6; font-size: 13px">0</span>
+                    <span style="float: right">总监</span>
+                  </el-option>
+                  <el-option label="经理" value="1">
+                    <span style="float: left; color: #8492a6; font-size: 13px">1</span>
+                    <span style="float: right">经理</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="人员职级" prop="agentGrade">
+                <el-select
+                  v-model="form.agentGrade"
+                  placeholder="请选择"
+                  style="width:100%"
+                  :disabled="form.agentJob.length===0"
+                >
+                  <el-option v-for="(item,index) in list.agentGrade" :key="index" :value="item.value" :label="item.label">
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+                    <span style="float: right">{{ item.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="团队架构" prop="branchAttr">
+                <el-select v-model="form.branchAttr" placeholder="请选择" style="width:100%" disabled @change="getTeamsByBranchAttr">
+                  <el-option v-for="(item,index) in list.branchAttr" :key="index" :value="item.value" :label="item.label">
+                    <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+                    <span style="float: right">{{ item.label }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
           <!--3 -->
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="团队主管工号" prop="branchManager">
-            <el-input v-model="form.branchManager" type="text" style="width:100%;" disabled/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="团队主管姓名" prop="branchManagerName">
-            <el-input v-model="form.branchManagerName" type="text" style="width:100%;" disabled/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="合同类型" prop="contractType">
-            <el-select v-model="form.contractType" style="width:100%" disabled>
-              <el-option label="合同制" value="02"/>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="团队主管工号" prop="branchManager">
+                <el-input v-model="form.branchManager" type="text" style="width:100%;" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="团队主管姓名" prop="branchManagerName">
+                <el-input v-model="form.branchManagerName" type="text" style="width:100%;" disabled />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="合同类型" prop="contractType">
+                <el-select v-model="form.contractType" style="width:100%" disabled>
+                  <el-option label="合同制" value="02" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
           <!--4-->
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="劳动合同起期" prop="contractStartDate">
-            <el-date-picker
-              v-model="form.contractStartDate"
-              value-format="yyyy-MM-dd"
-              type="date"
-              placeholder="选择日期"
-              style="width:100%"
-              @change="dateCheck"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="劳动合同止期" prop="contractEndDate">
-            <el-date-picker
-              v-model="form.contractEndDate"
-              value-format="yyyy-MM-dd"
-              type="date"
-              placeholder="选择日期"
-              style="width:100%"
-              @change="dateCheck"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="入司日期" prop="employDate">
-            <el-date-picker
-              v-model="form.employDate"
-              value-format="yyyy-MM-dd"
-              type="date"
-              placeholder="选择日期"
-              style="width:100%"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="劳动合同起期" prop="contractStartDate">
+                <el-date-picker
+                  v-model="form.contractStartDate"
+                  value-format="yyyy-MM-dd"
+                  type="date"
+                  placeholder="选择日期"
+                  style="width:100%"
+                  @change="dateCheck"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="劳动合同止期" prop="contractEndDate">
+                <el-date-picker
+                  v-model="form.contractEndDate"
+                  value-format="yyyy-MM-dd"
+                  type="date"
+                  placeholder="选择日期"
+                  style="width:100%"
+                  @change="dateCheck"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="入司日期" prop="employDate">
+                <el-date-picker
+                  v-model="form.employDate"
+                  value-format="yyyy-MM-dd"
+                  type="date"
+                  placeholder="选择日期"
+                  style="width:100%"
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
           <!--5 -->
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="操作员代码" prop="operator">
-            <el-input v-model="form.operator" type="text" style="width:100%;" disabled/>
-          </el-form-item>
-        </el-col>
-      </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="操作员代码" prop="operator">
+                <el-input v-model="form.operator" type="text" style="width:100%;" disabled />
+              </el-form-item>
+            </el-col>
+          </el-row>
           <!-- 分界线 -->
-      <el-divider/>
-    </el-form>
+          <el-divider />
+        </el-form>
 
       </span>
       <!-- 底部 -->
@@ -427,7 +475,6 @@
 <script>
 import * as API from '@/api/employee'
 import * as validator from '@/utils/validate'
-
 
 export default {
   name: 'PersonEdit',
@@ -458,6 +505,7 @@ export default {
         degree: [],
         nationality: [],
         dajiapolityvisage: [],
+        outlookStatus: [],
         oldIndustryType: [], // 最近一份工作
         bankProvince: [],
         city: [],
@@ -661,6 +709,9 @@ export default {
       this.editDialogVisible = true
     })
   },
+  beforeDestroy() {
+    this.$bus.$off('agentcode')
+  },
   methods: {
     getInitOptions() {
       API.getCodes().then(
@@ -690,6 +741,7 @@ export default {
       this.setCodes('degree', this.list.degree)
       this.setCodes('nationality', this.list.nationality)
       this.setCodes('industrytype', this.list.oldIndustryType)
+      this.setCodes('polityvisage', this.list.outlookStatus)
       // 排序民族
       this.list.nationality.sort((a, b) => {
         return a.value - b.value
@@ -844,9 +896,6 @@ export default {
       )
       this.editDialogVisible = false
     }
-  },
-  beforeDestroy() {
-    this.$bus.$off("agentcode")
   }
 }
 </script>

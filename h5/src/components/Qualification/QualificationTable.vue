@@ -17,7 +17,7 @@
       <el-table-column label="操作" width="100px" fixed="right">
         <template scope="scope">
           <!-- 修改 -->
-          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(list[scope.$index],scope.row)">修改</el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(list[scope.$index])">修改</el-button>
         </template>
       </el-table-column>
     </el-table>

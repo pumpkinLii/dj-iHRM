@@ -10,7 +10,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="人员姓名" prop="agentName">
-              <el-input v-model="form.agentName" type="text" style="width:60%;" disabled />
+              <el-input v-model="form.agentName" placeholder="输入人员工号自动获取" type="text" style="width:60%;" disabled />
             </el-form-item>
           </el-col>
         </el-row>
@@ -39,7 +39,6 @@
                 value-format="yyyy-MM-dd"
                 type="date"
                 style="width:60%;"
-                @change="dateCheck"
               />
             </el-form-item>
           </el-col>
@@ -50,7 +49,6 @@
                 value-format="yyyy-MM-dd"
                 type="date"
                 style="width:60%;"
-                @change="dateCheck"
               />
             </el-form-item>
           </el-col>
@@ -186,15 +184,6 @@ export default {
           this.$refs['form'].resetFields()
           this.$message.success('添加成功')
         })
-    },
-    dateCheck() {
-      if (this.form.reissueDate.length !== 0 &&
-        this.form.releaseDate.length !== 0 &&
-        new Date(this.form.releaseDate) > new Date(this.form.reissueDate)
-      ) {
-        this.form.reissueDate = ''
-        this.$message.warning('发放日期不能大于补发日期')
-      }
     },
     effDateCheck() {
       if (this.form.startEffectiveDate.length !== 0 &&

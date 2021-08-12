@@ -152,7 +152,9 @@ export default {
   },
   methods: {
     resetForm() {
-      this.$refs.form.resetFields()
+      Object.keys(this.form).forEach((key) => {
+        this.form[key] = ''
+      })
       this.$bus.$emit('RESET_QUALIFICATION_TABLE')
     },
     showQualificationAddDialog() {

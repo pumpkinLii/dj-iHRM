@@ -19,8 +19,8 @@
             <el-form-item label="资格证书名称" prop="certificateName">
               <el-select v-model="form.certificateName" style="width:60%;" disabled>
                 <el-option :label="form.certificateName" :value="form.certificateCode">
-                  <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                  <span style="float: right">{{ option.label }}</span>
+                  <span style="float: left; color: #8492a6; font-size: 13px">{{ form.certificateName }}</span>
+                  <span style="float: right">{{ form.certificateName }}</span>
                 </el-option>
               </el-select>
             </el-form-item>
@@ -39,7 +39,6 @@
                 value-format="yyyy-MM-dd"
                 type="date"
                 style="width:60%;"
-                @change="dateCheck"
               />
             </el-form-item>
           </el-col>
@@ -50,7 +49,6 @@
                 value-format="yyyy-MM-dd"
                 type="date"
                 style="width:60%;"
-                @change="dateCheck"
               />
             </el-form-item>
           </el-col>
@@ -156,8 +154,16 @@ export default {
         })
       })
     this.$bus.$on('OPEN_QUALIFICATION_MODIFY_DIALOG', (item) => {
-      this.form = item
-      this.form.approver = item['approveBy'] // 接口格式谈崩，做的补丁化处理
+      this.form = { ...item } // 对象的深拷贝浅拷贝
+      this.form.approveBy = undefined
+      this.$set(this.form, 'approver', item.approveBy)
+      // this.form.approver = item.approveBy // 接口格式谈崩，做的补丁化处理 []与.的区别
+      // 通过资格证中文查找码值
+      for (const item of this.list.certificateObject) {
+        if (item.label === item['certificateName']) {
+          this.form.certificateCode = item.value
+        }
+      }
       this.form.oldCertificateNo = item['certificateNo']
       this.config.visible = true
     })
@@ -171,7 +177,11 @@ export default {
         (valid) => {
           if (valid) {
             // 发起请求
-            this.sendSubmitRequest(this.form)
+            const data = { ...this.form }
+            data.certificateName = this.form.certificateCode
+            data.certificateType = '1'
+            console.log(data)
+            this.sendSubmitRequest(data)
           } else {
             this.$message.warning('请检查表单是否有误')
             return false
@@ -188,17 +198,8 @@ export default {
           this.$bus.$emit('QUALIFICATION_SUCCESS')
           this.$refs['form'].resetFields()
           this.config.visible = false
-          this.$message.success('添加成功')
+          this.$message.success('修改成功')
         })
-    },
-    dateCheck() {
-      if (this.form.reissueDate.length !== 0 &&
-        this.form.releaseDate.length !== 0 &&
-        new Date(this.form.releaseDate) > new Date(this.form.reissueDate)
-      ) {
-        this.form.reissueDate = ''
-        this.$message.warning('发放日期不能大于补发日期')
-      }
     },
     effDateCheck() {
       if (this.form.startEffectiveDate.length !== 0 &&

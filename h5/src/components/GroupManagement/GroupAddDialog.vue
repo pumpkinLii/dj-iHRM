@@ -194,6 +194,12 @@ export default {
           this.form.branchManagerPhone = r.data.phone
           this.$message.success('获取负责人代码/电话号成功')
         })
+        .catch(
+          () => {
+            this.form.branchManagerName = ''
+            this.form.branchManagerPhone = ''
+          }
+        )
     },
     // 停业日期校验器
     branchTerminateEffDateValidator(rule, value, callback) {

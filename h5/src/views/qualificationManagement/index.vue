@@ -83,6 +83,7 @@
           <el-col style="text-align:left;margin-top: 1rem">
             <el-button type="primary" icon="el-icon-search" @click="handleQuery(true)">查询</el-button>
             <el-button type="success" icon="el-icon-edit" @click="showQualificationAddDialog">新增</el-button>
+            <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
           </el-col>
         </el-form-item>
       </el-row>
@@ -150,6 +151,10 @@ export default {
     })
   },
   methods: {
+    resetForm() {
+      this.$refs.form.resetFields()
+      this.$bus.$emit('RESET_QUALIFICATION_TABLE')
+    },
     showQualificationAddDialog() {
       this.$bus.$emit('OPEN_QUALIFICATION_ADD_DIALOG', this.form)
     },

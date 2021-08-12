@@ -63,6 +63,9 @@ export default {
     // this.$bus.$on('QUALIFICATION_SUCCESS', (data) => {
     //   this.handleQueryQualification(data)
     // })
+    this.$bus.$on('RESET_QUALIFICATION_TABLE', () => {
+      this.list = []
+    })
   },
   beforeDestroy() {
     this.$bus.$off('QUERY')

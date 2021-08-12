@@ -22,7 +22,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="证件类型" prop="idType">
-            <el-select v-model="form.idType" type="text" style="width:100%;">
+            <el-select v-model="form.idType" type="text" style="width:100%;" @change="handleIdTypeChange">
               <el-option v-for="(option,index) in list.idType" :key="index" :label="option.label" :value="option.value">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
                 <span style="float: right">{{ option.label }}</span>
@@ -32,7 +32,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="证件号码" prop="idNo">
-            <el-input v-model="form.idNo" type="text" style="width:100%;" :disabled="form.agentName === '' || form.idType ===''" @blur="idNumberCheck" /><!-- :disabled="data.isdisabled1 -->
+            <el-input v-model="form.idNo" type="text" :placeholder="(form.agentName === '' || form.idType ==='')?'请输入姓名并选择证件类型':''" style="width:100%;" :disabled="form.agentName === '' || form.idType ===''" @blur="idNumberCheck" /><!-- :disabled="data.isdisabled1 -->
           </el-form-item>
         </el-col>
       </el-row>
@@ -803,6 +803,10 @@ export default {
         this.form.teamSupervisorId = r.data.branchManager
         this.form.teamSupervisorName = r.data.branchManagerName
       })
+    },
+    // 身份证类型改变时的回调
+    handleIdTypeChange() {
+      this.form.idNo = ''
     }
   }
 }

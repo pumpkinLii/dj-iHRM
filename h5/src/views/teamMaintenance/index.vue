@@ -54,7 +54,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="停业标志">
-            <el-select v-model="form.branchStatus" placeholder="可选项" style="width:100%;">
+            <el-select v-model="form.branchStatus" clearable placeholder="可选项" style="width:100%;">
               <el-option label="否" value="N" />
               <el-option label="是" value="Y" />
             </el-select>

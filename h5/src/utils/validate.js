@@ -42,10 +42,10 @@ export function isValidChineseName(rule, value, callback) {
 }
 
 export function isValidTel(rule, value, callback) {
-  if ((/^((0\d{2,3})-)?(\d{7,8})(-(\d{3,4}))?$/.test(value)) || value === '') {
+  if ((/^(\d{4})\d{6,8}$/.test(value)) || /^1[34578]\d{9}$/.test(value) || value === '') {
     return callback()
   }
-  callback(new Error('请输入正确的电话号码!'))
+  callback(new Error('请输入区号+住宅电话/手机号'))
 }
 
 export function isZip(rule, value, callback) {

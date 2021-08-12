@@ -5,7 +5,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="二级管理机构" prop="manageCom2">
-            <el-select v-model="form.manageCom2" placeholder="请选择" style="width:100%;" @change="changeCom2">
+            <el-select v-model="form.manageCom2" placeholder="请选择" style="width:100%;" clearable @change="changeCom2">
               <el-option v-for="(option,index) in list.manageCom2List" :key="index" :label="option.name" :value="option.comcode">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.comcode }}</span>
                 <span style="float: right">{{ option.name }}</span>
@@ -15,7 +15,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="三级管理机构">
-            <el-select v-model="form.manageCom3" placeholder="选择上一级下拉列表" style="width:100%;" @change="changeCom3">
+            <el-select v-model="form.manageCom3" placeholder="选择上一级下拉列表" style="width:100%;" clearable @change="changeCom3">
               <el-option v-for="(option,index) in list.manageCom3List" :key="index" :label="option.name" :value="option.comcode">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.comcode }}</span>
                 <span style="float: right">{{ option.name }}</span>
@@ -25,7 +25,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="四级管理机构">
-            <el-select v-model="form.manageCom4" placeholder="选择上一级下拉列表" style="width:100%;" @change="changeCom4">
+            <el-select v-model="form.manageCom4" placeholder="选择上一级下拉列表" style="width:100%;" clearable @change="changeCom4">
               <el-option v-for="(option,index) in list.manageCom4List" :key="index" :label="option.name" :value="option.comcode">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.comcode }}</span>
                 <span style="float: right">{{ option.name }}</span>
@@ -37,7 +37,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="团队">
-            <el-select v-model="form.branchAttr" style="width:100%;" placeholder="选择上一级下拉列表">
+            <el-select v-model="form.branchAttr" style="width:100%;" placeholder="选择上一级下拉列表" clearable>
               <el-option v-for="(option,index) in list.branchAttrList" :key="index" :label="option.name" :value="option.code">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
                 <span style="float: right">{{ option.name }}</span>
@@ -69,7 +69,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="资格证书名称">
-            <el-select v-model="form.certificateType" placeholder="可选项" style="width:100%;">
+            <el-select v-model="form.certificateType" placeholder="可选项" style="width:100%;" clearable>
               <el-option v-for="(option,index) in list.certificateTypeList" :key="index" :label="option.name" :value="option.code">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
                 <span style="float: right">{{ option.name }}</span>
@@ -170,11 +170,14 @@ export default {
       })
     },
     changeCom2() {
-      console.log(this.form.manageCom2)
-      this.code = this.form.manageCom2
-      getNextOptions(this.code).then(res => {
-        this.list.manageCom3List = res.comList
-      })
+      if (this.form.manageCom2 === '') {
+        this.list.manageCom3List = []
+      } else {
+        this.code = this.form.manageCom2
+        getNextOptions(this.code).then(res => {
+          this.list.manageCom3List = res.comList
+        })
+      }
       this.form.manageCom3 = ''
       this.form.manageCom4 = ''
       this.form.branchAttr = ''
@@ -182,20 +185,27 @@ export default {
       this.list.branchAttrList = ''
     },
     changeCom3() {
-      this.code = this.form.manageCom3
-      console.log('this.code' + this.code)
-      getNextOptions(this.code).then(res => {
-        this.list.manageCom4List = res.comList
-      })
+      if (this.form.manageCom3 === '') {
+        this.list.manageCom4List = []
+      } else {
+        this.code = this.form.manageCom3
+        getNextOptions(this.code).then(res => {
+          this.list.manageCom4List = res.comList
+        })
+      }
       this.form.manageCom4 = ''
       this.form.branchAttr = ''
       this.list.branchAttrList = ''
     },
     changeCom4() {
-      this.code = this.form.manageCom4
-      getNextOptions(this.code).then(res => {
-        this.list.branchAttrList = res.comList
-      })
+      if (this.form.manageCom4 === '') {
+        this.list.branchAttrList = []
+      } else {
+        this.code = this.form.manageCom4
+        getNextOptions(this.code).then(res => {
+          this.list.branchAttrList = res.comList
+        })
+      }
       this.form.branchAttr = ''
     },
     changeStartEffectiveDate() {

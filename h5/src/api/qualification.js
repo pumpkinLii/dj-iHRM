@@ -30,7 +30,7 @@ export function getAgentNameByAgentCode(data) {
 
 export function queryQualification(data, page) {
   return request({
-    url: 'http://10.11.114.126:9999/certificate/retrieve?pageSize=' + page.pageSize + '&' + 'currentPage=' + page.currentPage,
+    url: Vue.config.productionTip === true ? '/certificate/retrieve' + page.pageSize + '&' + 'currentPage=' + page.currentPage : 'http://10.11.114.126:9999/certificate/retrieve?pageSize=' + page.pageSize + '&' + 'currentPage=' + page.currentPage,
     method: 'post',
     data
   })
@@ -38,14 +38,14 @@ export function queryQualification(data, page) {
 
 export function getNextOptions(code) {
   return request({
-    url: 'http://10.11.114.126:9999/certificate/returnCom?code=' + code,
+    url: Vue.config.productionTip === true ? '/certificate/returnCom?code=' + code : 'http://10.11.114.126:9999/certificate/returnCom?code=' + code,
     method: 'post'
   })
 }
 
 export function getInitializeList() {
   return request({
-    url: 'http://10.11.114.126:9999/certificate/initList',
+    url: Vue.config.productionTip === true ? '/certificate/initList' : 'http://10.11.114.126:9999/certificate/initList',
     method: 'post'
   })
 }

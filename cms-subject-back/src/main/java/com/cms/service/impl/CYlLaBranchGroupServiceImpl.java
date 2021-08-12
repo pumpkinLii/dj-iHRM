@@ -51,35 +51,24 @@ public class CYlLaBranchGroupServiceImpl extends ServiceImpl<CYlLaBranchGroupDao
         ybge.setChatName(c_ylLaBranchGroupPojo.getChatName());//群聊名称
 
         //查询人员表中主管是否存在 前端已经做好回显了
-        boolean bl=false;
         String agentGroup = this.agentGroup.getAgentGroup();
         if (StringUtils.isEmpty(c_ylLaBranchGroupPojo.getBranchManager())==false){
             ybge.setBranchManager(c_ylLaBranchGroupPojo.getBranchManager());//负责人代码
+            ybge.setBranchManagerName(c_ylLaBranchGroupPojo.getBranchManagerName());
+            ybge.setBranchManagerPhone(c_ylLaBranchGroupPojo.getBranchManagerPhone());
             QueryWrapper queryWrapper=new QueryWrapper();
             queryWrapper.eq("agent_code",c_ylLaBranchGroupPojo.getBranchManager());
             YlLaAgentEntity ylLaAgentEntity = idCheckService.getBaseMapper().selectOne(queryWrapper);
             if (ylLaAgentEntity==null){
-                return R.error("请先添加数据到人员表在操作");
+                return R.ok().put("msg","请先员工数据添加数据到人员表再操作").put("code",501);
+            }
+            if (ylLaAgentEntity.getAgentGrade().substring(0,2).equals("MA")==false){
+                return R.ok().put("msg","该员工不是主管,不可任命团队主管").put("code",501);
             }
             ylLaAgentEntity.setAgentGroup(agentGroup);
             idCheckService.getBaseMapper().update(ylLaAgentEntity,queryWrapper);
             System.out.println("-------------------------------------人员表数据已经更新-----------------------------------");
-        }else {
-            bl=true;
         }
-        if (StringUtils.isEmpty(c_ylLaBranchGroupPojo.getBranchManagerName())==false){
-            ybge.setBranchManagerName(c_ylLaBranchGroupPojo.getBranchManagerName());//负责人名称
-            if (bl=true){
-                return R.error("请先传入负责人的代码再传入名称");
-            }
-        }
-        if (StringUtils.isEmpty(c_ylLaBranchGroupPojo.getBranchManagerPhone())==false){
-            ybge.setBranchManagerPhone(c_ylLaBranchGroupPojo.getBranchManagerPhone());//负责人电话号
-            if (bl=true){
-                return R.error("请先传入负责人代码再传入电话号");
-            }
-        }
-        //以上逻辑 只传入负责人手机号 负责人名称 没有传入负责人代码是错误的 但是只传入负责人代码时（是否要根据人员表的信息传入庶几乎）
         ybge.setBranchTerminateEffDate(null);//停业时间 前端给不了 而且不为空
         //必须去设置的值 我自己设置
         ybge.setOperator(c_ylLaBranchGroupPojo.getOperator());

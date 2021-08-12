@@ -18,6 +18,7 @@ public class RetrieveCertificatePojo {
     String branchName;//团队名字
     String certificateNo;//资格证书号
     String certificateName;//资格证书名称
+    String certificateCode;// 码值
     String releaseDate;//发放日期
     String reissueDate;//补发日期
     String startEffectiveDate;//有效起期

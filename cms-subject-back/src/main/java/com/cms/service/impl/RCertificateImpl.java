@@ -58,8 +58,24 @@ public class RCertificateImpl implements RCertificateService {
     }
 
     @Override
+    public List<Map> initCertificate() {
+        //获取码值
+        QueryWrapper<LdCodeEntity> qw = new QueryWrapper<>();
+        qw.eq("code_type", "certificatename");
+        List<Map> list = new ArrayList<>();
+        List<LdCodeEntity> clist = idCodeDao.selectList(qw);
+        for (LdCodeEntity i : clist) {
+            Map map = new HashMap();
+            map.put("code", i.getCode());
+            map.put("name", i.getCodeName());
+            list.add(map);
+        }
+        return list;
+    }
+    @Override
     public List<RetrieveCertificatePojo> getCertificate(CertificateConditionPojo certificateConditionPojo) {
         //查询结果
+        List<Map> certificateCode = initCertificate();
         QueryWrapper<RetrieveCertificatePojo> qw = new QueryWrapper<>();
         if (!sCheckNull(certificateConditionPojo.getAgentCode()))
             qw.eq("yla.agent_code", certificateConditionPojo.getAgentCode());
@@ -99,6 +115,11 @@ public class RCertificateImpl implements RCertificateService {
             i.setManageComName3((String) comnewSon.getFatherManageCom(i.getManageCom4()).get("name"));
             i.setManageCom2((String) comnewSon.getFatherManageCom(i.getManageCom3()).get("comcode"));
             i.setManageComName2((String) comnewSon.getFatherManageCom(i.getManageCom3()).get("name"));
+            for (Map j:certificateCode){
+                if(((String)j.get("code")).equals(i.getCertificateCode())){
+                    i.setCertificateName((String) j.get("name"));
+                }
+            }
         }
         if (list.size() == 0) return null;
         else return list;
@@ -108,22 +129,6 @@ public class RCertificateImpl implements RCertificateService {
     public List<Map> initCom2() {
         //获取全部二级机构
         return comnewSon.getSonManageCom("86");
-    }
-
-    @Override
-    public List<Map> initCertificate() {
-        //获取码值
-        QueryWrapper<LdCodeEntity> qw = new QueryWrapper<>();
-        qw.eq("code_type", "certificatename");
-        List<Map> list = new ArrayList<>();
-        List<LdCodeEntity> clist = idCodeDao.selectList(qw);
-        for (LdCodeEntity i : clist) {
-            Map map = new HashMap();
-            map.put("code", i.getCode());
-            map.put("name", i.getCodeName());
-            list.add(map);
-        }
-        return list;
     }
 
     private boolean sCheckNull(String str) {

@@ -39,12 +39,12 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="出生日期" prop="birthday">
-            <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="填写您的出生日期" style="width:100%;" :disabled="form.idType !== '1'" />
+            <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="填写您的出生日期" style="width:100%;" :disabled="form.idType !== '0'" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="性别" prop="sex">
-            <el-select v-model="form.sex" type="text" style="width:100%;" :disabled="form.idType !== '1'">
+            <el-select v-model="form.sex" type="text" style="width:100%;" :disabled="form.idType !== '0'">
               <el-option v-for="(option,index) in list.sex" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>

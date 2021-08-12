@@ -86,14 +86,18 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
                         } else {
                             r_ylLaBranchGrou_return.setBranchEffDate("");
                         }
-                        queryWrapper1.eq("agent_group", list.get(i).getBranchAttr());
+                        queryWrapper1.eq("agent_group", list.get(i).getAgentGroup());
                         //在人员表中 获取与团队名称相同的人的
                         List list1 = agentCountDao.selectList(queryWrapper1);
                         String number = String.valueOf(list1.size());
 
                         r_ylLaBranchGrou_return.setAgentCount(number);//表格只读项	团队下当前实时统计在职代理人个数
                         if (list.get(i).getBranchTerminateEffDate() != null) {
-                            r_ylLaBranchGrou_return.setBranchTerminateEffDate(simpleDateFormat.format(list.get(i).getBranchTerminateEffDate()));
+                            if (list.get(i).getBranchStatus().equals("N")){
+                                r_ylLaBranchGrou_return.setBranchTerminateEffDate("");
+                            }else {
+                                r_ylLaBranchGrou_return.setBranchTerminateEffDate(simpleDateFormat.format(list.get(i).getBranchTerminateEffDate()));
+                            }
                         } else {
                             r_ylLaBranchGrou_return.setBranchTerminateEffDate("");
                         }

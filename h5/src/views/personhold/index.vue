@@ -1,11 +1,12 @@
 <template>
   <div class="app-container">
+    <h4>人员维护</h4>
     <el-form :model="form" label-width="180px">
       <!--    第一行-->
       <el-row>
         <el-col :span="8">
           <el-form-item label="二级管理机构" prop="manageCom2">
-            <el-select v-model="form.manageCom2" placeholder="请选择" style="width:100%" @change="select(form.manageCom2)">
+            <el-select v-model="form.manageCom2" placeholder="请选择" style="width:100%" @change="select(form.manageCom2)" clearable>
               <el-option v-for="(item,index) in list.manageCom2" :key="index" :value="item.comcode" :label="item.name">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ item.comcode }}</span>
                 <span style="float: right">{{ item.name }}</span>
@@ -15,7 +16,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="三级管理机构" prop="manageCom3">
-            <el-select v-model="form.manageCom3" placeholder="请选择" style="width:100%" :disabled="!form.manageCom2||form.manageCom2.length===0" @change="select(form.manageCom3)">
+            <el-select v-model="form.manageCom3" placeholder="请选择" style="width:100%" :disabled="!form.manageCom2||form.manageCom2.length===0" @change="select1(form.manageCom3)" clearable>
               <el-option v-for="(item,index) in list.manageCom3" :key="index" :value="item.comcode" :label="item.name">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ item.comcode }}</span>
                 <span style="float: right">{{ item.name }}</span>
@@ -25,7 +26,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="四级管理机构" prop="manageCom4">
-            <el-select v-model="form.manageCom4" placeholder="请选择" style="width:100%" :disabled="!form.manageCom3||form.manageCom3.length===0" @change="group(form.manageCom4)">
+            <el-select v-model="form.manageCom4" placeholder="请选择" style="width:100%" :disabled="!form.manageCom3||form.manageCom3.length===0" @change="group(form.manageCom4)" clearable>
               <el-option v-for="(item,index) in list.manageCom4" :key="index" :value="item.comcode" :label="item.name">
                 <span style="float: left; color: #313336; font-size: 13px">{{ item.comcode }}</span>
                 <span style="float: right">{{ item.name }}</span>
@@ -38,7 +39,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="团队">
-            <el-select placeholder="请选择" style="width: 100%" v-model="form.branchAttr">
+            <el-select placeholder="请选择" style="width: 100%" v-model="form.branchAttr" clearable>
               <el-option v-for="(item,index) in list.branchAttr" :key="index" :value="item.value" :label="item.label">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
                 <span style="float: right">{{ item.label }}</span>
@@ -48,7 +49,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="人员工号">
-            <el-input v-model="form.agentCode"/>
+            <el-input v-model="form.agentCode" clearable/>
           </el-form-item>
         </el-col>
       </el-row>
@@ -56,12 +57,12 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="人员姓名">
-            <el-input v-model="form.agentName"/>
+            <el-input v-model="form.agentName" clearable/>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="人员状态">
-            <el-select placeholder="请选择" style="width: 100%" v-model="form.agentState">
+            <el-select placeholder="请选择" style="width: 100%" v-model="form.agentState" clearable>
               <el-option label="在职" value="0">
                 <span style="float: left; color: #8492a6; font-size: 13px">0</span>
                 <span style="float: right">在职</span>
@@ -171,12 +172,17 @@ export default {
     },
     // 三四级下拉列表渲染
     select(abc) {
+      this.form.manageCom3 = ''
+      this.form.manageCom4 = ''
       V.xiala(abc).then((r)=>{
-        if(abc.length===4){
           this.list.manageCom3 = r.list
-        }else if(abc.length===6){
-          this.list.manageCom4 = r.list
-        }
+
+      })
+    },
+    select1(abc){
+      this.form.manageCom4 = ''
+      V.xiala(abc).then((r)=>{
+        this.list.manageCom4 = r.list
       })
     },
     // 模板下载
@@ -205,6 +211,15 @@ export default {
         document.body.removeChild(link)
       })
     }
+  },
+  mounted() {
+    this.$bus.$on('refresh',()=>{
+      this.handleQuery1()
+      //this.$bus.$off('refresh')
+    })
+  },
+  beforeDestroy() {
+    this.$bus.$off('refresh')
   }
 }
 </script>

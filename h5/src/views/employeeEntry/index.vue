@@ -647,11 +647,11 @@ export default {
       this.setCodes('nationality', this.list.nationality)
       this.setCodes('industrytype', this.list.oldIndustryType)
       this.setCodes('bankcode', this.list.bankCode)
+      this.setCodes('polityvisage', this.list.outlookStatus)
       // 排序民族
       this.list.nationality.sort((a, b) => {
         return a.value - b.value
       })
-      this.setCodes('polityvisage', this.list.outlookStatus)
       // 排序籍贯
       this.list.nativeplace.sort((a, b) => {
         return a.value - b.value

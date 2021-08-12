@@ -137,6 +137,7 @@ export default {
   mounted() {
     this.$bus.$on('OPEN_QUALIFICATION_MODIFY_DIALOG', (item) => {
       this.form = item
+      this.form.approver = item['approveBy'] // 接口格式谈崩，做的补丁化处理
       getAllCode()
         .then(r => {
           Object.keys(r['resource']['certificatename']).forEach(key => {

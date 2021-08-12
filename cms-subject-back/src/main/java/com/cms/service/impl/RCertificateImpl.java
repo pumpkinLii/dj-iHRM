@@ -87,12 +87,12 @@ public class RCertificateImpl implements RCertificateService {
             qw.eq("ylbg.branch_attr", certificateConditionPojo.getBranchAttr());
         if (!sCheckNull(certificateConditionPojo.getAgentName()))
             qw.eq("yla.agent_name", certificateConditionPojo.getAgentName());
-        if (!sCheckNull(certificateConditionPojo.getMangeCom2()))
-            qw.likeRight("yla.manage_com", certificateConditionPojo.getMangeCom2());
-        if (!sCheckNull(certificateConditionPojo.getMangeCom3()))
-            qw.likeRight("yla.manage_com", certificateConditionPojo.getMangeCom3());
-        if (!sCheckNull(certificateConditionPojo.getMangeCom4()))
-            qw.likeRight("yla.manage_com", certificateConditionPojo.getMangeCom4());
+        if (!sCheckNull(certificateConditionPojo.getManageCom2()))
+            qw.likeRight("yla.manage_com", certificateConditionPojo.getManageCom2());
+        if (!sCheckNull(certificateConditionPojo.getManageCom3()))
+            qw.likeRight("yla.manage_com", certificateConditionPojo.getManageCom3());
+        if (!sCheckNull(certificateConditionPojo.getManageCom4()))
+            qw.likeRight("yla.manage_com", certificateConditionPojo.getManageCom4());
         List<RetrieveCertificatePojo> list = ylLaAgentCertificateDao.getCertificateInfo(qw);
         for (RetrieveCertificatePojo i : list) {
             i.setManageCom3((String) comnewSon.getFatherManageCom(i.getManageCom4()).get("comcode"));

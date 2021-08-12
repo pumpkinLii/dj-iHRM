@@ -13,8 +13,20 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.cms.entity.YlLaAgentCertificateEntity;
+import com.cms.pojo.CeInsertPojo;
+import com.cms.service.YlAgentCertificateService;
+import com.cms.service.impl.CYlLaBranchGroupServiceImpl;
+import com.cms.service.impl.YlAgentCertificateServiceImpl;
+import com.cms.util.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,14 +61,20 @@ public class YlAgentCertificateController {
                             @RequestParam(value = "pageSize") int pageSize,
                             @RequestBody CertificateConditionPojo getCertificateConditionPojo) {
         List<RetrieveCertificatePojo> list = rCertificateService.getCertificate( getCertificateConditionPojo);
-        if(list==null) return  R.error("未查到");
+        if(list==null) {
+            list = new ArrayList<>();
+            return R.ok().put("list",list).put("totalcount",0);
+        }
         return R.ok().put("list", SlelectPage.getPage(pageSize,currentPage,list)).put("totalcount",list.size());
     }
     @PostMapping("/returnCom")
     @ApiOperation("机构回显接口")
     public R getComSon(@RequestParam(value = "code")String fatherCode){
         List<Map> list = rCertificateService.getComSon(fatherCode);
-        if(list==null) return R.error("未查到");
+        if(list==null) {
+            list = new ArrayList<>();
+            return R.ok().put("list",list);
+        }
         return R.ok().put("comList",list);
     }
     @PostMapping("/initList")
@@ -65,5 +83,37 @@ public class YlAgentCertificateController {
         List<Map> com2List = rCertificateService.initCom2();
         List<Map> cerficateTypeList = rCertificateService.initCertificate();
         return R.ok().put("com2List",com2List).put("certificateTypeList",cerficateTypeList);
+    }
+
+    @ApiOperation("校验工号是否存在")
+    @PostMapping("/NoIdcheck")
+    public String idcheck(@RequestBody CeInsertPojo ceInsertPojo) {
+        String result = ylAgentCertificateService.Idcheck(ceInsertPojo);
+        return result;
+    }
+    @ApiOperation("工号回显姓名")
+    @PostMapping("/searchNameById")
+    public R SearchNameById(@RequestBody CeInsertPojo ceInsertPojo) {
+        String result1 = ylAgentCertificateService.SearchNameById(ceInsertPojo);
+        if (result1!=null) {
+            return R.ok().put("agentName", result1);
+        }else {
+            return R.ok().put("code",501).put("msg","数据库没有此工号");
+        }
+    }
+    @ApiOperation("插入资格证信息")
+    @PostMapping("/insert")
+    //@RequestBody注解是接收前端返回的json并封装为****pojo
+    public R insertCertificate(@RequestBody CeInsertPojo ceInsertPojo) throws Exception {
+        ylAgentCertificateService.initializeEdorno(ceInsertPojo);
+        int i = ylAgentCertificateService.InsertCertificate(ceInsertPojo);
+        if(i > 0) {
+            return R.ok();
+        }else if(i == 0) {
+            return R.error("插入资格证信息重复");
+        }else {
+            return R.error("插入资格证信息失败");
+        }
+
     }
 }

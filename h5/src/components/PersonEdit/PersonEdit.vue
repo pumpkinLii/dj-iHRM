@@ -691,7 +691,14 @@ export default {
           // this.$message.success('根据agentCode查询人员成功')
           // console.log(res.form)
           this.form = res.form
-          console.log(this.form.agentJob)
+          // console.log(this.form.bankProvince)
+          // 得到市
+          this.list.cityObject.province.forEach(item => {
+            if (item.value === this.form.bankProvince) {
+              this.list.city = item.list
+            }
+          })
+          // 得到职级
           if (this.form.agentJob === '0') {
             API.posit().then(r => {
               this.list.agentGrade = r['list']
@@ -889,12 +896,13 @@ export default {
         (res) => {
           if (res.code === 0) {
             this.$message.success('修改成功')
-            // console.log('resresres')
-            // console.log(res)
+            this.$bus.$emit('refresh')
+            this.editDialogVisible = false
+          } else {
+            this.$message.error('修改失败')
           }
         }
       )
-      this.editDialogVisible = false
     }
   }
 }

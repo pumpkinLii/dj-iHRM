@@ -34,7 +34,7 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <GroupModifyDialog />
+    <GroupModifyDialog ref="groupModifyDialog" :visible="config.groupModifyDialogVisible" @REFRESH_QUERY="$emit('QUERY_GROUP')" @CLOSE_GROUP_MODIFY_DIALOG="handleGroupModifyDialogClose" />
   </div>
 </template>
 

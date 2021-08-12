@@ -52,7 +52,7 @@ export function xiala1(){
 // 团队下拉列表
 export function xiala3(data){
   return request({
-    url:'http://10.11.114.129:9999/test/QueryGroup',
+    url:'http://10.11.114.32:9999/test/QueryGroup',
     // Vue.config.productionTip===true?'/test/QueryGroup':
     method:'post',
     data

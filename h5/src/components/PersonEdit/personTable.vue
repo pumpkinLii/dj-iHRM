@@ -8,7 +8,7 @@
       <el-table-column label="三级管理机构" prop="manageCom3" />
       <el-table-column label="四级管理机构" prop="manageCom4" />
       <el-table-column label="入司日期" prop="employDate" />
-      <el-table-column label="人员状态" prop="agentState" />
+      <el-table-column label="人员状态" prop="stateName" />
       <el-table-column label="操作" width="100px" fixed="right">
         <template scope="scope">
           <!-- 修改 -->

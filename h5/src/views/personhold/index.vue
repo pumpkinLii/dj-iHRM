@@ -63,16 +63,16 @@
         <el-col :span="8">
           <el-form-item label="人员状态">
             <el-select placeholder="请选择" style="width: 100%" v-model="form.agentState" clearable>
-              <el-option label="在职" value="0">
-                <span style="float: left; color: #8492a6; font-size: 13px">0</span>
+              <el-option label="在职" value="01">
+                <span style="float: left; color: #8492a6; font-size: 13px">01</span>
                 <span style="float: right">在职</span>
               </el-option>
-              <el-option label="二次入司" value="1">
-                <span style="float: left; color: #8492a6; font-size: 13px">1</span>
+              <el-option label="二次入司" value="02">
+                <span style="float: left; color: #8492a6; font-size: 13px">02</span>
                 <span style="float: right">二次入司</span>
               </el-option>
-              <el-option label="离职" value="2">
-                <span style="float: left; color: #8492a6; font-size: 13px">2</span>
+              <el-option label="离职" value="03">
+                <span style="float: left; color: #8492a6; font-size: 13px">03</span>
                 <span style="float: right">离职</span>
               </el-option>
             </el-select>
@@ -160,6 +160,7 @@ export default {
   methods:{
     //团队下拉列表
     group(data){
+      this.form.branchAttr = ''
       const f ={"manageCom4" : data}
       V.xiala3(f).then((r)=>{
         this.list.branchAttr = r.list

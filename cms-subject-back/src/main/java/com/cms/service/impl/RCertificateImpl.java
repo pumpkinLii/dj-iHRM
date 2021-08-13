@@ -80,12 +80,12 @@ public class RCertificateImpl implements RCertificateService {
         if (!sCheckNull(certificateConditionPojo.getAgentCode()))
             qw.eq("yla.agent_code", certificateConditionPojo.getAgentCode());
         if (!sCheckNull(certificateConditionPojo.getCertificateType()))
-            qw.eq("yl_la_agent_certificate.certificate_type", certificateConditionPojo.getCertificateType());
+            qw.eq("ylc.certificate_type", certificateConditionPojo.getCertificateType());
         if (!sCheckNull(certificateConditionPojo.getStartEffectiveDate())) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date seef = simpleDateFormat.parse(certificateConditionPojo.getStartEffectiveDate());
-                qw.eq("yl_la_agent_certificate.start_effective_date", seef);
+                qw.eq("ylc.start_effective_date", seef);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -94,7 +94,7 @@ public class RCertificateImpl implements RCertificateService {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date eeef = simpleDateFormat.parse(certificateConditionPojo.getEndEffectiveDate());
-                qw.eq("yl_la_agent_certificate.end_effective_date", eeef);
+                qw.eq("ylc.end_effective_date", eeef);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

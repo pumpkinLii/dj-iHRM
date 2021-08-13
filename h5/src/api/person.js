@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询团队信息
 export function addPerson(data) {
   return request({
-    url: 'http://10.11.115.18:9999/test/doSave',
+    url: '/test/doSave',
     method: 'post',
     data
   })
@@ -12,28 +12,28 @@ export function addPerson(data) {
 // 管理机构下拉列表
 export function xiala() {
   return request({
-    url: 'http://10.11.115.18:9999/get/managecom',
+    url: '/get/managecom',
     method: 'post'
   })
 }
 // 总监
 export function posit() {
   return request({
-    url: 'http://10.11.115.18:9999/tes/g',
+    url: '/tes/g',
     method: 'post'
   })
 }
 // 经理
 export function posit1() {
   return request({
-    url: 'http://10.11.115.18:9999/tes/m',
+    url: '/tes/m',
     method: 'post'
   })
 }
 // 团队架构
 export function zhiji(data) {
   return request({
-    url: 'http://10.11.115.18:9999/test/EchoGroup',
+    url: '/test/EchoGroup',
     method: 'post',
     data
   })
@@ -41,16 +41,16 @@ export function zhiji(data) {
 // 回显
 export function huixian(data) {
   return request({
-    url: 'http://10.11.115.18:9999/test/EchoManager',
+    url: '/test/EchoManager',
     method: 'post',
     data
   })
 }
 
 // 根据agentCode查询人员信息接口
-export function queryAgent(r) {
+export function queryAgent(agentCode) {
   return request({
-    url: 'http://10.11.115.18:9999/agent/query/one?agentCode=' + r,
+    url: '/test/QueryWithCode?agentCode=' + agentCode,
     method: 'post'
   })
 }
@@ -58,7 +58,7 @@ export function queryAgent(r) {
 // 修改团队信息
 export function editPerson(data) {
   return request({
-    url: 'http://10.11.115.18:9999/agent/update',
+    url: '/agent/update',
     method: 'post',
     data
   })

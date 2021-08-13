@@ -35,7 +35,7 @@ export function getCodes() {
 // 提交新增人员
 export function submit(data) {
   return request({
-    url: '/test/doSave',
+    url: '/agent/doSave',
     method: 'post',
     data
   })
@@ -86,6 +86,7 @@ export function huixian(data) {
 // 根据agentCode查询人员信息接口
 export function queryAgent(agentCode) {
   return request({
+    // url: Vue.config.productionTip === true ? '/test/QueryWithCode?agentCode=' + agentCode : 'http://10.11.114.33:9999/test/QueryWithCode?agentCode=' + agentCode,
     url: '/test/QueryWithCode?agentCode=' + agentCode,
     method: 'post'
   })
@@ -94,6 +95,7 @@ export function queryAgent(agentCode) {
 // 修改团队信息
 export function editPerson(data) {
   return request({
+    // url: Vue.config.productionTip === true ? '/agent/update' : 'http://10.11.114.123:9999/agent/update',
     url: '/agent/update',
     method: 'post',
     data

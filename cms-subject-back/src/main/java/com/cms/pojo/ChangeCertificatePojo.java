@@ -9,7 +9,7 @@ public class ChangeCertificatePojo {
     String certificateType;//资格证类型
     String certificateName;//资格证名称
     String oldCertificateNo;//修改前资格证号
-    String certificateNol;//资格证号
+    String certificateNo;//资格证号
     String releaseDate;//发放日期
     String reissueDate;//补发日期
     String startEffectiveDate;//有效起期 要求前端给字符串

@@ -26,7 +26,7 @@ public class EchoManagerController {
         if(map!=null){
             return R.ok().put("data",map);
         }else {
-            return R.error("失败，无对应管理员");
+            return R.error(501,"失败，无对应管理员");
         }
     }
 }

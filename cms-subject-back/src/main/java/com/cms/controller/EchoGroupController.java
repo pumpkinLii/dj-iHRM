@@ -29,7 +29,7 @@ public class EchoGroupController {
         if (mapList != null) {
             return R.ok().put("list",mapList);
         } else {
-            return R.error("失败：无对应团队");
+            return R.error(501,"失败：无对应团队");
         }
     }
 }

@@ -5,7 +5,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="业务员代码">
-            <el-input type="text" disabled />
+            <el-input type="text" placeholder="admin" disabled />
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -747,6 +747,9 @@ export default {
             this.$message.error(res['msg'])
             this.form.idNO = ''
           }
+        })
+        .catch(() => {
+          this.form.idNo = ''
         })
     },
     getCitiesByProvince(provinceCode) {

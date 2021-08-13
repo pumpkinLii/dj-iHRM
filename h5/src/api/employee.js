@@ -9,12 +9,10 @@ export function getSelectOptional() {
   })
 }
 
-// 王佳智的ip
 export function idCheck(data) {
   return request({
     url: '/test/idCheck',
     method: 'post',
-    // data:data
     data
   })
 }

@@ -739,10 +739,12 @@ export default {
         .then((res) => {
           if (res['code'] === 0) {
             this.$message.success('证件号码正确')
-            const strBirthday = this.form.idNo.slice(6, 10) + '-' + this.form.idNo.slice(10, 12) + '-' + this.form.idNo.slice(12, 14)
-            const strSex = this.form.idNo.slice(16, 17)
-            this.form.sex = String((parseInt(strSex) + 1) % 2)
-            this.form.birthday = strBirthday
+            if (this.form.idType === '0') {
+              const strBirthday = this.form.idNo.slice(6, 10) + '-' + this.form.idNo.slice(10, 12) + '-' + this.form.idNo.slice(12, 14)
+              const strSex = this.form.idNo.slice(16, 17)
+              this.form.sex = String((parseInt(strSex) + 1) % 2)
+              this.form.birthday = strBirthday
+            }
           } else {
             this.$message.error(res['msg'])
             this.form.idNO = ''

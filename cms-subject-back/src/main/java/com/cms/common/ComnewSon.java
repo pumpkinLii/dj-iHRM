@@ -58,7 +58,7 @@ public class ComnewSon {
             QueryWrapper queryWrapper = new QueryWrapper();
             queryWrapper.eq("up_com_code", fatherComcode);
             List<LdComNewEntity> list = this.magService.getBaseMapper().selectList(queryWrapper);
-            //获取三级机构的结果集了
+            //获取三级机构的结果集了 861101
             for (int i = 0; i < list.size(); i++) {
                 //三级选四级
                 QueryWrapper queryWrapperson = new QueryWrapper();
@@ -66,8 +66,8 @@ public class ComnewSon {
                 List<LdComNewEntity> listson = this.magService.getBaseMapper().selectList(queryWrapperson);
                 for (int i1 = 0; i1 < listson.size(); i1++) {
                     Map map = new HashMap();
-                    map.put("name", listson.get(i).getName());
-                    map.put("comcode", listson.get(i).getComCode());
+                    map.put("name", listson.get(i1).getName());
+                    map.put("comcode", listson.get(i1).getComCode());
                     result.add(map);
                 }
             }

@@ -54,7 +54,7 @@ public class YlAgentCertificateServiceImpl extends ServiceImpl<YlLaAgentCertific
     @Override
     public R changeCertificateService(ChangeCertificatePojo changeCertificatePojo) throws ParseException {
         QueryWrapper queryWrapper=new QueryWrapper();
-        if (StringUtils.isEmpty(changeCertificatePojo.getCertificateName())==true){
+        if (StringUtils.isEmpty(changeCertificatePojo.getCertificateType())==true){
             return R.ok().put("code",501).put("msg","请选择资格证类型");
         }
         if (StringUtils.isEmpty(changeCertificatePojo.getOldCertificateNo())==true){
@@ -65,43 +65,29 @@ public class YlAgentCertificateServiceImpl extends ServiceImpl<YlLaAgentCertific
         }
 
         queryWrapper.eq(StringUtils.isEmpty(changeCertificatePojo.getAgentCode()),"agent_code",changeCertificatePojo.getAgentCode());
-        queryWrapper.eq(StringUtils.isEmpty(changeCertificatePojo.getCertificateName()),"certificate_name",changeCertificatePojo.getCertificateName());
+        queryWrapper.eq(StringUtils.isEmpty(changeCertificatePojo.getCertificateType()),"certificate_type",changeCertificatePojo.getCertificateType());
         queryWrapper.eq(StringUtils.isEmpty(changeCertificatePojo.getOldCertificateNo()),"certificate_no",changeCertificatePojo.getOldCertificateNo());
         //根据人员工号 职业证类型 旧的资格证号进行判断
-        List<YlLaAgentCertificateEntity> list=this.baseMapper.selectList(queryWrapper);
-        YlLaAgentCertificateEntity result;
-        if (list.size()==1){
-             result=list.get(0);
+        List list = this.baseMapper.selectList(queryWrapper);
+        if (list.size()==0){ return R.error("数据库中没这个员工，该员工没有该证件类型，该证件号不存在"); }
+        //姓名无 不设置
+        ylLaAgentCertificateEntity.setAgentCode(changeCertificatePojo.getAgentCode());
+        ylLaAgentCertificateEntity.setCertificateType(changeCertificatePojo.getCertificateType());//不可修改 type是数字类型的 与名称一起给
+        ylLaAgentCertificateEntity.setCertificateName(changeCertificatePojo.getCertificateName());//
+        ylLaAgentCertificateEntity.setCertificateNo(changeCertificatePojo.getOldCertificateNo());//可修改
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        ylLaAgentCertificateEntity.setReleaseDate(simpleDateFormat.parse(changeCertificatePojo.getReleaseDate()));
+        ylLaAgentCertificateEntity.setReissueDate(simpleDateFormat.parse(changeCertificatePojo.getReissueDate()));
+        ylLaAgentCertificateEntity.setStartEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getStartEffectiveDate()));
+        ylLaAgentCertificateEntity.setEndEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getEndEffectiveDate()));
+        if (StringUtils.isEmpty(changeCertificatePojo.getApprover())==false){ ylLaAgentCertificateEntity.setApprover(changeCertificatePojo.getApprover()); }
+        int update = this.baseMapper.update(ylLaAgentCertificateEntity, queryWrapper);
+        if (update==1){
+            return R.ok();
         }else {
-            return R.error().put("msg","信息重复").put("code",501);
+            return R.error("没有修改成功");
 
         }
-        if (result==null){ return R.error("数据库中没这个员工，该员工没有该证件，该证件号不存在"); }
-        //姓名无 不设置
-        this.ylLaAgentCertificateEntity.setAgentCode(changeCertificatePojo.getAgentCode());
-        this.ylLaAgentCertificateEntity.setCertificateType("1");//不可修改 type是数字类型的 与名称一起给
-        this.ylLaAgentCertificateEntity.setCertificateName(changeCertificatePojo.getCertificateName());//不可修改 必须存在
-        this.ylLaAgentCertificateEntity.setCertificateNo(changeCertificatePojo.getOldCertificateNo());//可修改
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-        this.ylLaAgentCertificateEntity.setReleaseDate(simpleDateFormat.parse(changeCertificatePojo.getReleaseDate()));
-        this.ylLaAgentCertificateEntity.setReissueDate(simpleDateFormat.parse(changeCertificatePojo.getReissueDate()));
-        this.ylLaAgentCertificateEntity.setStartEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getStartEffectiveDate()));
-        this.ylLaAgentCertificateEntity.setEndEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getEndEffectiveDate()));
-        if (StringUtils.isEmpty(changeCertificatePojo.getApprover())==false){ this.ylLaAgentCertificateEntity.setApprover(changeCertificatePojo.getApprover()); }else {
-            this.ylLaAgentCertificateEntity.setApprover("无");
-        }
-        if (result.getMakeTime()==null||StringUtils.isEmpty(result.getMakeTime())==true||"".equals(result.getMakeTime())){
-            ylLaAgentCertificateEntity.setMakeDate(ParseDate.getCurrentDate());
-            ylLaAgentCertificateEntity.setMakeTime(ParseDate.getCurrentTime());
-        }else {
-            this.ylLaAgentCertificateEntity.setMakeDate(result.getMakeDate());
-            this.ylLaAgentCertificateEntity.setMakeTime(result.getMakeTime());
-        }
-        this.ylLaAgentCertificateEntity.setModifyDate(ParseDate.getCurrentDate());
-        this.ylLaAgentCertificateEntity.setModifyTime(ParseDate.getCurrentTime());
-        this.ylLaAgentCertificateEntity.setOperator("0");
-        int update = this.baseMapper.update(this.ylLaAgentCertificateEntity, queryWrapper);
-            return R.ok();
     }
 
         //创建QueryWrapper对象
@@ -169,28 +155,18 @@ public class YlAgentCertificateServiceImpl extends ServiceImpl<YlLaAgentCertific
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
             SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
             String format = simpleDateFormat.format(newDat);
-            String[] s = format.split(" ");
-            if (StringUtils.isEmpty(ceInsertPojo.getReissueDate())){
-                ylLaAgentCertificateEntity.setReissueDate(sd.parse(s[0]));
-            }else {
+            if (!StringUtils.isEmpty(ceInsertPojo.getReissueDate())) {
                 ylLaAgentCertificateEntity.setReissueDate(sd.parse(ceInsertPojo.getReissueDate()));
             }
-            ylLaAgentCertificateEntity.setReleaseDate(sd.parse(ceInsertPojo.getReleaseDate()));
-            if (StringUtils.isEmpty(ceInsertPojo.getStartEffectiveDate())){
-                ylLaAgentCertificateEntity.setStartEffectiveDate(sd.parse(s[0]));
-            }else {
+            if (!StringUtils.isEmpty(ceInsertPojo.getStartEffectiveDate())) {
                 ylLaAgentCertificateEntity.setStartEffectiveDate(sd.parse(ceInsertPojo.getStartEffectiveDate()));
             }
-            if (StringUtils.isEmpty(ceInsertPojo.getEndEffectiveDate())){
-                ylLaAgentCertificateEntity.setEndEffectiveDate(sd.parse(s[0]));
-            }else {
+
+            if (!StringUtils.isEmpty(ceInsertPojo.getEndEffectiveDate())){
                 ylLaAgentCertificateEntity.setEndEffectiveDate(sd.parse(ceInsertPojo.getEndEffectiveDate()));
             }
-            if (StringUtils.isEmpty(ceInsertPojo.getApprover())){
-                ylLaAgentCertificateEntity.setApprover("0");
-            }else {
-                ylLaAgentCertificateEntity.setApprover(ceInsertPojo.getApprover());
-            }
+            ylLaAgentCertificateEntity.setReleaseDate(sd.parse(ceInsertPojo.getReleaseDate()));
+            ylLaAgentCertificateEntity.setApprover(ceInsertPojo.getApprover());
             ylLaAgentCertificateEntity.setOperator("0");
             ylLaAgentCertificateEntity.setMakeDate(newDat);
             ylLaAgentCertificateEntity.setMakeTime(ParseDate.getCurrentTime());

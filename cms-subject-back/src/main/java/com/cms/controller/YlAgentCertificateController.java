@@ -5,19 +5,18 @@ import com.cms.pojo.CertificateConditionPojo;
 import com.cms.pojo.ChangeCertificatePojo;
 import com.cms.pojo.RetrieveCertificatePojo;
 import com.cms.service.impl.RCertificateImpl;
-import com.cms.service.impl.YlAgentCertificateServiceImpl;
 import com.cms.util.R;
 import com.cms.util.SlelectPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import com.cms.entity.YlLaAgentCertificateEntity;
 import com.cms.pojo.CeInsertPojo;
 import com.cms.service.YlAgentCertificateService;
 import com.cms.service.impl.CYlLaBranchGroupServiceImpl;
-import com.cms.service.impl.YlAgentCertificateServiceImpl;
 import com.cms.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +41,7 @@ import java.util.Map;
 @Api("养老渠道-人员管理-资格证管理")
 public class YlAgentCertificateController {
     @Autowired
-    YlAgentCertificateServiceImpl ylAgentCertificateService;
+    YlAgentCertificateService ylAgentCertificateService;
 
     @Autowired
     RCertificateImpl rCertificateService;
@@ -105,6 +104,18 @@ public class YlAgentCertificateController {
     @PostMapping("/insert")
     //@RequestBody注解是接收前端返回的json并封装为****pojo
     public R insertCertificate(@RequestBody CeInsertPojo ceInsertPojo) throws Exception {
+        if (StringUtils.isEmpty(ceInsertPojo.getAgentCode())){
+            return R.error("人员工号不能为空");
+        }
+        if (StringUtils.isEmpty(ceInsertPojo.getCertificateType())){
+            return R.error("资格证类型不能为空");
+        }
+        if (StringUtils.isEmpty(ceInsertPojo.getCertificateName())){
+            return R.error("资格证姓名不能为空");
+        }
+        if (StringUtils.isEmpty(ceInsertPojo.getCertificateNo())){
+            return R.error("资格证号码不能为空");
+        }
         ylAgentCertificateService.initializeEdorno(ceInsertPojo);
         int i = ylAgentCertificateService.InsertCertificate(ceInsertPojo);
         if(i > 0) {

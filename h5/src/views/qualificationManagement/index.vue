@@ -155,6 +155,9 @@ export default {
       Object.keys(this.form).forEach((key) => {
         this.form[key] = ''
       })
+      this.list.manageCom3List = []
+      this.list.manageCom4List = []
+      this.list.branchAttrList = []
       this.$bus.$emit('RESET_QUALIFICATION_TABLE')
     },
     showQualificationAddDialog() {

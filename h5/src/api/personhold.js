@@ -3,7 +3,7 @@ import Vue from 'vue'
 // 查询人员信息
 export function queryPerson(data,page){
   return request({
-    url: 'http://10.11.114.33:9999/test/QueryStaff?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,
+    url: Vue.config.productionTip===true?'/test/QueryStaff?limit=' + page.pageSize + '&' + 'page=' + page.currentPage:'http://10.11.114.33:9999/test/QueryStaff?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,
     method:'post',
     data
   })
@@ -21,7 +21,7 @@ export function queryPerson(data,page){
 
 export function download(){
   return request({
-    url: Vue.config.productionTip===true?'/test/board':'http://10.11.114.128:9999/test/board',
+    url: Vue.config.productionTip===true?'/Board/YlInsertExcel':'http://10.11.114.128:9999/Board/YlInsertExcel',
     method: 'post',
     responseType:'blob'
   })
@@ -52,8 +52,7 @@ export function xiala1(){
 // 团队下拉列表
 export function xiala3(data){
   return request({
-    url:'http://10.11.114.33:9999/test/QueryGroup',
-    // Vue.config.productionTip===true?'/test/QueryGroup':
+    url:Vue.config.productionTip===true?'/test/QueryGroup':'http://10.11.114.33:9999/test/QueryGroup',
     method:'post',
     data
   })

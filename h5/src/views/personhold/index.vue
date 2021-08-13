@@ -39,7 +39,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="团队">
-            <el-select placeholder="请选择" style="width: 100%" v-model="form.branchAttr" clearable>
+            <el-select placeholder="请选择" style="width: 100%" v-model="form.branchAttr" clearable :disabled="form.manageCom4.length === 0">
               <el-option v-for="(item,index) in list.branchAttr" :key="index" :value="item.value" :label="item.label">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
                 <span style="float: right">{{ item.label }}</span>
@@ -98,6 +98,7 @@
               aria-placeholder="入司日期止期"
               style="width: 100%"
               v-model="form.endDate"
+              @change="dateCheck"
             />
           </el-form-item>
         </el-col>
@@ -158,6 +159,17 @@ export default {
     });
   },
   methods:{
+    // 日期校验
+    dateCheck() {
+      if (this.form.startDate.length !== 0 && this.form.endDate.length !== 0) {
+        if (this.form.startDate > this.form.endDate) {
+          this.$message.error('终止日期不能小于起始时期')
+          this.form.endDate = ''
+        } else {
+          console.log('日期校验失败')
+        }
+      }
+    },
     //团队下拉列表
     group(data){
       this.form.branchAttr = ''
@@ -173,6 +185,7 @@ export default {
     },
     // 三四级下拉列表渲染
     select(abc) {
+      this.form.branchAttr = ''
       this.form.manageCom3 = ''
       this.form.manageCom4 = ''
       V.xiala(abc).then((r)=>{
@@ -181,6 +194,7 @@ export default {
       })
     },
     select1(abc){
+      this.form.branchAttr = ''
       this.form.manageCom4 = ''
       V.xiala(abc).then((r)=>{
         this.list.manageCom4 = r.list
@@ -189,6 +203,7 @@ export default {
     // 模板下载
     download1() {
       V.download().then((res) => {
+        //debugger
         const link = document.createElement('a')
         const blob = new Blob([res], { type: 'application/vnd.ms-excel' })
         link.style.display = 'none'

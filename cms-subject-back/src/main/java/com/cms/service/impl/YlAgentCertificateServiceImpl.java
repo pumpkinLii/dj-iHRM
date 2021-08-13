@@ -68,10 +68,11 @@ public class YlAgentCertificateServiceImpl extends ServiceImpl<YlLaAgentCertific
         queryWrapper.eq(StringUtils.isEmpty(changeCertificatePojo.getCertificateType()),"certificate_type",changeCertificatePojo.getCertificateType());
         queryWrapper.eq(StringUtils.isEmpty(changeCertificatePojo.getOldCertificateNo()),"certificate_no",changeCertificatePojo.getOldCertificateNo());
         //根据人员工号 职业证类型 旧的资格证号进行判断
-        List list= this.baseMapper.selectList(queryWrapper);
+        List<YlLaAgentCertificateEntity> list= this.baseMapper.selectList(queryWrapper);
         if (list.size()==0){
             return null;
         }
+        YlLaAgentCertificateEntity ylLaAgentCertificateEntity1=list.get(0);
         //姓名无 不设置
         ylLaAgentCertificateEntity.setAgentCode(changeCertificatePojo.getAgentCode());
         ylLaAgentCertificateEntity.setCertificateType(changeCertificatePojo.getCertificateType());//不可修改 type是数字类型的 与名称一起给
@@ -89,8 +90,8 @@ public class YlAgentCertificateServiceImpl extends ServiceImpl<YlLaAgentCertific
         ylLaAgentCertificateEntity.setEndEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getEndEffectiveDate()));
         if (StringUtils.isEmpty(changeCertificatePojo.getApprover())==false){ ylLaAgentCertificateEntity.setApprover(changeCertificatePojo.getApprover()); }
         ylLaAgentCertificateEntity.setOperator("0");
-        ylLaAgentCertificateEntity.setMakeDate(ParseDate.getCurrentDate());
-        ylLaAgentCertificateEntity.setMakeTime(ParseDate.getCurrentTime());
+        ylLaAgentCertificateEntity.setMakeDate(ylLaAgentCertificateEntity1.getMakeDate());
+        ylLaAgentCertificateEntity.setMakeTime(ylLaAgentCertificateEntity1.getMakeTime());
         ylLaAgentCertificateEntity.setModifyDate(ParseDate.getCurrentDate());
         ylLaAgentCertificateEntity.setModifyTime(ParseDate.getCurrentTime());
         //修改一下query wa

@@ -100,7 +100,7 @@ public class RCertificateImpl implements RCertificateService {
             }
         }
         if (!sCheckNull(certificateConditionPojo.getBranchAttr()))
-            qw.eq("ylbg.branch_attr", certificateConditionPojo.getBranchAttr());
+            qw.eq("ylbg.agent_group", certificateConditionPojo.getBranchAttr());
         if (!sCheckNull(certificateConditionPojo.getAgentName()))
             qw.eq("yla.agent_name", certificateConditionPojo.getAgentName());
         if (!sCheckNull(certificateConditionPojo.getManageCom2()))

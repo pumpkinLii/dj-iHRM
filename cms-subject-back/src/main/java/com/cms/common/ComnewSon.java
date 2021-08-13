@@ -91,7 +91,6 @@ public class ComnewSon {
             q.eq("com_code",ldComNewEntity.getUpComCode());
             LdComNewEntity ldComNewEntity1 = magService.getBaseMapper().selectOne(q);
             map.put("name", ldComNewEntity1.getName());
-            System.out.println(map);
             return map;
         }
     }

@@ -111,14 +111,18 @@ public class RCertificateImpl implements RCertificateService {
             qw.likeRight("yla.manage_com", certificateConditionPojo.getManageCom4());
         List<RetrieveCertificatePojo> list = ylLaAgentCertificateDao.getCertificateInfo(qw);
         for (RetrieveCertificatePojo i : list) {
-            i.setManageCom3((String) comnewSon.getFatherManageCom(i.getManageCom4()).get("comcode"));
-            i.setManageComName3((String) comnewSon.getFatherManageCom(i.getManageCom4()).get("name"));
-            i.setManageCom2((String) comnewSon.getFatherManageCom(i.getManageCom3()).get("comcode"));
-            i.setManageComName2((String) comnewSon.getFatherManageCom(i.getManageCom3()).get("name"));
-            for (Map j:certificateCode){
-                if(((String)j.get("code")).equals(i.getCertificateCode())){
-                    i.setCertificateName((String) j.get("name"));
+            try {
+                i.setManageCom3((String) comnewSon.getFatherManageCom(i.getManageCom4()).get("comcode"));
+                i.setManageComName3((String) comnewSon.getFatherManageCom(i.getManageCom4()).get("name"));
+                i.setManageCom2((String) comnewSon.getFatherManageCom(i.getManageCom3()).get("comcode"));
+                i.setManageComName2((String) comnewSon.getFatherManageCom(i.getManageCom3()).get("name"));
+                for (Map j:certificateCode){
+                    if(((String)j.get("code")).equals(i.getCertificateCode())){
+                        i.setCertificateName((String) j.get("name"));
+                    }
                 }
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
         if (list.size() == 0) return null;

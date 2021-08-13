@@ -689,7 +689,7 @@ export default {
       API.queryAgent(r).then((res) => {
         if (res.code === 0) {
           // this.$message.success('根据agentCode查询人员成功')
-          // console.log(res.form)
+          console.log(res.form)
           this.form = res.form
           // console.log(this.form.bankProvince)
           // 得到市

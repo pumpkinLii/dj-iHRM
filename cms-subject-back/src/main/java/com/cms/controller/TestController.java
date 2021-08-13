@@ -36,6 +36,7 @@ public class TestController {
         map.put("list",list.getList());
         System.out.println("abc");
         System.out.println("123");
+        System.out.println("hello world");
         return R.ok().put("page", map);
 //        return "hello world";
     }

@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import Vue from 'vue'
 
 // 用于获得下拉菜单选项
 export function getSelectOptional() {
@@ -36,7 +35,7 @@ export function getCodes() {
 // 提交新增人员
 export function submit(data) {
   return request({
-    url: Vue.config.productionTip === true ? '/test/doSave' : 'http://10.11.114.123:9999/agent/doSave',
+    url: '/test/doSave',
     method: 'post',
     data
   })
@@ -87,7 +86,7 @@ export function huixian(data) {
 // 根据agentCode查询人员信息接口
 export function queryAgent(agentCode) {
   return request({
-    url: Vue.config.productionTip === true ? '/test/QueryWithCode?agentCode=' + agentCode : 'http://10.11.114.33:9999/test/QueryWithCode?agentCode=' + agentCode,
+    url: '/test/QueryWithCode?agentCode=' + agentCode,
     method: 'post'
   })
 }
@@ -95,7 +94,7 @@ export function queryAgent(agentCode) {
 // 修改团队信息
 export function editPerson(data) {
   return request({
-    url: Vue.config.productionTip === true ? '/agent/update' : 'http://10.11.114.123:9999/agent/update',
+    url: '/agent/update',
     method: 'post',
     data
   })

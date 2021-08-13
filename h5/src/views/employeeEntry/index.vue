@@ -427,7 +427,7 @@ export default {
         if ((/^\d{1,18}$/.test(value)) || value === '') {
           callback()
         }
-        callback(new Error('证件号小于等于18位'))
+        callback(new Error('证件号小于等于18位,且为数字'))
       }
     }
     return {
@@ -738,8 +738,7 @@ export default {
       API.idCheck(data)
         .then((res) => {
           if (res['code'] === 0) {
-            this.$message.success('证件号码正确')
-            console.log(this.form.idType === '0')
+            this.$message.success(res['msg'])
             if (this.form.idType === '0') {
               const strBirthday = this.form.idNo.slice(6, 10) + '-' + this.form.idNo.slice(10, 12) + '-' + this.form.idNo.slice(12, 14)
               const strSex = this.form.idNo.slice(16, 17)

@@ -17,7 +17,7 @@ const mutations = {
 
 const actions = {
   login({ commit }, param) {
-    API.login(param)
+    return API.login(param)
       .then(
         r => {
           sessionStorage.setItem('isLogin', 'true')

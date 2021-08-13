@@ -35,7 +35,7 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-      <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
     </el-form>
   </div>
 </template>
@@ -45,6 +45,7 @@ export default {
   name: 'Login',
   data() {
     return {
+      loading: false,
       username: '',
       password: '',
       passwordType: 'password'
@@ -62,7 +63,15 @@ export default {
       }
     },
     handleLogin() {
+      this.loading = true
       this.$store.dispatch('user/login', { userId: this.username, userPassword: this.password })
+        .catch(err => {
+          console.log(err)
+          this.loading = false
+        })
+        .then(() => {
+          this.loading = false
+        })
     }
   }
 }

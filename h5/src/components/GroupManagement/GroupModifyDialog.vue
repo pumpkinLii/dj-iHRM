@@ -162,10 +162,23 @@ export default {
           }
         )
     },
-    handleSubmit() {
+    handleSubmit: function() {
       this.$refs['groupModify'].validate(
         valid => {
           if (valid) {
+            // getManagerInfoByCode({ agentCode: this.form.branchManager })
+            //   .then(r => {
+            //     this.form.branchManagerName = r.data.agentName
+            //     this.form.branchManagerPhone = r.data.phone
+            //     this.$message.success('获取负责人代码/电话号成功')
+            //   })
+            //   .catch(
+            //     () => {
+            //       this.form.branchManagerName = ''
+            //       this.form.branchManagerPhone = ''
+            //     }
+            //   )
+            //   .then(() => {
             modifyGroup(this.form)
               .then(
                 r => {
@@ -173,6 +186,7 @@ export default {
                   this.$emit('REFRESH_QUERY')
                   this.$emit('CLOSE_GROUP_MODIFY_DIALOG')
                 })
+              // })
           } else {
             console.log('no valid')
             return false

@@ -61,7 +61,7 @@ export default {
   methods: {
     showModifyDialog(item) {
       // 告知子组件的传入项目 即需要修改的数据
-      this.$refs.groupModifyDialog.form = item
+      this.$refs.groupModifyDialog.form = { ...item }
       // 显示窗口
       this.config.groupModifyDialogVisible = true
     },

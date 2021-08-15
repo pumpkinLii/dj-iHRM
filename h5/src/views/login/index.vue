@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="login-container" :style="{backgroundImage:'url('+require('@/assets/back.png')+')'}">
     <el-form ref="loginForm" class="login-form" auto-complete="on" label-position="left">
       <div class="title-container">
         <h3 class="title">大家保险销售管理系统</h3>
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+const { getMockSample } = require('@/api/mockSample')
 export default {
   name: 'Login',
   data() {
@@ -53,6 +54,21 @@ export default {
   },
   watch: {
 
+  },
+  mounted() {
+    getMockSample()
+      .then(
+        r => {
+          console.log(r)
+          this.$message.success('成功获取MOCK数据')
+        }
+      )
+      .catch(
+        err => {
+          console.log(err)
+          this.$message.info('失败获取MOCK数据')
+        }
+      )
   },
   methods: {
     showPwd() {
@@ -130,11 +146,9 @@ $dark_gray:#889aa4;
 $light_gray:#eee;
 
 .login-container {
-  background:url('/back.png') no-repeat;
   background-size: cover;
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
   overflow: hidden;
 
   .login-form {

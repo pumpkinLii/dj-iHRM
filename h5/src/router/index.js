@@ -85,6 +85,19 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/agentadjust',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'Agentadjust',
+      component: () => import ('@/views/agentadjust/index'),
+      meta: {
+        title: '代理调整',
+        icon: 'el-icon-ship'
+      }
+    }]
+  },
+  {
     path: '/teamMaintenance',
     component: Layout,
     children: [{

@@ -1,12 +1,13 @@
 const Mock = require('mockjs')
 const { param2Obj } = require('./utils')
 
-const user = require('./user')
-const table = require('./table')
-
+// const login = require('./login/login')
+const aa = require('./adjust/adjust')
+const bb = require('./adjust/te')
 const mocks = [
-  ...user,
-  ...table
+  ...bb,
+  ...aa
+  // ...login
 ]
 
 // for front mock

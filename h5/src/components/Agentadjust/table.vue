@@ -55,14 +55,13 @@ export default {
     // 查询结果  res 是传过来的数据
     this.$bus.$on('form3', r => {
       this.list = []
-      console.log(r)
       this.list = r.list
       this.page.totalCount = r.totalCount
       this.$message.success('查询完毕')
     })
   },
   beforeDestroy() {
-    this.$bus.$off('form2')
+    this.$bus.$off('form3')
   },
   methods: {
     showModifyDialog(item) {

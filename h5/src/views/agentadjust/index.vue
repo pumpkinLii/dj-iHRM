@@ -7,23 +7,25 @@
         <el-col :span="8">
           <el-form-item label="管理机构" prop="manageCom">
             <el-cascader
+              :key="index2"
               v-model="form.manageCom"
               :options="options"
               :show-all-levels="false"
               style="width: 100%"
               :props="{ expandTrigger: 'hover' ,checkStrictly: true}"
               clearable
+              @blur="die"
             />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队代码">
-            <el-input v-model="form.agentGroup" />
+            <el-input v-model="form.agentGroup" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队名称">
-            <el-input v-model="form.branchName" />
+            <el-input v-model="form.branchName" clearable />
           </el-form-item>
         </el-col>
       </el-row>
@@ -31,17 +33,17 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="代理人代码">
-            <el-input v-model="form.branchManager" />
+            <el-input v-model="form.branchManager" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="代理人姓名">
-            <el-input v-model="form.branchManagerName" />
+            <el-input v-model="form.branchManagerName" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="手机号" prop="phone">
-            <el-input v-model="form.branchManagerPhone" placeholder="请输入手机号" />
+          <el-form-item label="手机号" prop="branchManagerPhone">
+            <el-input v-model="form.branchManagerPhone" placeholder="请输入手机号" clearable />
           </el-form-item>
         </el-col>
       </el-row>
@@ -49,12 +51,12 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="证件号码">
-            <el-input v-model="form.idNo" />
+            <el-input v-model="form.idNo" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="当前职级">
-            <el-select v-model="form.agentGrade" style="width: 100%">
+            <el-select v-model="form.agentGrade" style="width: 100%" clearable>
               <el-option v-for="(item,index) in list.agentGrade" :key="index" :value="item.gradecode" :label="item.gradename">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ item.gradecode }}</span>
                 <span style="float: right">{{ item.gradename }}</span>
@@ -87,6 +89,7 @@ export default {
   components: { Table },
   data() {
     return {
+      index2: 0,
       form: {
         manageCom: '', // 管理机构
         agentGroup: '', // 团队代码
@@ -102,9 +105,9 @@ export default {
         agentGrade: ''
       },
       rules: {
-        phone:
+        branchManagerPhone:
           [
-            { validator: validator.phoneNumberValidator, trigger: 'blur' }
+            { validator: validator.phoneNumberValidatorAllowNull, trigger: 'blur' }
           ],
         manageCom:
           [
@@ -116,8 +119,7 @@ export default {
   },
   created() {
     V.abc().then((r) => {
-      console.log(r)
-      this.options = r.result
+      this.options.push(r.result)
     })
     V.staff().then((r) => {
       this.list.agentGrade = r.list
@@ -126,14 +128,16 @@ export default {
   methods: {
     hello() {
       V.ttt().then((r) => {
-        console.log(r)
         this.$bus.$emit('form3', r
         )
-        console.log('成功了')
       }).catch(() => {
         console.log('失败了')
       })
+    },
+    die() {
+      this.index2++
     }
+
   }
 }
 </script>

@@ -14,7 +14,7 @@
       <el-table-column label="操作" width="100px" fixed="right">
         <template scope="scope">
           <!-- 修改 -->
-          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(scope.row.agentCode)">修改</el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(scope.row)">修改</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -37,7 +37,7 @@
 
 <script>
 import GroupModifyDialog1 from '@/components/PersonEdit/PersonEdit'
-import * as V from '@/api/personhold'
+
 export default {
   name: 'GroupTable',
   components: { GroupModifyDialog1 },
@@ -83,11 +83,9 @@ export default {
 </script>
 
 <style  scoped>
-/deep/.el-table th > .cell {
+/deep/.el-table th {
   text-align: center;
 }
-/deep/.el-table .cell {
-  text-align: center;
-}
+
 </style>
 

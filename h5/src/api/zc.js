@@ -13,3 +13,10 @@ export function abc() {
     method: 'post'
   })
 }
+
+export function staff() {
+  return request({
+    url: '/get/grade',
+    method: 'post'
+  })
+}

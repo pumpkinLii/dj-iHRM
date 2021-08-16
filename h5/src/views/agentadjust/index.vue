@@ -7,12 +7,12 @@
         <el-col :span="8">
           <el-form-item label="管理机构" prop="manageCom">
             <el-cascader
+              v-model="form.manageCom"
               :options="options"
               :show-all-levels="false"
               style="width: 100%"
               :props="{ expandTrigger: 'hover' ,checkStrictly: true}"
               clearable
-              v-model="form.manageCom"
             />
           </el-form-item>
         </el-col>
@@ -54,7 +54,12 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="当前职级">
-            <el-select v-model="form.agentGrade" />
+            <el-select v-model="form.agentGrade" style="width: 100%">
+              <el-option v-for="(item,index) in list.agentGrade" :key="index" :value="item.gradecode" :label="item.gradename">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.gradecode }}</span>
+                <span style="float: right">{{ item.gradename }}</span>
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -93,6 +98,9 @@ export default {
         agentGrade: '' // 当前职级
 
       },
+      list: {
+        agentGrade: ''
+      },
       rules: {
         phone:
           [
@@ -110,6 +118,9 @@ export default {
     V.abc().then((r) => {
       console.log(r)
       this.options = r.result
+    })
+    V.staff().then((r) => {
+      this.list.agentGrade = r.list
     })
   },
   methods: {

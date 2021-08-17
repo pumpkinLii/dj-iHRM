@@ -167,6 +167,9 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
             qw.eq("branch_status","N");
             qw.eq("manage_com",comcode);
             List<YlLaBranchGroupEntity> laBranchGroupEntities = rYlLaBranchGroupServiceImpl.getBaseMapper().selectList(qw);
+            if (laBranchGroupEntities.size()==0){
+                return R.ok().put("msg","请先增加无主管团队 再添加主管");
+            }
             for (int i = 0; i < laBranchGroupEntities.size(); i++) {
                 if (laBranchGroupEntities.get(i).getBranchManager()==null|| StringUtils.isEmpty(laBranchGroupEntities.get(i).getBranchManager())){
                     Map map=new HashMap();

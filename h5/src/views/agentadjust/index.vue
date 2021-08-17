@@ -91,7 +91,7 @@ export default {
     return {
       index2: 0,
       form: {
-        manageCom: '', // 管理机构
+        manageCom: [], // 管理机构
         agentGroup: '', // 团队代码
         branchName: '', // 团队名称
         branchManager: '', // 代理人代码
@@ -127,14 +127,11 @@ export default {
   },
   methods: {
     hello() {
-      V.ttt().then((r) => {
-        this.$bus.$emit('form3', r
-        )
-      }).catch(() => {
-        console.log('失败了')
-      })
+      this.form.manageCom = this.form.manageCom[this.form.manageCom.length - 1]
+      this.$bus.$emit('something', this.form)
     },
     die() {
+      this.index2 = 0
       this.index2++
     }
 

@@ -1,16 +1,16 @@
 <template>
   <div>
     <el-table :data="list" stripe border fit height="300">
-      <el-table-column label="人员工号" prop="a" />
-      <el-table-column label="人员姓名" prop="s" />
-      <el-table-column label="分工司" prop="d" />
-      <el-table-column label="中心支公司" prop="q" />
-      <el-table-column label="团队代码" prop="w" />
-      <el-table-column label="团队名称" prop="e" />
-      <el-table-column label="入司日期" prop="z" />
-      <el-table-column label="人员状态" prop="x" />
-      <el-table-column label="合同类型" prop="c" />
-      <el-table-column label="职级" prop="v" />
+      <el-table-column label="人员工号" prop="agentCode" />
+      <el-table-column label="人员姓名" prop="agentName" />
+      <el-table-column label="分工司" prop="manageCom2" />
+      <el-table-column label="中心支公司" prop="manageCom3" />
+      <el-table-column label="团队代码" prop="agentGroup" />
+      <el-table-column label="团队名称" prop="branchName" />
+      <el-table-column label="入司日期" prop="employDate" />
+      <el-table-column label="人员状态" prop="agentState" />
+      <el-table-column label="合同类型" prop="contractType" />
+      <el-table-column label="职级" prop="agentGrade" />
       <el-table-column label="操作" width="100px" fixed="right">
         <template scope="scope">
           <!-- 修改 -->
@@ -37,7 +37,7 @@
 
 <script>
 import GroupModifyDialog1 from '@/components/PersonEdit/PersonEdit'
-
+import * as V from '@/api/zc'
 export default {
   name: 'GroupTable',
   components: { GroupModifyDialog1 },
@@ -53,15 +53,18 @@ export default {
   },
   mounted() {
     // 查询结果  res 是传过来的数据
-    this.$bus.$on('form3', r => {
+    this.$bus.$on('something', res => {
       this.list = []
-      this.list = r.list
-      this.page.totalCount = r.totalCount
-      this.$message.success('查询完毕')
+      V.find(res, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
+        .then(r => {
+          this.list = r.list
+          this.page.totalCount = r.totalCount
+          this.$message.success('查询完毕')
+        })
     })
   },
   beforeDestroy() {
-    this.$bus.$off('form3')
+    this.$bus.$off('something')
   },
   methods: {
     showModifyDialog(item) {

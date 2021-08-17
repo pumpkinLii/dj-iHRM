@@ -43,12 +43,12 @@ public class YlLaAgentManoeuvreEntity {
     private String agentCode;
 
     /**
-     * 展业类型
+     * 渠道类型
      */
     private String branchType;
 
     /**
-     * 渠道类型
+     * 展业类型
      */
     private String branchType2;
 

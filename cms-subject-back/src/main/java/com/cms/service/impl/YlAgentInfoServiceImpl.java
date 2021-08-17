@@ -80,7 +80,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
         ylLaAgentEntity.setOperator(laAgent.getOperator());
         /*****************************************************************************/
         ylLaAgentEntity.setAgentState("01");
-        ylLaAgentEntity.setBranchType("01");
+        ylLaAgentEntity.setBranchType("4");
         /*****************************************************************************/
         Date date = new Date();
         SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");

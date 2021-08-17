@@ -59,17 +59,45 @@
       </el-row>
     </el-form>
     <el-divider />
-    <PersonChangeTable />
+    <div>
+      <el-table :data="table" stripe border fit height="300" :selection-change="handleSelectChange">
+        <el-table-column type="selection" width="40" />
+        <el-table-column label="人员工号" prop="agentCode" />
+        <el-table-column label="人员姓名" prop="agentName" />
+        <el-table-column label="分公司" prop="gradeName" />
+        <el-table-column label="中心支公司" prop="manageCom2" />
+        <el-table-column label="团队代码" prop="manageCom3" />
+        <el-table-column label="团队名称" prop="manageCom4" />
+        <el-table-column label="入司日期" prop="employDate" />
+        <el-table-column label="人员状态" prop="stateName" />
+        <el-table-column label="合同类型" prop="stateName" />
+        <el-table-column label="职级" prop="stateName" />
+      </el-table>
+      <!-- 分页 -->
+      <div class="block" style="text-align: right;margin-top: 1rem">
+        <el-pagination
+          :current-page="page.currentPage"
+          :page-sizes="[10, 20, 50, 100, 200, 500]"
+          :page-size="page.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="page.totalCount"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
+      <PersonChangeDialog />
+    </div>
   </div>
 </template>
 
 <script>
 import { phoneNumberValidatorAllowNull } from '@/utils/validate'
 import { getManageComCode } from '@/api/code'
-import PersonChangeTable from '@/components/PersonChange/PersonChangeTable'
+import PersonChangeDialog from '@/components/PersonChange/PersonChangeDialog'
+import { query } from '@/api/personChange'
 export default {
   name: 'PersonnelChange',
-  components: { PersonChangeTable },
+  components: { PersonChangeDialog },
   data() {
     return {
       form: {
@@ -89,6 +117,13 @@ export default {
           [{ required: true, message: '请选择管理机构', trigger: 'change' }],
         agentPhone:
           [{ validator: phoneNumberValidatorAllowNull, trigger: 'blur' }]
+      },
+      table: [],
+      selected: [],
+      page: {
+        currentPage: 1, // 当前第几页
+        totalCount: 0, // 总共有几条
+        pageSize: 10 // 每页的项目数
       }
     }
   },
@@ -101,19 +136,40 @@ export default {
       Object.keys(this.form).forEach((key) => {
         this.form[key] = ''
       })
-      this.$bus.$emit('RESET_PERSON_CHANGE_TABLE')
+      this.table = []
+      this.page.currentPage = 1
+      this.page.totalCount = 0
     },
     handleQuery() {
       this.$refs['form'].validate(valid => {
         if (valid) {
-          this.$bus.$emit('QUERY_PERSON_CHANGE', this.form)
+          query(this.form, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
+            .then(r => {
+              console.log(r)
+              this.table = r['list']
+              this.page.totalCount = r['totalCount']
+              this.$message.success('查询完毕')
+            })
         } else {
           return false
         }
       })
     },
     handleOpenChangeDialog() {
-      this.$bus.$emit('OPEN_PERSON_CHANGE_DIALOG_FETCH')
+      this.$bus.$emit('OPEN_PERSON_CHANGE_DIALOG', this.selected)
+    },
+    // 一页有几行
+    handleSizeChange(size) {
+      this.page.pageSize = size
+      this.$bus.$emit('refresh')
+    },
+    // 第几页
+    handleCurrentChange(page) {
+      this.page.currentPage = page
+      this.$bus.$emit('refresh')
+    },
+    handleSelectChange(selection) {
+      console.log(selection)
     },
     getInitOptions() {
       // 获取管理机构下拉菜单

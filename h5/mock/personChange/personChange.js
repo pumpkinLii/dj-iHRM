@@ -10,7 +10,8 @@ const queryData = Mock.mock({
         '@cname'
       ]
     }
-  ]
+  ],
+  'totalCount|1': '@integer(5,100)'
 })
 
 module.exports = [
@@ -20,7 +21,8 @@ module.exports = [
     response: config => {
       return {
         code: 0,
-        list: queryData.list
+        list: queryData.list,
+        totalCount: queryData.totalCount
       }
     }
   }

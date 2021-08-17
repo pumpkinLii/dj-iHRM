@@ -7,4 +7,5 @@ public class GradeTeamPojo {
     String oldgradecode;
     String nowgradecode;
     String agentCode;
+    String comecode;
 }

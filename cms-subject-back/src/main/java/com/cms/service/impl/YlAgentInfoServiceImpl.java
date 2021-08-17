@@ -137,6 +137,10 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
         //与前端协商 只有当她请求
         String oldgrade=gradeTeamPojo.getOldgradecode();
         String nowgrade=gradeTeamPojo.getNowgradecode();
+        String comcode=gradeTeamPojo.getComecode();
+        if (comcode==null){
+            return R.ok().put("msg","请先选择管理机构").put("code",501);
+        }
         List result=new ArrayList();
         if (oldgrade.equals(nowgrade)){
             return R.ok().put("msg","当前职级与目标职级相同 团队下拉款为当前默认团队");
@@ -144,6 +148,8 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
             //这是总监的情况 职级降低 返回人员三级机构下四级()非停业的团队
             QueryWrapper queryWrapper=new QueryWrapper();
             queryWrapper.eq("branch_manager",gradeTeamPojo.getAgentCode());
+            queryWrapper.eq("branch_status","N");//非停业
+            queryWrapper.eq("manage_com",comcode);
             List<YlLaBranchGroupEntity> list = rYlLaBranchGroupServiceImpl.getBaseMapper().selectList(queryWrapper);
             if (list.size()==0){
                 return R.ok().put("msg","数据库种不存在该主管任免的四级团队");
@@ -157,7 +163,10 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
             }
         }else {
             //返回没有主管的团队
-            List<YlLaBranchGroupEntity> laBranchGroupEntities = rYlLaBranchGroupServiceImpl.getBaseMapper().selectList(null);
+            QueryWrapper qw=new QueryWrapper();
+            qw.eq("branch_status","N");
+            qw.eq("manage_com",comcode);
+            List<YlLaBranchGroupEntity> laBranchGroupEntities = rYlLaBranchGroupServiceImpl.getBaseMapper().selectList(qw);
             for (int i = 0; i < laBranchGroupEntities.size(); i++) {
                 if (laBranchGroupEntities.get(i).getBranchManager()==null|| StringUtils.isEmpty(laBranchGroupEntities.get(i).getBranchManager())){
                     Map map=new HashMap();

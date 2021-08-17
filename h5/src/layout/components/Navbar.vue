@@ -9,10 +9,13 @@
         <div class="avatar-wrapper">
           <el-button icon="el-icon-caret-bottom" size="mini" />
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown" >
+        <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <el-dropdown-item @click.native.prevent="logout">注销</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+    </div>
+    <div v-else class="right-menu">
+      <el-button class="avatar-container" size="mini" @click="$router.push('/login')">登录</el-button>
     </div>
   </div>
 </template>

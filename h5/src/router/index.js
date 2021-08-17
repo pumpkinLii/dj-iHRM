@@ -98,6 +98,19 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/personelChange',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'personelChange',
+      component: () => import ('@/views/personnelChange/index'),
+      meta: {
+        title: '人员异动',
+        icon: 'el-icon-suitcase-1'
+      }
+    }]
+  },
+  {
     path: '/teamMaintenance',
     component: Layout,
     children: [{

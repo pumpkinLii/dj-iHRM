@@ -118,7 +118,7 @@ export default {
         approver: '', // 批准单位
 
         certificateType: '1', // 写死
-        oldCertificateNo: '' // TODO 旧的资格证书号 需要父组件传进来
+        oldCertificateNo: '' // 旧的资格证书号 需要父组件传进来
       },
       list: {
         certificateObject: []

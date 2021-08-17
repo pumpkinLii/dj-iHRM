@@ -1,10 +1,17 @@
 const Mock = require('mockjs')
 const { param2Obj } = require('./utils')
 
+const login = require('./login/login')
+const code = require('./code/code')
+const personChange = require('./personChange/personChange')
+
 // const login = require('./login/login')
 const aa = require('./adjust/adjust')
 const bb = require('./adjust/te')
 const mocks = [
+  ...login,
+  ...code,
+  ...personChange,
   ...bb,
   ...aa
   // ...login

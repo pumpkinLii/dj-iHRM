@@ -41,7 +41,6 @@
 </template>
 
 <script>
-const { getMockSample } = require('@/api/mockSample')
 export default {
   name: 'Login',
   data() {
@@ -51,24 +50,6 @@ export default {
       password: '',
       passwordType: 'password'
     }
-  },
-  watch: {
-
-  },
-  mounted() {
-    getMockSample()
-      .then(
-        r => {
-          console.log(r)
-          this.$message.success('成功获取MOCK数据')
-        }
-      )
-      .catch(
-        err => {
-          console.log(err)
-          this.$message.info('失败获取MOCK数据')
-        }
-      )
   },
   methods: {
     showPwd() {
@@ -113,7 +94,6 @@ $cursor: #fff;
     display: inline-block;
     height: 47px;
     width: 85%;
-
     input {
       background: transparent;
       border: 0px;

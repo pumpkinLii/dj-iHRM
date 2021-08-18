@@ -8,6 +8,7 @@
           <el-form-item label="管理机构" prop="manageCom">
             <el-cascader
               :key="index2"
+              ref="elcascader"
               v-model="form.manageCom"
               :options="options"
               :show-all-levels="false"
@@ -15,6 +16,7 @@
               :props="{ expandTrigger: 'hover' ,checkStrictly: true}"
               clearable
               @blur="die"
+              @change="changeVal"
             />
           </el-form-item>
         </el-col>
@@ -91,7 +93,7 @@ export default {
     return {
       index2: 0,
       form: {
-        manageCom: [], // 管理机构
+        manageCom: '', // 管理机构
         agentGroup: '', // 团队代码
         branchName: '', // 团队名称
         branchManager: '', // 代理人代码
@@ -125,21 +127,37 @@ export default {
       this.list.agentGrade = r.list
     })
   },
+  mounted() {
+
+  },
   methods: {
     hello() {
-      this.form.manageCom = this.form.manageCom[this.form.manageCom.length - 1]
-      this.$bus.$emit('something', this.form)
+      // console.log(this.form.manageCom === undefined)
+      // console.log(this.form.manageCom === '')
+      // console.log(this.form.manageCom.length)
+      if (this.form.manageCom !== undefined && this.form.manageCom !== '' && this.form.manageCom.length !== 0) {
+        this.form.manageCom = this.form.manageCom[this.form.manageCom.length - 1]
+        this.$bus.$emit('something', this.form)
+      } else {
+        this.$bus.$emit('something1')
+      }
     },
     die() {
-      this.index2 = 0
+      this.index2 = 2
       this.index2++
+    },
+    // 下拉框选择弹回
+    changeVal() {
+      this.$refs.elcascader.dropDownVisible = false
     }
 
   }
+
 }
 </script>
-<style scoped>
+<style  scoped>
 .app-container{
   padding: 20px 5% 20px 1%;
 }
+
 </style>

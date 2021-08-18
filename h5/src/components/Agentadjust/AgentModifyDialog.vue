@@ -83,7 +83,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-
+<!--{{form.targetBranchCode}}-->
+<!--              {{targetBranchCode}}-->
               <el-form-item label="目标团队架构" prop="targetBranchCode">
                 <el-select
                   v-model="form.targetBranchCode"
@@ -186,6 +187,7 @@ export default {
       minComCode: '',
       // 中介  目标团队架构
       aBranchCode: '',
+      BranchCodeData: {},
       // 职级
       curAgentGrade: [],
       // 四级下拉列表
@@ -220,6 +222,10 @@ export default {
         [
           { required: true, message: '请选择目标四级管理机构', trigger: 'blur' }
         ],
+        alterDate:
+        [
+          { required: true, message: '请选择调整日期', trigger: 'blur' }
+        ],
         alterCause:
           [
             { required: true, message: '请输入调整原因', trigger: 'blur' }
@@ -238,7 +244,7 @@ export default {
   mounted() {
     this.$bus.$on('agent1', (item) => {
       this.form = { ...item } // 对象的深拷贝浅拷贝
-
+      this.$set(this.form, 'targetBranchCode', '')
       this.form.agentGrade = undefined
       this.$set(this.form, 'curAgentGrade', item.agentGrade)
       this.editDialogVisible = true
@@ -278,26 +284,28 @@ export default {
       if (this.form.targetAgentGrade.substr(0, 2) === this.form.curAgentGrade.substr(0, 2)) {
         this.judge = true
         this.judgetarget = true
-        this.form.targetBranchCode = this.form.branchName
+        this.form.targetBranchCode = this.form.agentGroup
         this.form.targetManageCom = this.minComCode
-        this.form.targetBranchCode = this.aBranchCode
+        const data = {
+          oldgradecode: this.form.curAgentGrade, // 当前职级
+          nowgradecode: this.form.targetBranchCode, // 目标职级
+          agentcode: this.form.agentCode, // 人员工号
+          comecode: this.form.targetManageCom// 四级管理机构
+        }
+        API.getTargetBranchCode(data).then(
+          (res) => {
+            console.log(res)
+            this.targetBranchCode = res.list
+            if (res.msg !== 'success') {
+              this.$message.success(res.msg)
+            }
+          }
+        )
       } else {
         this.judge = false
         this.judgetarget = false
-        this.form.targetBranchCode = ''
-        // // 获取目标团队架构
-        // const data = {
-        //   oldgradecode: this.form.curAgentGrade, // 当前职级
-        //   nowgradecode: this.form.targetBranchCode, // 目标职级
-        //   agentcode: this.form.agentCode, // 人员工号
-        //   comecode: this.form.targetManageCom// 四级管理机构
-        // }
-        // API.getTargetBranchCode(data).then(
-        //   (res) => {
-        //     console.log(res)
-        //     this.targetBranchCode = res.list
-        //   }
-        // )
+        // this.form.targetBranchCode = ''
+        this.$set(this.form, 'targetBranchCode', '')
       }
     },
     // 获取目标团队架构
@@ -312,9 +320,13 @@ export default {
         (res) => {
           console.log(res)
           this.targetBranchCode = res.list
+          if (res.msg !== 'success') {
+            this.$message.success(res.msg)
+          }
         }
       )
     },
+    // 保存修改
     saveAdjust() {
       API.saveAdjust(this.form).then(
         (res) => {

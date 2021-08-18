@@ -8,3 +8,10 @@ export function query(data, page) {
     data
   })
 }
+
+export function getSelectOptions() {
+  return ({
+    url: '',
+    method: 'post'
+  })
+}

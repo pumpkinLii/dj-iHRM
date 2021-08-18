@@ -62,9 +62,14 @@ export default {
           this.$message.success('查询完毕')
         })
     })
+    this.$bus.$on('something1', () => {
+      this.list = []
+      this.$message.error('请先选择管理机构')
+    })
   },
   beforeDestroy() {
     this.$bus.$off('something')
+    this.$bus.$off('something1')
   },
   methods: {
     showModifyDialog(item) {
@@ -88,6 +93,5 @@ export default {
 /deep/.el-table th {
   text-align: center;
 }
-
 </style>
 

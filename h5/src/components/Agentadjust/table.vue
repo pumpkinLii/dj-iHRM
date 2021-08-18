@@ -14,7 +14,7 @@
       <el-table-column label="操作" width="100px" fixed="right">
         <template scope="scope">
           <!-- 修改 -->
-          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(scope.$index)">修改</el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(scope.row)">修改</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import GroupModifyDialog1 from '@/components/PersonEdit/PersonEdit'
+import GroupModifyDialog1 from '@/components/Agentadjust/AgentModifyDialog'
 import * as V from '@/api/zc'
 export default {
   name: 'GroupTable',
@@ -62,19 +62,13 @@ export default {
           this.$message.success('查询完毕')
         })
     })
-    this.$bus.$on('something1', () => {
-      this.list = []
-      this.$message.error('请填写必填项')
-    })
   },
   beforeDestroy() {
-    this.$bus.$off('something1')
     this.$bus.$off('something')
   },
   methods: {
     showModifyDialog(item) {
-      console.log(item)
-      this.$bus.$emit('agentcode', item)
+      this.$bus.$emit('agent1', item)
     },
     // 一页有几行
     handleSizeChange(size) {

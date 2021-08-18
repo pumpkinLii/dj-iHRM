@@ -128,15 +128,17 @@ export default {
     })
   },
   mounted() {
-
+    setInterval(function() {
+      document.querySelectorAll('.el-cascader-node__label').forEach(el => {
+        el.onclick = function() {
+          if (this.previousElementSibling) this.previousElementSibling.click()
+        }
+      })
+    }, 1000)
   },
   methods: {
     hello() {
-      // console.log(this.form.manageCom === undefined)
-      // console.log(this.form.manageCom === '')
-      // console.log(this.form.manageCom.length)
       if (this.form.manageCom !== undefined && this.form.manageCom !== '' && this.form.manageCom.length !== 0) {
-        this.form.manageCom = this.form.manageCom[this.form.manageCom.length - 1]
         this.$bus.$emit('something', this.form)
       } else {
         this.$bus.$emit('something1')
@@ -150,7 +152,6 @@ export default {
     changeVal() {
       this.$refs.elcascader.dropDownVisible = false
     }
-
   }
 
 }

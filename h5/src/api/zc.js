@@ -22,9 +22,3 @@ export function staff() {
   })
 }
 
-// export function abcd() {
-//   return request({
-//     url: 'http://10.11.215.28:9999/get/managecom',
-//     method: 'post'
-//   })
-// }

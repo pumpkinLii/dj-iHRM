@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="list" stripe border fit height="300">
+    <el-table :data="list" stripe border fit height="300" >
       <el-table-column label="人员工号" prop="agentCode" />
       <el-table-column label="人员姓名" prop="agentName" />
       <el-table-column label="分工司" prop="manageCom3" />
@@ -14,7 +14,7 @@
       <el-table-column label="操作" width="100px" fixed="right">
         <template scope="scope">
           <!-- 修改 -->
-          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(scope.row)">修改</el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(scope.row)">职级调整</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -38,6 +38,7 @@
 <script>
 import GroupModifyDialog1 from '@/components/Agentadjust/AgentModifyDialog'
 import * as V from '@/api/zc'
+
 export default {
   name: 'GroupTable',
   components: { GroupModifyDialog1 },
@@ -55,7 +56,9 @@ export default {
     // 查询结果  res 是传过来的数据
     this.$bus.$on('something', res => {
       this.list = []
-      V.find(res, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
+      const res2 = { ...res }
+      res2.manageCom = res2.manageCom[res2.manageCom.length - 1]
+      V.find(res2, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
         .then(r => {
           this.list = r.list
           this.page.totalCount = r.totalCount
@@ -90,7 +93,10 @@ export default {
 </script>
 
 <style  scoped>
-/deep/.el-table th {
+/deep/.el-table th{
+  text-align: center;
+}
+/deep/ .el-table td{
   text-align: center;
 }
 </style>

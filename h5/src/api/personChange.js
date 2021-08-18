@@ -32,8 +32,15 @@ export function submit(data) {
 
 export function change(data) {
   return request({
-    url: 'http://10.11.114.123/agent/change',
+    url: 'http://10.11.114.123:9999/agent/change',
     method: 'post',
     data
+  })
+}
+
+export function threeOptions() {
+  return request({
+    url: '/get/comresource',
+    method: 'post'
   })
 }

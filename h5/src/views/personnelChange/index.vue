@@ -5,20 +5,26 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="管理机构" prop="manageCom">
-            <el-select v-model="form.manageCom" placeholder="请选择" style="width:100%;">
-              <el-option v-for="(option,index) in list.manageCom" :key="index" :label="option.label" :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
-              </el-option>
-            </el-select>
+            <el-cascader
+              :key="index2"
+              ref="elcascader"
+              v-model="form.manageCom"
+              :options="options"
+              :show-all-levels="false"
+              style="width: 100%"
+              :props="{ expandTrigger: 'hover' ,checkStrictly: true}"
+              clearable
+              @blur="die"
+              @change="changeVal"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队代码">
             <el-select v-model="form.branchAttr" placeholder="请选择" style="width:100%;">
-              <el-option v-for="(option,index) in list.branchAttr" :key="index" :label="option.label" :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
+              <el-option v-for="(option,index) in list.branchAttr" :key="index" :label="option.branchAttr" :value="option.name">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.branchAttr }}</span>
+                <span style="float: right">{{ option.name }}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -26,9 +32,9 @@
         <el-col :span="8">
           <el-form-item label="团队名称">
             <el-select v-model="form.branchName " placeholder="请选择" style="width:100%;">
-              <el-option v-for="(option,index) in list.branchName" :key="index" :label="option.label" :value="option.value">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-                <span style="float: right">{{ option.label }}</span>
+              <el-option v-for="(option,index) in list.branchName" :key="index" :label="option.name" :value="option.branchAttr">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.branchAttr }}</span>
+                <span style="float: right">{{ option.name }}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -102,14 +108,14 @@
 
 <script>
 import { phoneNumberValidatorAllowNull } from '@/utils/validate'
-import { getManageComCode } from '@/api/code'
 import PersonChangeDialog from '@/components/PersonChange/PersonChangeDialog'
-import { query } from '@/api/personChange'
+import { getNextOptions, query, threeOptions } from '@/api/personChange'
 export default {
   name: 'PersonnelChange',
   components: { PersonChangeDialog },
   data() {
     return {
+      index2: 0,
       form: {
         manageCom: '',
         branchAttr: '',
@@ -136,13 +142,43 @@ export default {
         currentPage: 1, // 当前第几页
         totalCount: 0, // 总共有几条
         pageSize: 10 // 每页的项目数
-      }
+      },
+      options: []
     }
   },
   mounted() {
-    this.getInitOptions()
+    setInterval(function() {
+      document.querySelectorAll('.el-cascader-node__label').forEach(el => {
+        el.onclick = function() {
+          if (this.previousElementSibling) this.previousElementSibling.click()
+        }
+      })
+    }, 1000)
+  },
+  created() {
+    threeOptions().then((r) => {
+      this.options.push(r.result)
+    })
   },
   methods: {
+    die() {
+      this.index2 = 1
+      this.index2++
+    },
+    changeVal() {
+      // eslint-disable-next-line prefer-const
+      let t
+      clearTimeout(t)
+      t = setTimeout(() => {
+        this.$refs.elcascader.dropDownVisible = false
+      }, 300)
+      // 获得下一级下拉列表
+      getNextOptions(this.form.manageCom).then(res => {
+        // this.form.agentGroup = ''
+        this.list.branchAttr = res.list
+        this.list.branchName = res.list
+      })
+    },
     resetForm() {
       this.$refs['form'].resetFields()
       Object.keys(this.form).forEach((key) => {
@@ -183,15 +219,15 @@ export default {
       for (const item of selection) {
         this.selected.push(item.agentCode)
       }
-    },
-    getInitOptions() {
-      getManageComCode().then(
-        r => {
-          this.$log('成功获取管理机构下拉菜单请求', r)
-          this.list.manageCom = r['totallist']
-        }
-      )
     }
+    // getInitOptions() {
+    //   getManageComCode().then(
+    //     r => {
+    //       this.$log('成功获取管理机构下拉菜单请求', r)
+    //       this.list.manageCom = r['totallist']
+    //     }
+    //   )
+    // }
   }
 }
 </script>

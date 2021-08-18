@@ -10,7 +10,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="目标团队" :label-width="formLabelWidth">
-        <el-select v-model="form.agentGroup" placeholder="目标团队" style="width:60%;" autocomplete="off" @change="getInformation">
+        <el-select v-model="form.agentGroup" placeholder="目标团队" style="width:60%;" @change="getInformation">
           <el-option v-for="(option,index) in list.agentGroupList" :key="index" :label="option.name" :value="option.branchAttr">
             <span style="float: left; color: #8492a6; font-size: 13px">{{ option.branchAttr }}</span>
             <span style="float: right">{{ option.name }}</span>
@@ -23,7 +23,7 @@
           type="date"
           placeholder="选择日期"
           :disabled="true"
-          autocomplete="off"
+          value-format="yyyy-MM-dd"
         />
       </el-form-item>
       <el-form-item label="目标团队主管代码" :label-width="formLabelWidth">
@@ -56,7 +56,7 @@ export default {
         modifyDate: '',
         adminCode: '',
         adminName: '',
-        select: []
+        agentCodeList: []
       },
       list: {
         manageComList: '',
@@ -65,18 +65,13 @@ export default {
       formLabelWidth: '180px'
     }
   },
-  // created() {
-  //   getSelectOptions.then(res => {
-  //     this.list.manageComList = res.list
-  //   })
-  // },
   mounted() {
     this.$bus.$on('OPEN_PERSON_CHANGE_DIALOG', (select) => {
       this.config.dialogFormVisible = true
       getSelectOptions().then(res => {
         this.list.manageComList = res.list
       })
-      this.form.select = select
+      this.form.agentCodeList = select
     })
   },
   beforeDestroy() {
@@ -93,7 +88,8 @@ export default {
       submit(this.form.agentGroup).then(res => {
         this.form.adminCode = res.managerId
         this.form.adminName = res.managerName
-        this.form.modifyDate = new Date()
+        this.form.modifyDate = new Date().toLocaleDateString().split('/').join('-')
+        console.log(this.form.modifyDate)
       })
     },
     changeAgent() {

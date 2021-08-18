@@ -230,6 +230,7 @@ export default {
         this.$message.error('上传成功，但解析文件时发生了错误')
       } else if (response.code === 0) {
         this.$message.success('上传成功！')
+        this.handleQuery(false)
       } else {
         this.$message.error('上传成功，但服务器返回的响应码未知')
       }

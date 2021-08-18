@@ -65,6 +65,8 @@ export default {
     // })
     this.$bus.$on('RESET_QUALIFICATION_TABLE', () => {
       this.list = []
+      this.page.currentPage = 1
+      this.page.totalCount = 0
     })
   },
   beforeDestroy() {

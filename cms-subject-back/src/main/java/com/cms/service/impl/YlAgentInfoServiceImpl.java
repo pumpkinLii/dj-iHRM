@@ -138,6 +138,9 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
         String oldgrade=gradeTeamPojo.getOldgradecode();
         String nowgrade=gradeTeamPojo.getNowgradecode();
         String comcode=gradeTeamPojo.getComecode();
+        if (nowgrade==null){
+            return R.ok().put("msg","请选择目标职级").put("code",501);
+        }
         if (comcode==null){
             return R.ok().put("msg","请先选择管理机构").put("code",501);
         }
@@ -147,7 +150,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
         }else if (oldgrade.substring(0,2).equals("MA")){//不需要判断经理一级 到经理二级的这种判断 这种时候 一定是两大职级
             //这是总监的情况 职级降低 返回人员三级机构下四级()非停业的团队
             QueryWrapper queryWrapper=new QueryWrapper();
-            queryWrapper.eq("branch_manager",gradeTeamPojo.getAgentCode());
+            queryWrapper.eq("branch_manager",gradeTeamPojo.getAgentcode());
             queryWrapper.eq("branch_status","N");//非停业
             queryWrapper.eq("manage_com",comcode);
             List<YlLaBranchGroupEntity> list = rYlLaBranchGroupServiceImpl.getBaseMapper().selectList(queryWrapper);

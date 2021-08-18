@@ -6,6 +6,6 @@ import lombok.Data;
 public class GradeTeamPojo {
     String oldgradecode;
     String nowgradecode;
-    String agentCode;
+    String agentcode;
     String comecode;
 }

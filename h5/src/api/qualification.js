@@ -51,8 +51,18 @@ export function getInitializeList() {
 
 export function downloadTemplate() {
   return request({
-    url: '/?',
-    method: 'post'
+    url: 'http://10.11.114.128:9999/cert/board',
+    method: 'post',
+    responseType: 'blob'
+  })
+}
+
+export function exportList(data) {
+  return request({
+    url: 'http://10.11.114.128:9999/cert/ExcelOut',
+    method: 'post',
+    responseType: 'blob',
+    data
   })
 }
 

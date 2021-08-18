@@ -271,6 +271,12 @@ export default {
     // 结果导出
     download2() {
       V.download1(this.form).then((res) => {
+        if (res['type'] !== 'text/xml') {
+          this.$message.warning('导出表格失败，结果为空')
+          return
+        } else {
+          this.$message.info('开始导出表格')
+        }
         const link = document.createElement('a')
         const blob = new Blob([res], { type: 'application/vnd.ms-excel' })
         link.style.display = 'none'

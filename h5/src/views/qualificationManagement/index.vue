@@ -84,6 +84,7 @@
             <el-button type="primary" icon="el-icon-search" @click="handleQuery(true)">查询</el-button>
             <el-button type="success" icon="el-icon-edit" @click="showQualificationAddDialog">新增</el-button>
             <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
+            <el-button type="primary" icon="el-icon-download" @click="handleExport">批量导出</el-button>
             <el-button type="primary" icon="el-icon-upload2" @click="handleImport">批量导入</el-button>
             <el-button type="primary" icon="el-icon-download" @click="handleDownload">模板下载</el-button>
           </el-col>
@@ -97,7 +98,7 @@
       <el-upload
         v-loading="uploadLoading"
         drag
-        action="https://jsonplaceholder.typicode.com/posts/"
+        action="http://10.11.114.128:9999/cert/ExcelInsert"
         style="text-align: center"
         :before-close="handleCloseUploadDialog"
         :on-success="handleUploadSuccess"
@@ -122,7 +123,8 @@
 import QualificationTable from '@/components/Qualification/QualificationTable'
 import QualificationAddDialog from '@/components/Qualification/QualificationAddDialog'
 import { getInitializeList, getNextOptions } from '@/api/qualification'
-import { downloadTemplate } from '@/api/qualification'
+import { downloadTemplate, exportList } from '@/api/qualification'
+
 export default {
   name: 'Qualification',
   components: { QualificationAddDialog, QualificationTable },
@@ -173,16 +175,34 @@ export default {
   },
   created() {
     getInitializeList().then(res => {
-      this.list.manageCom2List = res.com2List
-      this.list.certificateTypeList = res.certificateTypeList
+      this.list.manageCom2List = res['com2List']
+      this.list.certificateTypeList = res['certificateTypeList']
     })
   },
   methods: {
+    handleExport() {
+      exportList(this.form).then((res) => {
+        if (res['type'] !== 'text/xml') {
+          this.$message.warning('导出表格失败，结果为空')
+          return
+        } else {
+          this.$message.info('开始导出表格')
+        }
+        const link = document.createElement('a')
+        const blob = new Blob([res], { type: 'application/vnd.ms-excel' })
+        link.style.display = 'none'
+        link.href = URL.createObjectURL(blob)
+        link.setAttribute('download', '查询结果导出.xlsx')
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      })
+    },
     handleImport() {
       this.uploadDialogVisible = true
     },
     handleDownload() {
-      downloadTemplate().then((res) => { // TODO API url未确定
+      downloadTemplate().then((res) => {
         const link = document.createElement('a')
         const blob = new Blob([res], { type: 'application/vnd.ms-excel' })
         link.style.display = 'none'
@@ -194,23 +214,29 @@ export default {
       })
     },
     handleCloseUploadDialog() {
-      this.uploadDialogVisible = false // TODO API url未确定
+      this.uploadDialogVisible = false
     },
     handleUploadSuccess(response, file, fileList) {
-      this.$message.success('上传成功！')
       this.uploadLoading = false
       this.uploadDialogVisible = false
-      console.log(response)
+      if (response.code === 501) {
+        let msg = ''
+        for (const err of response.list) {
+          msg += err['address']
+          msg += err['msg']
+          msg += '\n'
+        }
+        alert(msg)
+        this.$message.error('上传成功，但解析文件时发生了错误')
+      } else if (response.code === 0) {
+        this.$message.success('上传成功！')
+      } else {
+        this.$message.error('上传成功，但服务器返回的响应码未知')
+      }
     },
     handleUploadError(err, file, fileList) {
       this.uploadLoading = false
       console.log(err)
-      this.$message({
-        message: '错误信息',
-        duration: 0,
-        showClose: true,
-        type: 'error'
-      })
     },
     handleBeforeUpload() {
       this.uploadLoading = true

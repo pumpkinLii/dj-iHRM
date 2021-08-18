@@ -84,10 +84,34 @@
             <el-button type="primary" icon="el-icon-search" @click="handleQuery(true)">查询</el-button>
             <el-button type="success" icon="el-icon-edit" @click="showQualificationAddDialog">新增</el-button>
             <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
+            <el-button type="primary" icon="el-icon-upload2" @click="handleImport">批量导入</el-button>
+            <el-button type="primary" icon="el-icon-download" @click="handleDownload">模板下载</el-button>
           </el-col>
         </el-form-item>
       </el-row>
     </el-form>
+    <el-dialog
+      title="Excel文件导入"
+      :visible.sync="uploadDialogVisible"
+    >
+      <el-upload
+        v-loading="uploadLoading"
+        drag
+        action="https://jsonplaceholder.typicode.com/posts/"
+        style="text-align: center"
+        :before-close="handleCloseUploadDialog"
+        :on-success="handleUploadSuccess"
+        :on-error="handleUploadError"
+        :before-upload="handleBeforeUpload"
+        :show-file-list="false"
+      >
+        <i class="el-icon-upload" />
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="secondary" @click="uploadDialogVisible = false">取 消</el-button>
+      </span>
+    </el-dialog>
     <el-divider />
     <QualificationTable />
     <QualificationAddDialog />
@@ -98,6 +122,7 @@
 import QualificationTable from '@/components/Qualification/QualificationTable'
 import QualificationAddDialog from '@/components/Qualification/QualificationAddDialog'
 import { getInitializeList, getNextOptions } from '@/api/qualification'
+import { downloadTemplate } from '@/api/qualification'
 export default {
   name: 'Qualification',
   components: { QualificationAddDialog, QualificationTable },
@@ -111,6 +136,8 @@ export default {
       callback()
     }
     return {
+      uploadDialogVisible: false,
+      uploadLoading: false,
       form: {
         manageCom2: '',
         manageCom3: '',
@@ -151,6 +178,44 @@ export default {
     })
   },
   methods: {
+    handleImport() {
+      this.uploadDialogVisible = true
+    },
+    handleDownload() {
+      downloadTemplate().then((res) => { // TODO API url未确定
+        const link = document.createElement('a')
+        const blob = new Blob([res], { type: 'application/vnd.ms-excel' })
+        link.style.display = 'none'
+        link.href = URL.createObjectURL(blob)
+        link.setAttribute('download', '资格证批量导入模板.xlsx')
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      })
+    },
+    handleCloseUploadDialog() {
+      this.uploadDialogVisible = false // TODO API url未确定
+    },
+    handleUploadSuccess(response, file, fileList) {
+      this.$message.success('上传成功！')
+      this.uploadLoading = false
+      this.uploadDialogVisible = false
+      console.log(response)
+    },
+    handleUploadError(err, file, fileList) {
+      this.uploadLoading = false
+      console.log(err)
+      this.$message({
+        message: '错误信息',
+        duration: 0,
+        showClose: true,
+        type: 'error'
+      })
+    },
+    handleBeforeUpload() {
+      this.uploadLoading = true
+      return true
+    },
     resetForm() {
       Object.keys(this.form).forEach((key) => {
         this.form[key] = ''

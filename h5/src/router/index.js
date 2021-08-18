@@ -62,6 +62,7 @@ export const constantRoutes = [
     component: Layout,
     children: [{
       path: '',
+      name: 'PersonImport',
       component: () => import ('@/views/employeeEntry/index'),
       meta: {
         title: '人员录入',
@@ -75,6 +76,7 @@ export const constantRoutes = [
     component: Layout,
     children: [{
       path: '',
+      name: 'PersonHold',
       component: () => import ('@/views/personhold/index'),
       meta: {
         title: '人员维护',

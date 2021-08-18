@@ -48,3 +48,11 @@ export function getInitializeList() {
     method: 'post'
   })
 }
+
+export function downloadTemplate() {
+  return request({
+    url: '/?',
+    method: 'post'
+  })
+}
+

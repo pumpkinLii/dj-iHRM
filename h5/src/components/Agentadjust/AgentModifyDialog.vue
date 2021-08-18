@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <el-dialog title="修改人员信息" :visible.sync="editDialogVisible" width="90%" :before-close="editDialogClosed">
+    <el-dialog title="职级调整" :visible.sync="editDialogVisible" width="90%" :before-close="editDialogClosed">
       <!-- 主体 -->
       <span>
         <el-form ref="form" :model="form" :rules="rules" label-width="180px">
@@ -55,6 +55,7 @@
                   v-model="form.curAgentGrade"
                   placeholder="请选择"
                   style="width:60%"
+                  disabled
                 >
                   <el-option v-for="item in curAgentGrade" :key="item.gradecode" :value="item.gradecode" :label="item.gradename">
                     <span style="float: left; color: #8492a6; font-size: 13px">{{ item.gradecode }}</span>
@@ -89,6 +90,7 @@
                   placeholder="请选择"
                   style="width:60%"
                   :disabled="judge"
+                  @click.native="getTargetBranch"
                 >
                   <el-option v-for="item in targetBranchCode" :key="item.groupcode" :value="item.groupcode" :label="item.groupname">
                     <span style="float: left; color: #8492a6; font-size: 13px">{{ item.groupcode }}</span>
@@ -165,7 +167,8 @@
       </span>
       <!-- 底部 -->
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="editUserInfo">保 存</el-button>
+        <el-button type="secondary">取 消</el-button>
+        <el-button type="primary" @click="saveAdjust">保 存</el-button>
       </span>
     </el-dialog>
   </div>
@@ -181,15 +184,14 @@ export default {
     return {
       // 四级管理机构代码
       minComCode: '',
+      // 中介  目标团队架构
+      aBranchCode: '',
       // 职级
       curAgentGrade: [],
       // 四级下拉列表
       targetManageCom: [],
       // 目标团队架构
       targetBranchCode: [],
-      // 存放码表信息
-      codes: {},
-      reslist: {},
       // 表单信息
       form: {
         agentCode: '', // 人员代码
@@ -241,6 +243,8 @@ export default {
       this.$set(this.form, 'curAgentGrade', item.agentGrade)
       this.editDialogVisible = true
       this.minComCode = item.comCode4
+      // 处理targetBranchCode传码值
+      this.aBranchCode = item.agentGroup
     })
   },
   beforeDestroy() {
@@ -251,20 +255,6 @@ export default {
     editDialogClosed() {
       this.$refs.form.resetFields()
       this.editDialogVisible = false
-    },
-    // 修改用户信息并提交
-    editUserInfo() {
-      API.editPerson(this.form).then(
-        (res) => {
-          if (res.code === 0) {
-            this.$message.success('修改成功')
-            this.$bus.$emit('refresh')
-            this.editDialogVisible = false
-          } else {
-            this.$message.error('修改失败')
-          }
-        }
-      )
     },
     // 获取职级
     getCurAgentGrade() {
@@ -290,29 +280,55 @@ export default {
         this.judgetarget = true
         this.form.targetBranchCode = this.form.branchName
         this.form.targetManageCom = this.minComCode
+        this.form.targetBranchCode = this.aBranchCode
       } else {
         this.judge = false
         this.judgetarget = false
         this.form.targetBranchCode = ''
-        console.log('数据数据')
-        console.log(this.form.curAgentGrade)
-        console.log(this.form.targetBranchCode)
-        console.log(this.form.agentCode)
-        console.log(this.form.targetManageCom)
-        // 获取目标团队架构
-        const data = {
-          oldgradecode: this.form.curAgentGrade, // 当前职级
-          nowgradecode: this.form.targetBranchCode, // 目标职级
-          agentcode: this.form.agentCode, // 人员工号
-          comecode: this.form.targetManageCom// 四级管理机构
-        }
-        API.getTargetBranchCode(data).then(
-          (res) => {
-            console.log(res)
-            this.targetBranchCode = res.list
-          }
-        )
+        // // 获取目标团队架构
+        // const data = {
+        //   oldgradecode: this.form.curAgentGrade, // 当前职级
+        //   nowgradecode: this.form.targetBranchCode, // 目标职级
+        //   agentcode: this.form.agentCode, // 人员工号
+        //   comecode: this.form.targetManageCom// 四级管理机构
+        // }
+        // API.getTargetBranchCode(data).then(
+        //   (res) => {
+        //     console.log(res)
+        //     this.targetBranchCode = res.list
+        //   }
+        // )
       }
+    },
+    // 获取目标团队架构
+    getTargetBranch() {
+      const data = {
+        oldgradecode: this.form.curAgentGrade, // 当前职级
+        nowgradecode: this.form.targetBranchCode, // 目标职级
+        agentcode: this.form.agentCode, // 人员工号
+        comecode: this.form.targetManageCom// 四级管理机构
+      }
+      API.getTargetBranchCode(data).then(
+        (res) => {
+          console.log(res)
+          this.targetBranchCode = res.list
+        }
+      )
+    },
+    saveAdjust() {
+      API.saveAdjust(this.form).then(
+        (res) => {
+          console.log('resres')
+          console.log(res)
+          if (res.code === 0) {
+            this.$message.success('调整成功')
+            this.$bus.$emit('refreshAgent')
+            this.editDialogVisible = false
+          } else {
+            this.$message.error('调整失败')
+          }
+        }
+      )
     }
   }
 }

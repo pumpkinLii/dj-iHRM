@@ -30,6 +30,7 @@
         @current-change="handleCurrentChange"
       />
     </div>
+<!--     弹窗-->
     <GroupModifyDialog1 />
 
   </div>
@@ -93,7 +94,7 @@ export default {
 </script>
 
 <style  scoped>
-/deep/.el-table th{
+/deep/ .el-table th{
   text-align: center;
 }
 /deep/ .el-table td{

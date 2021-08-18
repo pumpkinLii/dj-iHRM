@@ -145,12 +145,17 @@ export default {
       }
     },
     die() {
-      this.index2 = 2
+      this.index2 = 1
       this.index2++
     },
     // 下拉框选择弹回
     changeVal() {
-      this.$refs.elcascader.dropDownVisible = false
+      // eslint-disable-next-line prefer-const
+      let t
+      clearTimeout(t)
+      t = setTimeout(() => {
+        this.$refs.elcascader.dropDownVisible = false
+      }, 300)
     }
   }
 

@@ -15,12 +15,22 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队代码">
-            <el-input v-model="form.branchAttr" type="text" style="width:100%;" placeholder="可选项" clearable />
+            <el-select v-model="form.branchAttr" placeholder="请选择" style="width:100%;">
+              <el-option v-for="(option,index) in list.branchAttr" :key="index" :label="option.label" :value="option.value">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                <span style="float: right">{{ option.label }}</span>
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队名称">
-            <el-input v-model="form.branchName" type="text" style="width:100%;" placeholder="可选项" clearable />
+            <el-select v-model="form.branchName " placeholder="请选择" style="width:100%;">
+              <el-option v-for="(option,index) in list.branchName" :key="index" :label="option.label" :value="option.value">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
+                <span style="float: right">{{ option.label }}</span>
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -110,7 +120,9 @@ export default {
         idNo: ''
       },
       list: {
-        manageCom: []
+        manageCom: [],
+        branchAttr: [],
+        branchName: []
       },
       rules: {
         manageCom:

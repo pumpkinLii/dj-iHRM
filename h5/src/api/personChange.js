@@ -10,8 +10,30 @@ export function query(data, page) {
 }
 
 export function getSelectOptions() {
-  return ({
-    url: '',
+  return request({
+    url: 'http://10.11.114.126:9999/returnMes/com4Info',
     method: 'post'
+  })
+}
+
+export function getNextOptions(code) {
+  return request({
+    url: 'http://10.11.114.126:9999/returnMes/groupInfo?manageCode=' + code,
+    method: 'post'
+  })
+}
+
+export function submit(data) {
+  return request({
+    url: 'http://10.11.114.126:9999/returnMes/managerInfo?branchAttr=' + data,
+    method: 'post'
+  })
+}
+
+export function change(data) {
+  return request({
+    url: 'http://10.11.114.123/agent/change',
+    method: 'post',
+    data
   })
 }

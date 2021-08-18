@@ -1,19 +1,19 @@
 <template>
-  <el-dialog title="收货地址" :visible.sync="config.dialogFormVisible">
+  <el-dialog title="人员异动" :visible.sync="config.dialogFormVisible">
     <el-form :model="form">
       <el-form-item label="目标中心支公司" :label-width="formLabelWidth">
-        <el-select v-model="form.manageCom" placeholder="目标中心支公司" style="width:60%;">
-          <el-option v-for="(option,index) in list.manageComList" :key="index" :label="option.label" :value="option.value">
-            <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-            <span style="float: right">{{ option.label }}</span>
+        <el-select v-model="form.manageCom" placeholder="目标中心支公司" style="width:60%;" autocomplete="off" @change="getAgentGroupList">
+          <el-option v-for="(option,index) in list.manageComList" :key="index" :label="option.name" :value="option.code">
+            <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
+            <span style="float: right">{{ option.name }}</span>
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="目标团队" :label-width="formLabelWidth">
-        <el-select v-model="form.agentGroup" placeholder="目标团队" style="width:60%;">
-          <el-option v-for="(option,index) in list.agentGroupList" :key="index" :label="option.label" :value="option.value">
-            <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
-            <span style="float: right">{{ option.label }}</span>
+        <el-select v-model="form.agentGroup" placeholder="目标团队" style="width:60%;" autocomplete="off" @change="getInformation">
+          <el-option v-for="(option,index) in list.agentGroupList" :key="index" :label="option.name" :value="option.branchAttr">
+            <span style="float: left; color: #8492a6; font-size: 13px">{{ option.branchAttr }}</span>
+            <span style="float: right">{{ option.name }}</span>
           </el-option>
         </el-select>
       </el-form-item>
@@ -23,23 +23,26 @@
           type="date"
           placeholder="选择日期"
           :disabled="true"
+          autocomplete="off"
         />
       </el-form-item>
-      <el-form-item label="管理员" :label-width="formLabelWidth">
-        <el-input v-model="form.operator" autocomplete="off" :disabled="true" />
+      <el-form-item label="目标团队主管代码" :label-width="formLabelWidth">
+        <el-input v-model="form.adminCode" autocomplete="off" :disabled="true" />
       </el-form-item>
-      <el-form-item label="异动人员列表" :label-width="formLabelWidth">
-        <el-input v-model="form.agentCodeList" autocomplete="off" :disabled="true" />
+      <el-form-item label="目标团队主管姓名" :label-width="formLabelWidth">
+        <el-input v-model="form.adminName" autocomplete="off" :disabled="true" />
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="config.dialogFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="config.dialogFormVisible = false">确 定</el-button>
+      <el-button type="primary" @click="changeAgent">确 定</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script>
+import { change, getNextOptions, getSelectOptions, submit } from '@/api/personChange'
+
 export default {
   name: 'PersonChangeDialog',
   data() {
@@ -51,24 +54,52 @@ export default {
         manageCom: '',
         agentGroup: '',
         modifyDate: '',
-        operations: '',
-        agentCodeList: ''
+        adminCode: '',
+        adminName: '',
+        select: []
       },
       list: {
         manageComList: '',
         agentGroupList: ''
       },
-      formLabelWidth: '120px'
+      formLabelWidth: '180px'
     }
   },
+  // created() {
+  //   getSelectOptions.then(res => {
+  //     this.list.manageComList = res.list
+  //   })
+  // },
   mounted() {
-    this.$bus.$on('OPEN_PERSON_CHANGE_DIALOG', () => {
+    this.$bus.$on('OPEN_PERSON_CHANGE_DIALOG', (select) => {
       this.config.dialogFormVisible = true
-      console.log(this.config.dialogFormVisible)
+      getSelectOptions().then(res => {
+        this.list.manageComList = res.list
+      })
+      this.form.select = select
     })
   },
   beforeDestroy() {
     this.$off('OPEN_PERSON_CHANGE_DIALOG')
+  },
+  methods: {
+    getAgentGroupList() {
+      getNextOptions(this.form.manageCom).then(res => {
+        this.form.agentGroup = ''
+        this.list.agentGroupList = res.list
+      })
+    },
+    getInformation() {
+      submit(this.form.agentGroup).then(res => {
+        this.form.adminCode = res.managerId
+        this.form.adminName = res.managerName
+        this.form.modifyDate = new Date()
+      })
+    },
+    changeAgent() {
+      change(this.form)
+      this.config.dialogFormVisible = false
+    }
   }
 }
 </script>

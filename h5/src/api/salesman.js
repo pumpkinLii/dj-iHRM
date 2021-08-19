@@ -3,7 +3,6 @@ import request from '@/utils/request'
 // 用于获得下拉菜单选项
 export function getSelectOptional() {
   return request({
-    // url: Vue.config.productionTip === true ? '/start/get' : 'http://10.11.115.18:9999/start/get',
     url: '/start/get',
     method: 'post'
   })
@@ -15,7 +14,6 @@ export function getSelectOptional() {
 // }
 
 export function check(data) {
-  // const Url = Vue.config.productionTip === true ? '/test/idCheck' : 'http://10.11.115.18:9999/test/idCheck'
   const Url = '/test/idCheck'
   return request({
     url: Url,
@@ -27,7 +25,6 @@ export function check(data) {
 
 export function getcity() {
   return request({
-    // url: Vue.config.productionTip === true ? '/area/get' : 'http://10.11.115.18:9999/area/get',
     url: '/area/get',
     method: 'post'
   })
@@ -35,7 +32,6 @@ export function getcity() {
 
 export function getCode(name, buffer) {
   request({
-    // url: Vue.config.productionTip === true ? '/start/get' : 'http://10.11.115.18:9999/start/get',
     url: '/start/get',
     method: 'post'
   }).then(

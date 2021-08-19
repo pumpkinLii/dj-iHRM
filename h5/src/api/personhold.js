@@ -2,8 +2,10 @@ import request from '@/utils/request'
 
 // 查询人员信息
 export function queryPerson(data, page) {
+  const url = process.env.NODE_ENV === 'development' ? 'http://10.11.114.56:9999/test/QueryStaff' : '/test/QueryStaff'
+  const param = '?limit=' + page.pageSize + '&' + 'page=' + page.currentPage
   return request({
-    url: 'http://10.11.114.56:9999/test/QueryStaff?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,
+    url: url + param,
     method: 'post',
     data
   })

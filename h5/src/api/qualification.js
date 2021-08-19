@@ -51,7 +51,7 @@ export function getInitializeList() {
 
 export function downloadTemplate() {
   return request({
-    url: 'http://10.11.114.128:9999/cert/board',
+    url: process.env.NODE_ENV === 'development' ? 'http://10.11.114.128:9999/cert/board' : '/cert/board',
     method: 'post',
     responseType: 'blob'
   })
@@ -59,7 +59,7 @@ export function downloadTemplate() {
 
 export function exportList(data) {
   return request({
-    url: 'http://10.11.114.128:9999/cert/ExcelOut',
+    url: process.env.NODE_ENV === 'development' ? 'http://10.11.114.128:9999/cert/ExcelOut' : '/cert/ExcelOut',
     method: 'post',
     responseType: 'blob',
     data

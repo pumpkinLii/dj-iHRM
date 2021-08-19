@@ -28,15 +28,17 @@ export function getTargetBranchCode(data) {
 // 职级调整接口 王欣艺
 export function saveAdjust(data) {
   return request({
-    url: 'http://10.11.114.128:9999/rank/alter',
+    url: process.env.NODE_ENV === 'development' ? 'http://10.11.114.128:9999/rank/alter' : '/rank/alter',
     method: 'post',
     data
   })
 }
 // 查询按钮  池皓月
 export function find(data, page) {
+  const url = process.env.NODE_ENV === 'development' ? 'http://10.11.114.56:9999/test/GradeQuery' : '/test/GradeQuery'
+  const param = '?limit=' + page.pageSize + '&' + 'page=' + page.currentPage
   return request({
-    url: 'http://10.11.114.56:9999/test/GradeQuery?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,
+    url: url + param,
     method: 'post',
     data
   })

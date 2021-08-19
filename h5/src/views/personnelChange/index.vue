@@ -142,15 +142,6 @@ export default {
       options: []
     }
   },
-  mounted() {
-    // setTimeout(function() {
-    //   document.querySelectorAll('.el-cascader-node__label').forEach(el => {
-    //     el.onclick = function() {
-    //       if (this.previousElementSibling) this.previousElementSibling.click()
-    //     }
-    //   })
-    // }, 1000)
-  },
   created() {
     threeOptions().then((r) => {
       this.options.push(r['result'])

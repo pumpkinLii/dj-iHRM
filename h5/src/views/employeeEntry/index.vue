@@ -748,6 +748,10 @@ export default {
           } else {
             this.$message.error(res['msg'])
             this.form.idNO = ''
+            if (this.form.idType === '0') {
+              this.form.sex = ''
+              this.form.birthday = ''
+            }
           }
         })
         .catch(() => {

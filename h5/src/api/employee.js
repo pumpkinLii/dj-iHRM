@@ -35,7 +35,7 @@ export function getCodes() {
 // 提交新增人员
 export function submit(data) {
   return request({
-    url: '/test/doSave',
+    url: '/agent/doSave',
     method: 'post',
     data
   })

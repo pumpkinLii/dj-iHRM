@@ -128,35 +128,34 @@ export default {
     })
   },
   mounted() {
-    setInterval(function() {
-      document.querySelectorAll('.el-cascader-node__label').forEach(el => {
-        el.onclick = function() {
-          if (this.previousElementSibling) this.previousElementSibling.click()
-        }
-      })
-    }, 1000)
+    this.$bus.$on('refreshAgent', () => {
+      this.hello()
+    })
+  },
+  beforeDestroy() {
+    this.$bus.$off('refreshAgent')
   },
   methods: {
     hello() {
+      // console.log(this.form.manageCom === undefined)
+      // console.log(this.form.manageCom === '')
+      // console.log(this.form.manageCom.length)
       if (this.form.manageCom !== undefined && this.form.manageCom !== '' && this.form.manageCom.length !== 0) {
+        // this.form.manageCom = this.form.manageCom[this.form.manageCom.length - 1]
         this.$bus.$emit('something', this.form)
       } else {
         this.$bus.$emit('something1')
       }
     },
     die() {
-      this.index2 = 1
+      this.index2 = 2
       this.index2++
     },
     // 下拉框选择弹回
     changeVal() {
-      // eslint-disable-next-line prefer-const
-      let t
-      clearTimeout(t)
-      t = setTimeout(() => {
-        this.$refs.elcascader.dropDownVisible = false
-      }, 300)
+      this.$refs.elcascader.dropDownVisible = false
     }
+
   }
 
 }

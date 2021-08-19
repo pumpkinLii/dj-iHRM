@@ -2,7 +2,7 @@ import request from '@/utils/request'
 // 查询按钮
 export function find(data, page) {
   return request({
-    url: 'http://10.11.114.57:9999/test/GradeQuery?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,
+    url: 'http://10.11.114.56:9999/test/GradeQuery?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,
     method: 'post',
     data
   })

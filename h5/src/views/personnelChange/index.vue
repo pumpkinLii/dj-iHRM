@@ -6,16 +6,12 @@
         <el-col :span="8">
           <el-form-item label="管理机构" prop="manageCom">
             <el-cascader
-              :key="index2"
-              ref="elcascader"
               v-model="form.manageCom"
               :options="options"
               :show-all-levels="false"
               style="width: 100%"
               :props="{ expandTrigger: 'hover' ,checkStrictly: true}"
               clearable
-              @blur="die"
-              @change="changeVal"
             />
           </el-form-item>
         </el-col>
@@ -109,7 +105,7 @@
 <script>
 import { phoneNumberValidatorAllowNull } from '@/utils/validate'
 import PersonChangeDialog from '@/components/PersonChange/PersonChangeDialog'
-import { getNextOptions, query, threeOptions } from '@/api/personChange'
+import { query, threeOptions } from '@/api/personChange'
 export default {
   name: 'PersonnelChange',
   components: { PersonChangeDialog },
@@ -147,40 +143,20 @@ export default {
     }
   },
   mounted() {
-    setInterval(function() {
-      document.querySelectorAll('.el-cascader-node__label').forEach(el => {
-        el.onclick = function() {
-          if (this.previousElementSibling) this.previousElementSibling.click()
-        }
-      })
-    }, 1000)
+    // setTimeout(function() {
+    //   document.querySelectorAll('.el-cascader-node__label').forEach(el => {
+    //     el.onclick = function() {
+    //       if (this.previousElementSibling) this.previousElementSibling.click()
+    //     }
+    //   })
+    // }, 1000)
   },
   created() {
     threeOptions().then((r) => {
-      this.options.push(r.result)
+      this.options.push(r['result'])
     })
   },
   methods: {
-    die() {
-      this.index2 = 1
-      this.index2++
-    },
-    changeVal() {
-      // eslint-disable-next-line prefer-const
-      let t
-      clearTimeout(t)
-      t = setTimeout(() => {
-        this.$refs.elcascader.dropDownVisible = false
-      }, 300)
-      // 获得下一级下拉列表
-      const data = this.form.manageCom.length !== 0 ? this.form.manageCom[this.form.manageCom.length - 1] : ''
-      console.log(data)
-      getNextOptions(data).then(res => {
-        // this.form.agentGroup = ''
-        this.list.branchAttr = res.list
-        this.list.branchName = res.list
-      })
-    },
     resetForm() {
       this.$refs['form'].resetFields()
       Object.keys(this.form).forEach((key) => {
@@ -193,6 +169,7 @@ export default {
     handleQuery() {
       this.$refs['form'].validate(valid => {
         if (valid) {
+          this.table = []
           const data = { ...this.form }
           data.manageCom = this.form.manageCom.length !== 0 ? this.form.manageCom[this.form.manageCom.length - 1] : ''
           query(data, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
@@ -224,14 +201,6 @@ export default {
         this.selected.push(item.agentCode)
       }
     }
-    // getInitOptions() {
-    //   getManageComCode().then(
-    //     r => {
-    //       this.$log('成功获取管理机构下拉菜单请求', r)
-    //       this.list.manageCom = r['totallist']
-    //     }
-    //   )
-    // }
   }
 }
 </script>

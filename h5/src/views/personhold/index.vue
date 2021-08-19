@@ -107,11 +107,9 @@
       <el-row>
         <el-form-item>
           <el-col style="text-align:left;margin-top: 1rem">
-            <!--            <el-button type="primary" icon="el-icon-search" @click="handleQuery(true)">查询</el-button>-->
             <el-button type="primary" icon="el-icon-search" @click="handleQuery1()">查询</el-button>
             <el-button type="primary" icon="el-icon-download" @click="download2">导出</el-button>
             <el-button type="primary" icon="el-icon-upload2" disabled @click="uploadDialogVisible=true">Excel导入</el-button>
-            <!--TODO 等待开发-->
             <el-button type="primary" icon="el-icon-download" @click="download1">模板下载</el-button>
           </el-col>
         </el-form-item>
@@ -180,7 +178,7 @@ export default {
   created() {
     // 二级下拉列表 渲染
     V.xiala1().then((r) => {
-      this.list.manageCom2 = r.list
+      this.list.manageCom2 = r['list']
     })
   },
   mounted() {
@@ -231,7 +229,7 @@ export default {
       this.form.branchAttr = ''
       const f = { 'manageCom4': data }
       V.xiala3(f).then((r) => {
-        this.list.branchAttr = r.list
+        this.list.branchAttr = r['list']
         console.log('成功导入')
       })
     },
@@ -245,14 +243,14 @@ export default {
       this.form.manageCom3 = ''
       this.form.manageCom4 = ''
       V.xiala(abc).then((r) => {
-        this.list.manageCom3 = r.list
+        this.list.manageCom3 = r['list']
       })
     },
     select1(abc) {
       this.form.branchAttr = ''
       this.form.manageCom4 = ''
       V.xiala(abc).then((r) => {
-        this.list.manageCom4 = r.list
+        this.list.manageCom4 = r['list']
       })
     },
     // 模板下载

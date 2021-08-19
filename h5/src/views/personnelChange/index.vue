@@ -80,9 +80,9 @@
         <el-table-column type="selection" width="40" />
         <el-table-column label="人员工号" prop="agentCode" />
         <el-table-column label="人员姓名" prop="agentName" />
-        <el-table-column label="分公司" prop="?" />
-        <el-table-column label="中心支公司" prop="?" />
-        <el-table-column label="团队代码" prop="branchAttr" />
+        <el-table-column label="分公司" prop="manageCom2" />
+        <el-table-column label="中心支公司" prop="manageCom3" />
+        <el-table-column label="团队代码" prop="agentGroup" />
         <el-table-column label="团队名称" prop="branchName" />
         <el-table-column label="入司日期" prop="employDate" />
         <el-table-column label="人员状态" prop="agentState" />
@@ -173,7 +173,9 @@ export default {
         this.$refs.elcascader.dropDownVisible = false
       }, 300)
       // 获得下一级下拉列表
-      getNextOptions(this.form.manageCom).then(res => {
+      const data = this.form.manageCom.length !== 0 ? this.form.manageCom[this.form.manageCom.length - 1] : ''
+      console.log(data)
+      getNextOptions(data).then(res => {
         // this.form.agentGroup = ''
         this.list.branchAttr = res.list
         this.list.branchName = res.list
@@ -191,7 +193,9 @@ export default {
     handleQuery() {
       this.$refs['form'].validate(valid => {
         if (valid) {
-          query(this.form, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
+          const data = { ...this.form }
+          data.manageCom = this.form.manageCom.length !== 0 ? this.form.manageCom[this.form.manageCom.length - 1] : ''
+          query(data, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
             .then(r => {
               console.log(r)
               this.table = r['list']

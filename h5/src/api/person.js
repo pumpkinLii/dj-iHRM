@@ -1,9 +1,8 @@
 import request from '@/utils/request'
 
-// 查询团队信息
 export function addPerson(data) {
   return request({
-    url: '/test/doSave',
+    url: '/agent/doSave',
     method: 'post',
     data
   })
@@ -55,7 +54,6 @@ export function queryAgent(agentCode) {
   })
 }
 
-// 修改团队信息
 export function editPerson(data) {
   return request({
     url: '/agent/update',

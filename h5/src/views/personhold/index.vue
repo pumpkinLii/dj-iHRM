@@ -110,7 +110,8 @@
             <!--            <el-button type="primary" icon="el-icon-search" @click="handleQuery(true)">查询</el-button>-->
             <el-button type="primary" icon="el-icon-search" @click="handleQuery1()">查询</el-button>
             <el-button type="primary" icon="el-icon-download" @click="download2">导出</el-button>
-            <el-button type="primary" icon="el-icon-upload2" @click="uploadDialogVisible=true">Excel导入</el-button>
+            <el-button type="primary" icon="el-icon-upload2" disabled @click="uploadDialogVisible=true">Excel导入</el-button>
+            <!--TODO 等待开发-->
             <el-button type="primary" icon="el-icon-download" @click="download1">模板下载</el-button>
           </el-col>
         </el-form-item>

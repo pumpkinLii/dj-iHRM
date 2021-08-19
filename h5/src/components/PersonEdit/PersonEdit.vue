@@ -465,6 +465,7 @@
       </span>
       <!-- 底部 -->
       <span slot="footer" class="dialog-footer">
+        <el-button type="secondary" @click="editDialogClosed">取 消</el-button>
         <el-button type="primary" @click="editUserInfo">保 存</el-button>
       </span>
     </el-dialog>

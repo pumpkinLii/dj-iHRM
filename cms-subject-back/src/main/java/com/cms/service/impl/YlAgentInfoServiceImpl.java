@@ -155,7 +155,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
             queryWrapper.eq("manage_com",comcode);
             List<YlLaBranchGroupEntity> list = rYlLaBranchGroupServiceImpl.getBaseMapper().selectList(queryWrapper);
             if (list.size()==0){
-                return R.ok().put("msg","数据库种不存在该主管任免的四级团队");
+                return R.ok().put("msg","数据库不存在该主管任免的四级团队");
             }
 
             for (int i = 0; i < list.size(); i++) {

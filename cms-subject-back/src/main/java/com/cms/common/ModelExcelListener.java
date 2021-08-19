@@ -36,12 +36,10 @@ public class ModelExcelListener extends AnalysisEventListener {
             //这是表头行 不进行设置
         }else {
             YlLaAgentAttrEntity ylLaAgentAttrEntity=new YlLaAgentAttrEntity();
-            ylLaAgentAttrEntity.setAgentCode(ylLaAgentAttrExcelUpdatePojo.getAgentCode());
             ylLaAgentAttrEntity.setIdType(ylLaAgentAttrExcelUpdatePojo.getIdtype());
             ylLaAgentAttrEntity.setIdNo(ylLaAgentAttrExcelUpdatePojo.getIdno());
             ylLaAgentAttrEntity.setSex(ylLaAgentAttrExcelUpdatePojo.getSex());
-            SimpleDateFormat simpleDateFormat1=new SimpleDateFormat("yyyy/MM/dd");
-            ylLaAgentAttrEntity.setBirthday(simpleDateFormat1.parse(ylLaAgentAttrExcelUpdatePojo.getBirthday()));
+            ylLaAgentAttrEntity.setBirthday(ylLaAgentAttrExcelUpdatePojo.getBirthday());
             ylLaAgentAttrEntity.setNativeplace(ylLaAgentAttrExcelUpdatePojo.getNativeplace());
             ylLaAgentAttrEntity.setPhone(ylLaAgentAttrExcelUpdatePojo.getPhone());
             //ylLaAgentAttrEntity.setHighestDegree(ylLaAgentAttrExcelUpdatePojo.getHighestDegree());
@@ -55,8 +53,8 @@ public class ModelExcelListener extends AnalysisEventListener {
             ylLaAgentAttrEntity.setContractType(ylLaAgentAttrExcelUpdatePojo.getContractType());
             System.out.println("合同开始"+ylLaAgentAttrExcelUpdatePojo.getContractStartDate());
             System.out.println("合同终止日期"+ylLaAgentAttrExcelUpdatePojo.getContractEndDate());
-            ylLaAgentAttrEntity.setContractStartDate(simpleDateFormat1.parse(ylLaAgentAttrExcelUpdatePojo.getContractStartDate()));
-            ylLaAgentAttrEntity.setContractEndDate(simpleDateFormat1.parse(ylLaAgentAttrExcelUpdatePojo.getContractStartDate()));
+            ylLaAgentAttrEntity.setContractStartDate(ylLaAgentAttrExcelUpdatePojo.getContractStartDate());
+            ylLaAgentAttrEntity.setContractEndDate(ylLaAgentAttrExcelUpdatePojo.getContractStartDate());
             ylLaAgentAttrEntity.setBankProvince(ylLaAgentAttrExcelUpdatePojo.getBankProvince());
             ylLaAgentAttrEntity.setBankCity(ylLaAgentAttrExcelUpdatePojo.getBankCity());
             ylLaAgentAttrEntity.setOperator("0");
@@ -66,8 +64,13 @@ public class ModelExcelListener extends AnalysisEventListener {
             ylLaAgentAttrEntity.setModifyTime(ParseDate.getCurrentTime());
             //ylLaAgentAttrEntity.setRgtType(ylLaAgentAttrExcelUpdatePojo.getRgtType());
             ylLaAgentAttrEntity.setRgtType("1");
+            ylLaAgentAttrEntity.setIdType("1");
+            ylLaAgentAttrEntity.setSex("1");
+            ylLaAgentAttrEntity.setNativeplace("1");
+            ylLaAgentAttrEntity.setDegree("1");
+            ylLaAgentAttrEntity.setOldIndustryType("1");
+            ylLaAgentAttrEntity.setAgentCode("YL00000099");
             laAgentServiceAttr.getBaseMapper().insert(ylLaAgentAttrEntity);
-
             YlLaAgentEntity ylLaAgentEntity=new YlLaAgentEntity();
             ylLaAgentEntity.setAgentName(ylLaAgentAttrExcelUpdatePojo.getName());
             ylLaAgentEntity.setAgentJob(ylLaAgentAttrExcelUpdatePojo.getAgentJob());
@@ -83,7 +86,7 @@ public class ModelExcelListener extends AnalysisEventListener {
             ylLaAgentEntity.setMakeTime(ParseDate.getCurrentTime());
             ylLaAgentEntity.setModifyDate(ParseDate.getCurrentDate());
             ylLaAgentEntity.setModifyTime(ParseDate.getCurrentTime());
-
+            ylLaAgentEntity.setAgentCode("YL000000099");
             laAgentServiceImpl.getBaseMapper().insert(ylLaAgentEntity);
         }
     }

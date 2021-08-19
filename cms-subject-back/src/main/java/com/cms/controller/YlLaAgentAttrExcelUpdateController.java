@@ -66,9 +66,6 @@ public class YlLaAgentAttrExcelUpdateController {
         WriteFont writeFont=new WriteFont();
         writeFont.setFontHeightInPoints((short)11);
         headwriteCellStyle.setWriteFont(writeFont);
-
-
-
         WriteCellStyle contentWriteCellStyle = new WriteCellStyle();
         WriteFont contentWriteFont = new WriteFont();
         contentWriteFont.setFontHeightInPoints((short) 15);
@@ -76,11 +73,8 @@ public class YlLaAgentAttrExcelUpdateController {
         // 这个策略是 头是头的样式 内容是内容的样式 其他的策略可以自己实现
         contentWriteCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);//设置字体居中
         HorizontalCellStyleStrategy horizontalCellStyleStrategy = new HorizontalCellStyleStrategy(headwriteCellStyle, contentWriteCellStyle);
-        YlLaAgentAttrExcelUpdatePojo ylLaAgentAttrExcelUpdatePojo=new YlLaAgentAttrExcelUpdatePojo();
-        ylLaAgentAttrExcelUpdatePojo.setComCode2("hahaa");
         ArrayList arrayList=new ArrayList();
-        arrayList.add(ylLaAgentAttrExcelUpdatePojo);
-        EasyExcel.write(outputStream,YlLaAgentAttrExcelUpdatePojo.class).registerWriteHandler(horizontalCellStyleStrategy).sheet("第一个Sheet").doWrite(arrayList);
+        EasyExcel.write(outputStream,YlLaAgentAttrExcelUpdatePojo.class).registerWriteHandler(horizontalCellStyleStrategy).sheet("第一个Sheet").relativeHeadRowIndex(1).doWrite(arrayList);
         outputStream.flush();
 
     }

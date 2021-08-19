@@ -9,8 +9,12 @@ import com.cms.entity.YlLaAgentEntity;
 import com.cms.pojo.YlLaAgentAttrExcelUpdatePojo;
 import com.cms.service.impl.LaAgentServiceAttrImpl;
 import com.cms.service.impl.LaAgentServiceImpl;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+import java.text.SimpleDateFormat;
 
 @Component
 public class ModelExcelListener extends AnalysisEventListener {
@@ -20,18 +24,67 @@ public class ModelExcelListener extends AnalysisEventListener {
     @Autowired
     LaAgentServiceImpl laAgentServiceImpl;
 
+    @SneakyThrows
     @Override
     public void invoke(Object o, AnalysisContext analysisContext) {
         //这里对数据进行校验
-        YlLaAgentEntity ylLaAgentEntity=new YlLaAgentEntity();
-        YlLaAgentAttrEntity ylLaAgentAttrEntity=new YlLaAgentAttrEntity();
+
+
         YlLaAgentAttrExcelUpdatePojo ylLaAgentAttrExcelUpdatePojo=(YlLaAgentAttrExcelUpdatePojo) o;
+
         if (ylLaAgentAttrExcelUpdatePojo.getComCode2().equals("二级管理机构代码")){
             //这是表头行 不进行设置
         }else {
+            YlLaAgentAttrEntity ylLaAgentAttrEntity=new YlLaAgentAttrEntity();
+            ylLaAgentAttrEntity.setAgentCode(ylLaAgentAttrExcelUpdatePojo.getAgentCode());
+            ylLaAgentAttrEntity.setIdType(ylLaAgentAttrExcelUpdatePojo.getIdtype());
+            ylLaAgentAttrEntity.setIdNo(ylLaAgentAttrExcelUpdatePojo.getIdno());
+            ylLaAgentAttrEntity.setSex(ylLaAgentAttrExcelUpdatePojo.getSex());
+            SimpleDateFormat simpleDateFormat1=new SimpleDateFormat("yyyy/MM/dd");
+            ylLaAgentAttrEntity.setBirthday(simpleDateFormat1.parse(ylLaAgentAttrExcelUpdatePojo.getBirthday()));
+            ylLaAgentAttrEntity.setNativeplace(ylLaAgentAttrExcelUpdatePojo.getNativeplace());
+            ylLaAgentAttrEntity.setPhone(ylLaAgentAttrExcelUpdatePojo.getPhone());
+            //ylLaAgentAttrEntity.setHighestDegree(ylLaAgentAttrExcelUpdatePojo.getHighestDegree());
+            ylLaAgentAttrEntity.setHighestDegree("1");
+            ylLaAgentAttrEntity.setDegree(ylLaAgentAttrExcelUpdatePojo.getDegree());
+            ylLaAgentAttrEntity.setOldIndustryType(ylLaAgentAttrExcelUpdatePojo.getOldIndustryType());
+            ylLaAgentAttrEntity.setOldOccupation(ylLaAgentAttrExcelUpdatePojo.getOldOccupation());
+            ylLaAgentAttrEntity.setOldCom(ylLaAgentAttrExcelUpdatePojo.getOldCom());
+            ylLaAgentAttrEntity.setOldJobDuty(ylLaAgentAttrExcelUpdatePojo.getOldJodDuty());
+            ylLaAgentAttrEntity.setWorkAge(ylLaAgentAttrExcelUpdatePojo.getWorkage());
+            ylLaAgentAttrEntity.setContractType(ylLaAgentAttrExcelUpdatePojo.getContractType());
+            System.out.println("合同开始"+ylLaAgentAttrExcelUpdatePojo.getContractStartDate());
+            System.out.println("合同终止日期"+ylLaAgentAttrExcelUpdatePojo.getContractEndDate());
+            ylLaAgentAttrEntity.setContractStartDate(simpleDateFormat1.parse(ylLaAgentAttrExcelUpdatePojo.getContractStartDate()));
+            ylLaAgentAttrEntity.setContractEndDate(simpleDateFormat1.parse(ylLaAgentAttrExcelUpdatePojo.getContractStartDate()));
+            ylLaAgentAttrEntity.setBankProvince(ylLaAgentAttrExcelUpdatePojo.getBankProvince());
+            ylLaAgentAttrEntity.setBankCity(ylLaAgentAttrExcelUpdatePojo.getBankCity());
+            ylLaAgentAttrEntity.setOperator("0");
+            ylLaAgentAttrEntity.setMakeDate(ParseDate.getCurrentDate());
+            ylLaAgentAttrEntity.setMakeTime(ParseDate.getCurrentTime());
+            ylLaAgentAttrEntity.setModifyDate(ParseDate.getCurrentDate());
+            ylLaAgentAttrEntity.setModifyTime(ParseDate.getCurrentTime());
+            //ylLaAgentAttrEntity.setRgtType(ylLaAgentAttrExcelUpdatePojo.getRgtType());
+            ylLaAgentAttrEntity.setRgtType("1");
+            laAgentServiceAttr.getBaseMapper().insert(ylLaAgentAttrEntity);
 
+            YlLaAgentEntity ylLaAgentEntity=new YlLaAgentEntity();
+            ylLaAgentEntity.setAgentName(ylLaAgentAttrExcelUpdatePojo.getName());
+            ylLaAgentEntity.setAgentJob(ylLaAgentAttrExcelUpdatePojo.getAgentJob());
+            ylLaAgentEntity.setAgentGrade(ylLaAgentAttrExcelUpdatePojo.getAgentGrade());
+            ylLaAgentEntity.setAgentState(ylLaAgentAttrExcelUpdatePojo.getAgentState());
+            ylLaAgentEntity.setBranchType("4");
+            ylLaAgentEntity.setManageCom(ylLaAgentAttrExcelUpdatePojo.getComCode4());
+            ylLaAgentEntity.setInitGrade(ylLaAgentAttrExcelUpdatePojo.getAgentGrade());
+            ylLaAgentEntity.setAgentGroup(ylLaAgentAttrExcelUpdatePojo.getAgentGroup());
+            ylLaAgentEntity.setRepeatFlag("05");//是否第一次入职
+            ylLaAgentEntity.setOperator("0");
+            ylLaAgentEntity.setMakeDate(ParseDate.getCurrentDate());
+            ylLaAgentEntity.setMakeTime(ParseDate.getCurrentTime());
+            ylLaAgentEntity.setModifyDate(ParseDate.getCurrentDate());
+            ylLaAgentEntity.setModifyTime(ParseDate.getCurrentTime());
 
-
+            laAgentServiceImpl.getBaseMapper().insert(ylLaAgentEntity);
         }
     }
 

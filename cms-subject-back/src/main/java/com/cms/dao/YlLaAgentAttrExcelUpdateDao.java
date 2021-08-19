@@ -8,5 +8,7 @@ import java.util.List;
 @Repository
 public interface YlLaAgentAttrExcelUpdateDao {
     @Select("show full columns from yl_la_agent")
-    public List<TablePropertiesPojo> getTableProperties();
+    public List<TablePropertiesPojo> getAgentTableProperties();
+    @Select("show full columns from yl_la_agent_attr")
+    public List<TablePropertiesPojo> getAgentAttrTableProperties();
 }

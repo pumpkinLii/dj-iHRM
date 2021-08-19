@@ -5,6 +5,12 @@ import com.alibaba.excel.EasyExcelFactory;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.support.ExcelTypeEnum;
+import com.alibaba.excel.write.ExcelBuilderImpl;
+import com.alibaba.excel.write.builder.ExcelWriterBuilder;
+import com.alibaba.excel.write.metadata.WriteSheet;
+import com.alibaba.excel.write.metadata.style.WriteCellStyle;
+import com.alibaba.excel.write.metadata.style.WriteFont;
+import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 import com.cms.common.ModelExcelListener;
 import com.cms.dao.YlLaAgentAttrExcelUpdateDao;
 import com.cms.dao.YlLaAgentDao;
@@ -18,6 +24,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -46,20 +57,30 @@ public class YlLaAgentAttrExcelUpdateController {
     @ApiOperation("模板下载模块未完待续")
     public void exceldowload(HttpServletResponse httpServletResponse) throws IOException {
         //获取所有的数据库注释信息然后插入Excel表中
-        List<TablePropertiesPojo> agentTableProperties = ylLaAgentAttrExcelUpdateDao.getAgentTableProperties();
-        List<TablePropertiesPojo> agentAttrTableProperties = ylLaAgentAttrExcelUpdateDao.getAgentAttrTableProperties();
-        //接下来涉及到 操作Excle的时刻了 涉及到的表有三个表 都是需要我们进行设置的
-        //获取每一行的属性配置
-        //进行模板的 导出 要设置Excle表格的属性 已经涉及到所有的字段的信息
         httpServletResponse.setHeader("Content-Disposition", "attachment;filename=\""+"Updatefile.xlsx"+"\"");
         httpServletResponse.setContentType("\"application/x-excel");
-        httpServletResponse.setCharacterEncoding("utf-8");
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
-        ExcelWriter excelWriter=new ExcelWriter(outputStream,ExcelTypeEnum.XLS,true);
-        Sheet sheet=new Sheet(1,0,YlLaAgentAttrExcelUpdatePojo.class);
-        sheet.setSheetName("我的第一个Sheet");
-        excelWriter.write(new ArrayList(),sheet);
-        excelWriter.finish();
+        //标头的设置
+        WriteCellStyle headwriteCellStyle=new WriteCellStyle();
+        headwriteCellStyle.setFillForegroundColor(IndexedColors.CORAL.getIndex());
+        WriteFont writeFont=new WriteFont();
+        writeFont.setFontHeightInPoints((short)11);
+        headwriteCellStyle.setWriteFont(writeFont);
+
+
+
+        WriteCellStyle contentWriteCellStyle = new WriteCellStyle();
+        WriteFont contentWriteFont = new WriteFont();
+        contentWriteFont.setFontHeightInPoints((short) 15);
+        contentWriteCellStyle.setWriteFont(contentWriteFont);
+        // 这个策略是 头是头的样式 内容是内容的样式 其他的策略可以自己实现
+        contentWriteCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);//设置字体居中
+        HorizontalCellStyleStrategy horizontalCellStyleStrategy = new HorizontalCellStyleStrategy(headwriteCellStyle, contentWriteCellStyle);
+        YlLaAgentAttrExcelUpdatePojo ylLaAgentAttrExcelUpdatePojo=new YlLaAgentAttrExcelUpdatePojo();
+        ylLaAgentAttrExcelUpdatePojo.setComCode2("hahaa");
+        ArrayList arrayList=new ArrayList();
+        arrayList.add(ylLaAgentAttrExcelUpdatePojo);
+        EasyExcel.write(outputStream,YlLaAgentAttrExcelUpdatePojo.class).registerWriteHandler(horizontalCellStyleStrategy).sheet("第一个Sheet").doWrite(arrayList);
         outputStream.flush();
 
     }

@@ -138,10 +138,10 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
         String oldgrade=gradeTeamPojo.getOldgradecode();
         String nowgrade=gradeTeamPojo.getNowgradecode();
         String comcode=gradeTeamPojo.getComecode();
-        if (nowgrade==null){
+        if (nowgrade==null||StringUtils.isEmpty(nowgrade)){
             return R.ok().put("msg","请选择目标职级").put("code",501);
         }
-        if (comcode==null){
+        if (comcode==null||StringUtils.isEmpty(comcode)){
             return R.ok().put("msg","请先选择管理机构").put("code",501);
         }
         List result=new ArrayList();
@@ -165,6 +165,19 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
                 result.add(map);
             }
         }else {
+            //经理到经理
+            if (oldgrade.substring(0,2).equals("YL")){
+                QueryWrapper queryWrapper=new QueryWrapper();
+                queryWrapper.eq("agent_code",gradeTeamPojo.getAgentcode());
+                YlLaAgentEntity ylLaAgentEntity = this.getBaseMapper().selectOne(queryWrapper);
+                QueryWrapper queryWrapper1=new QueryWrapper();
+                queryWrapper1.eq("agent_group",ylLaAgentEntity.getAgentGroup());
+                YlLaBranchGroupEntity ylLaBranchGroupEntity = rYlLaBranchGroupServiceImpl.getBaseMapper().selectOne(queryWrapper1);
+                Map map=new HashMap();
+                map.put("groupname",ylLaBranchGroupEntity.getBranchName());
+                map.put("groupcode",ylLaBranchGroupEntity.getAgentGroup());
+                result.add(map);
+            }
             //返回没有主管的团队
             QueryWrapper qw=new QueryWrapper();
             qw.eq("branch_status","N");

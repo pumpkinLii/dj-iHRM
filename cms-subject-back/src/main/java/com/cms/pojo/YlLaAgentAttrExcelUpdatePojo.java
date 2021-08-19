@@ -1,12 +1,18 @@
 package com.cms.pojo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.alibaba.excel.annotation.write.style.ContentRowHeight;
+import com.alibaba.excel.annotation.write.style.HeadRowHeight;
 import com.alibaba.excel.metadata.BaseRowModel;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
+@HeadRowHeight(30)
+@ContentRowHeight(18)
+@ColumnWidth(30)
 public class YlLaAgentAttrExcelUpdatePojo  extends BaseRowModel implements Serializable {
     @ExcelProperty(value = "二级管理机构代码",index = 0)
     private String comCode2;

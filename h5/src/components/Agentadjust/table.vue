@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="list" stripe border fit height="300" >
+    <el-table :data="list" stripe border fit height="300">
       <el-table-column label="人员工号" prop="agentCode" />
       <el-table-column label="人员姓名" prop="agentName" />
       <el-table-column label="分工司" prop="manageCom3" />
@@ -30,7 +30,7 @@
         @current-change="handleCurrentChange"
       />
     </div>
-<!--     弹窗-->
+    <!--     弹窗-->
     <GroupModifyDialog1 />
 
   </div>
@@ -38,7 +38,7 @@
 
 <script>
 import GroupModifyDialog1 from '@/components/Agentadjust/AgentModifyDialog'
-import * as V from '@/api/zc'
+import * as V from '@/api/agent'
 
 export default {
   name: 'GroupTable',

@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询人员信息
 export function queryPerson(data, page) {
   return request({
-    url: '/test/QueryStaff?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,
+    url: 'http://10.11.114.56:9999/test/QueryStaff?limit=' + page.pageSize + '&' + 'page=' + page.currentPage,
     method: 'post',
     data
   })

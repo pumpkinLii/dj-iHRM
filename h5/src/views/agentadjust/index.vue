@@ -7,7 +7,6 @@
         <el-col :span="8">
           <el-form-item label="管理机构" prop="manageCom">
             <el-cascader
-              :key="index2"
               ref="elcascader"
               v-model="form.manageCom"
               :options="options"
@@ -15,7 +14,6 @@
               style="width: 100%"
               :props="{ expandTrigger: 'hover' ,checkStrictly: true}"
               clearable
-              @blur="die"
               @change="changeVal"
             />
           </el-form-item>
@@ -35,17 +33,17 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="代理人代码">
-            <el-input v-model="form.branchManager" clearable />
+            <el-input v-model="form.agentCode" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="代理人姓名">
-            <el-input v-model="form.branchManagerName" clearable />
+            <el-input v-model="form.agentName" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="手机号" prop="branchManagerPhone">
-            <el-input v-model="form.branchManagerPhone" placeholder="请输入手机号" clearable />
+          <el-form-item label="手机号" prop="phone">
+            <el-input v-model="form.phone" placeholder="请输入手机号" clearable />
           </el-form-item>
         </el-col>
       </el-row>
@@ -84,30 +82,28 @@
 <script>
 import Table from '@/components/Agentadjust/table'
 import * as validator from '@/utils/validate'
-import * as V from '@/api/zc'
+import * as V from '@/api/agent'
 
 export default {
   name: '',
   components: { Table },
   data() {
     return {
-      index2: 0,
       form: {
         manageCom: '', // 管理机构
         agentGroup: '', // 团队代码
         branchName: '', // 团队名称
-        branchManager: '', // 代理人代码
-        branchManagerName: '', // 代理人姓名
-        branchManagerPhone: '', // 手机号
+        agentCode: '', // 代理人代码
+        agentName: '', // 代理人姓名
+        phone: '', // 手机号
         idNo: '', // 证件号码
         agentGrade: '' // 当前职级
-
       },
       list: {
         agentGrade: ''
       },
       rules: {
-        branchManagerPhone:
+        phone:
           [
             { validator: validator.phoneNumberValidatorAllowNull, trigger: 'blur' }
           ],
@@ -120,7 +116,7 @@ export default {
     }
   },
   created() {
-    V.abc().then((r) => {
+    V.manage().then((r) => {
       this.options.push(r.result)
     })
     V.staff().then((r) => {
@@ -128,34 +124,33 @@ export default {
     })
   },
   mounted() {
-    this.$bus.$on('refreshAgent', () => {
-      this.hello()
-    })
-  },
-  beforeDestroy() {
-    this.$bus.$off('refreshAgent')
+    // 点击文字即可选中
+    setInterval(function() {
+      document.querySelectorAll('.el-cascader-node__label').forEach(el => {
+        el.onclick = function() {
+          if (this.previousElementSibling) this.previousElementSibling.click()
+        }
+      })
+    }, 1000)
   },
   methods: {
+    // 查询按钮
     hello() {
-      // console.log(this.form.manageCom === undefined)
-      // console.log(this.form.manageCom === '')
-      // console.log(this.form.manageCom.length)
       if (this.form.manageCom !== undefined && this.form.manageCom !== '' && this.form.manageCom.length !== 0) {
-        // this.form.manageCom = this.form.manageCom[this.form.manageCom.length - 1]
         this.$bus.$emit('something', this.form)
       } else {
         this.$bus.$emit('something1')
       }
     },
-    die() {
-      this.index2 = 2
-      this.index2++
-    },
     // 下拉框选择弹回
     changeVal() {
-      this.$refs.elcascader.dropDownVisible = false
+      // eslint-disable-next-line prefer-const
+      let t
+      clearTimeout(t)
+      t = setTimeout(() => {
+        this.$refs.elcascader.dropDownVisible = false
+      }, 300)
     }
-
   }
 
 }

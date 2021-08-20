@@ -40,19 +40,23 @@ public class CertInsertExcellServiceImpl extends ServiceImpl<YlLaAgentCertificat
         ArrayList<Map<String, Map<Integer, Integer>>> list = new ArrayList<>();
         InputStream is = file.getInputStream();
         XSSFWorkbook workbook = new XSSFWorkbook(is);
-        Sheet sheet = workbook.getSheet("资格证导入模板");
-
+//        Sheet sheet = workbook.getSheet("资格证导入模板");
+        Sheet sheet = workbook.getSheetAt(0);
         //逻辑判断
         if (sheet.getFirstRowNum() == sheet.getLastRowNum()) {
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("批量导入失败！Excel文件的内容不能为空！","第0行,第0列");
+            //map.put("批量导入失败！Excel文件的内容不能为空！","第0行,第0列");
+            map.put("address","第0行,第0列");
+            map.put("msg","批量导入失败！Excel文件的内容不能为空！");
             lmm.add(map);
             return lmm;
         } else {
             if(sheet.getPhysicalNumberOfRows()==2)//Excel文件的内容为空
             {
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("批量导入失败！Excel文件的内容不能为空！","第0行,第0列");
+//                map.put("批量导入失败！Excel文件的内容不能为空！","第0行,第0列");
+                map.put("address","第0行,第0列");
+                map.put("msg","批量导入失败！Excel文件的内容不能为空！");
                 lmm.add(map);
                 return lmm;
             }
@@ -221,6 +225,7 @@ public class CertInsertExcellServiceImpl extends ServiceImpl<YlLaAgentCertificat
                 ylLaAgentCertificateEntity.setCertificateType("1");
                 ylLaAgentCertificateEntity.setCertificateName(value.get(1));
                 ylLaAgentCertificateEntity.setCertificateNo(value.get(2));
+
                 Date releaseDate=df.parse(value.get(3));
                 ylLaAgentCertificateEntity.setReleaseDate(releaseDate);
                 if(!value.get(4).equals("null"))
@@ -229,10 +234,10 @@ public class CertInsertExcellServiceImpl extends ServiceImpl<YlLaAgentCertificat
                     ylLaAgentCertificateEntity.setReissueDate(reissueDate);
                 }
                 Date startEffectiveDate=df.parse(value.get(5));
-                ylLaAgentCertificateEntity.setReleaseDate(startEffectiveDate);
+                ylLaAgentCertificateEntity.setStartEffectiveDate(startEffectiveDate);
 
                 Date endEffectiveDate=df.parse(value.get(6));
-                ylLaAgentCertificateEntity.setReleaseDate(endEffectiveDate);
+                ylLaAgentCertificateEntity.setEndEffectiveDate(endEffectiveDate);
 
                 if(!value.get(7).equals("null"))
                 {
@@ -254,7 +259,9 @@ public class CertInsertExcellServiceImpl extends ServiceImpl<YlLaAgentCertificat
                 }
             }
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("导入成功！", "第0行,第0列");
+//            map.put("导入成功！", "第0行,第0列");
+            map.put("address","第0行,第0列");
+            map.put("msg","导入成功！");
             lmm.add(map);
         }
         workbook.close();
@@ -301,7 +308,9 @@ public class CertInsertExcellServiceImpl extends ServiceImpl<YlLaAgentCertificat
         String strrow="第"+row+"行";
         String str=strrow+","+strcol;
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put(error, str);
+        map.put("address",str);
+        map.put("msg",error);
+//        map.put(error, str);
         return map;
     }
 

@@ -44,7 +44,7 @@ public class BoardYlInsertExcelController {
     @Autowired
     private IdCodePojo idCodePojo;
 
-    @ApiOperation("测试接口")
+    @ApiOperation("员工批量导入模板下载")
     @PostMapping({"/YlInsertExcel"})
 
     public R getData(HttpServletResponse response) throws FileNotFoundException {
@@ -147,10 +147,11 @@ public class BoardYlInsertExcelController {
             }
 
             //FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\LENOVO\\Desktop\\员工批量导入.xlsx"));\
-            ServletOutputStream outputStream=response.getOutputStream();
-            response.setHeader("content-disposition","attachment;fileName="+ URLEncoder.encode("员工批量导入模板.xlsx","UTF-8"));
+
 //          response.setContentType("application/vnd.ms-excel");
 //          response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            ServletOutputStream outputStream=response.getOutputStream();
+            response.setHeader("content-disposition","attachment;fileName="+ URLEncoder.encode("员工批量导入模板.xlsx","UTF-8"));
             workbook.write(outputStream);
             outputStream.flush();
             outputStream.close();

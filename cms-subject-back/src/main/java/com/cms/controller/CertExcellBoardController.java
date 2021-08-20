@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 
 @RestController
@@ -34,10 +37,10 @@ public class CertExcellBoardController {
     @Autowired
     private IdCodePojo idCodePojo;
 
-    @ApiOperation("测试接口")
+    @ApiOperation("资格证导入模板下载")
     @PostMapping({"/board"})
 
-    public void getData() throws FileNotFoundException {
+    public void getData(HttpServletResponse response) throws FileNotFoundException {
         try {
             XSSFWorkbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("资格证导入模板");
@@ -71,11 +74,15 @@ public class CertExcellBoardController {
                     CodeType(i,"certificatename",sheet);
                 }
             }
-
-            FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\LENOVO\\Desktop\\导入资格证模版.xlsx"));
-            workbook.write(fos);
-            fos.flush();
-            fos.close();
+            ServletOutputStream outputStream=response.getOutputStream();
+            response.setHeader("content-disposition","attachment;fileName="+ URLEncoder.encode("导入资格证模版.xlsx","UTF-8"));
+            workbook.write(outputStream);
+            outputStream.flush();
+            outputStream.close();
+//            FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\LENOVO\\Desktop\\导入资格证模版.xlsx"));
+//            workbook.write(fos);
+//            fos.flush();
+//            fos.close();
         } catch (IOException var11) {
             var11.printStackTrace();
         }

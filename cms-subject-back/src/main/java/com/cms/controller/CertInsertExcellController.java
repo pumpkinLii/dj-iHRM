@@ -76,8 +76,8 @@ public class CertInsertExcellController {
     @Autowired
     CertInsertExcellService certInsertExcellService;
 
-    @ApiOperation("测试接口")
-    @PostMapping({"/ExcellInsert"})
+    @ApiOperation("资格证批量导入")
+    @PostMapping({"/ExcelInsert"})
     public R ylLaAgentAttrExcelIn(@RequestParam("file") MultipartFile file) throws IOException, ParseException {
         ArrayList<HashMap<String,String>> list=new ArrayList<HashMap<String,String>>();
         list=this.certInsertExcellService.check(file);
@@ -86,20 +86,21 @@ public class CertInsertExcellController {
         {
             HashMap<String,String> map= new HashMap<String, String>();
             map = list.get(0);
-            if(map.get("批量导入失败！Excel文件的内容不能为空！")!=null)
+            if(map.get("msg").equals("批量导入失败！Excel文件的内容不能为空！"))
             {
-                return R.error(500,"批量导入失败！Excel文件的内容不能为空！");
+//                return R.error(500,"批量导入失败！Excel文件的内容不能为空！");
+                return R.ok().put("code",501).put("msg","参数错误").put("list",list);
             }
-            else if(map.get("导入成功！")!=null)
+            else if(map.get("msg").equals("导入成功！"))
             {
-                return R.ok().put("0","导入成功!");
+                return R.ok().put("msg","导入成功！");
             }
             else{
-                return R.error().put("500",list);
+                return R.ok().put("code",501).put("msg","参数错误").put("list",list);
             }
         }
         else {
-            return R.error(500,"批量导入失败！").put("错误原因:",list);
+            return R.ok().put("code",501).put("msg","参数错误").put("list",list);
         }
     }
 }

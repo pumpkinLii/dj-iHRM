@@ -3,8 +3,11 @@ package com.cms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.ComnewSon;
+import com.cms.dao.IdCodeDao;
 import com.cms.dao.YlLaAgentCertificateDao;
 import com.cms.dao.YlSelectExcellDao;
+import com.cms.entity.LdCodeEntity;
+import com.cms.entity.YlLaAgentAttrEntity;
 import com.cms.entity.YlLaAgentCertificateEntity;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.pojo.CertOutPojo;
@@ -25,7 +28,8 @@ import java.util.Map;
 @Service
 @Slf4j
 public class CertOutExcellServiceImpl  extends ServiceImpl<YlLaAgentCertificateDao, YlLaAgentCertificateEntity> implements CertOutExcellService {
-
+    @Autowired
+    IdCodeDao idCodeDao;
     public List<List> certselect(List list) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         List<List> bigList=new ArrayList<>();
@@ -38,7 +42,13 @@ public class CertOutExcellServiceImpl  extends ServiceImpl<YlLaAgentCertificateD
             qw.eq("certificate_no", list.get(i));
             YlLaAgentCertificateEntity certificateEntity = this.baseMapper.selectOne(qw);
             certOutPojo.setAgentCode(certificateEntity.getAgentCode());
-            certOutPojo.setCertificateName(certificateEntity.getCertificateName());
+
+            QueryWrapper<LdCodeEntity> queryWrapper1 = new QueryWrapper<>();
+            queryWrapper1.eq("code",certificateEntity.getCertificateName());
+            queryWrapper1.eq("code_type","certificatename");
+            LdCodeEntity name = idCodeDao.selectOne(queryWrapper1);
+
+            certOutPojo.setCertificateName(name.getCodeName());
             certOutPojo.setCertificateNo(certificateEntity.getCertificateNo());
 
             String ReleaseDate= df.format(certificateEntity.getReleaseDate());

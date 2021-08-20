@@ -7,22 +7,19 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login'] // no redirect whitelist
+const whiteList = ['/login', '/dashboard', '/404'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
   NProgress.start()
-
   // set page title
   document.title = getPageTitle(to.meta.title)
-
   // determine whether the user has logged in
-  const isLogin = store.state.isLogin
-  if (isLogin) {
+  if (store.getters.user.isLogin === true) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
-      Message.info('Already logged in, no need to log in again')
-      next({ path: '/' })
+      Message.info('您已经登录，无需重复登录')
+      next({ path: '/dashboard' })
       // next({ path: from.path }) // 或许这个更好用？但是可能会有个警告
     } else {
       next()
@@ -32,8 +29,9 @@ router.beforeEach(async(to, from, next) => {
       // in the free login whitelist, go directly
       next()
     } else {
-      // other pages that do not have permission to access are redirected to the login page.
+      Message.warning('尚未登录，请先登录')
       next(`/login?redirect=${to.path}`)
+      NProgress.done()
     }
   }
 })

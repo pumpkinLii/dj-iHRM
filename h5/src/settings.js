@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '123123123',
+  title: '大家保险销售管理系统',
 
   /**
      * @type {boolean} true | false

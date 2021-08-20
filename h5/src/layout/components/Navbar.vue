@@ -4,14 +4,19 @@
 
     <breadcrumb class="breadcrumb-container" />
 
-    <!-- <div class="right-menu">
+    <div v-if="$store.getters.user.isLogin" class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
-        
+        <div class="avatar-wrapper">
+          <el-button icon="el-icon-caret-bottom" size="mini" />
+        </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          
+          <el-dropdown-item @click.native.prevent="logout">注销</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-    </div> -->
+    </div>
+    <div v-else class="right-menu">
+      <el-button class="avatar-container" size="mini" @click="$router.push('/login')">登录</el-button>
+    </div>
   </div>
 </template>
 
@@ -37,13 +42,16 @@ export default {
     },
     async logout() {
       await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      await this.$router.push(`/login`)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.avatar-wrapper{
+  margin: 0!important
+}
 .navbar {
   height: 50px;
   overflow: hidden;

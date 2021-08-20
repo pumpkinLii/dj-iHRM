@@ -1,8 +1,9 @@
 import * as API from '@/api/user'
 import { Message } from 'element-ui'
+import router from '../router'
 
 const state = {
-  isLogin: false
+  isLogin: sessionStorage.getItem('isLogin') === 'true'
 }
 
 const mutations = {
@@ -16,34 +17,21 @@ const mutations = {
 
 const actions = {
   login({ commit }, param) {
-    API.login(param)
+    return API.login(param)
       .then(
         r => {
-          console.log(r)
+          sessionStorage.setItem('isLogin', 'true')
           commit('LOGIN')
-          Message.info('登录成功')
-        }
-      ).catch(
-        err => {
-          console.log(err)
-          Message.error('登录失败')
+          Message.success('登录成功')
+          router.push('/dashboard')
         }
       )
   },
   logout({ commit }) {
-    API.logout()
-      .then(
-        r => {
-          console.log(r)
-          commit('LOGOUT')
-          Message.info('注销成功')
-        }
-      ).catch(
-        err => {
-          console.log(err)
-          Message.error('注销失败')
-        }
-      )
+    sessionStorage.setItem('isLogin', 'false')
+    commit('LOGOUT')
+    Message.success('注销成功')
+    router.push('/login')
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="login-container" :style="{backgroundImage:'url('+require('@/assets/back.png')+')'}">
     <el-form ref="loginForm" class="login-form" auto-complete="on" label-position="left">
       <div class="title-container">
         <h3 class="title">大家保险销售管理系统</h3>
@@ -35,7 +35,7 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-      <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
     </el-form>
   </div>
 </template>
@@ -45,13 +45,11 @@ export default {
   name: 'Login',
   data() {
     return {
+      loading: false,
       username: '',
       password: '',
       passwordType: 'password'
     }
-  },
-  watch: {
-
   },
   methods: {
     showPwd() {
@@ -62,7 +60,15 @@ export default {
       }
     },
     handleLogin() {
-      this.$store.dispatch('user/login', { username: this.username, password: this.password })
+      this.loading = true
+      this.$store.dispatch('user/login', { userId: this.username, userPassword: this.password })
+        .catch(err => {
+          console.log(err)
+          this.loading = false
+        })
+        .then(() => {
+          this.loading = false
+        })
     }
   }
 }
@@ -88,7 +94,6 @@ $cursor: #fff;
     display: inline-block;
     height: 47px;
     width: 85%;
-
     input {
       background: transparent;
       border: 0px;
@@ -121,18 +126,20 @@ $dark_gray:#889aa4;
 $light_gray:#eee;
 
 .login-container {
+  background-size: cover;
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
   overflow: hidden;
 
   .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 100px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+    background-color: rgba(100, 100, 100, 0.5);// extra css
+    margin-top: 200px;
   }
 
   .tips {

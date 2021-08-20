@@ -24,7 +24,7 @@ public class IdCheckController {
     @Autowired
     private NIdCheckService nIdCheckService;
 
-    @ApiOperation("测试接口")
+    @ApiOperation("证件校验接口")
     @PostMapping({"/idCheck"})
     public R idcheck(@RequestBody IdCheckPojo idCheckPojo) {
         int fg = nIdCheckService.idcheck(idCheckPojo);

@@ -42,10 +42,10 @@ public class CertOutExcellController {
 
     @Autowired
     CertOutExcellService certOutExcellService;
-    @ApiOperation("测试接口")
-    @PostMapping({"/ExcellOut"})
+    @ApiOperation("资格证批量导出")
+    @PostMapping({"/ExcelOut"})
     //@RequestBody CertificateConditionPojo getCertificateConditionPojo,
-    private R CertExcellOut( HttpServletResponse response) throws IOException {
+    private R CertExcellOut( @RequestBody  CertificateConditionPojo getCertificateConditionPojo,HttpServletResponse response) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("资格证批量导出");
         sheet.autoSizeColumn(0, true);          //默认列宽
@@ -72,17 +72,17 @@ public class CertOutExcellController {
         }
 
         ArrayList qlist=new ArrayList();
-//        List<RetrieveCertificatePojo> list = rCertificateService.getCertificate(getCertificateConditionPojo);
-//        if(list.size()==0)
-//        {
-//            return R.error(500, "查询不到值");
-//        }
-//        else
-//        {
-//            for (int i = 0; i <list.size(); i++) {
-//                qlist.add(list.get(i).getCertificateNo());
-//            }
-//        }
+        List<RetrieveCertificatePojo> list = rCertificateService.getCertificate(getCertificateConditionPojo);
+        if(list==null)
+        {
+            return R.error(500, "查询不到值");
+        }
+        else
+        {
+            for (int i = 0; i <list.size(); i++) {
+                qlist.add(list.get(i).getCertificateNo());
+            }
+        }
 //        qlist.add("123123123125WQE");
 //        qlist.add("11");
 
@@ -104,7 +104,14 @@ public class CertOutExcellController {
                 {
                     Cell cell = row.createCell(j);
                     cell.setCellValue("");
-                    cell.setCellStyle(DataStyle);
+//                    if(j==1)
+//                    {
+//                        XSSFCellStyle ActionDataStyle = genActionDataStyle(workbook,pos[j].length());
+//                        cell.setCellStyle(ActionDataStyle);
+//                    }
+//                    else{
+                        cell.setCellStyle(DataStyle);
+//                    }
                 }
                 else {
                     Cell cell = row.createCell(j);
@@ -189,4 +196,21 @@ public class CertOutExcellController {
 
         return style;
     }
+    public static XSSFCellStyle genActionDataStyle(XSSFWorkbook workbook,int len){
+
+        XSSFCellStyle style = workbook.createCellStyle();
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+        style.setWrapText(true);
+
+        //标题居中，没有边框，所以这里没有设置边框，设置标题文字样式
+        XSSFFont textFont = workbook.createFont();
+        textFont.setBold(true);//加粗
+        textFont.setFontHeight((short)10);//文字尺寸
+        textFont.setFontHeightInPoints((short)10);
+        style.setFont(textFont);
+
+        return style;
+    }
+
 }

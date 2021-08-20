@@ -48,8 +48,8 @@ public class YlExcellServiceImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgentAt
         ArrayList<Map<String, Map<Integer, Integer>>> list = new ArrayList<>();
         InputStream is = file.getInputStream();
         XSSFWorkbook workbook = new XSSFWorkbook(is);
-        Sheet sheet = workbook.getSheet("人员信息批量导入模板");
-
+       // Sheet sheet = workbook.getSheet("人员信息批量导入模板");
+        Sheet sheet = workbook.getSheetAt(0);
         //逻辑判断
         if (sheet.getFirstRowNum() == sheet.getLastRowNum()) {
             HashMap<String, String> map = new HashMap<String, String>();

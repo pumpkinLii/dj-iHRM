@@ -46,7 +46,7 @@ class YlLaAgentAttrExcelOutController {
     private QueryStaffService queryStaffService;
 
 
-    @ApiOperation("测试接口")
+    @ApiOperation("员工查询批量导出接口")
     @PostMapping({"/ylLaAgentAttrExcelOut"})
 
     private R getData(@RequestBody QueryStaffPojo queryStaffPojo,HttpServletResponse response) throws FileNotFoundException {

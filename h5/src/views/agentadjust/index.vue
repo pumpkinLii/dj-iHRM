@@ -124,6 +124,9 @@ export default {
     })
   },
   mounted() {
+    this.$bus.$on('refreshAgent', () => {
+      this.hello()
+    })
     // 点击文字即可选中
     setInterval(function() {
       document.querySelectorAll('.el-cascader-node__label').forEach(el => {

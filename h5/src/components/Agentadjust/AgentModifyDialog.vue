@@ -287,8 +287,6 @@ export default {
         this.judgetarget = true
         this.form.targetBranchCode = this.form.agentGroup
         this.form.targetManageCom = this.minComCode
-        console.log('11111111111111111111')
-        console.log(this.form.targetAgentGrade)
         const data = {
           oldgradecode: this.form.curAgentGrade, // 当前职级
           nowgradecode: this.form.targetAgentGrade, // 目标职级
@@ -332,17 +330,21 @@ export default {
     },
     // 保存修改
     saveAdjust() {
-      API.saveAdjust(this.form).then(
-        (res) => {
-          if (res.code === 0) {
-            this.$message.success('调整成功')
-            this.$bus.$emit('refreshAgent')
-            this.editDialogVisible = false
-          } else {
-            this.$message.error('调整失败')
+      if (this.form.curAgentGrade === this.form.targetAgentGrade) {
+        this.$message('当前职级与目标职级一致，无法调整')
+      } else {
+        API.saveAdjust(this.form).then(
+          (res) => {
+            if (res.code === 0) {
+              this.$message.success('调整成功')
+              this.$bus.$emit('refreshAgent')
+              this.editDialogVisible = false
+            } else {
+              this.$message.error('调整失败')
+            }
           }
-        }
-      )
+        )
+      }
     }
   }
 }

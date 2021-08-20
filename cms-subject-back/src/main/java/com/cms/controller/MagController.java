@@ -1,6 +1,8 @@
 package com.cms.controller;
 
+import com.cms.common.ComNewReturn;
 import com.cms.common.ComnewSon;
+import com.cms.common.ProxyComNewReturn;
 import com.cms.service.MagService;
 import com.cms.util.R;
 import io.swagger.annotations.Api;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 1 * @Author: zhangYiLong
@@ -27,10 +28,10 @@ import java.util.Map;
 public class MagController {
     @Autowired
     ComnewSon comnewSon;
-
     @Autowired
     private MagService magService;
-
+    @Autowired
+    ProxyComNewReturn proxyComNewReturn;
     @ApiOperation("管理机构下拉列表")
     @PostMapping("/managecom")
     public R SearchMap() {
@@ -54,5 +55,10 @@ public class MagController {
         }else {
             return R.ok().put("list",comnewSon.getSonManageCom(Code));
         }
+    }
+    @ApiOperation("children的结构管理机构")
+    @PostMapping("/comresource")
+    public R getResource(){
+        return R.ok().put("result",proxyComNewReturn.Start());
     }
 }

@@ -12,6 +12,7 @@
               style="width: 100%"
               :props="{ expandTrigger: 'hover' ,checkStrictly: true}"
               clearable
+              @change="changeVal"
             />
           </el-form-item>
         </el-col>
@@ -105,7 +106,7 @@
 <script>
 import { phoneNumberValidatorAllowNull } from '@/utils/validate'
 import PersonChangeDialog from '@/components/PersonChange/PersonChangeDialog'
-import { query, threeOptions } from '@/api/personChange'
+import { getNextOptions, query, threeOptions } from '@/api/personChange'
 export default {
   name: 'PersonnelChange',
   components: { PersonChangeDialog },
@@ -148,6 +149,13 @@ export default {
     })
   },
   methods: {
+    changeVal() {
+      getNextOptions(this.form.manageCom).then(res => {
+        // this.form.agentGroup = ''
+        this.list.branchAttr = res.list
+        this.list.branchName = res.list
+      })
+    },
     resetForm() {
       this.$refs['form'].resetFields()
       Object.keys(this.form).forEach((key) => {

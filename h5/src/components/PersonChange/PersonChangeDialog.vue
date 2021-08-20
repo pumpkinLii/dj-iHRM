@@ -73,7 +73,8 @@ export default {
         modifyDate: '',
         adminCode: '',
         adminName: '',
-        agentCodeList: []
+        agentCodeList: [],
+        operator: 'admin'
       },
       list: {
         manageComList: '',
@@ -104,8 +105,8 @@ export default {
       submit(this.form.agentGroup).then(res => {
         this.form.adminCode = res.managerId
         this.form.adminName = res.managerName
-        this.form.modifyDate = new Date().toLocaleDateString().split('/').join('-')
-        console.log(this.form.modifyDate)
+        // this.form.modifyDate = new Date().toLocaleDateString().split('/').join('-')
+        this.form.modifyDate = new Date()
       })
     },
     changeAgent() {

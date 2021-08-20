@@ -31,13 +31,14 @@ public class QueryStaffServiceImpl extends ServiceImpl<QueryStaffDao, QueryStaff
         if (queryStaffPojo.getStartDate()!=null){
             String sd = dateFormat.format(queryStaffPojo.getStartDate());
             Date date1=dateFormat.parse(sd);
-            wrapper.eq("t1.employ_date",date1);
+            wrapper.ge("t1.employ_date",date1);
         }
         if (queryStaffPojo.getEndDate()!=null){
             String ed = dateFormat.format(queryStaffPojo.getEndDate());
             Date date2=dateFormat.parse(ed);
-            wrapper.eq("t1.out_work_date",date2);
+            wrapper.le("t1.employ_date",date2);
         }
+
         if(queryStaffPojo.getManageCom4()!=""){
             wrapper.eq("t2.com_code",queryStaffPojo.getManageCom4());
             wrapper.eq(!StringUtils.isEmpty(queryStaffPojo.getBranchAttr()),"t1.agent_group",queryStaffPojo.getBranchAttr());

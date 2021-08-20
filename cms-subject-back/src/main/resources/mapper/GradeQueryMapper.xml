@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cms.dao.GradeQueryDao">
+    <select id="gradeQuery" parameterType="com.cms.pojo.GradeQueryPojo" resultType="com.cms.pojo.GradeQueryReturnPojo">
+        SELECT t2.agent_code,
+               t2.agent_name,
+               t2.agent_group,
+               t1.branch_name,
+               t2.employ_date,
+               t2.agent_state,
+               t3.contract_type,
+               t2.agent_grade,
+               t1.manage_com AS com_code4,
+               (SELECT yl_name FROM ld_com_new WHERE ld_com_new.com_code=com_code4) AS manageCom4,
+               (SELECT up_com_code FROM ld_com_new WHERE t1.manage_com=ld_com_new.com_code) AS com_code3,
+               (SELECT yl_name FROM ld_com_new WHERE ld_com_new.com_code=com_code3) AS manageCom3,
+               (SELECT up_com_code FROM ld_com_new WHERE ld_com_new.com_code=com_code3) AS com_code2,
+               (SELECT yl_name FROM ld_com_new WHERE ld_com_new.com_code=com_code2) AS manageCom2,
+               (SELECT code_name FROM ld_code WHERE ld_code.code_type='agentstate' AND code=t2.agent_state) AS agentStateName,
+               (SELECT code_name FROM ld_code WHERE ld_code.code_type='contracttype' AND code=t3.contract_type) AS contractTypeName,
+               (SELECT grade_name FROM la_agent_grade WHERE la_agent_grade.grade_code=t2.agent_grade) AS agentGradeName
+        FROM yl_la_branch_group AS t1
+            JOIN yl_la_agent AS t2 ON t1.agent_group = t2.agent_group
+            JOIN yl_la_agent_attr AS t3 ON t2.agent_code=t3.agent_code
+            ${ew.customSqlSegment}
+    </select>
+</mapper>
+

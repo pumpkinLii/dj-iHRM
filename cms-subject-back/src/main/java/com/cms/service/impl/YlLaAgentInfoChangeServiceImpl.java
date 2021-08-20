@@ -13,6 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,7 +58,13 @@ public class YlLaAgentInfoChangeServiceImpl extends ServiceImpl<YlLaAgentDao, Yl
         UpdateWrapper<YlLaAgentEntity> updateWrapper = new UpdateWrapper<>();
         updateWrapper.set("manage_com",ylLaAgentChangePojo.getManageCom());
         updateWrapper.set("agent_group",ylLaAgentChangePojo.getAgentGroup());
-        updateWrapper.set("modify_date",ylLaAgentChangePojo.getModifyDate());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        ParsePosition pos = new ParsePosition(0);
+        Date strtodate = formatter.parse(ylLaAgentChangePojo.getModifyDate(), pos);
+        updateWrapper.set("modify_date",strtodate);
+        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");//设置日期格式
+        String time = df.format(new Date());//获取String类型的时间
+        updateWrapper.set("modify_time",time);
         updateWrapper.set("operator",ylLaAgentChangePojo.getOperator());
         for (String i: ylLaAgentChangePojo.getAgentCodeList()) {
             updateWrapper.eq("agent_code",i);

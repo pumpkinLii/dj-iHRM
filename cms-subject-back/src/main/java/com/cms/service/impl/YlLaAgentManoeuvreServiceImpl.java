@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -77,10 +78,13 @@ public class YlLaAgentManoeuvreServiceImpl extends ServiceImpl<YlLaAgentManoeuvr
         ylLaAgentManoeuvreEntity.setCurAgentGroupName(newAgentGroupInfo.getBranchName());
         ylLaAgentManoeuvreEntity.setOperator(ylLaAgentChangePojo.getOperator());
         SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");//设置日期格式
-        String time = df.format(ylLaAgentChangePojo.getModifyDate());//获取String类型的时间
-        ylLaAgentManoeuvreEntity.setMakeDate(ylLaAgentChangePojo.getModifyDate());
+        String time = df.format(new Date());//获取String类型的时间
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        ParsePosition pos = new ParsePosition(0);
+        Date strtodate = formatter.parse(ylLaAgentChangePojo.getModifyDate(), pos);
+        ylLaAgentManoeuvreEntity.setMakeDate(strtodate);
         ylLaAgentManoeuvreEntity.setMakeTime(time);
-        ylLaAgentManoeuvreEntity.setModifyDate(ylLaAgentChangePojo.getModifyDate());
+        ylLaAgentManoeuvreEntity.setModifyDate(strtodate);
         ylLaAgentManoeuvreEntity.setModifyTime(time);
         return ylLaAgentManoeuvreEntity;
     }

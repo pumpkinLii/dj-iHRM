@@ -12,7 +12,7 @@ import java.util.List;
 public class YlLaAgentChangePojo {
     private String manageCom;
     private String agentGroup;
-    private Date modifyDate;
+    private String modifyDate;
     private String operator;
     private List<String> agentCodeList;
 }

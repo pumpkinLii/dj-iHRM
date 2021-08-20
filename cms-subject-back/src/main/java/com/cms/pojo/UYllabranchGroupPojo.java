@@ -9,6 +9,8 @@ public class UYllabranchGroupPojo {
     private String branchLevel;
     private String branchName;
     private String branchManager;
+    private String branchManagerPhone;
+    private String branchManagerName;
     private String branchEffDate;
     private String branchStatus;
     private String branchTerminateEffDate;

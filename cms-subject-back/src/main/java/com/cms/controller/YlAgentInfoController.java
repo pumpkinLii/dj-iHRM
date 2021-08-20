@@ -2,8 +2,10 @@ package com.cms.controller;
 
 import com.cms.pojo.LaAgentPojo;
 import com.cms.pojo.LaAgentUpdatePojo;
+import com.cms.pojo.YlLaAgentChangePojo;
 import com.cms.service.YlAgentAttrInfoService;
 import com.cms.service.YlAgentInfoService;
+import com.cms.service.YlLaAgentInfoChangeService;
 import com.cms.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +30,9 @@ public class YlAgentInfoController {
 
     @Autowired
     private YlAgentInfoService ylAgentInfoService;
+
+    @Autowired
+    private YlLaAgentInfoChangeService ylLaAgentInfoChangeService;
 
     private String agentCode;
     @PostMapping("/doSave")
@@ -59,6 +64,17 @@ public class YlAgentInfoController {
         }
         else{
             return R.error(agentUpdate);
+        }
+    }
+
+    @PostMapping("/change")
+    @ApiOperation("人员异动接口")
+    public R laAgentChange(@RequestBody YlLaAgentChangePojo ylLaAgentChangePojo){
+        if(ylLaAgentInfoChangeService.ylLaAgentChange(ylLaAgentChangePojo)){
+            return R.ok("操作成功！");
+        }
+        else{
+            return R.error("操作失败！");
         }
     }
 }

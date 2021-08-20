@@ -19,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao, YlLaBranchGroupEntity> implements RYlLaBranchGroupService {
@@ -35,12 +32,11 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
     ComCodeDao comCodeDao;
     @Autowired
     ComnewSon comnewSon;
-
+    //二级机构查询错误
     @Override
     public List Retrieve_group(RYlLaBranchGroupPojo r_ylLaBranchGroupPojo) {
         List<Map<String, String>> sonManageCom;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
         List<RYlLaBranchGrouReturn> Return_list = new ArrayList<>();
         //实现查询的时候 实现 查询所有的四级机构
         if (StringUtils.isEmpty(r_ylLaBranchGroupPojo.getManageComCode())==true){
@@ -54,7 +50,8 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
         }else {
 
             for (int j = 0; j < sonManageCom.size(); j++) {
-                queryWrapper.eq( "manage_com", sonManageCom.get(j).get("comcode"));//得到团队代码
+                QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq( "manage_com",sonManageCom.get(j).get("comcode"));//得到团队代码
                 queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchAttr()), "branch_attr", r_ylLaBranchGroupPojo.getBranchAttr());
                 queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchManager()), "branch_manager", r_ylLaBranchGroupPojo.getBranchManager());
                 queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchManagerName()), "branch_manager_name", r_ylLaBranchGroupPojo.getBranchManagerName());
@@ -62,17 +59,17 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
                 queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchEffDate()), "branch_eff_date",r_ylLaBranchGroupPojo.getBranchEffDate());
                 queryWrapper.eq(!StringUtils.isEmpty(r_ylLaBranchGroupPojo.getBranchStatus()), "branch_status", r_ylLaBranchGroupPojo.getBranchStatus());
                 List<YlLaBranchGroupEntity> list = this.baseMapper.selectList(queryWrapper);
-                if (list.size()>0){
-                    QueryWrapper queryWrapper1 = new QueryWrapper();
+                if (list.size()>0){//就是说 第二次这里的时候size为0
                     for (int i = 0; i < list.size(); i++) {
+                        QueryWrapper queryWrapper1 = new QueryWrapper();
                         RYlLaBranchGrouReturn r_ylLaBranchGrou_return = new RYlLaBranchGrouReturn();
                         r_ylLaBranchGrou_return.setBranchAttr(list.get(i).getBranchAttr());
                         r_ylLaBranchGrou_return.setBranchLevel("1");//默认的大下为1 随机设置就可以了
                         r_ylLaBranchGrou_return.setBranchManager(list.get(i).getBranchManager());
                         r_ylLaBranchGrou_return.setBranchStatus(list.get(i).getBranchStatus());
-                     /*branchstatus,N,否,
+                         /*branchstatus,N,否,
                         branchstatus,Y,是,
-                       */
+                        */
                         if (list.get(i).getBranchStatus().equals("N")) {
                             r_ylLaBranchGrou_return.setBranchStatusName("否");
                         } else if (list.get(i).getBranchStatus().equals("Y")) {
@@ -90,7 +87,6 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
                         //在人员表中 获取与团队名称相同的人的
                         List list1 = agentCountDao.selectList(queryWrapper1);
                         String number = String.valueOf(list1.size());
-
                         r_ylLaBranchGrou_return.setAgentCount(number);//表格只读项	团队下当前实时统计在职代理人个数
                         if (list.get(i).getBranchTerminateEffDate() != null) {
                             if (list.get(i).getBranchStatus().equals("N")){

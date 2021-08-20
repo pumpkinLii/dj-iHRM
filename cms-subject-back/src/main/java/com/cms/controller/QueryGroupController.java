@@ -26,7 +26,7 @@ public class QueryGroupController {
         if(list!=null){
             return R.ok().put("list",list);
         }else {
-            return R.error("失败，无团队");
+            return R.error("未查询到对应团队");
         }
     }
 

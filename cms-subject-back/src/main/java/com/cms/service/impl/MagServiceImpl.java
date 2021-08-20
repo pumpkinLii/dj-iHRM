@@ -34,16 +34,16 @@ public class MagServiceImpl extends ServiceImpl<MagDao, LdComNewEntity> implemen
             LdComNewEntity ldComNewEntity = ldComNewEntities.get(i);
             String grade=ldComNewEntity.getComGrade();
             Map<String,String> map=new HashMap<>();
-            map.put("label",ldComNewEntity.getName());
+            map.put("label",ldComNewEntity.getYlName());
             map.put("value",ldComNewEntity.getComCode());
-            if (grade.equals("02")){
+            if ("02".equals(ldComNewEntity.getComGrade())){
                 //
                 list2.add(map);
-            }else if (grade.equals("03")){
+            }else if ("03".equals(grade)){
                 list3.add(map);
-            }else if (grade.equals("04")){
+            }else if ("04".equals(grade)){
                 list4.add(map);
-            }else if (grade.equals("01")) {
+            }else if ("01".equals(grade)) {
                 list1.add(map);
             }
             totallist.add(map);

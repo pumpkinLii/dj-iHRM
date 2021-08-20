@@ -50,4 +50,5 @@ public class LaAgentPojo {
     private String uniteBankNum;
     private String workAge;
     private String operator;
+    private String repeatFalg;
 }

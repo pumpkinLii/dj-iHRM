@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cms.dao.NQueryStaffDao">
+
+    <select id="queryStaff" parameterType="com.cms.pojo.QueryStaffPojo"
+            resultType="com.cms.pojo.NQueryStaffReturn">
+        SELECT t1.agent_code,t1.agent_name,t1.agent_grade,t1.agent_state,t1.employ_date,t1.out_work_date,
+               t2.com_code,t2.yl_name AS manage_com4,
+               t3.agent_group AS branch_attr,t3.branch_name
+        FROM yl_la_agent AS t1
+            JOIN ld_com_new AS t2 ON t1.manage_com=t2.com_code
+            JOIN yl_la_branch_group AS t3 ON t1.agent_group=t3.agent_group
+            ${ew.customSqlSegment}
+    </select>
+
+</mapper>
+
+

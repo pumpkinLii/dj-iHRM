@@ -41,6 +41,8 @@ public class UYllaBranchGroupImpl extends ServiceImpl<YllaBranchGroupDao, YlLaBr
         mes.setAgentGroup(ylLaBranchGroupEntity.getAgentGroup());
         ylLaBranchGroupEntity.setBranchName(mes.getBranchName());
         ylLaBranchGroupEntity.setBranchManager(mes.getBranchManager());
+        ylLaBranchGroupEntity.setBranchManagerPhone(mes.getBranchManagerPhone());
+        ylLaBranchGroupEntity.setBranchManagerName(mes.getBranchManagerName());
         ylLaBranchGroupEntity.setBranchStatus(mes.getBranchStatus());
         ylLaBranchGroupEntity.setOperator(mes.getOperator());
         ylLaBranchGroupEntity.setChatName(mes.getChatName());
@@ -58,7 +60,8 @@ public class UYllaBranchGroupImpl extends ServiceImpl<YllaBranchGroupDao, YlLaBr
             e.printStackTrace();
         }
         int checkState =100;
-        if(mes.getBranchManager()!=null) checkState = managerCheck(mes.getBranchManager());
+        String managerPhone=null,managerName=null;
+        if(mes.getBranchManager()!=null) checkState = managerCheck(mes.getBranchManager(),managerPhone,managerName);
         if (checkState == 0) {
             ylLaBranchGroupEntity.setBranchManager("查无此人");
             return ylLaBranchGroupEntity;
@@ -91,7 +94,7 @@ public class UYllaBranchGroupImpl extends ServiceImpl<YllaBranchGroupDao, YlLaBr
     }
 
     //检查主管信息
-    private int managerCheck(String ManagerCode) {
+    private int managerCheck(String ManagerCode,String managerPhone,String managerName) {
         if (ManagerCode == null) return 100;
         if (ManagerCode.equals("")) return 100;
         QueryWrapper<UYllaBranchGroupReturnPojo> qw = new QueryWrapper<>();
@@ -105,6 +108,8 @@ public class UYllaBranchGroupImpl extends ServiceImpl<YllaBranchGroupDao, YlLaBr
         List<YlLaBranchGroupEntity> list1 = groupMapper.selectList(updateWrapper);
         if (list1.size() > 0) {
             list1.get(0).setBranchManager(null);
+            list1.get(0).setBranchManagerName(null);
+            list1.get(0).setBranchManagerPhone(null);
             groupMapper.update(list1.get(0), updateWrapper);
         }
         return 100;

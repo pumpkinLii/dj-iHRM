@@ -6,15 +6,21 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.IdCheck;
 import com.cms.dao.YlLaAgentDao;
 import com.cms.entity.YlLaAgentEntity;
+import com.cms.entity.YlLaBranchGroupEntity;
+import com.cms.pojo.GradeTeamPojo;
 import com.cms.pojo.LaAgentPojo;
 import com.cms.pojo.LaAgentUpdatePojo;
+import com.cms.service.AgentGroup;
+import com.cms.service.RYlLaBranchGroupService;
 import com.cms.service.YlAgentInfoService;
+import com.cms.util.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 /**
  * @author :zhanhaoze
@@ -32,6 +38,8 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
     /**
      * 增加人员信息方法，传入LaAgentPojo，返回boolean值结果
      */
+    @Autowired
+    RYlLaBranchGroupServiceImpl rYlLaBranchGroupServiceImpl;
     @Override
     public boolean laAgentSubmit(LaAgentPojo laAgent){
         //在此处调用创建YlLaAgentEntity的方法，用于数据库操作
@@ -80,7 +88,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
         ylLaAgentEntity.setOperator(laAgent.getOperator());
         /*****************************************************************************/
         ylLaAgentEntity.setAgentState("01");
-        ylLaAgentEntity.setBranchType("01");
+        ylLaAgentEntity.setBranchType("4");
         /*****************************************************************************/
         Date date = new Date();
         SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");
@@ -122,5 +130,72 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
         else{
             return "02";
         }
+    }
+    //进行根据职级返回架构团队的代码
+    @Override
+    public R getgradeteam(GradeTeamPojo gradeTeamPojo) {
+        //与前端协商 只有当她请求
+        String oldgrade=gradeTeamPojo.getOldgradecode();
+        String nowgrade=gradeTeamPojo.getNowgradecode();
+        String comcode=gradeTeamPojo.getComecode();
+        if (nowgrade==null||StringUtils.isEmpty(nowgrade)){
+            return R.ok().put("msg","请选择目标职级").put("code",501);
+        }
+        if (comcode==null||StringUtils.isEmpty(comcode)){
+            return R.ok().put("msg","请先选择管理机构").put("code",501);
+        }
+        List result=new ArrayList();
+        if (oldgrade.equals(nowgrade)){
+            return R.ok().put("msg","当前职级与目标职级相同 团队下拉款为当前默认团队");
+        }else if (oldgrade.substring(0,2).equals("MA")){//不需要判断经理一级 到经理二级的这种判断 这种时候 一定是两大职级
+            //这是总监的情况 职级降低 返回人员三级机构下四级()非停业的团队
+            QueryWrapper queryWrapper=new QueryWrapper();
+            queryWrapper.eq("branch_manager",gradeTeamPojo.getAgentcode());
+            queryWrapper.eq("branch_status","N");//非停业
+            queryWrapper.eq("manage_com",comcode);
+            List<YlLaBranchGroupEntity> list = rYlLaBranchGroupServiceImpl.getBaseMapper().selectList(queryWrapper);
+            if (list.size()==0){
+                return R.ok().put("msg","数据库不存在该主管任免的四级团队");
+            }
+
+            for (int i = 0; i < list.size(); i++) {
+                Map map=new HashMap();
+                map.put("groupname",list.get(i).getBranchName());
+                map.put("groupcode",list.get(i).getAgentGroup());
+                result.add(map);
+            }
+        }else {
+            //经理到经理
+            if (oldgrade.substring(0,2).equals("YL")){
+                QueryWrapper queryWrapper=new QueryWrapper();
+                queryWrapper.eq("agent_code",gradeTeamPojo.getAgentcode());
+                YlLaAgentEntity ylLaAgentEntity = this.getBaseMapper().selectOne(queryWrapper);
+                QueryWrapper queryWrapper1=new QueryWrapper();
+                queryWrapper1.eq("agent_group",ylLaAgentEntity.getAgentGroup());
+                YlLaBranchGroupEntity ylLaBranchGroupEntity = rYlLaBranchGroupServiceImpl.getBaseMapper().selectOne(queryWrapper1);
+                Map map=new HashMap();
+                map.put("groupname",ylLaBranchGroupEntity.getBranchName());
+                map.put("groupcode",ylLaBranchGroupEntity.getAgentGroup());
+                result.add(map);
+            }
+            //返回没有主管的团队
+            QueryWrapper qw=new QueryWrapper();
+            qw.eq("branch_status","N");
+            qw.eq("manage_com",comcode);
+            List<YlLaBranchGroupEntity> laBranchGroupEntities = rYlLaBranchGroupServiceImpl.getBaseMapper().selectList(qw);
+            if (laBranchGroupEntities.size()==0){
+                return R.ok().put("msg","请先增加无主管团队 再添加主管");
+            }
+            for (int i = 0; i < laBranchGroupEntities.size(); i++) {
+                if (laBranchGroupEntities.get(i).getBranchManager()==null|| StringUtils.isEmpty(laBranchGroupEntities.get(i).getBranchManager())){
+                    Map map=new HashMap();
+                    map.put("groupname",laBranchGroupEntities.get(i).getBranchName());
+                    map.put("groupcode",laBranchGroupEntities.get(i).getAgentGroup());
+                    result.add(map);
+                }
+            }
+        }
+
+        return R.ok().put("list",result);
     }
 }

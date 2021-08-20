@@ -34,6 +34,10 @@ public class TestController {
         Map<Object,Object> map =new HashMap<>();
         map.put("total",list.getTotal());
         map.put("list",list.getList());
+        System.out.println("abc");
+        System.out.println("123");
+        System.out.println("fsdfsdfsdf");
+        System.out.println("hello world");
         return R.ok().put("page", map);
 //        return "hello world";
     }

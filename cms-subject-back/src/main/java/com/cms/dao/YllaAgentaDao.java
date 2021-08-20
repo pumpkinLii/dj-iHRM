@@ -8,9 +8,10 @@ import com.cms.entity.YlUserInfoEntity;
 import com.cms.pojo.UYllaBranchGroupReturnPojo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface YllaAgentaDao extends BaseMapper<YlLaAgentEntity> {
     List<UYllaBranchGroupReturnPojo> getManagerInfo(@Param(Constants.WRAPPER) QueryWrapper<UYllaBranchGroupReturnPojo> qw);
 }

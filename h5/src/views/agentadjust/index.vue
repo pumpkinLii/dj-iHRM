@@ -136,6 +136,11 @@ export default {
       })
     }, 1000)
   },
+  beforeDestroy() {
+    this.$bus.$off('refreshAgent')
+    // this.$bus.$off()
+    // this.$bus.$off()
+  },
   methods: {
     // 查询按钮
     hello() {
@@ -155,7 +160,6 @@ export default {
       }, 300)
     }
   }
-
 }
 </script>
 <style  scoped>

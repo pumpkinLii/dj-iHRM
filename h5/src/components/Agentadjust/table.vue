@@ -82,12 +82,12 @@ export default {
     // 一页有几行
     handleSizeChange(size) {
       this.page.pageSize = size
-      this.$bus.$emit('refresh1')
+      this.$bus.$emit('refreshAgent')
     },
     // 第几页
     handleCurrentChange(page) {
       this.page.currentPage = page
-      this.$bus.$emit('refresh1')
+      this.$bus.$emit('refreshAgent')
     }
   }
 }

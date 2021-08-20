@@ -12,22 +12,23 @@
               style="width: 100%"
               :props="{ expandTrigger: 'hover' ,checkStrictly: true}"
               clearable
+              @change="changeVal"
             />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队代码">
-            <el-select v-model="form.branchAttr" placeholder="请选择" style="width:100%;">
-              <el-option v-for="(option,index) in list.branchAttr" :key="index" :label="option.branchAttr" :value="option.name">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.branchAttr }}</span>
-                <span style="float: right">{{ option.name }}</span>
+            <el-select v-model="form.branchAttr" placeholder="请选择" clearable style="width:100%;">
+              <el-option v-for="(option,index) in list.branchAttr" :key="index" :label="option.branchAttr" :value="option.branchAttr">
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ option.name }}</span>
+                <span style="float: left">{{ option.branchAttr }}</span>
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队名称">
-            <el-select v-model="form.branchName " placeholder="请选择" style="width:100%;">
+            <el-select v-model="form.branchName " placeholder="请选择" clearable style="width:100%;">
               <el-option v-for="(option,index) in list.branchName" :key="index" :label="option.name" :value="option.branchAttr">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.branchAttr }}</span>
                 <span style="float: right">{{ option.name }}</span>
@@ -105,7 +106,7 @@
 <script>
 import { phoneNumberValidatorAllowNull } from '@/utils/validate'
 import PersonChangeDialog from '@/components/PersonChange/PersonChangeDialog'
-import { query, threeOptions } from '@/api/personChange'
+import { getNextOptions, query, threeOptions } from '@/api/personChange'
 export default {
   name: 'PersonnelChange',
   components: { PersonChangeDialog },
@@ -148,6 +149,13 @@ export default {
     })
   },
   methods: {
+    changeVal() {
+      getNextOptions(this.form.manageCom).then(res => {
+        // this.form.agentGroup = ''
+        this.list.branchAttr = res.list
+        this.list.branchName = res.list
+      })
+    },
     resetForm() {
       this.$refs['form'].resetFields()
       Object.keys(this.form).forEach((key) => {

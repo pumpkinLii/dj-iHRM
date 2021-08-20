@@ -20,12 +20,12 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队代码">
-            <el-input v-model="form.agentGroup" clearable />
+            <el-input v-model="form.agentGroup" placeholder="请输入团队代码" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队名称">
-            <el-input v-model="form.branchName" clearable />
+            <el-input v-model="form.branchName" placeholder="请输入团队名称" clearable />
           </el-form-item>
         </el-col>
       </el-row>
@@ -33,12 +33,12 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="代理人代码">
-            <el-input v-model="form.agentCode" clearable />
+            <el-input v-model="form.agentCode" placeholder="请输入代理人代码" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="代理人姓名">
-            <el-input v-model="form.agentName" clearable />
+            <el-input v-model="form.agentName" placeholder="请输入代理人姓名" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -51,7 +51,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="证件号码">
-            <el-input v-model="form.idNo" clearable />
+            <el-input v-model="form.idNo" placeholder="请输入证件号码" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">

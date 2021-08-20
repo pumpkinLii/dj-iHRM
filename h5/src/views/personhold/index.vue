@@ -49,7 +49,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="人员工号">
-            <el-input v-model="form.agentCode" clearable />
+            <el-input v-model="form.agentCode" placeholder="请输入人员工号" clearable />
           </el-form-item>
         </el-col>
       </el-row>
@@ -57,7 +57,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="人员姓名">
-            <el-input v-model="form.agentName" clearable />
+            <el-input v-model="form.agentName" placeholder="请输入人员姓名" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">

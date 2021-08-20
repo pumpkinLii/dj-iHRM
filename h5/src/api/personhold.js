@@ -2,7 +2,8 @@ import request from '@/utils/request'
 
 // 查询人员信息
 export function queryPerson(data, page) {
-  const url = process.env.NODE_ENV === 'development' ? 'http://10.11.114.56:9999/test/QueryStaff' : '/test/QueryStaff'
+  // const url = process.env.NODE_ENV === 'development' ? 'http://10.11.114.56:9999/test/QueryStaff' : '/test/QueryStaff'
+  const url = '/test/QueryStaff'
   const param = '?limit=' + page.pageSize + '&' + 'page=' + page.currentPage
   return request({
     url: url + param,
@@ -10,16 +11,6 @@ export function queryPerson(data, page) {
     data
   })
 }
-
-// 修改人员信息  搁置
-// export function modifyPerson(data){
-//   return request({
-//     url:'',
-//     method:'post',
-//     data
-//   })
-// }
-// 模板下载
 
 export function download() {
   return request({

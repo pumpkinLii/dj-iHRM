@@ -22,6 +22,7 @@ public class GetManageInfoServiceImpl implements GetManageInfoService {
     @Autowired
     ComCodeDao comCodeDao;
     @Override
+    //返回负责人信息
     public ManagerPojo getManageInfo(String branchAttr){
         QueryWrapper<YlLaBranchGroupEntity> qw = new QueryWrapper<>();
         qw.eq("agent_group",branchAttr);
@@ -41,6 +42,7 @@ public class GetManageInfoServiceImpl implements GetManageInfoService {
     }
 
     @Override
+    //返回四级机构列表
     public List<Com4Pojo> getCom4(){
         QueryWrapper<Com4Pojo> qw =new QueryWrapper<>();
         List<Com4Pojo> list = comCodeDao.getCom4(qw);
@@ -48,6 +50,7 @@ public class GetManageInfoServiceImpl implements GetManageInfoService {
     }
 
     @Override
+    //得到团队列表
     public List<GroupInfoPojo> getGroup(String comCodes){
         String[] comCodesA = comCodes.split(",");
         String comCode = comCodesA[comCodesA.length-1];

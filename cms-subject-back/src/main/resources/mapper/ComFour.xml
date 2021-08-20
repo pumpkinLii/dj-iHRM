@@ -5,7 +5,7 @@
 
     <select id="getCom4" parameterType="com.cms.pojo.Com4Pojo"
             resultType="com.cms.pojo.Com4Pojo">
-        select com_code as code, name as name
+        select com_code as code, yl_name as name
         from ld_com_new
         where ld_com_new.com_code regexp '[0-9]{8}';
     </select>

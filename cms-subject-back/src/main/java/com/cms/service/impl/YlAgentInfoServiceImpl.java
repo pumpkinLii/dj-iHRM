@@ -145,9 +145,10 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
             return R.ok().put("msg","请先选择管理机构").put("code",501);
         }
         List result=new ArrayList();
-        if (oldgrade.equals(nowgrade)){
-            return R.ok().put("msg","当前职级与目标职级相同 团队下拉款为当前默认团队");
-        }else if (oldgrade.substring(0,2).equals("MA")){//不需要判断经理一级 到经理二级的这种判断 这种时候 一定是两大职级
+//        if (oldgrade.equals(nowgrade)){
+//            return R.ok().put("msg","当前职级与目标职级相同 团队下拉款为当前默认团队");
+//        }else
+            if (oldgrade.substring(0,2).equals("MA")){//不需要判断经理一级 到经理二级的这种判断 这种时候 一定是两大职级
             //这是总监的情况 职级降低 返回人员三级机构下四级()非停业的团队
             QueryWrapper queryWrapper=new QueryWrapper();
             queryWrapper.eq("branch_manager",gradeTeamPojo.getAgentcode());

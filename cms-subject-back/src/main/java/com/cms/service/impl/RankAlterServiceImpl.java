@@ -60,6 +60,10 @@ public class RankAlterServiceImpl extends ServiceImpl<RankAlterDao, YlLaAgentEnt
         {
             return "当前人员不处于在职状态，无法进行职级调动";
         }
+        if(rankAlterPojo.getTargetAgentGrade().equals(rankAlterPojo.getCurAgentGrade()))
+        {
+            return "当前职级和目标职级一致，不允许保存";
+        }
         String cur=rankAlterPojo.getCurAgentGrade().substring(0,2);
         String target=rankAlterPojo.getTargetAgentGrade().substring(0,2);
         boolean fg=false;

@@ -26,7 +26,7 @@ public class ComnewSon {
             List<LdComNewEntity> ldComNewEntities = this.magService.getBaseMapper().selectList(queryWrapper);
             for (int i = 0; i < ldComNewEntities.size(); i++) {
                 Map map = new HashMap();
-                map.put("name", ldComNewEntities.get(i).getName());
+                map.put("name", ldComNewEntities.get(i).getYlName());
                 map.put("comcode", ldComNewEntities.get(i).getComCode());
                 result.add(map);
             }
@@ -37,7 +37,7 @@ public class ComnewSon {
             queryWrapper.eq("com_code", fatherComcode);
             LdComNewEntity ldComNewEntity = this.magService.getBaseMapper().selectOne(queryWrapper);
             Map map = new HashMap();
-            map.put("name", ldComNewEntity.getName());
+            map.put("name", ldComNewEntity.getYlName());
             map.put("comcode", fatherComcode);
             result.add(map);
             return result;
@@ -49,7 +49,7 @@ public class ComnewSon {
             List<LdComNewEntity> list = this.magService.getBaseMapper().selectList(queryWrapper);
             for (int i = 0; i < list.size(); i++) {
                 Map map = new HashMap();
-                map.put("name", list.get(i).getName());
+                map.put("name", list.get(i).getYlName());
                 map.put("comcode", list.get(i).getComCode());
                 result.add(map);
             }
@@ -66,7 +66,7 @@ public class ComnewSon {
                 List<LdComNewEntity> listson = this.magService.getBaseMapper().selectList(queryWrapperson);
                 for (int i1 = 0; i1 < listson.size(); i1++) {
                     Map map = new HashMap();
-                    map.put("name", listson.get(i1).getName());
+                    map.put("name", listson.get(i1).getYlName());
                     map.put("comcode", listson.get(i1).getComCode());
                     result.add(map);
                 }
@@ -90,7 +90,7 @@ public class ComnewSon {
             QueryWrapper q=new QueryWrapper();
             q.eq("com_code",ldComNewEntity.getUpComCode());
             LdComNewEntity ldComNewEntity1 = magService.getBaseMapper().selectOne(q);
-            map.put("name", ldComNewEntity1.getName());
+            map.put("name", ldComNewEntity1.getYlName());
             return map;
         }
     }
@@ -106,7 +106,7 @@ public class ComnewSon {
             for (int i = 0; i < list.size(); i++) {
                 Map map=new HashMap();
                 map.put("comcode",list.get(i).getComCode());
-                map.put("name",list.get(i).getName());
+                map.put("name",list.get(i).getYlName());
                 re.add(map);
             }
             return re;
@@ -120,7 +120,7 @@ public class ComnewSon {
         List result=new ArrayList();
         for (int i = 0; i < list.size(); i++) {
             Map map=new HashMap();
-            map.put("name",list.get(i).getName());
+            map.put("name",list.get(i).getYlName());
             map.put("comcode",list.get(i).getComCode());
             result.add(map);
         }

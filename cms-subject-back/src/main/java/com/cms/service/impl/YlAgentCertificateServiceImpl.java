@@ -84,11 +84,11 @@ public class YlAgentCertificateServiceImpl extends ServiceImpl<YlLaAgentCertific
         }
 
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        if (StringUtils.isEmpty(changeCertificatePojo.getReissueDate())==false&&changeCertificatePojo.getReissueDate()!=null){ylLaAgentCertificateEntity.setReissueDate(simpleDateFormat.parse(changeCertificatePojo.getReissueDate()));}
+        if (StringUtils.isEmpty(changeCertificatePojo.getStartEffectiveDate())==false&&changeCertificatePojo.getStartEffectiveDate()!=null){ylLaAgentCertificateEntity.setStartEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getStartEffectiveDate()));}
+        if (StringUtils.isEmpty(changeCertificatePojo.getEndEffectiveDate())==false&&changeCertificatePojo.getEndEffectiveDate()!=null){ylLaAgentCertificateEntity.setEndEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getEndEffectiveDate()));}
+        if (StringUtils.isEmpty(changeCertificatePojo.getApprover())==false&&changeCertificatePojo.getApprover()!=null){ ylLaAgentCertificateEntity.setApprover(changeCertificatePojo.getApprover()); }
         ylLaAgentCertificateEntity.setReleaseDate(simpleDateFormat.parse(changeCertificatePojo.getReleaseDate()));
-        ylLaAgentCertificateEntity.setReissueDate(simpleDateFormat.parse(changeCertificatePojo.getReissueDate()));
-        ylLaAgentCertificateEntity.setStartEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getStartEffectiveDate()));
-        ylLaAgentCertificateEntity.setEndEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getEndEffectiveDate()));
-        if (StringUtils.isEmpty(changeCertificatePojo.getApprover())==false){ ylLaAgentCertificateEntity.setApprover(changeCertificatePojo.getApprover()); }
         ylLaAgentCertificateEntity.setOperator("0");
         ylLaAgentCertificateEntity.setMakeDate(ylLaAgentCertificateEntity1.getMakeDate());
         ylLaAgentCertificateEntity.setMakeTime(ylLaAgentCertificateEntity1.getMakeTime());

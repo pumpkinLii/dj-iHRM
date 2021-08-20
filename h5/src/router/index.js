@@ -30,48 +30,116 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [{
-  path: '/',
-  redirect: '/login'
-}, {
-  path: '/login',
-  component: () =>
-    import ('@/views/login/index'),
-  hidden: true
-},
-
-{
-  path: '/404',
-  component: () =>
-    import ('@/views/404'),
-  hidden: true
-},
-
-{
-  path: '/dashboard',
-  component: Layout,
-  children: [{
-    path: '',
-    component: () =>
-      import ('@/views/dashboard/index'),
-    meta: { title: 'Dashboard', icon: 'dashboard' }
-  }]
-},
-{
-  path: '/text',
-  component: Layout,
-  children: [{
-    path: '',
-    name: 'text',
-    component: () =>
-      import ('@/views/text/text'),
-    meta: { title: 'text', icon: 'text' }
-  }],
-  hidden: false
-},
-
-// 404 page must be placed at the end !!!
-{ path: '*', redirect: '/404', hidden: true }
+export const constantRoutes = [
+  {
+    path: '/',
+    redirect: '/login'
+  },
+  {
+    path: '/login',
+    component: () => import ('@/views/login/index'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () => import ('@/views/404'),
+    hidden: true
+  },
+  {
+    path: '/dashboard',
+    component: Layout,
+    children: [{
+      path: '',
+      component: () => import ('@/views/dashboard/index'),
+      meta: {
+        title: '首页',
+        icon: 'dashboard'
+      }
+    }]
+  },
+  {
+    path: '/employeeEntry',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'PersonImport',
+      component: () => import ('@/views/employeeEntry/index'),
+      meta: {
+        title: '人员录入',
+        icon: 'el-icon-user'
+      }
+    }],
+    hidden: false
+  },
+  {
+    path: '/personhold',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'PersonHold',
+      component: () => import ('@/views/personhold/index'),
+      meta: {
+        title: '人员维护',
+        icon: 'el-icon-ship'
+      }
+    }]
+  },
+  {
+    path: '/agentadjust',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'Agentadjust',
+      component: () => import ('@/views/agentadjust/index'),
+      meta: {
+        title: '代理调整',
+        icon: 'el-icon-s-data'
+      }
+    }]
+  },
+  {
+    path: '/personelChange',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'personelChange',
+      component: () => import ('@/views/personnelChange/index'),
+      meta: {
+        title: '人员异动',
+        icon: 'el-icon-suitcase-1'
+      }
+    }]
+  },
+  {
+    path: '/teamMaintenance',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'TeamHold',
+      component: () => import ('@/views/teamMaintenance/index'),
+      meta: {
+        title: '团队维护',
+        icon: 'el-icon-s-cooperation'
+      }
+    }],
+    hidden: false
+  },
+  {
+    path: '/qualificationManagement',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'Qualification',
+      component: () => import ('@/views/qualificationManagement/index'),
+      meta: {
+        title: '资格证管理',
+        icon: 'el-icon-s-management'
+      }
+    }],
+    hidden: false
+  },
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({

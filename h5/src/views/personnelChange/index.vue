@@ -159,6 +159,8 @@ export default {
     },
     changeVal() {
       getNextOptions(this.form.manageCom).then(res => {
+        this.form.branchName = ''
+        this.form.branchAttr = ''
         this.list.branchAttr = res.list
         this.list.branchName = res.list
       })

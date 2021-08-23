@@ -738,6 +738,7 @@ export default {
       API.idCheck(data)
         .then((res) => {
           if (res['code'] === 0) {
+            // 验证通过
             this.$message.success(res['msg'])
             if (this.form.idType === '0') {
               const strBirthday = this.form.idNo.slice(6, 10) + '-' + this.form.idNo.slice(10, 12) + '-' + this.form.idNo.slice(12, 14)
@@ -746,16 +747,14 @@ export default {
               this.form.birthday = strBirthday
             }
           } else {
+            // 验证不通过
             this.$message.error(res['msg'])
-            this.form.idNO = ''
             if (this.form.idType === '0') {
-              this.form.sex = ''
+              // 清空身份证带下来的信息
+              this.form.sex = '' // TODO 后续服务器开服后需要测试下
               this.form.birthday = ''
             }
           }
-        })
-        .catch(() => {
-          this.form.idNo = ''
         })
     },
     getCitiesByProvince(provinceCode) {

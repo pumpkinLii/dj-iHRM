@@ -138,6 +138,20 @@ export const constantRoutes = [
     }],
     hidden: false
   },
+  {
+    path: '/leaderChange',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'LeaderChange',
+      component: () => import ('@/views/leaderChange/index'),
+      meta: {
+        title: '团队主管任命免职',
+        icon: 'el-icon-s-check'
+      }
+    }],
+    hidden: false
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

@@ -23,6 +23,8 @@ import '@/permission' // permission control
  * Currently MockJs will be used in the production environment,
  * please remove it before going online ! ! !
  */
+// mock 自测数据是否开启 取消注释即开启
+
 // if (process.env.NODE_ENV !== 'production') {
 //   const { mockXHR } = require('../mock')
 //   mockXHR()
@@ -33,11 +35,6 @@ import '@/permission' // permission control
 // 如果想要中文版 element-ui，按如下方式声明
 Vue.use(ElementUI)
 Vue.prototype.$bus = new Vue()
-Vue.prototype.$log = (...info) => {
-  if (process.env.NODE_ENV !== 'production') {
-    console.log(...info)
-  }
-}
 Vue.config.productionTip = false
 
 new Vue({

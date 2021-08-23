@@ -156,6 +156,14 @@ export default {
     // this.$bus.$off()
   },
   methods: {
+    handleBranchAttrChange() { // 选择的团队代码改变时调用该函数
+      // 设置团队名称下拉框的当前选项为本团队代码对应的选项
+      this.form.branchName = this.form.agentGroup
+    },
+    handleBranchNameChange() { // 选择的团队名称改变时调用该函数
+      // 设置团队代码下拉框的当前选项为本团队名称对应的选项
+      this.form.agentGroup = this.form.branchName
+    },
     // 查询按钮
     hello() {
       if (this.form.manageCom !== undefined && this.form.manageCom !== '' && this.form.manageCom.length !== 0) {

@@ -33,7 +33,7 @@ import Layout from '@/layout'
 export const constantRoutes = [
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/dashboard'
   },
   {
     path: '/login',

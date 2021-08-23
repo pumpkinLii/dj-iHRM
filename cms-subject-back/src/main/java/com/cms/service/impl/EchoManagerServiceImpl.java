@@ -17,7 +17,7 @@ public class EchoManagerServiceImpl extends ServiceImpl<EchoManagerDao, YlLaBran
     @Override
     public Map<String,String> getManager(GroupPojo groupPojo){
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("agent_group",groupPojo.getGroupId());
+        queryWrapper.eq("branch_attr",groupPojo.getGroupId());
         YlLaBranchGroupEntity groupEntity = this.baseMapper.selectOne(queryWrapper);
         if (groupEntity!=null) {
             Map<String,String> map = new HashMap<>();

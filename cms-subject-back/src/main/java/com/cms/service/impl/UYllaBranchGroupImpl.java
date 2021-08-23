@@ -71,7 +71,7 @@ public class UYllaBranchGroupImpl extends ServiceImpl<YllaBranchGroupDao, YlLaBr
             return ylLaBranchGroupEntity;
         }
         if (mes.getBranchStatus().equals("Y")) {
-            if (!GroupStopCheck(mes.getAgentGroup())||!(ylLaBranchGroupEntity.getBranchManager()==null)) {
+            if (!GroupStopCheck(mes.getAgentGroup())||!((ylLaBranchGroupEntity.getBranchManager()==null)||(ylLaBranchGroupEntity.getBranchManager().equals("")))) {
                 ylLaBranchGroupEntity.setAgentGroup("该团队下有在职员工");
                 return ylLaBranchGroupEntity;
             }
@@ -119,8 +119,13 @@ public class UYllaBranchGroupImpl extends ServiceImpl<YllaBranchGroupDao, YlLaBr
     private boolean GroupStopCheck(String agentGroup) {
         QueryWrapper<YlLaAgentEntity> qw = new QueryWrapper<>();
         qw.eq("agent_group", agentGroup);
+        int dimissionCount = 0;
         List<YlLaAgentEntity> list = yllaAgentaDao.selectList(qw);
-        if (list.size() == 0) return true;
+        for(YlLaAgentEntity ylLaAgentEntity:list){
+            if(ylLaAgentEntity.getAgentState()=="03"||ylLaAgentEntity.getAgentState()=="04") dimissionCount++;
+        }
+        if (list.size()-dimissionCount == 0) return true;
         else return false;
     }
 }
+

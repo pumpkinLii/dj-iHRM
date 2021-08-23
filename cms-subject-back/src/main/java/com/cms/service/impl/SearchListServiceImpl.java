@@ -25,6 +25,7 @@ public class SearchListServiceImpl extends ServiceImpl<SearchListDao, YlLaAgentE
         String comCode = comCodesA[comCodesA.length-1];
         qw.likeRight(!StringUtils.isEmpty(comCode),"t4.manage_com",comCode);
         qw.likeRight("t1.agent_grade","YL");
+        qw.le("t1.agent_state","02");
         qw.eq(!StringUtils.isEmpty(searchListPojo.getBranchName()),"t4.branch_name",searchListPojo.getBranchName());
         qw.eq(!StringUtils.isEmpty(searchListPojo.getBranchAttr()),"t1.agent_group",searchListPojo.getBranchAttr());
         qw.eq(!StringUtils.isEmpty(searchListPojo.getAgentCode()),"t1.agent_code",searchListPojo.getAgentCode());

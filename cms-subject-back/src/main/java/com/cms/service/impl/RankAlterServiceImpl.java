@@ -175,7 +175,7 @@ public class RankAlterServiceImpl extends ServiceImpl<RankAlterDao, YlLaAgentEnt
                 updateWrapper3.set("branch_manager_name",null);
                 updateWrapper3.set("branch_manager_phone",null);
                 updateWrapper3.set("manager_eff_date",null);
-                updateWrapper3.eq("agent_group",rankAlterPojo.getTargetBranchCode());
+                updateWrapper3.eq("agent_group",rankAlterPojo.getAgentGroup());
                 int affectRows3 = rankAlterGroupDao.update(null,updateWrapper3);
                 if(affectRows3<=0)
                 {

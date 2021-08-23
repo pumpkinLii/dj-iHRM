@@ -1,20 +1,15 @@
 <template>
   <div>
     <el-table :data="list" stripe border fit height="300">
-      <el-table-column label="人员工号" prop="agentCode" />
-      <el-table-column label="人员姓名" prop="agentName" />
-      <el-table-column label="分工司" prop="manageCom3" />
-      <el-table-column label="中心支公司" prop="manageCom4" />
-      <el-table-column label="团队代码" prop="branchAttr" />
-      <el-table-column label="团队名称" prop="branchName" />
-      <el-table-column label="入司日期" prop="employDate" />
-      <el-table-column label="人员状态" prop="agentStateName" />
-      <el-table-column label="合同类型" prop="contractTypeName" />
-      <el-table-column label="职级" prop="agentGradeName" />
+      <el-table-column label="二级管理机构" prop="agentCode" />
+      <el-table-column label="三级管理机构" prop="agentName" />
+      <el-table-column label="团队架构代码" prop="manageCom3" />
+      <el-table-column label="团队架构名称" prop="manageCom4" />
+      <el-table-column label="成立时间" prop="agentGroup" />
       <el-table-column label="操作" width="100px" fixed="right">
         <template scope="scope">
           <!-- 修改 -->
-          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(scope.row)">职级调整</el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(scope.row)">主管任命</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -37,11 +32,11 @@
 </template>
 
 <script>
-import GroupModifyDialog1 from '@/components/Agentadjust/AgentModifyDialog'
+import GroupModifyDialog1 from '@/components/Appointment/AppointModifyDialog'
 import * as V from '@/api/agent'
 
 export default {
-  name: 'GroupTable',
+  name: 'Table1',
   components: { GroupModifyDialog1 },
   data() {
     return {

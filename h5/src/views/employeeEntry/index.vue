@@ -39,12 +39,12 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="出生日期" prop="birthday">
-            <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="填写您的出生日期" style="width:100%;" :disabled="form.idType === '0'" />
+            <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="填写您的出生日期" style="width:100%;" :disabled="form.idType === '01'" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="性别" prop="sex">
-            <el-select v-model="form.sex" type="text" style="width:100%;" :disabled="form.idType === '0'">
+            <el-select v-model="form.sex" type="text" style="width:100%;" :disabled="form.idType === '01'">
               <el-option v-for="(option,index) in list.sex" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>
@@ -298,13 +298,9 @@
         <el-col :span="8">
           <el-form-item label="岗位" prop="agentJob">
             <el-select v-model="form.agentJob" placeholder="请选择" style="width:100%" @change="handleRankChange">
-              <el-option label="总监" value="0">
-                <span style="float: left; color: #8492a6; font-size: 13px">0</span>
-                <span style="float: right">总监</span>
-              </el-option>
-              <el-option label="经理" value="1">
-                <span style="float: left; color: #8492a6; font-size: 13px">1</span>
-                <span style="float: right">经理</span>
+              <el-option v-for="(item,index) in list.agentJob" :key="index" :value="item.value" :label="item.label">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+                <span style="float: right">{{ item.label }}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -452,7 +448,8 @@ export default {
         manageCom3: [],
         manageCom4: [],
         agentGrade: [],
-        branchAttr: []
+        branchAttr: [],
+        agentJob: []
       },
       // 存放码表信息
       codes: {},
@@ -516,7 +513,7 @@ export default {
             { validator: validator.isValidChineseName, trigger: 'blur' }
           ],
         idType:
-          [{ required: true, message: '请输入证件类型', trigger: 'change' }],
+          [{ required: true, message: '请选择证件类型', trigger: 'change' }],
         postCode:
           [{ validator: validator.isZip, trigger: 'blur' }],
         idNo:
@@ -527,7 +524,7 @@ export default {
         birthday:
           [{ required: true, message: '请输入出生日期', trigger: 'change' }],
         bankCode:
-          [{ required: true, message: '请输入银行类别', trigger: 'change' }],
+          [{ required: true, message: '请选择银行类别', trigger: 'change' }],
         homephone:
           [{ validator: validator.isValidTel, trigger: 'blur' }],
         sex:
@@ -545,11 +542,11 @@ export default {
         major:
           [{ required: true, message: '请输入专业', trigger: 'blur' }],
         nationality:
-          [{ required: true, message: '请输入民族', trigger: 'change' }],
+          [{ required: true, message: '请选择民族', trigger: 'change' }],
         nativeplace:
           [{ required: true, message: '请选择籍贯', trigger: 'blur' }],
         oldIndustryType:
-          [{ required: true, message: '请输入最近一份工作行业类型', trigger: 'change' }],
+          [{ required: true, message: '请选择最近一份工作行业类型', trigger: 'change' }],
         oldOccupation:
           [{ required: true, message: '请输入最近一份职业', trigger: 'blur' }],
         oldCom:
@@ -572,7 +569,7 @@ export default {
             { validator: validator.isValidEmail, trigger: 'blur' }
           ],
         outlookStatus:
-          [{ required: true, message: '请输入政治面貌', trigger: 'change' }],
+          [{ required: true, message: '请选择政治面貌', trigger: 'change' }],
         accountBankHeadOffice:
           [{ required: true, message: '请输入账户银行总行', trigger: 'change' }],
         bankAccount:
@@ -586,9 +583,9 @@ export default {
             { validator: validator.isNum, trigger: 'blur' }
           ],
         bankProvince:
-          [{ required: true, message: '请输入开户行省份', trigger: 'change' }],
+          [{ required: true, message: '请选择开户行省份', trigger: 'change' }],
         bankCity:
-          [{ required: true, message: '请输入开户行所在市', trigger: 'change' }],
+          [{ required: true, message: '请选择开户行所在市', trigger: 'change' }],
         // 行政信息
         manageCom2:
           [{ required: true, message: '请选择二级管理系统', trigger: 'change' }], // 二级管理系统
@@ -638,7 +635,7 @@ export default {
         this.$message.error('未能正确获取下拉菜单')
         return
       }
-      this.setCodes('idtype', this.list.idType)
+      this.setCodes('dajiaidtype', this.list.idType)
       this.setCodes('sex', this.list.sex)
       this.setCodes('rgttype', this.list.rgtType)
       this.setCodes('nativeplace', this.list.nativeplace)
@@ -648,6 +645,8 @@ export default {
       this.setCodes('industrytype', this.list.oldIndustryType)
       this.setCodes('bankcode', this.list.bankCode)
       this.setCodes('polityvisage', this.list.outlookStatus)
+      this.setCodes('ylpost', this.list.agentJob)
+
       // 排序民族
       this.list.nationality.sort((a, b) => {
         return a.value - b.value
@@ -688,12 +687,8 @@ export default {
     sendSubmitRequest() {
       API.submit(this.form)
         .then((r) => {
-          alert(r['msg'])
-          this.$message.success('添加成功')
+          this.$alert(r['msg'], '成功', { confirmButtonText: '确定' })
           this.$refs['form'].resetFields()
-        })
-        .catch(() => {
-          this.$message.error('添加失败')
         })
     },
     getManageComCode(level) {
@@ -736,26 +731,15 @@ export default {
         idType: this.form.idType
       }
       API.idCheck(data)
-        .then((res) => {
-          if (res['code'] === 0) {
-            this.$message.success(res['msg'])
-            if (this.form.idType === '0') {
-              const strBirthday = this.form.idNo.slice(6, 10) + '-' + this.form.idNo.slice(10, 12) + '-' + this.form.idNo.slice(12, 14)
-              const strSex = this.form.idNo.slice(16, 17)
-              this.form.sex = String((parseInt(strSex) + 1) % 2)
-              this.form.birthday = strBirthday
-            }
-          } else {
-            this.$message.error(res['msg'])
-            this.form.idNO = ''
-            if (this.form.idType === '0') {
-              this.form.sex = ''
-              this.form.birthday = ''
-            }
+        .then(() => {
+          // 验证通过
+          this.$message.success('证件校验通过')
+          if (this.form.idType === '01') {
+            const strBirthday = this.form.idNo.slice(6, 10) + '-' + this.form.idNo.slice(10, 12) + '-' + this.form.idNo.slice(12, 14)
+            const strSex = this.form.idNo.slice(16, 17)
+            this.form.sex = String((parseInt(strSex) + 1) % 2)
+            this.form.birthday = strBirthday
           }
-        })
-        .catch(() => {
-          this.form.idNo = ''
         })
     },
     getCitiesByProvince(provinceCode) {

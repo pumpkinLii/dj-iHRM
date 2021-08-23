@@ -1,18 +1,18 @@
 <template>
   <div>
 
-    <el-dialog title="职级调整" :visible.sync="editDialogVisible" width="90%" :before-close="editDialogClosed">
+    <el-dialog title="主管任命" :visible.sync="editDialogVisible" width="90%" :before-close="editDialogClosed">
       <!-- 主体 -->
       <span>
         <el-form ref="form" :model="form" :rules="rules" label-width="180px">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="人员代码" prop="agentCode">
+              <el-form-item label="二级管理机构" prop="agentCode">
                 <el-input v-model="form.agentCode" type="text" style="width:60%;" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="人员姓名" prop="agentName">
+              <el-form-item label="三级管理机构" prop="agentName">
                 <el-input v-model="form.agentName" type="text" style="width:60%;" disabled />
               </el-form-item>
             </el-col>
@@ -84,7 +84,7 @@
             </el-col>
             <el-col :span="12">
               <!--              {{form.targetBranchCode}}-->
-              <!--              {{targetBranchCode}}-->
+              <!--                            {{targetBranchCode}}-->
               <el-form-item label="目标团队架构" prop="targetBranchCode">
                 <el-select
                   v-model="form.targetBranchCode"
@@ -111,7 +111,6 @@
                   placeholder="请选择"
                   style="width:60%"
                   :disabled="judgetarget"
-                  @change="clearTar"
                 >
                   <el-option v-for="item in targetManageCom" :key="item.value" :value="item.value" :label="item.label">
                     <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
@@ -212,21 +211,21 @@ export default {
       },
       rules: {
         targetAgentGrade:
-        [
-          { required: true, message: '请选择目标职级', trigger: 'blur' }
-        ],
+          [
+            { required: true, message: '请选择目标职级', trigger: 'blur' }
+          ],
         targetBranchCode:
-        [
-          { required: true, message: '请选择目标团队架构', trigger: 'blur' }
-        ],
+          [
+            { required: true, message: '请选择目标团队架构', trigger: 'blur' }
+          ],
         targetManageCom:
-        [
-          { required: true, message: '请选择目标四级管理机构', trigger: 'blur' }
-        ],
+          [
+            { required: true, message: '请选择目标四级管理机构', trigger: 'blur' }
+          ],
         alterDate:
-        [
-          { required: true, message: '请选择调整日期', trigger: 'blur' }
-        ],
+          [
+            { required: true, message: '请选择调整日期', trigger: 'blur' }
+          ],
         alterCause:
           [
             { required: true, message: '请输入调整原因', trigger: 'blur' }
@@ -309,10 +308,6 @@ export default {
         this.$set(this.form, 'targetBranchCode', '')
         // this.form.targetManageCom = ''
       }
-    },
-    // 改变目标四级后目标团队架构
-    clearTar() {
-      this.$set(this.form, 'targetBranchCode', '')
     },
     // 获取目标团队架构
     getTargetBranch() {

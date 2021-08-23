@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
-    <h4>代理调整</h4>
+    <h4>职级调整</h4>
     <el-form :model="form" :rules="rules" label-width="180px">
-      <!--      第一行-->
+      <!-- 第一行-->
       <el-row>
         <el-col :span="8">
           <el-form-item label="管理机构" prop="manageCom">
@@ -15,17 +15,28 @@
               :props="{ expandTrigger: 'hover' ,checkStrictly: true}"
               clearable
               @change="changeVal"
+              @blur="changeVal1"
             />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队代码">
-            <el-input v-model="form.agentGroup" placeholder="请输入团队代码" clearable />
+            <el-select v-model="form.agentGroup" placeholder="请选择" clearable style="width:100%;" @change="handleBranchAttrChange">
+              <el-option v-for="(option,index) in list.branchAttr" :key="index" :label="option.branchAttr" :value="option.branchAttr">
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ option.name }}</span>
+                <span style="float: left">{{ option.branchAttr }}</span>
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队名称">
-            <el-input v-model="form.branchName" placeholder="请输入团队名称" clearable />
+            <el-select v-model="form.branchName " placeholder="请选择" clearable style="width:100%;" @change="handleBranchNameChange">
+              <el-option v-for="(option,index) in list.branchName" :key="index" :label="option.name" :value="option.branchAttr">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.branchAttr }}</span>
+                <span style="float: right">{{ option.name }}</span>
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -83,6 +94,7 @@
 import Table from '@/components/Agentadjust/table'
 import * as validator from '@/utils/validate'
 import * as V from '@/api/agent'
+import { getNextOptions } from '@/api/personChange'
 
 export default {
   name: '',
@@ -100,7 +112,9 @@ export default {
         agentGrade: '' // 当前职级
       },
       list: {
-        agentGrade: ''
+        agentGrade: '',
+        branchAttr: '',
+        branchName: ''
       },
       rules: {
         phone:
@@ -136,6 +150,11 @@ export default {
       })
     }, 1000)
   },
+  beforeDestroy() {
+    this.$bus.$off('refreshAgent')
+    // this.$bus.$off()
+    // this.$bus.$off()
+  },
   methods: {
     // 查询按钮
     hello() {
@@ -153,9 +172,14 @@ export default {
       t = setTimeout(() => {
         this.$refs.elcascader.dropDownVisible = false
       }, 300)
+    },
+    changeVal1() {
+      getNextOptions(this.form.manageCom).then(res => {
+        this.list.branchAttr = res.list
+        this.list.branchName = res.list
+      })
     }
   }
-
 }
 </script>
 <style  scoped>

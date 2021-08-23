@@ -11,7 +11,7 @@
       <el-table-column label="负责人手机号" prop="branchManagerPhone" />
       <el-table-column label="当前在职代理人个数" prop="agentCount" />
       <el-table-column label="成立日期" prop="branchEffDate" />
-      <el-table-column label="停业标志" prop="branchStatus" />
+      <el-table-column label="停业标志" prop="branchStatusName" />
       <el-table-column label="停业时间" prop="branchTerminateEffDate" />
       <el-table-column label="操作员代码" prop="operator" />
       <el-table-column label="操作" width="100px" fixed="right">

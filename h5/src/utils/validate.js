@@ -6,6 +6,11 @@ export function isExternal(path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
 
+export function validUsername(username) {
+  // 用户名:username(登录时)的校验规则
+  return username.trim().length > 0
+}
+
 export function isValidEmail(rule, value, callback) {
   if (/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value)) {
     return callback()

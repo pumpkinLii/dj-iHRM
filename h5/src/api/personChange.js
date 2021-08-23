@@ -3,6 +3,7 @@ import request from '@/utils/request'
 // 人员异动信息查询
 export function query(data, page) {
   // const url = process.env.NODE_ENV === 'development' ? 'http://10.11.116.111:9999/search/return' : '/search/return'
+  // const url = 'http://10.11.116.111:9999/search/return?limit=' + page.pageSize + '&' + 'page=' + page.currentPage
   const url = '/search/return'
   const param = '?limit=' + page.pageSize + '&' + 'page=' + page.currentPage
   return request({

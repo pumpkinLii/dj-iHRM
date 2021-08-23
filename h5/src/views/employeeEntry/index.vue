@@ -638,7 +638,7 @@ export default {
         this.$message.error('未能正确获取下拉菜单')
         return
       }
-      this.setCodes('idtype', this.list.idType)
+      this.setCodes('dajiaidtype', this.list.idType)
       this.setCodes('sex', this.list.sex)
       this.setCodes('rgttype', this.list.rgtType)
       this.setCodes('nativeplace', this.list.nativeplace)

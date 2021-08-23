@@ -53,51 +53,61 @@ public class YlAgentCertificateServiceImpl extends ServiceImpl<YlLaAgentCertific
     YlLaAgentCertificateEntity ylLaAgentCertificateEntity;
     @Override
     public R changeCertificateService(ChangeCertificatePojo changeCertificatePojo) throws ParseException {
-        QueryWrapper queryWrapper=new QueryWrapper();
-        if (StringUtils.isEmpty(changeCertificatePojo.getCertificateType())==true){
-            return R.ok().put("code",501).put("msg","请选择资格证类型");
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if (StringUtils.isEmpty(changeCertificatePojo.getCertificateType()) == true) {
+            return R.ok().put("code", 501).put("msg", "请选择资格证类型");
         }
-        if (StringUtils.isEmpty(changeCertificatePojo.getOldCertificateNo())==true){
-            return R.ok().put("code",501).put("msg","旧的资格证为空 请您核查");
+        if (StringUtils.isEmpty(changeCertificatePojo.getOldCertificateNo()) == true) {
+            return R.ok().put("code", 501).put("msg", "旧的资格证为空 请您核查");
         }
-        if (StringUtils.isEmpty(changeCertificatePojo.getAgentCode())==true){
-            return R.ok().put("code",501).put("msg","人员数据不可为空");
+        if (StringUtils.isEmpty(changeCertificatePojo.getAgentCode()) == true) {
+            return R.ok().put("code", 501).put("msg", "人员数据不可为空");
         }
 
-        queryWrapper.eq(StringUtils.isEmpty(changeCertificatePojo.getAgentCode()),"agent_code",changeCertificatePojo.getAgentCode());
-        queryWrapper.eq(StringUtils.isEmpty(changeCertificatePojo.getCertificateType()),"certificate_type",changeCertificatePojo.getCertificateType());
-        queryWrapper.eq(StringUtils.isEmpty(changeCertificatePojo.getOldCertificateNo()),"certificate_no",changeCertificatePojo.getOldCertificateNo());
+        queryWrapper.eq(StringUtils.isEmpty(changeCertificatePojo.getAgentCode()), "agent_code", changeCertificatePojo.getAgentCode());
+        queryWrapper.eq(StringUtils.isEmpty(changeCertificatePojo.getCertificateType()), "certificate_type", changeCertificatePojo.getCertificateType());
+        queryWrapper.eq(StringUtils.isEmpty(changeCertificatePojo.getOldCertificateNo()), "certificate_no", changeCertificatePojo.getOldCertificateNo());
         //根据人员工号 职业证类型 旧的资格证号进行判断
-        List<YlLaAgentCertificateEntity> list= this.baseMapper.selectList(queryWrapper);
-        if (list.size()==0){
+        List<YlLaAgentCertificateEntity> list = this.baseMapper.selectList(queryWrapper);
+        if (list.size() == 0) {
             return null;
         }
-        YlLaAgentCertificateEntity ylLaAgentCertificateEntity1=list.get(0);
+        YlLaAgentCertificateEntity ylLaAgentCertificateEntity1 = list.get(0);
         //姓名无 不设置
-        ylLaAgentCertificateEntity.setAgentCode(changeCertificatePojo.getAgentCode());
-        ylLaAgentCertificateEntity.setCertificateType(changeCertificatePojo.getCertificateType());//不可修改 type是数字类型的 与名称一起给
-        ylLaAgentCertificateEntity.setCertificateName(changeCertificatePojo.getCertificateName());//
-        if (changeCertificatePojo.getOldCertificateNo()==null){
-            ylLaAgentCertificateEntity.setCertificateNo(changeCertificatePojo.getOldCertificateNo());//可修改
-        }else {
-            ylLaAgentCertificateEntity.setCertificateNo(changeCertificatePojo.getCertificateNo());
-        }
+        ylLaAgentCertificateEntity1.setAgentCode(changeCertificatePojo.getAgentCode());
+        ylLaAgentCertificateEntity1.setCertificateType(changeCertificatePojo.getCertificateType());//不可修改 type是数字类型的 与名称一起给
+        ylLaAgentCertificateEntity1.setCertificateName(changeCertificatePojo.getCertificateName());//
+        ylLaAgentCertificateEntity1.setCertificateNo(changeCertificatePojo.getCertificateNo());//可修改
 
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-        if (StringUtils.isEmpty(changeCertificatePojo.getReissueDate())==false&&changeCertificatePojo.getReissueDate()!=null){ylLaAgentCertificateEntity.setReissueDate(simpleDateFormat.parse(changeCertificatePojo.getReissueDate()));}
-        if (StringUtils.isEmpty(changeCertificatePojo.getStartEffectiveDate())==false&&changeCertificatePojo.getStartEffectiveDate()!=null){ylLaAgentCertificateEntity.setStartEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getStartEffectiveDate()));}
-        if (StringUtils.isEmpty(changeCertificatePojo.getEndEffectiveDate())==false&&changeCertificatePojo.getEndEffectiveDate()!=null){ylLaAgentCertificateEntity.setEndEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getEndEffectiveDate()));}
-        if (StringUtils.isEmpty(changeCertificatePojo.getApprover())==false&&changeCertificatePojo.getApprover()!=null){ ylLaAgentCertificateEntity.setApprover(changeCertificatePojo.getApprover()); }
-        ylLaAgentCertificateEntity.setReleaseDate(simpleDateFormat.parse(changeCertificatePojo.getReleaseDate()));
-        ylLaAgentCertificateEntity.setOperator("0");
-        ylLaAgentCertificateEntity.setMakeDate(ylLaAgentCertificateEntity1.getMakeDate());
-        ylLaAgentCertificateEntity.setMakeTime(ylLaAgentCertificateEntity1.getMakeTime());
-        ylLaAgentCertificateEntity.setModifyDate(ParseDate.getCurrentDate());
-        ylLaAgentCertificateEntity.setModifyTime(ParseDate.getCurrentTime());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        if (StringUtils.isEmpty(changeCertificatePojo.getReissueDate()) == false && changeCertificatePojo.getReissueDate() != null) {
+            ylLaAgentCertificateEntity1.setReissueDate(simpleDateFormat.parse(changeCertificatePojo.getReissueDate()));
+        }else {
+            ylLaAgentCertificateEntity1.setReissueDate(null);
+        }
+        if (StringUtils.isEmpty(changeCertificatePojo.getStartEffectiveDate()) == false && changeCertificatePojo.getStartEffectiveDate() != null) {
+            ylLaAgentCertificateEntity1.setStartEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getStartEffectiveDate()));
+        }else {
+            ylLaAgentCertificateEntity1.setStartEffectiveDate(null);
+        }
+        if (StringUtils.isEmpty(changeCertificatePojo.getEndEffectiveDate()) == false && changeCertificatePojo.getEndEffectiveDate() != null) {
+            ylLaAgentCertificateEntity1.setEndEffectiveDate(simpleDateFormat.parse(changeCertificatePojo.getEndEffectiveDate()));
+        }else {
+            ylLaAgentCertificateEntity1.setEndEffectiveDate(null);
+        }
+        if (StringUtils.isEmpty(changeCertificatePojo.getApprover()) == false && changeCertificatePojo.getApprover() != null) {
+            ylLaAgentCertificateEntity1.setApprover(changeCertificatePojo.getApprover());
+        }else {
+            ylLaAgentCertificateEntity1.setApprover(null);
+        }
+        ylLaAgentCertificateEntity1.setReleaseDate(simpleDateFormat.parse(changeCertificatePojo.getReleaseDate()));
+        ylLaAgentCertificateEntity1.setOperator("0");
+        ylLaAgentCertificateEntity1.setModifyDate(ParseDate.getCurrentDate());
+        ylLaAgentCertificateEntity1.setModifyTime(ParseDate.getCurrentTime());
         //修改一下query wa
-        QueryWrapper queryWrapper1=new QueryWrapper();
-        queryWrapper1.eq("certificate_no",changeCertificatePojo.getOldCertificateNo());
-        int update = this.baseMapper.update(ylLaAgentCertificateEntity, queryWrapper1);
+        QueryWrapper queryWrapper1 = new QueryWrapper();
+        queryWrapper1.eq("certificate_no", changeCertificatePojo.getOldCertificateNo());
+        int update = this.baseMapper.update(ylLaAgentCertificateEntity1, queryWrapper1);
         return R.ok();
     }
 

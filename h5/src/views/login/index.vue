@@ -122,7 +122,7 @@ export default {
           }
           this.$store.dispatch('user/login', data)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/dashboard' })
+              this.$router.push({ path: this.redirect || '/' })
               this.loading = false
             })
             .catch(() => {

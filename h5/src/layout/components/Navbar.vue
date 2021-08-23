@@ -4,7 +4,7 @@
 
     <breadcrumb class="breadcrumb-container" />
 
-    <div v-if="$store.getters.user.isLogin" class="right-menu">
+    <div v-if="$store.getters.token" class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <el-button icon="el-icon-caret-bottom" size="mini" />

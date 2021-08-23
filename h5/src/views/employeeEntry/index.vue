@@ -739,7 +739,7 @@ export default {
         .then((res) => {
           if (res['code'] === 0) {
             // 验证通过
-            this.$message.success(res['msg'])
+            this.$message.success('证件校验通过')
             if (this.form.idType === '0') {
               const strBirthday = this.form.idNo.slice(6, 10) + '-' + this.form.idNo.slice(10, 12) + '-' + this.form.idNo.slice(12, 14)
               const strSex = this.form.idNo.slice(16, 17)
@@ -748,7 +748,7 @@ export default {
             }
           } else {
             // 验证不通过
-            this.$message.error(res['msg'])
+            this.$message.error('证件校验不通过，请检查证件号码是否有误')
             if (this.form.idType === '0') {
               // 清空身份证带下来的信息
               this.form.sex = '' // TODO 后续服务器开服后需要测试下

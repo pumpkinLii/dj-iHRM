@@ -109,7 +109,9 @@ export default {
       })
     },
     changeAgent() {
-      change(this.form)
+      change(this.form).then(() => {
+        this.$message.success('人员异动成功')
+      })
       this.config.dialogFormVisible = false
     }
   }

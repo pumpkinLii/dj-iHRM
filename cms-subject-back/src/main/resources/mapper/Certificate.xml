@@ -10,7 +10,7 @@
                yla.manage_com           as manageCom4,
                ylbg.branch_attr         as branchAttr,
                ylbg.branch_name         as branchName,
-               lcn.name                 as manageComName4,
+               lcn.yl_name              as manageComName4,
                ylc.certificate_no       as certificateNo,
                ylc.certificate_name     as certificateCode,
                ylc.start_effective_date as startEffectiveDate,

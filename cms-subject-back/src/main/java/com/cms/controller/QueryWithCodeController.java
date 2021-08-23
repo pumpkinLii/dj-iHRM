@@ -25,7 +25,7 @@ public class QueryWithCodeController {
         if (!qwcr.getAgentName().equals("")){
             return R.ok().put("form",qwcr);
         }else {
-            return R.ok("失败，无信息");
+            return R.ok("未查到人员信息");
         }
     }
 

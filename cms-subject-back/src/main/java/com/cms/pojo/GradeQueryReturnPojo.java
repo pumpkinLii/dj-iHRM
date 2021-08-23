@@ -13,6 +13,7 @@ public class GradeQueryReturnPojo {
     private String manageCom2;  //中心支公司
     private String comCode2;
     private String agentGroup;  //团队代码
+    private String branchAttr;
     private String branchName;  //团队名称
     private String employDate;  //入司日期   date
     private String agentState;  //人员状态

@@ -26,7 +26,7 @@ public class SearchListController {
         List<ResultListPojo> list = searchLIstService.searchList(searchListPojo);
         List page1 = SlelectPage.getPage(limit, page, list);
         if (page1.size()>0) {
-            return R.ok().put("list",page1);
+            return R.ok().put("list",page1).put("totalCount",page1.size());
         }else {
             return R.error("无符合数据");
         }

@@ -85,6 +85,7 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
                         }
                         queryWrapper1.eq("agent_group", list.get(i).getAgentGroup());
                         //在人员表中 获取与团队名称相同的人的
+                        queryWrapper1.eq(false,"agent_state","04");
                         List list1 = agentCountDao.selectList(queryWrapper1);
                         String number = String.valueOf(list1.size());
                         r_ylLaBranchGrou_return.setAgentCount(number);//表格只读项	团队下当前实时统计在职代理人个数

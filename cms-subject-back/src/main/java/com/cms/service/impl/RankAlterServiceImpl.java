@@ -60,6 +60,10 @@ public class RankAlterServiceImpl extends ServiceImpl<RankAlterDao, YlLaAgentEnt
         {
             return "当前人员不处于在职状态，无法进行职级调动";
         }
+        if(rankAlterPojo.getTargetAgentGrade().equals(rankAlterPojo.getCurAgentGrade()))
+        {
+            return "当前职级和目标职级一致，不允许保存";
+        }
         String cur=rankAlterPojo.getCurAgentGrade().substring(0,2);
         String target=rankAlterPojo.getTargetAgentGrade().substring(0,2);
         boolean fg=false;
@@ -171,7 +175,7 @@ public class RankAlterServiceImpl extends ServiceImpl<RankAlterDao, YlLaAgentEnt
                 updateWrapper3.set("branch_manager_name",null);
                 updateWrapper3.set("branch_manager_phone",null);
                 updateWrapper3.set("manager_eff_date",null);
-                updateWrapper3.eq("agent_group",rankAlterPojo.getTargetBranchCode());
+                updateWrapper3.eq("agent_group",rankAlterPojo.getAgentGroup());
                 int affectRows3 = rankAlterGroupDao.update(null,updateWrapper3);
                 if(affectRows3<=0)
                 {

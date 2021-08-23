@@ -33,7 +33,7 @@ class IdCheckServiceImpl extends ServiceImpl<IdCheckDao, YlLaAgentEntity> implem
             return 6;
         } else if (isAlphaNumeric(idno)) {
             exChange(idno);
-            if (!idtype.equals("0")) {
+            if (!idtype.equals("01")) {
                 if (idno.length() > 18) {
                     return 8;
                 }

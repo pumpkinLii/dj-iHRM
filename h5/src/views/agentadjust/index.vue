@@ -2,7 +2,7 @@
   <div class="app-container">
     <h4>职级调整</h4>
     <el-form :model="form" :rules="rules" label-width="180px">
-      <!--      第一行-->
+      <!-- 第一行-->
       <el-row>
         <el-col :span="8">
           <el-form-item label="管理机构" prop="manageCom">

@@ -33,7 +33,7 @@ import Layout from '@/layout'
 export const constantRoutes = [
   {
     path: '/',
-    redirect: '/dashboard'
+    redirect: '/login'
   },
   {
     path: '/login',
@@ -97,19 +97,19 @@ export const constantRoutes = [
       }
     }]
   },
-  {
-    path: '/Appointment',
-    component: Layout,
-    children: [{
-      path: '',
-      name: 'Appointment',
-      component: () => import ('@/views/appointment/index'),
-      meta: {
-        title: '主管任命',
-        icon: 'el-icon-s-data'
-      }
-    }]
-  },
+  // {
+  //   path: '/Appointment',
+  //   component: Layout,
+  //   children: [{
+  //     path: '',
+  //     name: 'Appointment',
+  //     component: () => import ('@/views/appointment/index'),
+  //     meta: {
+  //       title: '主管任命',
+  //       icon: 'el-icon-s-data'
+  //     }
+  //   }]
+  // },
   {
     path: '/personelChange',
     component: Layout,
@@ -151,20 +151,20 @@ export const constantRoutes = [
     }],
     hidden: false
   },
-  {
-    path: '/leaveCompany',
-    component: Layout,
-    children: [{
-      path: '',
-      name: 'leaveCompany',
-      component: () => import ('@/views/leaveCompany/index'),
-      meta: {
-        title: '离司申请',
-        icon: 'el-icon-user'
-      }
-    }],
-    hidden: false
-  },
+  // {
+  //   path: '/leaveCompany',
+  //   component: Layout,
+  //   children: [{
+  //     path: '',
+  //     name: 'leaveCompany',
+  //     component: () => import ('@/views/leaveCompany/index'),
+  //     meta: {
+  //       title: '离司申请',
+  //       icon: 'el-icon-user'
+  //     }
+  //   }],
+  //   hidden: false
+  // },
   // {
   //   path: '/leaderChange',
   //   component: Layout,

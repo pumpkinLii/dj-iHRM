@@ -31,7 +31,7 @@ public class EchoGroupServiceImpl extends ServiceImpl<EchoGroupDao, YlLaBranchGr
                     {
                         continue;
                     }
-                    map.put("value",branchGroup.getAgentGroup());
+                    map.put("value",branchGroup.getBranchAttr());
                     map.put("label",branchGroup.getBranchName());
                     /*map.put("label",branchGroup.getBranchAttr());
                     map.put("value",branchGroup.getBranchName());*/

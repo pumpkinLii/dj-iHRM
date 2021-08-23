@@ -83,6 +83,7 @@ export default {
     }
   },
   mounted() {
+    this.form.modifyDate = new Date().toLocaleDateString().split('/').join('-')
     this.$bus.$on('OPEN_PERSON_CHANGE_DIALOG', (select) => {
       this.config.dialogFormVisible = true
       getSelectOptions().then(res => {
@@ -103,10 +104,8 @@ export default {
     },
     getInformation() {
       submit(this.form.agentGroup).then(res => {
-        this.form.adminCode = res.managerId
-        this.form.adminName = res.managerName
-        // this.form.modifyDate = new Date().toLocaleDateString().split('/').join('-')
-        this.form.modifyDate = new Date()
+        this.form.adminCode = res.data.managerId
+        this.form.adminName = res.data.managerName
       })
     },
     changeAgent() {

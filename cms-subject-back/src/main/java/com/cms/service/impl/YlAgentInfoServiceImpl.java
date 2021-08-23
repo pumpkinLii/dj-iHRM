@@ -147,6 +147,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
             QueryWrapper queryWrapper=new QueryWrapper();
             queryWrapper.eq("manage_com",comcode);
             List<YlLaBranchGroupEntity> laBranchGroupEntities = rYlLaBranchGroupServiceImpl.getBaseMapper().selectList(queryWrapper);
+            if (laBranchGroupEntities.size()==0){return R.ok("没有团队可选");}
             for (int i = 0; i < laBranchGroupEntities.size(); i++) {
                 Map map=new HashMap();
                 map.put("groupname",laBranchGroupEntities.get(i).getBranchName());
@@ -167,12 +168,13 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
                 map.put("groupcode",ylLaBranchGroupEntity.getAgentGroup());
                 result.add(map);
             }else {
+                // yl->MA
                 QueryWrapper qw=new QueryWrapper();
                 qw.eq("branch_status","N");
                 qw.eq("manage_com",comcode);
                 List<YlLaBranchGroupEntity> laBranchGroupEntities = rYlLaBranchGroupServiceImpl.getBaseMapper().selectList(qw);
                 if (laBranchGroupEntities.size()==0){
-                    return R.ok().put("msg","请先增加无主管团队 再添加主管");
+                    return R.ok("无符合条件的团队");
                 }
                 for (int i = 0; i < laBranchGroupEntities.size(); i++) {
                     if (laBranchGroupEntities.get(i).getBranchManager()==null|| StringUtils.isEmpty(laBranchGroupEntities.get(i).getBranchManager())){
@@ -181,6 +183,9 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
                         map.put("groupcode",laBranchGroupEntities.get(i).getAgentGroup());
                         result.add(map);
                     }
+                }
+                if (result.size()==0){
+                    return R.ok().put("msg","请先增加无主管团队 再添加主管");
                 }
             }
         }

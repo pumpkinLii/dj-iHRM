@@ -23,7 +23,7 @@ const actions = {
           sessionStorage.setItem('isLogin', 'true')
           commit('LOGIN')
           Message.success('登录成功')
-          router.push('/dashboard')
+          // router.push('/dashboard')
         }
       )
   },

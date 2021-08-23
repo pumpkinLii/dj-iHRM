@@ -23,43 +23,33 @@ service.interceptors.request.use(
     return config
   },
   error => {
-    // do something with request error
-    console.log(error) // for debug
+    console.log(error) // for debug TODO 上线前删除
     return Promise.reject(error)
   }
 )
 
 // response interceptor
 service.interceptors.response.use(
-  /**
-   * If you want to get http information such as headers or status
-   * Please return  response => response
-  */
-
-  /**
-   * Determine the request status by custom code
-   * Here is just an example
-   * You can also judge the status by HTTP Status Code
-   */
   response => {
     const res = response.data
-
-    // if the custom code is not 20000, it is judged as an error.
     if (res.code && res.code !== 0) {
       if (res.code === 500) {
+        // 500为服务器表示用户有一个错误
         Message({
           message: res.msg || '请求时发生错误',
           type: 'error',
           duration: 5 * 1000
         })
       } else if (res.code === 501) {
+        // 501为服务器警告用户
         Message({
           message: res.msg || '请求参数错误',
           type: 'warning',
           duration: 5 * 1000
         })
       } else if (res.code === 502) {
-        MessageBox.confirm('您已注销，可以取消以停留在此页面，或重新登录', '会话已过期', {
+        // 502为用户登录信息过期，需要用户重新登陆
+        MessageBox.confirm('您的会话已过期，可以取消以停留在此页面，或重新登录', '提示', {
           confirmButtonText: '重新登陆',
           cancelButtonText: '取消',
           type: 'warning'

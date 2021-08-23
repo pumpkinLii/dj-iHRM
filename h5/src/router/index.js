@@ -92,11 +92,24 @@ export const constantRoutes = [
       name: 'Agentadjust',
       component: () => import ('@/views/agentadjust/index'),
       meta: {
-        title: '代理调整',
+        title: '职级调整',
         icon: 'el-icon-s-data'
       }
     }]
   },
+  // {
+  //   path: '/Appointment',
+  //   component: Layout,
+  //   children: [{
+  //     path: '',
+  //     name: 'Appointment',
+  //     component: () => import ('@/views/appointment/index'),
+  //     meta: {
+  //       title: '主管任命',
+  //       icon: 'el-icon-s-data'
+  //     }
+  //   }]
+  // },
   {
     path: '/personelChange',
     component: Layout,
@@ -138,6 +151,34 @@ export const constantRoutes = [
     }],
     hidden: false
   },
+  // {
+  //   path: '/leaveCompany',
+  //   component: Layout,
+  //   children: [{
+  //     path: '',
+  //     name: 'leaveCompany',
+  //     component: () => import ('@/views/leaveCompany/index'),
+  //     meta: {
+  //       title: '离司申请',
+  //       icon: 'el-icon-user'
+  //     }
+  //   }],
+  //   hidden: false
+  // },
+  // {
+  //   path: '/leaderChange',
+  //   component: Layout,
+  //   children: [{
+  //     path: '',
+  //     name: 'LeaderChange',
+  //     component: () => import ('@/views/leaderChange/index'),
+  //     meta: {
+  //       title: '团队主管任命免职',
+  //       icon: 'el-icon-s-check'
+  //     }
+  //   }],
+  //   hidden: false
+  // },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

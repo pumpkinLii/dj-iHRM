@@ -1,6 +1,6 @@
 <template>
   <div class="login-container" :style="{backgroundImage:'url('+require('@/assets/back.png')+')'}">
-    <el-form ref="loginForm" class="login-form" auto-complete="on" label-position="left">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
       <div class="title-container">
         <h3 class="title">大家保险销售管理系统</h3>
       </div>
@@ -8,11 +8,20 @@
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
+        <!--        <el-input-->
+        <!--          ref="username"-->
+        <!--          v-model="loginForm.username"-->
+        <!--          placeholder="用户名"-->
+        <!--          name="username"-->
+        <!--          type="text"-->
+        <!--          tabindex="1"-->
+        <!--          auto-complete="on"-->
+        <!--        />-->
         <el-input
-          ref="username"
-          v-model="username"
-          placeholder="用户名"
-          name="username"
+          ref="userId"
+          v-model="loginForm.userId"
+          placeholder="用户ID"
+          name="userId"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -23,7 +32,8 @@
           <svg-icon icon-class="password" />
         </span>
         <el-input
-          v-model="password"
+          ref="password"
+          v-model="loginForm.password"
           placeholder="密码"
           :type="passwordType"
           name="password"
@@ -41,14 +51,53 @@
 </template>
 
 <script>
+// import { validUsername } from '@/utils/validate'
 export default {
   name: 'Login',
   data() {
+    // const validateUsername = (rule, value, callback) => {
+    //   if (!validUsername(value)) {
+    //     callback(new Error('请输入用户名'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
+    const validateUserId = (rule, value, callback) => {
+      if (value.trim().length === 0) {
+        callback(new Error('请输入用户ID'))
+      } else {
+        callback()
+      }
+    }
+    const validatePassword = (rule, value, callback) => {
+      if (value.length < 6) {
+        callback(new Error('密码长度不可小于6位'))
+      } else {
+        callback()
+      }
+    }
     return {
+      loginForm: {
+        userId: '',
+        // username: '',
+        password: ''
+      },
+      loginRules: {
+        userId: [{ required: true, trigger: 'blur', validator: validateUserId }],
+        // username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+      },
       loading: false,
-      username: '',
-      password: '',
-      passwordType: 'password'
+      passwordType: 'password',
+      redirect: undefined
+    }
+  },
+  watch: {
+    $route: {
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect
+      },
+      immediate: true
     }
   },
   methods: {
@@ -58,17 +107,32 @@ export default {
       } else {
         this.passwordType = 'password'
       }
+      this.$nextTick(() => {
+        this.$refs.password.focus()
+      })
     },
     handleLogin() {
-      this.loading = true
-      this.$store.dispatch('user/login', { userId: this.username, userPassword: this.password })
-        .catch(err => {
-          console.log(err)
-          this.loading = false
-        })
-        .then(() => {
-          this.loading = false
-        })
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          this.loading = true
+          // 后端需要这样类型的数据
+          const data = {
+            userId: this.loginForm.userId,
+            userPassword: this.loginForm.password
+          }
+          this.$store.dispatch('user/login', data)
+            .then(() => {
+              this.$router.push({ path: this.redirect || '/dashboard' })
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        } else {
+          this.$message.error('请检查信息是否有误')
+          return false
+        }
+      })
     }
   }
 }
@@ -129,17 +193,22 @@ $light_gray:#eee;
   background-size: cover;
   min-height: 100%;
   width: 100%;
+  height: 100%;
+  min-width: 100%;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
+    height: 400px;
+    max-height: 100%;
     padding: 100px 35px 0;
-    margin: 0 auto;
     overflow: hidden;
     background-color: rgba(100, 100, 100, 0.5);// extra css
-    margin-top: 200px;
   }
 
   .tips {

@@ -6,6 +6,7 @@
         SELECT t2.agent_code,
                t2.agent_name,
                t2.agent_group,
+               t1.branch_attr,
                t1.branch_name,
                t2.employ_date,
                t2.agent_state,

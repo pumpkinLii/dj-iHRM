@@ -25,7 +25,7 @@ public class QueryStaffServiceImpl extends ServiceImpl<QueryStaffDao, QueryStaff
         QueryWrapper<QueryStaffReturn> wrapper = new QueryWrapper<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         wrapper.eq(!StringUtils.isEmpty(queryStaffPojo.getAgentCode()),"t1.agent_code",queryStaffPojo.getAgentCode());
-        wrapper.eq(!StringUtils.isEmpty(queryStaffPojo.getAgentName()),"t1.agent_name",queryStaffPojo.getAgentName());
+        wrapper.like(!StringUtils.isEmpty(queryStaffPojo.getAgentName()),"t1.agent_name",queryStaffPojo.getAgentName());
         wrapper.eq(!StringUtils.isEmpty(queryStaffPojo.getAgentState()),"t1.agent_state",queryStaffPojo.getAgentState());
         //wrapper.eq(!StringUtils.isEmpty(queryStaffPojo.getBranchAttr()),"t1.branch_attr",queryStaffPojo.getBranchAttr());
         if (queryStaffPojo.getStartDate()!=null){

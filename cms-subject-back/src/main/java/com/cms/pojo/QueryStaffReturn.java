@@ -11,6 +11,7 @@ public class QueryStaffReturn {
     private String manageCom3;
     private String manageCom4;
     private String branchAttr;
+    private String agentGroup;
     private String branchName;
     private String agentState;
     private String stateName;

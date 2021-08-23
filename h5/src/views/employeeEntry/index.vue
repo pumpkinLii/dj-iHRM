@@ -39,12 +39,12 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="出生日期" prop="birthday">
-            <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="填写您的出生日期" style="width:100%;" :disabled="form.idType === '0'" />
+            <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="填写您的出生日期" style="width:100%;" :disabled="form.idType === '01'" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="性别" prop="sex">
-            <el-select v-model="form.sex" type="text" style="width:100%;" :disabled="form.idType === '0'">
+            <el-select v-model="form.sex" type="text" style="width:100%;" :disabled="form.idType === '01'">
               <el-option v-for="(option,index) in list.sex" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>
@@ -516,7 +516,7 @@ export default {
             { validator: validator.isValidChineseName, trigger: 'blur' }
           ],
         idType:
-          [{ required: true, message: '请输入证件类型', trigger: 'change' }],
+          [{ required: true, message: '请选择证件类型', trigger: 'change' }],
         postCode:
           [{ validator: validator.isZip, trigger: 'blur' }],
         idNo:
@@ -527,7 +527,7 @@ export default {
         birthday:
           [{ required: true, message: '请输入出生日期', trigger: 'change' }],
         bankCode:
-          [{ required: true, message: '请输入银行类别', trigger: 'change' }],
+          [{ required: true, message: '请选择银行类别', trigger: 'change' }],
         homephone:
           [{ validator: validator.isValidTel, trigger: 'blur' }],
         sex:
@@ -545,11 +545,11 @@ export default {
         major:
           [{ required: true, message: '请输入专业', trigger: 'blur' }],
         nationality:
-          [{ required: true, message: '请输入民族', trigger: 'change' }],
+          [{ required: true, message: '请选择民族', trigger: 'change' }],
         nativeplace:
           [{ required: true, message: '请选择籍贯', trigger: 'blur' }],
         oldIndustryType:
-          [{ required: true, message: '请输入最近一份工作行业类型', trigger: 'change' }],
+          [{ required: true, message: '请选择最近一份工作行业类型', trigger: 'change' }],
         oldOccupation:
           [{ required: true, message: '请输入最近一份职业', trigger: 'blur' }],
         oldCom:
@@ -572,7 +572,7 @@ export default {
             { validator: validator.isValidEmail, trigger: 'blur' }
           ],
         outlookStatus:
-          [{ required: true, message: '请输入政治面貌', trigger: 'change' }],
+          [{ required: true, message: '请选择政治面貌', trigger: 'change' }],
         accountBankHeadOffice:
           [{ required: true, message: '请输入账户银行总行', trigger: 'change' }],
         bankAccount:
@@ -586,9 +586,9 @@ export default {
             { validator: validator.isNum, trigger: 'blur' }
           ],
         bankProvince:
-          [{ required: true, message: '请输入开户行省份', trigger: 'change' }],
+          [{ required: true, message: '请选择开户行省份', trigger: 'change' }],
         bankCity:
-          [{ required: true, message: '请输入开户行所在市', trigger: 'change' }],
+          [{ required: true, message: '请选择开户行所在市', trigger: 'change' }],
         // 行政信息
         manageCom2:
           [{ required: true, message: '请选择二级管理系统', trigger: 'change' }], // 二级管理系统
@@ -688,12 +688,8 @@ export default {
     sendSubmitRequest() {
       API.submit(this.form)
         .then((r) => {
-          alert(r['msg'])
-          this.$message.success('添加成功')
+          this.$alert(r['msg'], '成功', { confirmButtonText: '确定' })
           this.$refs['form'].resetFields()
-        })
-        .catch(() => {
-          this.$message.error('添加失败')
         })
     },
     getManageComCode(level) {
@@ -736,24 +732,14 @@ export default {
         idType: this.form.idType
       }
       API.idCheck(data)
-        .then((res) => {
-          if (res['code'] === 0) {
-            // 验证通过
-            this.$message.success('证件校验通过')
-            if (this.form.idType === '0') {
-              const strBirthday = this.form.idNo.slice(6, 10) + '-' + this.form.idNo.slice(10, 12) + '-' + this.form.idNo.slice(12, 14)
-              const strSex = this.form.idNo.slice(16, 17)
-              this.form.sex = String((parseInt(strSex) + 1) % 2)
-              this.form.birthday = strBirthday
-            }
-          } else {
-            // 验证不通过
-            this.$message.error('证件校验不通过，请检查证件号码是否有误')
-            if (this.form.idType === '0') {
-              // 清空身份证带下来的信息
-              this.form.sex = '' // TODO 后续服务器开服后需要测试下
-              this.form.birthday = ''
-            }
+        .then(() => {
+          // 验证通过
+          this.$message.success('证件校验通过')
+          if (this.form.idType === '01') {
+            const strBirthday = this.form.idNo.slice(6, 10) + '-' + this.form.idNo.slice(10, 12) + '-' + this.form.idNo.slice(12, 14)
+            const strSex = this.form.idNo.slice(16, 17)
+            this.form.sex = String((parseInt(strSex) + 1) % 2)
+            this.form.birthday = strBirthday
           }
         })
     },

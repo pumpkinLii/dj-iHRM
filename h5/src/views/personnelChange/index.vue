@@ -28,12 +28,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队名称">
-            <el-select v-model="form.branchName " placeholder="请选择" clearable style="width:100%;" @change="handleBranchNameChange">
-              <el-option v-for="(option,index) in list.branchName" :key="index" :label="option.name" :value="option.branchAttr">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.branchAttr }}</span>
-                <span style="float: right">{{ option.name }}</span>
-              </el-option>
-            </el-select>
+            <el-input v-model="form.branchName" type="text" style="width:100%;" placeholder="可选项" clearable />
           </el-form-item>
         </el-col>
       </el-row>
@@ -157,14 +152,14 @@ export default {
     }, 1000)
   },
   methods: {
-    handleBranchAttrChange() { // 选择的团队代码改变时调用该函数
-      // 设置团队名称下拉框的当前选项为本团队代码对应的选项
-      this.form.branchName = this.form.branchAttr
-    },
-    handleBranchNameChange() { // 选择的团队名称改变时调用该函数
-      // 设置团队代码下拉框的当前选项为本团队名称对应的选项
-      this.form.branchAttr = this.form.branchName
-    },
+    // handleBranchAttrChange() { // 选择的团队代码改变时调用该函数
+    //   // 设置团队名称下拉框的当前选项为本团队代码对应的选项
+    //   this.form.branchName = this.form.branchAttr
+    // },
+    // handleBranchNameChange() { // 选择的团队名称改变时调用该函数
+    //   // 设置团队代码下拉框的当前选项为本团队名称对应的选项
+    //   this.form.branchAttr = this.form.branchName
+    // },
     changeVal() {
       getNextOptions(this.form.manageCom).then(res => {
         this.form.branchName = ''

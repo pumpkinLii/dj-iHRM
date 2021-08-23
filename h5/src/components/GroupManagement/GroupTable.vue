@@ -70,6 +70,7 @@ export default {
       this.config.groupModifyDialogVisible = false
     },
     handleQueryGroup(data) {
+      this.list = []
       queryGroup(data, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
         .then(r => {
           this.list = r.list

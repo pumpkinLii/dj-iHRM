@@ -98,6 +98,19 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/Appointment',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'Appointment',
+      component: () => import ('@/views/appointment/index'),
+      meta: {
+        title: '主管任命',
+        icon: 'el-icon-s-data'
+      }
+    }]
+  },
+  {
     path: '/personelChange',
     component: Layout,
     children: [{

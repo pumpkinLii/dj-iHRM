@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h4>代理调整</h4>
+    <h4>职级调整</h4>
     <el-form :model="form" :rules="rules" label-width="180px">
       <!--      第一行-->
       <el-row>

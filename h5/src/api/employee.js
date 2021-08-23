@@ -68,7 +68,7 @@ export function posit1() {
 // 团队架构
 export function zhiji(data) {
   return request({
-    url: '/test/EchoGroup',
+    url: 'http://10.11.114.60:9999/test/EchoGroup',
     method: 'post',
     data
   })
@@ -77,7 +77,7 @@ export function zhiji(data) {
 // 回显
 export function huixian(data) {
   return request({
-    url: '/test/EchoManager',
+    url: 'http://10.11.114.60:9999/test/EchoManager',
     method: 'post',
     data
   })

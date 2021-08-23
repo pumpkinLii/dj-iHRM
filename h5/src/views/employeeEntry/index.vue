@@ -298,13 +298,9 @@
         <el-col :span="8">
           <el-form-item label="岗位" prop="agentJob">
             <el-select v-model="form.agentJob" placeholder="请选择" style="width:100%" @change="handleRankChange">
-              <el-option label="总监" value="0">
-                <span style="float: left; color: #8492a6; font-size: 13px">0</span>
-                <span style="float: right">总监</span>
-              </el-option>
-              <el-option label="经理" value="1">
-                <span style="float: left; color: #8492a6; font-size: 13px">1</span>
-                <span style="float: right">经理</span>
+              <el-option v-for="(item,index) in list.agentJob" :key="index" :value="item.value" :label="item.label">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+                <span style="float: right">{{ item.label }}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -452,7 +448,8 @@ export default {
         manageCom3: [],
         manageCom4: [],
         agentGrade: [],
-        branchAttr: []
+        branchAttr: [],
+        agentJob: []
       },
       // 存放码表信息
       codes: {},
@@ -648,6 +645,8 @@ export default {
       this.setCodes('industrytype', this.list.oldIndustryType)
       this.setCodes('bankcode', this.list.bankCode)
       this.setCodes('polityvisage', this.list.outlookStatus)
+      this.setCodes('ylpost', this.list.agentJob)
+
       // 排序民族
       this.list.nationality.sort((a, b) => {
         return a.value - b.value

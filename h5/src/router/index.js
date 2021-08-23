@@ -92,7 +92,7 @@ export const constantRoutes = [
       name: 'Agentadjust',
       component: () => import ('@/views/agentadjust/index'),
       meta: {
-        title: '代理调整',
+        title: '职级调整',
         icon: 'el-icon-s-data'
       }
     }]

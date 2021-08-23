@@ -84,7 +84,7 @@
             </el-col>
             <el-col :span="12">
               <!--              {{form.targetBranchCode}}-->
-              <!--                            {{targetBranchCode}}-->
+              <!--              {{targetBranchCode}}-->
               <el-form-item label="目标团队架构" prop="targetBranchCode">
                 <el-select
                   v-model="form.targetBranchCode"
@@ -111,6 +111,7 @@
                   placeholder="请选择"
                   style="width:60%"
                   :disabled="judgetarget"
+                  @change="clearTar"
                 >
                   <el-option v-for="item in targetManageCom" :key="item.value" :value="item.value" :label="item.label">
                     <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
@@ -308,6 +309,10 @@ export default {
         this.$set(this.form, 'targetBranchCode', '')
         // this.form.targetManageCom = ''
       }
+    },
+    // 改变目标四级后目标团队架构
+    clearTar() {
+      this.$set(this.form, 'targetBranchCode', '')
     },
     // 获取目标团队架构
     getTargetBranch() {

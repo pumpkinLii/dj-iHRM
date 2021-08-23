@@ -372,7 +372,7 @@
                   v-model="form.agentGrade"
                   placeholder="请选择"
                   style="width:100%"
-                  :disabled="form.agentJob.length===0"
+                  disabled
                 >
                   <el-option v-for="(item,index) in list.agentGrade" :key="index" :value="item.value" :label="item.label">
                     <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
@@ -740,7 +740,7 @@ export default {
         this.$message.error('未能正确获取下拉菜单')
         return
       }
-      this.setCodes('idtype', this.list.idType)
+      this.setCodes('dajiaidtype', this.list.idType)
       this.setCodes('sex', this.list.sex)
       this.setCodes('sex', this.list.sex)
       this.setCodes('rgttype', this.list.rgtType)

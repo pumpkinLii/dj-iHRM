@@ -143,10 +143,18 @@ export default {
       options: []
     }
   },
-  created() {
+  mounted() {
     threeOptions().then((r) => {
       this.options.push(r['result'])
     })
+    // 点击文字即可选中
+    setInterval(function() {
+      document.querySelectorAll('.el-cascader-node__label').forEach(el => {
+        el.onclick = function() {
+          if (this.previousElementSibling) this.previousElementSibling.click()
+        }
+      })
+    }, 1000)
   },
   methods: {
     handleBranchAttrChange() { // 选择的团队代码改变时调用该函数

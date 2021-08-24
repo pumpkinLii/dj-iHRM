@@ -412,7 +412,7 @@ export default {
   name: 'EmployeeEntry',
   data() {
     const checkIdentityId = (rule, value, callback) => {
-      if (this.form.idType === '0') {
+      if (this.form.idType === '01') {
         const errorMsg = validator.isIdentityId(value)
         if (errorMsg !== '') {
           callback(new Error(errorMsg))

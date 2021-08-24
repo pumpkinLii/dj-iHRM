@@ -1,10 +1,10 @@
 <template>
   <el-dialog title="新增" :visible.sync="config.dialogFormVisible">
-    <el-form :model="form" label-width="130px">
+    <el-form :model="form" label-width="130px" rules="rules">
       <el-row>
         <el-col :span="12">
-          <el-form-item label="人员代码">
-            <el-input v-model="form.agentCode" autocomplete="off" :disabled="true" style="width:80%;" />
+          <el-form-item label="人员代码" prop="agentCode">
+            <el-input v-model="form.agentCode" autocomplete="off" :disabled="true" style="width:80%;" @blur="getInformation" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -44,7 +44,7 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="解约日期">
+          <el-form-item label="解约日期" prop="diffDate">
             <el-date-picker
               v-model="form.diffDate"
               style="width:80%;"
@@ -55,7 +55,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="解约原因">
+          <el-form-item label="解约原因" prop="diffCause">
             <el-select v-model="form.diffCause" placeholder="请选择解约原因" style="width:80%;">
               <el-option v-for="(option,index) in list.departReason" :key="index" :label="option.name" :value="option.code">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.code }}</span>
@@ -95,6 +95,14 @@ export default {
       config: {
         dialogFormVisible: false
       },
+      rules: {
+        agentCode:
+          [{ required: true, message: '请输入人员代码', trigger: 'blur' }],
+        diffCause:
+          [{ required: true, message: '请选择离职原因', trigger: 'change' }],
+        diffDate:
+          [{ required: true, message: '请选择离职日期', trigger: 'change' }]
+      },
       form: {
         agentCode: '',
         agentName: '',
@@ -112,6 +120,12 @@ export default {
       list: {
         departReason: [{ code: '01', name: '主动离职' }, { code: '02', name: '单方解除' }, { code: '03', name: '协商解除' }, { code: '04', name: '外勤转内勤' }]
       },
+      mounted() {
+        // 打开新增对话框
+        this.$bus.$on('ADD_DIALOG', () => {
+          this.config.dialogFormVisible = true
+        })
+      },
       methods: {
         getInformation(data) {
           getPeopleInformation(data).then(res => {
@@ -124,11 +138,16 @@ export default {
           })
         },
         submit() {
-          const data={
-            xxx:
+          const data = {
+            agentCode: this.form.agentCode,
+            departData: this.form.diffDate,
+            departReason: this.form.departReason,
+            noti: this.form.explain
           }
-          submitInformation()
-          this.config.dialogFormVisible = true
+          submitInformation(data).then(() => {
+            this.$message.success('新增成功')
+          })
+          this.config.dialogFormVisible = false
         }
       }
     }

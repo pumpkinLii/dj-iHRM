@@ -1,6 +1,6 @@
 <template>
   <!--  :before-close="handleClose"-->
-  <el-dialog title="新增" :visible.sync="config.dialogFormVisible">
+  <el-dialog title="新增" :visible.sync="config.dialogFormVisible" :before-close="handleClose">
     <el-form :model="form" label-width="130px" :rules="rules">
       <el-row>
         <el-col :span="12">
@@ -145,18 +145,19 @@ export default {
         this.form.agentGrade = res.list[0].agentGrade
       })
     },
-    // handleClose() {
-    //   this.form.agentCode = ''
-    //   this.form.agentName = ''
-    //   this.form.comCode4 = ''
-    //   this.form.manageCom4 = ''
-    //   this.form.agentGroup = ''
-    //   this.form.branchName = ''
-    //   this.form.agentGrade = ''
-    //   this.form.diffDate = ''
-    //   this.form.diffCause = ''
-    //   this.form.explain = ''
-    // },
+    handleClose() {
+      this.form.agentCode = ''
+      this.form.agentName = ''
+      this.form.comCode4 = ''
+      this.form.manageCom4 = ''
+      this.form.agentGroup = ''
+      this.form.branchName = ''
+      this.form.agentGrade = ''
+      this.form.diffDate = ''
+      this.form.diffCause = ''
+      this.form.explain = ''
+      this.config.dialogFormVisible = false
+    },
     submit() {
       const data = {
         agentCode: this.form.agentCode,

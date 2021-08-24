@@ -23,7 +23,7 @@ export function submit(data) {
 export function getPeopleInformation(data) {
   return request({
     // url: process.env.NODE_ENV === 'development' ? 'http://11.11.111.1111:9999/returnMes/com4Info' : '/xxx/xxx',
-    url: 'http://10.11.114.63:9999/depart/Modify',
+    url: 'http://10.11.116.111:9999/Dimission/Dimission',
     method: 'post',
     data
   })
@@ -32,7 +32,7 @@ export function getPeopleInformation(data) {
 export function submitModifyInformation(data) {
   return request({
     // url: process.env.NODE_ENV === 'development' ? 'http://11.11.111.1111:9999/returnMes/com4Info' : '/xxx/xxx',
-    url: 'http://10.11.116.111:9999/Dimission/Dimission',
+    url: 'http://10.11.114.63:9999/depart/Modify',
     method: 'post',
     data
   })

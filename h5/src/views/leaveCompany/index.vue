@@ -49,7 +49,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="职级">
-            <el-select v-model="form.agentGrade" style="width: 100%" placeholder="请选择">
+            <el-select v-model="form.agentGrade" style="width: 100%" placeholder="请选择" clearable>
               <el-option label="合同制" value="0" />
             </el-select>
           </el-form-item>
@@ -59,7 +59,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="审核状态">
-            <el-select v-model="form.agydepart" style="width: 100%" placeholder="请选择">
+            <el-select v-model="form.agydepart" style="width: 100%" placeholder="请选择" clearable>
               <el-option v-for="(item,index) in AgydepartList" :key="index" :value="item.value" :label="item.label">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
                 <span style="float: right">{{ item.label }}</span>
@@ -69,7 +69,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="解约原因">
-            <el-select v-model="form.diffCause" style="width: 100%" placeholder="请选择">
+            <el-select v-model="form.diffCause" style="width: 100%" placeholder="请选择" clearable>
               <el-option v-for="(item,index) in DiffCauseList" :key="index" :value="item.value" :label="item.label">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
                 <span style="float: right">{{ item.label }}</span>
@@ -118,7 +118,7 @@
     <el-divider />
     <!--    表格-->
     <div>
-      <el-table :data="table" stripe border fit height="300" @selection-change="handleSelectChange">
+      <el-table ref="multipleTable" :data="table" stripe border fit height="300" @selection-change="handleSelectChange">
         <el-table-column type="selection" width="40" />
         <el-table-column label="人员代码" prop="agentCode" />
         <el-table-column label="人员姓名" prop="agentName" />
@@ -293,9 +293,22 @@ export default {
     handleSelectChange(selection) {
       this.selected = []
       for (const item of selection) {
-        console.log('11111111111')
-        console.log(this.selected)
-        this.selected.push(item.agentCode)
+        // console.log('this.selected')
+        // console.log(this.selected)
+        // console.log('item.agentCode')
+        // console.log(item.agentCode)
+        // console.log('item.agentStateCom')
+        console.log(item.agentStateCom)
+        if (item.agentStateCom !== '1') {
+          this.$message.error('该员工已提交审核')
+          this.$refs.multipleTable.clearSelection(item)
+        } else {
+          this.selected.push(item.agentCode)
+        }
+
+        // console.log('11111111111')
+        // console.log(this.selected)
+        // this.selected.push(item.agentCode)
       }
     },
     // 显示离职

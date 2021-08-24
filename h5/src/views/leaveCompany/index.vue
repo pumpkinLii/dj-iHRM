@@ -108,7 +108,8 @@
       <el-row>
         <el-form-item>
           <el-col style="text-align:left;margin-top: 1rem">
-            <el-button type="primary" icon="el-icon-search" @click="query">查询</el-button>
+            <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
+            <el-button type="success" icon="el-icon-edit" @click="LeaveAddDialogVisible">新增</el-button>
           </el-col>
         </el-form-item>
       </el-row>
@@ -124,12 +125,17 @@
         <el-table-column label="管理机构名称" prop="manageCom4" />
         <el-table-column label="团队代码" prop="agentGroup" />
         <el-table-column label="团队名称" prop="branchName" />
-        <el-table-column label="职级" prop="agentGrade" />
+        <el-table-column label="职级" prop="agentGradeName" />
         <el-table-column label="解约日期" prop="diffDate" />
-        <el-table-column label="解约原因" prop="diffCause" />
+        <el-table-column label="解约原因" prop="diffCauseName" />
         <el-table-column label="说明" prop="illustrate" />
-        <el-table-column label="审核状态" prop="agentState" />
-        <el-table-column label="操作" prop="operator" />
+        <el-table-column label="审核状态" prop="agentStateName" />
+        <el-table-column label="操作" prop="operator" >
+          <template scope="scope">
+            <!-- 修改 -->
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="LeaveAddDialog(scope.row)">修改</el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <!-- 分页 -->
       <div class="block" style="text-align: right;margin-top: 1rem">
@@ -143,7 +149,6 @@
           @current-change="handleCurrentChange"
         />
       </div>
-      <PersonChangeDialog />
     </div>
 
   </div>
@@ -151,6 +156,7 @@
 <script>
 import * as Code from '@/api/code'
 import * as Agent from '@/api/agent'
+import * as Query from '@/api/peopleDepart'
 import { getNextOptions } from '@/api/personChange'
 
 export default {
@@ -180,7 +186,8 @@ export default {
         totalCount: 0, // 总共有几条
         pageSize: 10 // 每页的项目数
       },
-      options: []
+      options: [],
+      table: []
     }
   },
   created() {
@@ -207,8 +214,17 @@ export default {
   },
   methods: {
     // 查询按钮
-    query() {
-      console.log('11111111')
+    handleQuery() {
+      this.table = []
+      const data = { ...this.form }
+      data.manageCom = this.form.manageCom.length !== 0 ? this.form.manageCom[this.form.manageCom.length - 1] : ''
+      Query.dismissQuery(data, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
+        .then(r => {
+          console.log(r)
+          this.table = r['list']
+          this.page.totalCount = r['totalCount']
+          this.$message.success('查询完毕')
+        })
     },
     // 下拉框选择弹回
     changeVal() {
@@ -249,7 +265,7 @@ export default {
         this.$message.error('未能正确获取下拉菜单')
         return
       }
-      this.setCodes('assessadjuststate', this.AgydepartList)
+      this.setCodes('agydepartstate', this.AgydepartList)
       this.setCodes('departreason', this.DiffCauseList)
     },
     // 通过以获取的码表数据填充某一列表
@@ -264,7 +280,29 @@ export default {
             value: key
           })
         })
+    },
+    handleSizeChange(size) {
+      this.page.pageSize = size
+      this.handleQuery()
+    },
+    handleCurrentChange(page) {
+      this.page.currentPage = page
+      this.handleQuery()
+    },
+    handleSelectChange(selection) {
+      this.selected = []
+      for (const item of selection) {
+        this.selected.push(item.agentCode)
+      }
+    },
+    // 显示离职
+    LeaveAddDialogVisible() {
+      this.$bus.$emit('ADD_DIALOG')
     }
+  },
+  // 显示修改
+  LeaveAddDialog(item) {
+    this.$bus.$emit('MODIFY_DIALOG', item)
   }
 }
 </script>

@@ -134,7 +134,7 @@
         <el-table-column label="操作" prop="operator">
           <template scope="scope">
             <!-- 修改 -->
-            <el-button type="primary" icon="el-icon-edit" size="mini" @click="LeaveAddDialog(scope.row)">修改</el-button>
+            <el-button type="primary" icon="el-icon-edit" size="mini" :disabled="visible" @click="LeaveAddDialog(scope.row)">修改</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -151,6 +151,8 @@
         />
       </div>
     </div>
+    <ADD />
+    <MODIFY/>
 
   </div>
 </template>
@@ -159,9 +161,12 @@ import * as Code from '@/api/code'
 import * as Agent from '@/api/agent'
 import * as Query from '@/api/peopleDepart'
 import { getNextOptions } from '@/api/personChange'
+import ADD from '@/components/leaveCompany/LeaveAddDialog'
+import MODIFY from '@/components/leaveCompany/LeaveModifyDialog'
 
 export default {
   name: 'LeaveCompany',
+  components: { ADD, MODIFY },
   data() {
     return {
       form: {
@@ -189,7 +194,8 @@ export default {
       },
       options: [],
       table: [],
-      selected: []
+      selected: [],
+      visible: false
     }
   },
   created() {
@@ -293,22 +299,12 @@ export default {
     handleSelectChange(selection) {
       this.selected = []
       for (const item of selection) {
-        // console.log('this.selected')
-        // console.log(this.selected)
-        // console.log('item.agentCode')
-        // console.log(item.agentCode)
-        // console.log('item.agentStateCom')
-        console.log(item.agentStateCom)
         if (item.agentStateCom !== '1') {
           this.$message.error('该员工已提交审核')
           this.$refs.multipleTable.clearSelection(item)
         } else {
           this.selected.push(item.agentCode)
         }
-
-        // console.log('11111111111')
-        // console.log(this.selected)
-        // this.selected.push(item.agentCode)
       }
     },
     // 显示离职

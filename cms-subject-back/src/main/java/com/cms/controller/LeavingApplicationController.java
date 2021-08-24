@@ -1,6 +1,8 @@
 package com.cms.controller;
 
+import com.cms.pojo.DepartModifyPojo;
 import com.cms.pojo.DepartQueryReturnPojo;
+import com.cms.service.DepartModifyService;
 import com.cms.service.DepartQueryService;
 import com.cms.util.R;
 import io.swagger.annotations.Api;
@@ -28,5 +30,22 @@ public class LeavingApplicationController {
             return R.error("未查询到相关人员");
         }
     }
+
+    @Autowired
+    DepartModifyService departModifyService;
+    @PostMapping("/Modify")
+    @ApiOperation("离司申请修改接口")
+    public R departModify(@RequestBody DepartModifyPojo departModifyPojo) throws ParseException{
+        String keyString = departModifyService.departModify(departModifyPojo);
+        if (keyString.equals("0")){
+            return R.ok().put("msg","修改成功");
+        }else if (keyString.equals("501")){
+            return R.error(501,"离职申请已提交审核或已通过审核");
+        }else if (keyString.equals("502")){
+            return R.error(502,"请补全必填项");
+        }
+        return R.error(500,"发生错误请重试");
+    }
+
 
 }

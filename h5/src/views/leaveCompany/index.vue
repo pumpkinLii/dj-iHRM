@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h4>离司确认</h4>
+    <h4>离司申请</h4>
     <el-form :model="form" :rules="rules" label-width="180px">
       <!--      第一行-->
       <el-row>
@@ -109,7 +109,8 @@
         <el-form-item>
           <el-col style="text-align:left;margin-top: 1rem">
             <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
-            <el-button type="success" icon="el-icon-edit" @click="LeaveAddDialogVisible">新增</el-button>
+            <el-button type="info" icon="el-icon-edit" @click="LeaveAddDialogVisible">新增</el-button>
+            <el-button type="success" icon="el-icon-check" :disabled="selected.length===0" @click="Submit">提交审核</el-button>
           </el-col>
         </el-form-item>
       </el-row>
@@ -130,7 +131,7 @@
         <el-table-column label="解约原因" prop="diffCauseName" />
         <el-table-column label="说明" prop="illustrate" />
         <el-table-column label="审核状态" prop="agentStateName" />
-        <el-table-column label="操作" prop="operator" >
+        <el-table-column label="操作" prop="operator">
           <template scope="scope">
             <!-- 修改 -->
             <el-button type="primary" icon="el-icon-edit" size="mini" @click="LeaveAddDialog(scope.row)">修改</el-button>
@@ -187,7 +188,8 @@ export default {
         pageSize: 10 // 每页的项目数
       },
       options: [],
-      table: []
+      table: [],
+      selected: []
     }
   },
   created() {
@@ -220,7 +222,6 @@ export default {
       data.manageCom = this.form.manageCom.length !== 0 ? this.form.manageCom[this.form.manageCom.length - 1] : ''
       Query.dismissQuery(data, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
         .then(r => {
-          console.log(r)
           this.table = r['list']
           this.page.totalCount = r['totalCount']
           this.$message.success('查询完毕')
@@ -292,17 +293,30 @@ export default {
     handleSelectChange(selection) {
       this.selected = []
       for (const item of selection) {
+        console.log('11111111111')
+        console.log(this.selected)
         this.selected.push(item.agentCode)
       }
     },
     // 显示离职
     LeaveAddDialogVisible() {
       this.$bus.$emit('ADD_DIALOG')
+    },
+    // 显示修改
+    LeaveAddDialog(item) {
+      this.$bus.$emit('MODIFY_DIALOG', item)
+    },
+    // 提交审核
+    Submit() {
+      Query.submit(this.selected).then(
+        r => {
+          if (r.code === 0) {
+            this.$message.success('提交成功')
+            this.handleQuery()
+          }
+        }
+      )
     }
-  },
-  // 显示修改
-  LeaveAddDialog(item) {
-    this.$bus.$emit('MODIFY_DIALOG', item)
   }
 }
 </script>

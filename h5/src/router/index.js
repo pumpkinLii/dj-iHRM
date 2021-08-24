@@ -151,20 +151,20 @@ export const constantRoutes = [
     }],
     hidden: false
   },
-  // {
-  //   path: '/leaveCompany',
-  //   component: Layout,
-  //   children: [{
-  //     path: '',
-  //     name: 'leaveCompany',
-  //     component: () => import ('@/views/leaveCompany/index'),
-  //     meta: {
-  //       title: '离司申请',
-  //       icon: 'el-icon-user'
-  //     }
-  //   }],
-  //   hidden: false
-  // },
+  {
+    path: '/leaveCompany',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'leaveCompany',
+      component: () => import ('@/views/leaveCompany/index'),
+      meta: {
+        title: '离司申请',
+        icon: 'el-icon-user'
+      }
+    }],
+    hidden: false
+  },
   // {
   //   path: '/leaderChange',
   //   component: Layout,

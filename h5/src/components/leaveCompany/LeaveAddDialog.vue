@@ -1,7 +1,7 @@
 <template>
   <!--  :before-close="handleClose"-->
   <el-dialog title="新增" :visible.sync="config.dialogFormVisible" :before-close="handleClose">
-    <el-form ref="addDialog" :model="form" label-width="130px" :rules="rules">
+    <el-form ref="form" :model="form" label-width="130px" :rules="rules">
       <el-row>
         <el-col :span="12">
           <el-form-item label="人员代码" prop="agentCode">
@@ -83,7 +83,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="handleClose">取 消</el-button>
-      <el-button type="primary" @click="submit">确 定</el-button>
+      <el-button type="primary" :disabled="flag" @click="submit">确 定</el-button>
     </div>
   </el-dialog>
 </template>
@@ -106,6 +106,7 @@ export default {
         diffDate:
           [{ required: true, message: '请选择离职日期', trigger: 'change' }]
       },
+      flag: true,
       form: {
         agentCode: '',
         agentName: '',
@@ -137,12 +138,21 @@ export default {
   methods: {
     getInformation(data) {
       getPeopleInformation({ agentCode: data }).then(res => {
-        this.form.agentName = res.list[0].agentName
-        this.form.comCode4 = res.list[0].manageCom
-        this.form.manageCom4 = res.list[0].ylName
-        this.form.agentGroup = res.list[0].branchAttr
-        this.form.branchName = res.list[0].branchName
-        this.form.agentGrade = res.list[0].agentGrade
+        this.flag = res.code !== 0
+        this.form.agentName = res.list.agentName
+        this.form.comCode4 = res.list.manageCom
+        this.form.manageCom4 = res.list.ylName
+        this.form.agentGroup = res.list.branchAttr
+        this.form.branchName = res.list.branchName
+        this.form.agentGrade = res.list.agentGrade
+      }).catch(() => {
+        this.flag = true
+        this.form.agentName = ''
+        this.form.comCode4 = ''
+        this.form.manageCom4 = ''
+        this.form.agentGroup = ''
+        this.form.branchName = ''
+        this.form.agentGrade = ''
       })
     },
     handleClose() {
@@ -157,7 +167,7 @@ export default {
       this.form.diffCause = ''
       this.form.explain = ''
       this.$nextTick(() => {
-        this.$refs['addDialog'].clearValidate() // 只清除清除验证
+        this.$refs['form'].clearValidate() // 只清除清除验证
       })
       this.config.dialogFormVisible = false
     },
@@ -175,9 +185,10 @@ export default {
       }
       submitAddInformation(data).then(() => {
         this.$message.success('新增成功')
-        this.$bus.$emit('REFRESH_LEAVE')
-        this.config.dialogFormVisible = false
       })
+      // this.$nextTick(() => {
+      //   this.$refs.form.resetFields()
+      // })
       this.form.agentCode = ''
       this.form.agentName = ''
       this.form.comCode4 = ''
@@ -189,8 +200,10 @@ export default {
       this.form.diffCause = ''
       this.form.explain = ''
       this.$nextTick(() => {
-        this.$refs['addDialog'].clearValidate() // 只清除清除验证
+        this.$refs['form'].clearValidate() // 只清除清除验证
       })
+      this.$bus.$emit('REFRESH_LEAVE')
+      this.config.dialogFormVisible = false
     }
   }
 

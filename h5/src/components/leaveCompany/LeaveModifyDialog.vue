@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增" :visible.sync="config.dialogFormVisible" :before-close="handleClose">
+  <el-dialog title="修改" :visible.sync="config.dialogFormVisible" :before-close="handleClose">
     <el-form ref="modifyDialog" :model="form" label-width="130px" :rules="rules">
       <el-row>
         <el-col :span="12">
@@ -129,6 +129,7 @@ export default {
   mounted() {
     // 打开新增对话框
     this.$bus.$on('MODIFY_DIALOG', (item) => {
+      console.log('item:', item)
       this.form.agentCode = item.agentCode
       this.form.agentName = item.agentName
       this.form.comCode4 = item.comCode4
@@ -144,16 +145,6 @@ export default {
     })
   },
   methods: {
-    // getInformation(data) {
-    //   getPeopleInformation(data).then(res => {
-    //     this.form.agentName = res.agentName
-    //     this.form.comCode4 = res.manageCom
-    //     this.form.manageCom4 = res.ylName
-    //     this.form.agentGroup = res.branchAttr
-    //     this.form.agentName = res.branchName
-    //     this.form.agentGrade = res.agentGrade
-    //   })
-    // },
     handleClose() {
       this.config.dialogFormVisible = false
       this.form.diffDate = ''
@@ -169,16 +160,9 @@ export default {
         diffDate: this.form.diffDate,
         diffCause: this.form.diffCause,
         explain: this.form.explain
-        // manageCom: '4',
-        // agentGroup: this.form.agentGroup,
-        // departTimes: '0',
-        // departState: '1',
-        // operator: 'admin'
       }
       submitModifyInformation(data).then(() => {
         this.$message.success('修改成功')
-        this.$bus.$emit('REFRESH_LEAVE')
-        this.config.dialogFormVisible = false
       })
       this.form.diffDate = ''
       this.form.diffCause = ''
@@ -186,6 +170,8 @@ export default {
       this.$nextTick(() => {
         this.$refs['modifyDialog'].clearValidate() // 只清除清除验证
       })
+      this.$bus.$emit('REFRESH_LEAVE')
+      this.config.dialogFormVisible = false
     }
   }
 

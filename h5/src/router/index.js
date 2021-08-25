@@ -119,7 +119,7 @@ export const constantRoutes = [
       name: 'leave',
       component: () => import ('@/views/leave/index2'),
       meta: {
-        title: '离职确认',
+        title: '离职确认', // hhhhhhhh
         icon: 'el-icon-document-checked'
       }
     }]

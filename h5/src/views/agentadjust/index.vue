@@ -126,10 +126,10 @@ export default {
   },
   created() {
     V.manage().then((r) => {
-      this.options.push(r.result)
+      this.options.push(r['result'])
     })
     V.staff().then((r) => {
-      this.list.agentGrade = r.list
+      this.list.agentGrade = r['list']
     })
   },
   mounted() {
@@ -167,6 +167,7 @@ export default {
     },
     // 下拉框选择弹回
     changeVal() {
+      this.form.agentGroup = ''
       // eslint-disable-next-line prefer-const
       let t
       clearTimeout(t)

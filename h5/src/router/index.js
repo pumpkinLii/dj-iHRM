@@ -97,19 +97,33 @@ export const constantRoutes = [
       }
     }]
   },
-  // {
-  //   path: '/Appointment',
-  //   component: Layout,
-  //   children: [{
-  //     path: '',
-  //     name: 'Appointment',
-  //     component: () => import ('@/views/appointment/index'),
-  //     meta: {
-  //       title: '主管任命',
-  //       icon: 'el-icon-s-data'
-  //     }
-  //   }]
-  // },
+  {
+    path: '/leaveCompany',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'leaveCompany',
+      component: () => import ('@/views/leaveCompany/index'),
+      meta: {
+        title: '离司申请',
+        icon: 'el-icon-user'
+      }
+    }],
+    hidden: false
+  },
+  {
+    path: '/leave',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'leave',
+      component: () => import ('@/views/leave/index2'),
+      meta: {
+        title: '离职确认',
+        icon: 'el-icon-document-checked'
+      }
+    }]
+  },
   {
     path: '/personelChange',
     component: Layout,
@@ -147,20 +161,6 @@ export const constantRoutes = [
       meta: {
         title: '资格证管理',
         icon: 'el-icon-s-management'
-      }
-    }],
-    hidden: false
-  },
-  {
-    path: '/leaveCompany',
-    component: Layout,
-    children: [{
-      path: '',
-      name: 'leaveCompany',
-      component: () => import ('@/views/leaveCompany/index'),
-      meta: {
-        title: '离司申请',
-        icon: 'el-icon-user'
       }
     }],
     hidden: false

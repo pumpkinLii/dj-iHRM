@@ -5,6 +5,7 @@
       <!-- 主体 -->
       <span>
         <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+          <!--          第一行-->
           <el-row>
             <el-col :span="12">
               <el-form-item label="二级管理机构" prop="agentCode">
@@ -17,58 +18,31 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <!--          第二行-->
           <el-row>
             <el-col :span="12">
-              <el-form-item label="团队代码" prop="agentGroup">
+              <el-form-item label="团队架构代码" prop="agentGroup">
                 <el-input v-model="form.agentGroup" type="text" style="width:60%;" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="团队名称" prop="branchName">
+              <el-form-item label="团队架构名称" prop="branchName">
                 <el-input v-model="form.branchName" type="text" style="width:60%;" disabled />
               </el-form-item>
             </el-col>
           </el-row>
+          <!--          第三行-->
           <el-row>
             <el-col :span="12">
-              <el-form-item label="人员状态">
-                <el-select v-model="form.agentState" placeholder="请选择" style="width: 60%" disabled>
-                  <el-option label="在职" value="01">
-                    <span style="float: left; color: #8492a6; font-size: 13px">01</span>
-                    <span style="float: right">在职</span>
-                  </el-option>
-                  <el-option label="二次入司" value="02">
-                    <span style="float: left; color: #8492a6; font-size: 13px">02</span>
-                    <span style="float: right">二次入司</span>
-                  </el-option>
-                  <el-option label="离职" value="03">
-                    <span style="float: left; color: #8492a6; font-size: 13px">03</span>
-                    <span style="float: right">离职</span>
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-
-              <el-form-item label="当前职级" prop="curAgentGrade">
-                <el-select
-                  v-model="form.curAgentGrade"
-                  placeholder="请选择"
-                  style="width:60%"
-                  disabled
-                >
-                  <el-option v-for="item in curAgentGrade" :key="item.gradecode" :value="item.gradecode" :label="item.gradename">
-                    <span style="float: left; color: #8492a6; font-size: 13px">{{ item.gradecode }}</span>
-                    <span style="float: right">{{ item.gradename }}</span>
-                  </el-option>
-                </el-select>
+              <el-form-item label="四级管理机构">
+                <el-select v-model="form.agentState" placeholder="请选择" style="width: 60%" disabled />
               </el-form-item>
             </el-col>
           </el-row>
-
+          <!--          第四行-->
           <el-row>
             <el-col :span="12">
-              <el-form-item label="目标职级" prop="targetAgentGrade">
+              <el-form-item label="人工工号" prop="targetAgentGrade">
                 <el-select
                   v-model="form.targetAgentGrade"
                   placeholder="请选择"
@@ -83,9 +57,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <!--              {{form.targetBranchCode}}-->
-              <!--                            {{targetBranchCode}}-->
-              <el-form-item label="目标团队架构" prop="targetBranchCode">
+              <el-form-item label="人员姓名" prop="targetBranchCode">
                 <el-select
                   v-model="form.targetBranchCode"
                   placeholder="请选择"
@@ -102,10 +74,10 @@
 
             </el-col>
           </el-row>
-
+          <!--          第五行-->
           <el-row>
             <el-col :span="12">
-              <el-form-item label="目标四级管理机构" prop="targetManageCom">
+              <el-form-item label="当前职级" prop="targetManageCom">
                 <el-select
                   v-model="form.targetManageCom"
                   placeholder="请选择"
@@ -121,17 +93,17 @@
             </el-col>
             <el-col :span="12">
 
-              <el-form-item label="合同类型" prop="contractType">
+              <el-form-item label="任命职级" prop="contractType">
                 <el-select v-model="form.contractType" style="width:60%" disabled>
                   <el-option label="合同制" value="02" />
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
-
+          <!--          第六行-->
           <el-row>
             <el-col :span="12">
-              <el-form-item label="入司日期" prop="employDate">
+              <el-form-item label="原团队架构代码" prop="employDate">
                 <el-date-picker
                   v-model="form.employDate"
                   value-format="yyyy-MM-dd"
@@ -144,7 +116,7 @@
             </el-col>
             <el-col :span="12">
 
-              <el-form-item label="调整日期" prop="alterDate">
+              <el-form-item label="原团队架构名称" prop="alterDate">
                 <el-date-picker
                   v-model="form.alterDate"
                   value-format="yyyy-MM-dd"
@@ -155,10 +127,16 @@
               </el-form-item>
             </el-col>
           </el-row>
-
+          <!--          第七行-->
           <el-row>
             <el-col :span="12">
-              <el-form-item label="调整原因" prop="alterCause">
+              <el-form-item label="生效日期" prop="alterCause">
+                <el-input v-model="form.alterCause" type="text" style="width:60%;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" />
+            <el-col :span="12">
+              <el-form-item label="目标四级管理机构" prop="alterCause">
                 <el-input v-model="form.alterCause" type="text" style="width:60%;" />
               </el-form-item>
             </el-col>

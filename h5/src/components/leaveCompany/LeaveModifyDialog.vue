@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增" :visible.sync="config.dialogFormVisible">
+  <el-dialog title="新增" :visible.sync="config.dialogFormVisible" :before-close="handleClose">
     <el-form ref="modifyDialog" :model="form" label-width="130px" :rules="rules">
       <el-row>
         <el-col :span="12">
@@ -81,7 +81,7 @@
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="config.dialogFormVisible = false">取 消</el-button>
+      <el-button @click="handleClose">取 消</el-button>
       <el-button type="primary" @click="submit">确 定</el-button>
     </div>
   </el-dialog>
@@ -155,10 +155,15 @@ export default {
     //     this.form.agentGrade = res.agentGrade
     //   })
     // },
-    // handleClose() {
-    //   this.$refs['form'].resetFields()
-    //   this.config.visible = false
-    // },
+    handleClose() {
+      this.config.dialogFormVisible = false
+      this.form.diffDate = ''
+      this.form.diffCause = ''
+      this.form.explain = ''
+      this.$nextTick(() => {
+        this.$refs['modifyDialog'].clearValidate() // 只清除清除验证
+      })
+    },
     submit() {
       const data = {
         agentCode: this.form.agentCode,

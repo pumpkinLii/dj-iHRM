@@ -82,7 +82,7 @@
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="config.dialogFormVisible = false">取 消</el-button>
+      <el-button @click="handleClose">取 消</el-button>
       <el-button type="primary" @click="submit">确 定</el-button>
     </div>
   </el-dialog>
@@ -156,6 +156,9 @@ export default {
       this.form.diffDate = ''
       this.form.diffCause = ''
       this.form.explain = ''
+      this.$nextTick(() => {
+        this.$refs['addDialog'].clearValidate() // 只清除清除验证
+      })
       this.config.dialogFormVisible = false
     },
     submit() {

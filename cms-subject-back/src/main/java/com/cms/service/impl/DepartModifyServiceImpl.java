@@ -24,7 +24,7 @@ public class DepartModifyServiceImpl extends ServiceImpl<DepartModifyDao, YlLaDi
         YlLaDimissionEntity entity = this.baseMapper.selectOne(queryWrapper);
         String departState = entity.getDepartState();
         if (departState.equals("02") || departState.equals("04")){
-            return "501";
+            return "1";
         }
 
         UpdateWrapper<YlLaDimissionEntity> updateWrapper = new UpdateWrapper<>();
@@ -34,12 +34,12 @@ public class DepartModifyServiceImpl extends ServiceImpl<DepartModifyDao, YlLaDi
             Date date = dateFormat.parse(departModifyPojo.getDiffDate());
             updateWrapper.set("depart_date",date);
         }else {
-            return "502";
+            return "2";
         }
         if (!StringUtils.isEmpty(departModifyPojo.getDiffCause())){
             updateWrapper.set("depart_reason",departModifyPojo.getDiffCause());
         }else {
-            return "502";
+            return "2";
         }
         updateWrapper.set(!StringUtils.isEmpty(departModifyPojo.getExplain()),"noti",departModifyPojo.getExplain());
         Date modifyDate = new Date();

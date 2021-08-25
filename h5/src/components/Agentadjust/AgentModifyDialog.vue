@@ -212,21 +212,21 @@ export default {
       },
       rules: {
         targetAgentGrade:
-        [
-          { required: true, message: '请选择目标职级', trigger: 'blur' }
-        ],
+          [
+            { required: true, message: '请选择目标职级', trigger: 'blur' }
+          ],
         targetBranchCode:
-        [
-          { required: true, message: '请选择目标团队架构', trigger: 'blur' }
-        ],
+          [
+            { required: true, message: '请选择目标团队架构', trigger: 'blur' }
+          ],
         targetManageCom:
-        [
-          { required: true, message: '请选择目标四级管理机构', trigger: 'blur' }
-        ],
+          [
+            { required: true, message: '请选择目标四级管理机构', trigger: 'blur' }
+          ],
         alterDate:
-        [
-          { required: true, message: '请选择调整日期', trigger: 'blur' }
-        ],
+          [
+            { required: true, message: '请选择调整日期', trigger: 'blur' }
+          ],
         alterCause:
           [
             { required: true, message: '请输入调整原因', trigger: 'blur' }
@@ -268,7 +268,6 @@ export default {
     getCurAgentGrade() {
       API.getCurAgentGrade().then(
         (res) => {
-          this.$refs.form.resetFields()
           this.curAgentGrade = res.list
         }
       )

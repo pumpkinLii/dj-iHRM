@@ -48,9 +48,22 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
+          <!--          <el-form-item label="职级">-->
+          <!--            <el-select v-model="form.agentGrade" style="width: 100%" placeholder="请选择" clearable>-->
+          <!--              <el-option label="合同制" value="0" />-->
+          <!--            </el-select>-->
+          <!--          </el-form-item>-->
           <el-form-item label="职级">
-            <el-select v-model="form.agentGrade" style="width: 100%" placeholder="请选择" clearable>
-              <el-option label="合同制" value="0" />
+            <el-select
+              v-model="form.agentGrade"
+              placeholder="请选择"
+              style="width:100%"
+              clearable
+            >
+              <el-option v-for="item in agentGradeList" :key="item.gradecode" :value="item.gradecode" :label="item.gradename">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.gradecode }}</span>
+                <span style="float: right">{{ item.gradename }}</span>
+              </el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -164,6 +177,7 @@ import * as Query from '@/api/peopleDepart'
 import { getNextOptions } from '@/api/personChange'
 import ADD from '@/components/leaveCompany/LeaveAddDialog'
 import MODIFY from '@/components/leaveCompany/LeaveModifyDialog'
+import * as API from '@/api/agent'
 
 export default {
   name: 'LeaveCompany',
@@ -186,6 +200,7 @@ export default {
       branchName: [], // 团队名称下拉
       AgydepartList: [], // 审核状态下拉列表
       DiffCauseList: [], // 解约原因下拉列表
+      agentGradeList: [], // 职级下拉列表
       rules: {
       },
       page: {
@@ -200,13 +215,14 @@ export default {
   },
   created() {
     this.getInitOptions() // 获取初始下拉菜单，获取码值
+    this.getCurAgentGrade() // 获取职级下拉列表
     Agent.manage().then((r) => {
       this.options.push(r.result)
     })
   },
   mounted() {
     this.$bus.$on('REFRESH', () => {
-      this.this.handleQuery()
+      this.handleQuery()
     })
     // 点击文字即可选中
     setInterval(function() {
@@ -313,8 +329,10 @@ export default {
     },
     // 显示修改
     LeaveAddDialog(item) {
-      if (item.agentStateCom === '1' || item.agentStateCom === '4') {
-        this.$message.error('不可修改')
+      if (item.agentStateCom === '1') {
+        this.$message.error('未提交审核不可修改')
+      } else if (item.agentStateCom === '4') {
+        this.$message.error('审核已通过不可修改')
       } else {
         this.$bus.$emit('MODIFY_DIALOG', item)
       }
@@ -333,6 +351,14 @@ export default {
     // 重置按钮
     resetForm() {
       this.$refs['form'].resetFields()
+    },
+    // 获取职级
+    getCurAgentGrade() {
+      API.getCurAgentGrade().then(
+        (res) => {
+          this.agentGradeList = res.list
+        }
+      )
     }
   }
 }

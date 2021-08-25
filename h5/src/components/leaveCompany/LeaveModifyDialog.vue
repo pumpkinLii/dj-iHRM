@@ -1,6 +1,6 @@
 <template>
   <el-dialog title="新增" :visible.sync="config.dialogFormVisible">
-    <el-form :model="form" label-width="130px" :rules="rules">
+    <el-form ref="modifyDialog" :model="form" label-width="130px" :rules="rules">
       <el-row>
         <el-col :span="12">
           <el-form-item label="人员代码">
@@ -140,6 +140,7 @@ export default {
       this.form.diffDate = item.diffDate
       this.form.diffCause = item.diffCauseCom
       this.form.diffCauseName = item.diffCauseName
+      this.form.explain = item.illustrate
       this.config.dialogFormVisible = true
     })
   },
@@ -162,7 +163,7 @@ export default {
       const data = {
         agentCode: this.form.agentCode,
         diffDate: this.form.diffDate,
-        diffCause: this.form.departReason,
+        diffCause: this.form.diffCause,
         explain: this.form.explain
         // manageCom: '4',
         // agentGroup: this.form.agentGroup,
@@ -173,6 +174,13 @@ export default {
       submitModifyInformation(data).then(() => {
         this.$message.success('修改成功')
       })
+      this.form.diffDate = ''
+      this.form.diffCause = ''
+      this.form.explain = ''
+      this.$nextTick(() => {
+        this.$refs['modifyDialog'].clearValidate() // 只清除清除验证
+      })
+      this.$bus.$emit('REFRESH')
       this.config.dialogFormVisible = false
     }
   }

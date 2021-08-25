@@ -1,7 +1,7 @@
 <template>
   <!--  :before-close="handleClose"-->
   <el-dialog title="新增" :visible.sync="config.dialogFormVisible" :before-close="handleClose">
-    <el-form :model="form" label-width="130px" :rules="rules">
+    <el-form ref="addDialog" :model="form" label-width="130px" :rules="rules">
       <el-row>
         <el-col :span="12">
           <el-form-item label="人员代码" prop="agentCode">
@@ -173,6 +173,20 @@ export default {
       submitAddInformation(data).then(() => {
         this.$message.success('新增成功')
       })
+      this.form.agentCode = ''
+      this.form.agentName = ''
+      this.form.comCode4 = ''
+      this.form.manageCom4 = ''
+      this.form.agentGroup = ''
+      this.form.branchName = ''
+      this.form.agentGrade = ''
+      this.form.diffDate = ''
+      this.form.diffCause = ''
+      this.form.explain = ''
+      this.$nextTick(() => {
+        this.$refs['addDialog'].clearValidate() // 只清除清除验证
+      })
+      this.$bus.$emit('REFRESH')
       this.config.dialogFormVisible = false
     }
   }

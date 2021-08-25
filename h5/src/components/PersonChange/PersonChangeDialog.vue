@@ -1,6 +1,6 @@
 <template>
   <el-dialog title="人员异动" :visible.sync="config.dialogFormVisible">
-    <el-form :model="form" label-width="130px">
+    <el-form ref="form" :model="form" label-width="130px">
       <el-row>
         <el-col :span="12">
           <el-form-item label="目标中心支公司">
@@ -83,7 +83,6 @@ export default {
     }
   },
   mounted() {
-    this.form.modifyDate = new Date().toLocaleDateString().split('/').join('-')
     this.$bus.$on('OPEN_PERSON_CHANGE_DIALOG', (select) => {
       this.config.dialogFormVisible = true
       getSelectOptions().then(res => {
@@ -101,6 +100,7 @@ export default {
         this.form.agentGroup = ''
         this.list.agentGroupList = res.list
       })
+      this.form.modifyDate = new Date().toLocaleDateString().split('/').join('-')
     },
     getInformation() {
       submit(this.form.agentGroup).then(res => {
@@ -112,6 +112,14 @@ export default {
       change(this.form).then(() => {
         this.$message.success('人员异动成功')
       })
+      // this.form.manageCom = ''
+      // this.form.agentGroup = ''
+      // this.form.modifyDate = ''
+      // this.form.adminCode = ''
+      // this.form.adminName = ''
+      // this.$nextTick(() => {
+      //   this.$refs['form'].clearValidate()
+      // })
       this.config.dialogFormVisible = false
     }
   }

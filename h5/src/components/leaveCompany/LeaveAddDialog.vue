@@ -185,6 +185,8 @@ export default {
       }
       submitAddInformation(data).then(() => {
         this.$message.success('新增成功')
+        this.$bus.$emit('REFRESH_LEAVE')
+        this.config.dialogFormVisible = false
       })
       // this.$nextTick(() => {
       //   this.$refs.form.resetFields()
@@ -202,8 +204,6 @@ export default {
       this.$nextTick(() => {
         this.$refs['form'].clearValidate() // 只清除清除验证
       })
-      this.$bus.$emit('REFRESH_LEAVE')
-      this.config.dialogFormVisible = false
     }
   }
 

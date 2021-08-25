@@ -163,6 +163,8 @@ export default {
       }
       submitModifyInformation(data).then(() => {
         this.$message.success('修改成功')
+        this.$bus.$emit('REFRESH_LEAVE')
+        this.config.dialogFormVisible = false
       })
       this.form.diffDate = ''
       this.form.diffCause = ''
@@ -170,8 +172,6 @@ export default {
       this.$nextTick(() => {
         this.$refs['modifyDialog'].clearValidate() // 只清除清除验证
       })
-      this.$bus.$emit('REFRESH_LEAVE')
-      this.config.dialogFormVisible = false
     }
   }
 

@@ -329,7 +329,7 @@ export default {
     nocheck() {
       const par = 0
       V.check(this.list, par).then((r) => {
-        this.$message.error(r['msg'])
+        this.$message.success(r['msg'])
       }).then(() => {
         this.handleQuery()
       })

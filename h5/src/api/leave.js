@@ -11,8 +11,8 @@ export function find(data) {
   })
 }
 
-// 审核通过
-
+// 审核通过 王佳智
+// asd
 export function check(data, par) {
   return request({
     url: '/resignate/approval?num=' + par,

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <h4>职级调整</h4>
-    <el-form :model="form" :rules="rules" label-width="180px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="180px">
       <!-- 第一行-->
       <el-row>
         <el-col :span="8">
@@ -76,6 +76,7 @@
         <el-form-item>
           <el-col style="text-align:left;margin-top: 1rem">
             <el-button type="primary" icon="el-icon-search" @click="hello">查询</el-button>
+            <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
           </el-col>
         </el-form-item>
       </el-row>
@@ -108,8 +109,7 @@ export default {
       },
       list: {
         agentGrade: '',
-        branchAttr: '',
-        branchName: ''
+        branchAttr: ''
       },
       rules: {
         phone:
@@ -147,8 +147,6 @@ export default {
   },
   beforeDestroy() {
     this.$bus.$off('refreshAgent')
-    // this.$bus.$off()
-    // this.$bus.$off()
   },
   methods: {
     // handleBranchAttrChange() { // 选择的团队代码改变时调用该函数
@@ -175,12 +173,16 @@ export default {
       t = setTimeout(() => {
         this.$refs.elcascader.dropDownVisible = false
       }, 300)
+      this.form.agentGroup = ''
     },
     changeVal1() {
       getNextOptions(this.form.manageCom).then(res => {
         this.list.branchAttr = res.list
-        this.list.branchName = res.list
       })
+    },
+    // 重置按钮
+    resetForm() {
+      this.$refs['form'].resetFields()
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <h4>人员维护</h4>
-    <el-form :model="form" label-width="180px">
+    <el-form ref="form" :model="form" label-width="180px">
       <!--    第一行-->
       <el-row>
         <el-col :span="8">
@@ -108,6 +108,7 @@
         <el-form-item>
           <el-col style="text-align:left;margin-top: 1rem">
             <el-button type="primary" icon="el-icon-search" @click="handleQuery1()">查询</el-button>
+            <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
 <!--            <el-button type="primary" icon="el-icon-download" @click="download2">导出</el-button>-->
 <!--            <el-button type="primary" icon="el-icon-upload2" disabled @click="uploadDialogVisible=true">Excel导入</el-button>-->
 <!--            <el-button type="primary" icon="el-icon-download" @click="download1">模板下载</el-button>-->
@@ -285,6 +286,10 @@ export default {
         link.click()
         document.body.removeChild(link)
       })
+    },
+    // 重置按钮
+    resetForm() {
+      this.$refs['form'].resetFields()
     }
   }
 }

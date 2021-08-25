@@ -268,6 +268,7 @@ export default {
     getCurAgentGrade() {
       API.getCurAgentGrade().then(
         (res) => {
+          this.$refs.form.resetFields()
           this.curAgentGrade = res.list
         }
       )

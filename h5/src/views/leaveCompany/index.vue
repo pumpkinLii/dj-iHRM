@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <h4>离司申请</h4>
-    <el-form :model="form" :rules="rules" label-width="180px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="180px">
       <!--      第一行-->
       <el-row>
         <el-col :span="8">
@@ -109,8 +109,9 @@
         <el-form-item>
           <el-col style="text-align:left;margin-top: 1rem">
             <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
-            <el-button type="info" icon="el-icon-edit" @click="LeaveAddDialogVisible">新增</el-button>
-            <el-button type="success" icon="el-icon-check" :disabled="selected.length===0" @click="Submit">提交审核</el-button>
+            <el-button type="success" icon="el-icon-edit" @click="LeaveAddDialogVisible">新增</el-button>
+            <el-button type="warning" icon="el-icon-check" :disabled="selected.length===0" @click="Submit">提交审核</el-button>
+            <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
           </el-col>
         </el-form-item>
       </el-row>
@@ -134,7 +135,7 @@
         <el-table-column label="操作" prop="operator">
           <template scope="scope">
             <!-- 修改 -->
-            <el-button type="primary" icon="el-icon-edit" size="mini" :disabled="visible" @click="LeaveAddDialog(scope.row)">修改</el-button>
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="LeaveAddDialog(scope.row)">修改</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -152,7 +153,7 @@
       </div>
     </div>
     <ADD />
-    <MODIFY/>
+    <MODIFY />
 
   </div>
 </template>
@@ -194,8 +195,7 @@ export default {
       },
       options: [],
       table: [],
-      selected: [],
-      visible: false
+      selected: []
     }
   },
   created() {
@@ -205,8 +205,8 @@ export default {
     })
   },
   mounted() {
-    this.$bus.$on('refreshAgent', () => {
-      this.hello()
+    this.$bus.$on('REFRESH', () => {
+      this.this.handleQuery()
     })
     // 点击文字即可选中
     setInterval(function() {
@@ -313,7 +313,11 @@ export default {
     },
     // 显示修改
     LeaveAddDialog(item) {
-      this.$bus.$emit('MODIFY_DIALOG', item)
+      if (item.agentStateCom === '1' || item.agentStateCom === '4') {
+        this.$message.error('不可修改')
+      } else {
+        this.$bus.$emit('MODIFY_DIALOG', item)
+      }
     },
     // 提交审核
     Submit() {
@@ -325,6 +329,10 @@ export default {
           }
         }
       )
+    },
+    // 重置按钮
+    resetForm() {
+      this.$refs['form'].resetFields()
     }
   }
 }

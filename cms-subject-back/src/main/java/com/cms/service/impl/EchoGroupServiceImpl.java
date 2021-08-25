@@ -27,7 +27,7 @@ public class EchoGroupServiceImpl extends ServiceImpl<EchoGroupDao, YlLaBranchGr
             if (list.size() > 0) {
                 for (YlLaBranchGroupEntity branchGroup:list){
                     Map<String,String> map = new HashMap<>();
-                    if(staffPojo.getGradeName().equals("总监") && branchGroup.getAgentGroup()!=null)
+                    if(staffPojo.getGradeName().equals(/*"总监"*/"0") && branchGroup.getAgentGroup()!=null)
                     {
                         continue;
                     }

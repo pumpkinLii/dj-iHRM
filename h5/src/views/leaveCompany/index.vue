@@ -133,7 +133,7 @@
     <!--    表格-->
     <div>
       <el-table ref="multipleTable" :data="table" stripe border fit height="300" @selection-change="handleSelectChange">
-        <el-table-column type="selection" width="40" />
+        <el-table-column type="selection" width="40" :selectable="selectEnable"/>
         <el-table-column label="人员代码" prop="agentCode" />
         <el-table-column label="人员姓名" prop="agentName" />
         <el-table-column label="管理机构代码" prop="comCode4" />
@@ -312,15 +312,13 @@ export default {
       this.page.currentPage = page
       this.handleQuery()
     },
+    selectEnable(row) {
+      return row['agentStateCom'] === '1'
+    },
     handleSelectChange(selection) {
       this.selected = []
       for (const item of selection) {
-        if (item.agentStateCom !== '1') {
-          this.$message.error('该员工已提交审核')
-          this.$refs.multipleTable.clearSelection(item)
-        } else {
-          this.selected.push(item.agentCode)
-        }
+        this.selected.push(item.agentCode)
       }
     },
     // 显示离职

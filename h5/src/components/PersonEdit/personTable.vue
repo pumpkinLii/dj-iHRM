@@ -1,6 +1,7 @@
 <template>
+  <!--  人员维护表格-->
   <div>
-    <el-table :data="list" stripe border fit height="300">
+    <el-table :data="list" stripe border fit height="300" :default-sort="{prop: 'stateName'}">
       <el-table-column label="人员工号" prop="agentCode" />
       <el-table-column label="人员姓名" prop="agentName" />
       <el-table-column label="当前职级" prop="gradeName" />
@@ -8,7 +9,7 @@
       <el-table-column label="三级管理机构" prop="manageCom3" />
       <el-table-column label="四级管理机构" prop="manageCom4" />
       <el-table-column label="入司日期" prop="employDate" />
-      <el-table-column label="人员状态" prop="stateName" />
+      <el-table-column label="人员状态" prop="stateName" sortable />
       <el-table-column label="操作" width="100px" fixed="right">
         <template scope="scope">
           <!-- 修改 -->

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="list" stripe border fit height="300">
+    <el-table :data="list" stripe border fit height="300" :default-sort="{prop: 'agentStateName'}">
       <el-table-column label="人员工号" prop="agentCode" />
       <el-table-column label="人员姓名" prop="agentName" />
       <el-table-column label="分工司" prop="manageCom3" />
@@ -8,7 +8,7 @@
       <el-table-column label="团队代码" prop="branchAttr" />
       <el-table-column label="团队名称" prop="branchName" />
       <el-table-column label="入司日期" prop="employDate" />
-      <el-table-column label="人员状态" prop="agentStateName" />
+      <el-table-column label="人员状态" prop="agentStateName" sortable />
       <el-table-column label="合同类型" prop="contractTypeName" />
       <el-table-column label="职级" prop="agentGradeName" />
       <el-table-column label="操作" width="100px" fixed="right">
@@ -17,7 +17,7 @@
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(scope.row)">职级调整</el-button>
         </template>
       </el-table-column>
-    </el-table>
+    </el-table>s
     <!-- 分页 -->
     <div class="block" style="text-align: right;margin-top: 1rem">
       <el-pagination

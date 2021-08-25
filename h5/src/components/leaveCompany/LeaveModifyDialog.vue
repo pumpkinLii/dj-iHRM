@@ -129,7 +129,6 @@ export default {
   mounted() {
     // 打开新增对话框
     this.$bus.$on('MODIFY_DIALOG', (item) => {
-      console.log('item:', item)
       this.form.agentCode = item.agentCode
       this.form.agentName = item.agentName
       this.form.comCode4 = item.comCode4
@@ -178,6 +177,8 @@ export default {
       }
       submitModifyInformation(data).then(() => {
         this.$message.success('修改成功')
+        this.$bus.$emit('REFRESH_LEAVE')
+        this.config.dialogFormVisible = false
       })
       this.form.diffDate = ''
       this.form.diffCause = ''
@@ -185,8 +186,6 @@ export default {
       this.$nextTick(() => {
         this.$refs['modifyDialog'].clearValidate() // 只清除清除验证
       })
-      this.$bus.$emit('REFRESH')
-      this.config.dialogFormVisible = false
     }
   }
 

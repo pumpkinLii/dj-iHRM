@@ -221,7 +221,7 @@ export default {
     })
   },
   mounted() {
-    this.$bus.$on('REFRESH', () => {
+    this.$bus.$on('REFRESH_LEAVE', () => {
       this.handleQuery()
     })
     // 点击文字即可选中
@@ -234,7 +234,7 @@ export default {
     }, 1000)
   },
   beforeDestroy() {
-    this.$bus.$off('refreshAgent')
+    this.$bus.$off('REFRESH_LEAVE')
   },
   methods: {
     // 查询按钮

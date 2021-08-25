@@ -175,6 +175,8 @@ export default {
       }
       submitAddInformation(data).then(() => {
         this.$message.success('新增成功')
+        this.$bus.$emit('REFRESH_LEAVE')
+        this.config.dialogFormVisible = false
       })
       this.form.agentCode = ''
       this.form.agentName = ''
@@ -189,8 +191,6 @@ export default {
       this.$nextTick(() => {
         this.$refs['addDialog'].clearValidate() // 只清除清除验证
       })
-      this.$bus.$emit('REFRESH')
-      this.config.dialogFormVisible = false
     }
   }
 

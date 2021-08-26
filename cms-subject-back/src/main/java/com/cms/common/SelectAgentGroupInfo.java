@@ -20,6 +20,21 @@ public class SelectAgentGroupInfo {
 
     @Autowired
     private AgentGroupImpl agentGroup;
+
+    /**
+     * 此方法用于将团队内码转换为团队外码
+     * */
+    public String agentGroupToBranchAttr(String agentGroupIndex){
+        return this.groupToAttr(agentGroupIndex);
+    }
+
+    /**
+     * 此方法用于将团队内外码转换为团队内码
+     * */
+    public String branchAttrToAgentGroup(String branchAttrIndex){
+        return this.attrToGroup(branchAttrIndex);
+    }
+
     /**
      * 此方法用于获取指定工号的团队信息，传入一个团队的内码字符串，返回该团队的Entity，里面包含团队的所有信息
      * 在调用此方法前最好调用checkBranchGroup(YlLaAgentChangePojo ylLaAgentChangePojo)方法，并将这两个方法lock为一个原子操作，保证获取信息的正确和完整性
@@ -40,7 +55,12 @@ public class SelectAgentGroupInfo {
      * */
     private YlLaBranchGroupEntity selectOneAgentGroup(String index){
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("agent_group",index);
+        if(index.length() == 11){
+            queryWrapper.eq("agent_group",this.branchAttrToAgentGroup(index));
+        }
+        else{
+            queryWrapper.eq("agent_group",index);
+        }
         YlLaBranchGroupEntity ylLaBranchGroupEntity = this.agentGroup.getBaseMapper().selectOne(queryWrapper);
         return ylLaBranchGroupEntity;
     }
@@ -51,12 +71,38 @@ public class SelectAgentGroupInfo {
     private boolean checkBranchGroupInfo(YlLaAgentChangePojo ylLaAgentChangePojo){
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("manage_com",ylLaAgentChangePojo.getManageCom());
-        queryWrapper.eq("agent_group",ylLaAgentChangePojo.getAgentGroup());
+        if(ylLaAgentChangePojo.getAgentGroup().length() == 11){
+            queryWrapper.eq("agent_group",this.branchAttrToAgentGroup(ylLaAgentChangePojo.getAgentGroup()));
+        }
+        else{
+            queryWrapper.eq("agent_group",ylLaAgentChangePojo.getAgentGroup());
+        }
+
         List<YlLaBranchGroupEntity> resultSet = this.agentGroup.getBaseMapper().selectList(queryWrapper);
         if(resultSet.size() == 1){
             return true;
         }
         return false;
+    }
+
+    /**
+     * 封装了团队内码转团队外码
+     * */
+    private String groupToAttr(String agentGroupIndex){
+        QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("agent_group",agentGroupIndex);
+        YlLaBranchGroupEntity ylLaBranchGroupEntity = agentGroup.getBaseMapper().selectOne(queryWrapper);
+        return ylLaBranchGroupEntity.getBranchAttr();
+    }
+
+    /**
+     * 封装了团队外码转团队内码
+     * */
+    private String attrToGroup(String branchAttrIndex){
+        QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("branch_attr",branchAttrIndex);
+        YlLaBranchGroupEntity ylLaBranchGroupEntity = agentGroup.getBaseMapper().selectOne(queryWrapper);
+        return ylLaBranchGroupEntity.getAgentGroup();
     }
 
 }

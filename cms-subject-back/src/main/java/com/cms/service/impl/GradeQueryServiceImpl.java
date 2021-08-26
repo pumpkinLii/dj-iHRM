@@ -1,7 +1,7 @@
 package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.cms.dao.GradeQueryDao;
+import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.pojo.GradeQueryPojo;
 import com.cms.pojo.GradeQueryReturnPojo;
 import com.cms.service.GradeQueryService;
@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class GradeQueryServiceImpl implements GradeQueryService {
     @Autowired
-    GradeQueryDao gradeQueryDao;
+    YlLaBranchGroupDao yllaBranchGroupDao;
     public List<GradeQueryReturnPojo> gradeQuery(GradeQueryPojo gradeQueryPojo) throws ParseException{
         QueryWrapper<GradeQueryReturnPojo> wrapper = new QueryWrapper<>();
         wrapper.likeRight(!StringUtils.isEmpty(gradeQueryPojo.getManageCom()),"t1.manage_com",gradeQueryPojo.getManageCom());
@@ -25,7 +25,7 @@ public class GradeQueryServiceImpl implements GradeQueryService {
         wrapper.eq(!StringUtils.isEmpty(gradeQueryPojo.getPhone()),"t3.phone",gradeQueryPojo.getPhone());
         wrapper.eq(!StringUtils.isEmpty(gradeQueryPojo.getIdNo()),"t3.id_no",gradeQueryPojo.getIdNo());
         wrapper.eq(!StringUtils.isEmpty(gradeQueryPojo.getAgentGrade()),"t2.agent_grade",gradeQueryPojo.getAgentGrade());
-        List<GradeQueryReturnPojo> list = gradeQueryDao.gradeQuery(wrapper);
+        List<GradeQueryReturnPojo> list = yllaBranchGroupDao.gradeQuery(wrapper);
         return list;
     }
 }

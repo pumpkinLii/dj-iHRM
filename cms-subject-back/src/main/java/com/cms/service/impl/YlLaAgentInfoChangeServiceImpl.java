@@ -57,7 +57,12 @@ public class YlLaAgentInfoChangeServiceImpl extends ServiceImpl<YlLaAgentDao, Yl
         }
         UpdateWrapper<YlLaAgentEntity> updateWrapper = new UpdateWrapper<>();
         updateWrapper.set("manage_com",ylLaAgentChangePojo.getManageCom());
-        updateWrapper.set("agent_group",ylLaAgentChangePojo.getAgentGroup());
+        if(ylLaAgentChangePojo.getAgentGroup().length() == 11){
+            updateWrapper.set("agent_group",selectAgentGroupInfo.branchAttrToAgentGroup(ylLaAgentChangePojo.getAgentGroup()));
+        }
+        else{
+            updateWrapper.set("agent_group",ylLaAgentChangePojo.getAgentGroup());
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         ParsePosition pos = new ParsePosition(0);
         Date strtodate = formatter.parse(ylLaAgentChangePojo.getModifyDate(), pos);

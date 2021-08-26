@@ -8,7 +8,8 @@
         SELECT yl_la_agent.agent_code  as agentCode,
                yl_la_agent.agent_name  as agentName,
                yl_la_agent_attr.phone  as phone,
-               yl_la_agent.agent_grade as agentGrade
+               yl_la_agent.agent_grade as agentGrade,
+               yl_la_agent.agent_state as agentState
         FROM yl_la_agent
                  join yl_la_agent_attr on yl_la_agent.agent_code = yl_la_agent_attr.agent_code
             ${ew.customSqlSegment}

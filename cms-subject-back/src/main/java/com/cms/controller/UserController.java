@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/test")
+@RequestMapping("/user")
 @Api("用户登录的检测")
 public class UserController {
     @Autowired
@@ -28,6 +28,7 @@ public class UserController {
     public R login(@RequestBody UserPojo userPojo,HttpServletRequest httpServletRequest) throws InvalidKeyException, NoSuchAlgorithmException {
         String creattoken= TokenUtils.SH256parse(userPojo.toString());
         String token=httpServletRequest.getHeader("x-token");
+        System.out.println("token 为"+token);
         if (StringUtils.isEmpty(token)==true||token==null){
             boolean bl = userService.login(userPojo.getUserId(),userPojo.getUserPassword());
             if (bl==true){
@@ -45,7 +46,7 @@ public class UserController {
 
 
     }
-    @PostMapping("/out")
+    @PostMapping("/logout")
     @ApiOperation("登陆接口")
     public R loginout(){
         TokenUtils.setsecret_key();

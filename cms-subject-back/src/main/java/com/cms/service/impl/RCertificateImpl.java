@@ -1,7 +1,6 @@
 package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cms.common.ComnewSon;
 import com.cms.dao.*;
 import com.cms.entity.*;
@@ -27,7 +26,7 @@ public class RCertificateImpl implements RCertificateService {
     @Autowired
     YlLaAgentCertificateDao ylLaAgentCertificateDao;
     @Autowired
-    YllaBranchGroupDao yllaBranchGroupDao;
+    YlLaBranchGroupDao yllaBranchGroupDao;
     @Autowired
     ComnewSon comnewSon;
 

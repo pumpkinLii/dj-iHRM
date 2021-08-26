@@ -2,8 +2,7 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.EchoGroupDao;
-import com.cms.dao.EchoManagerDao;
+import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.YlLaBranchGroupEntity;
 import com.cms.pojo.StaffPojo;
 import com.cms.service.EchoGroupService;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class EchoGroupServiceImpl extends ServiceImpl<EchoGroupDao, YlLaBranchGroupEntity> implements EchoGroupService {
+public class EchoGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBranchGroupEntity> implements EchoGroupService {
     //@Override
     public List<Map<String, String>> getGroup(StaffPojo staffPojo) {
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
@@ -27,11 +26,11 @@ public class EchoGroupServiceImpl extends ServiceImpl<EchoGroupDao, YlLaBranchGr
             if (list.size() > 0) {
                 for (YlLaBranchGroupEntity branchGroup:list){
                     Map<String,String> map = new HashMap<>();
-                    if(staffPojo.getGradeName().equals("总监") && branchGroup.getAgentGroup()!=null)
+                    if(staffPojo.getGradeName().equals(/*"总监"*/"0") && branchGroup.getBranchManager()!=null)
                     {
                         continue;
                     }
-                    map.put("value",branchGroup.getAgentGroup());
+                    map.put("value",branchGroup.getBranchAttr());
                     map.put("label",branchGroup.getBranchName());
                     /*map.put("label",branchGroup.getBranchAttr());
                     map.put("value",branchGroup.getBranchName());*/

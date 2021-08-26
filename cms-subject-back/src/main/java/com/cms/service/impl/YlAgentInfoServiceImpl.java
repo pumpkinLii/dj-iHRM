@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.IdCheck;
+import com.cms.common.SelectAgentGroupInfo;
 import com.cms.dao.YlLaAgentDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.entity.YlLaBranchGroupEntity;
@@ -34,6 +35,9 @@ import java.util.*;
 public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements YlAgentInfoService {
     @Autowired
     public IdCheck idCheck;
+
+    @Autowired
+    private SelectAgentGroupInfo selectAgentGroupInfo;
 
     /**
      * 增加人员信息方法，传入LaAgentPojo，返回boolean值结果
@@ -83,7 +87,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
         ylLaAgentEntity.setAgentName(laAgent.getAgentName());
         ylLaAgentEntity.setSapCode(laAgent.getSapCode());
         ylLaAgentEntity.setManageCom(laAgent.getManageCom4());
-        ylLaAgentEntity.setAgentGroup(laAgent.getBranchAttr());
+        ylLaAgentEntity.setAgentGroup(selectAgentGroupInfo.branchAttrToAgentGroup(laAgent.getBranchAttr()));
         ylLaAgentEntity.setRepeatFlag(this.checkRepeatFlag(laAgent));//调用wxy的返回接口
         ylLaAgentEntity.setOperator(laAgent.getOperator());
         /*****************************************************************************/

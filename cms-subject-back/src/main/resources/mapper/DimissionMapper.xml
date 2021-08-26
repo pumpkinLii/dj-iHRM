@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cms.dao.SearchDimissionDao">
+
+    <select id="SearchDimission" parameterType="com.cms.pojo.AcceptDimissionPojo"
+            resultType="com.cms.pojo.SearchDimissionPojo">
+        SELECT yla.agent_name           AS agentName,
+               yla.manage_com           AS manageCom,
+               ylbg.branch_attr         AS branchAttr,
+               ylbg.branch_name         AS branchName,
+               yla.agent_grade          AS agentGrade,
+               (SELECT yl_name FROM ld_com_new WHERE ld_com_new.com_code=yla.manage_com) AS ylName
+        FROM yl_la_agent yla
+                 JOIN yl_la_branch_group ylbg
+                           ON yla.agent_group = ylbg.agent_group
+            ${ew.customSqlSegment}
+    </select>
+
+</mapper>

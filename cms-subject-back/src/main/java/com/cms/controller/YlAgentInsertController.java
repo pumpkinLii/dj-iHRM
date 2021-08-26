@@ -2,28 +2,25 @@ package com.cms.controller;
 
 import com.cms.pojo.IdCheckPojo;
 import com.cms.pojo.LaAgentPojo;
-import com.cms.service.IdCheckService;
 import com.cms.service.NIdCheckService;
+import com.cms.service.YlAgentAttrInfoService;
+import com.cms.service.YlAgentInfoService;
+import com.cms.service.YlLaAgentInfoChangeService;
 import com.cms.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping({"/test"})
-@Api("养老人管模块课题")
-public class IdCheckController {
+@RequestMapping("/login/YlAgentInsert")
+@Api("人员录入模块")
+public class YlAgentInsertController {
+
+    //王欣艺
     @Autowired
     private NIdCheckService nIdCheckService;
-
     @ApiOperation("证件校验接口")
     @PostMapping({"/idCheck"})
     public R idcheck(@RequestBody IdCheckPojo idCheckPojo) {
@@ -49,5 +46,33 @@ public class IdCheckController {
                 return R.error(500, "身份证号码错误");
         }
         return R.error(500, "出现未知错误");
+    }
+
+    //张晓成
+    @Autowired
+    private YlAgentAttrInfoService ylAgentAttrInfoService;
+
+    @Autowired
+    private YlAgentInfoService ylAgentInfoService;
+
+    @Autowired
+    private YlLaAgentInfoChangeService ylLaAgentInfoChangeService;
+
+    private String agentCode;
+    @PostMapping("/doSave")
+    @ApiOperation("人员录入与导入接口")
+    public R laAgentSubmit(@RequestBody LaAgentPojo laAgent){
+        agentCode = ylAgentAttrInfoService.getNewstr();
+        laAgent.setAgentCode(agentCode);
+        String agentSubmit = ylAgentAttrInfoService.agentSubmit(laAgent);
+        if(agentSubmit.equals("success")){
+            if(ylAgentInfoService.laAgentSubmit(laAgent)){
+                return R.ok("操作成功，人员工号为：" + agentCode);
+            }
+            return R.error("录入失败,程序有bug");
+        }
+        else{
+            return R.error(agentSubmit);
+        }
     }
 }

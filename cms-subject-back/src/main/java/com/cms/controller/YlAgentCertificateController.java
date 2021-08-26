@@ -37,16 +37,17 @@ import java.util.Map;
 @RestController
 @CrossOrigin
 @Slf4j
-@RequestMapping("/certificate")
-@Api("养老渠道-人员管理-资格证管理")
+@RequestMapping("/login/YlAgentCertificate")
+@Api("资格证管理")
 public class YlAgentCertificateController {
+    //王佳智
     @Autowired
     YlAgentCertificateService ylAgentCertificateService;
 
     @Autowired
     RCertificateImpl rCertificateService;
 
-    @PostMapping("/Update")
+    @PostMapping("/update")
     @ApiOperation("资格证书修改接口")
     public R Change(@RequestBody ChangeCertificatePojo changeCertificatePojo) throws ParseException {
         //只用一个批准单位为空 其他的均为必填选项
@@ -54,6 +55,7 @@ public class YlAgentCertificateController {
         return r;
     }
 
+    //陈益轩
     @PostMapping("/retrieve")
     @ApiOperation("资格证查询接口")
     public R getCertificate(@RequestParam(value = "currentPage") int currentPage,
@@ -66,6 +68,7 @@ public class YlAgentCertificateController {
         }
         return R.ok().put("list", SlelectPage.getPage(pageSize,currentPage,list)).put("totalcount",list.size());
     }
+    //陈益轩
     @PostMapping("/initList")
     @ApiOperation("机构初始列表")
     public R initList(){
@@ -74,12 +77,14 @@ public class YlAgentCertificateController {
         return R.ok().put("com2List",com2List).put("certificateTypeList",cerficateTypeList);
     }
 
+    //张毅珑
     @ApiOperation("校验工号是否存在")
-    @PostMapping("/NoIdcheck")
+    @PostMapping("/noIdcheck")
     public String idcheck(@RequestBody CeInsertPojo ceInsertPojo) {
         String result = ylAgentCertificateService.Idcheck(ceInsertPojo);
         return result;
     }
+    //张毅珑
     @ApiOperation("工号回显姓名")
     @PostMapping("/searchNameById")
     public R SearchNameById(@RequestBody CeInsertPojo ceInsertPojo) {
@@ -90,6 +95,7 @@ public class YlAgentCertificateController {
             return R.ok().put("code",501).put("msg","数据库没有此工号");
         }
     }
+    //张毅珑
     @ApiOperation("插入资格证信息")
     @PostMapping("/insert")
     //@RequestBody注解是接收前端返回的json并封装为****pojo
@@ -115,6 +121,5 @@ public class YlAgentCertificateController {
         }else {
             return R.error("插入资格证信息失败");
         }
-
     }
 }

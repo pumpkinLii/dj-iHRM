@@ -85,7 +85,7 @@ public class RankAlterServiceImpl extends ServiceImpl<RankAlterDao, YlLaAgentEnt
         ylLaAgentManoeuvreEntity.setPreManageCom(old.getManageCom());
         ylLaAgentManoeuvreEntity.setCurManageCom(rankAlterPojo.getTargetManageCom());
 
-        ylLaAgentManoeuvreEntity.setPreBranchCode(old.getAgentCode());
+        ylLaAgentManoeuvreEntity.setPreBranchCode(old.getAgentGroup());
         ylLaAgentManoeuvreEntity.setCurBranchCode(rankAlterPojo.getAgentGroup());
 
         ylLaAgentManoeuvreEntity.setPreAgentGrade(rankAlterPojo.getCurAgentGrade());

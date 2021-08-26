@@ -1,7 +1,10 @@
 package com.cms.controller;
 
+import com.cms.pojo.GradeQueryPojo;
+import com.cms.pojo.GradeQueryReturnPojo;
 import com.cms.pojo.IdCheckPojo;
 import com.cms.pojo.RankAlterPojo;
+import com.cms.service.GradeQueryService;
 import com.cms.service.NIdCheckService;
 import com.cms.service.RankAlterService;
 import com.cms.util.R;
@@ -10,14 +13,20 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.util.List;
+
+import static com.cms.util.SlelectPage.getPage;
+
 @RestController
 @CrossOrigin
-@RequestMapping({"/rank"})
-@Api("养老人管模块课题")
+@RequestMapping({"/login/rank"})
+@Api("职级调整模块")
 public class RankAlterController {
+
+    //王欣艺
     @Autowired
     private RankAlterService rankAlterService;
-
     @ApiOperation("职级调整保存接口")
     @PostMapping({"/alter"})
     public R rankAlter(@RequestBody RankAlterPojo rankAlterPojo) {
@@ -30,4 +39,21 @@ public class RankAlterController {
         return R.error(500,str);
     }
 
+    //池浩玥
+    @Autowired
+    GradeQueryService gradeQueryService;
+    @PostMapping("/gradeQuery")
+    @ApiOperation("职级查询接口")
+    public R gradeQuery(@RequestBody GradeQueryPojo gradeQueryPojo, int limit, int page) throws ParseException {
+        if (gradeQueryPojo.getManageCom().isEmpty()){
+            return R.error(501,"请补全必填项");
+        }
+        List<GradeQueryReturnPojo> list = gradeQueryService.gradeQuery(gradeQueryPojo);
+        List<GradeQueryReturnPojo> list1 = getPage(limit,page,list);
+        if (list1.size()>=0){
+            return R.ok().put("list",list1).put("totalCount",list.size());
+        }else {
+            return R.error(500,"未查到信息");
+        }
+    }
 }

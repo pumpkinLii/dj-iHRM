@@ -26,25 +26,25 @@ export const constantRoutes = [
     component: Layout,
     children: [{
       path: '',
-      component: () => import ('@/views/dashboard/index'),
+      component: () => import ('@/views/dajia/index'),
       meta: {
-        title: '仪表盘',
+        title: '大家首页',
         icon: 'dashboard'
       }
     }]
   },
-  {
-    path: '/dajia',
-    component: Layout,
-    children: [{
-      path: '',
-      component: () => import ('@/views/dajia/index'),
-      meta: {
-        title: '大家首页',
-        icon: 'el-icon-s-home'
-      }
-    }]
-  },
+  // {
+  //   path: '/dajia',
+  //   component: Layout,
+  //   children: [{
+  //     path: '',
+  //     component: () => import ('@/views/dajia/index'),
+  //     meta: {
+  //       title: '大家首页',
+  //       icon: 'el-icon-s-home'
+  //     }
+  //   }]
+  // },
   {
     path: '/person-management',
     component: Layout,

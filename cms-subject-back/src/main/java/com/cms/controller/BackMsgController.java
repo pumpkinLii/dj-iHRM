@@ -1,12 +1,9 @@
 package com.cms.controller;
 
 import com.cms.pojo.*;
-import com.cms.service.GetManageInfoService;
-import com.cms.service.YlAgentInfoService;
+import com.cms.service.*;
 import com.cms.service.impl.RCertificateImpl;
 import com.cms.util.R;
-import com.cms.service.EchoGroupService;
-import com.cms.service.EchoManagerService;
 import com.cms.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +30,9 @@ public class BackMsgController {
 
     @Autowired
     GetManageInfoService getManageInfoService;
+
+    @Autowired
+    YlAgentCertificateService ylAgentCertificateService;
 
     @PostMapping("/gradeteam")
     @ApiOperation("根据职级返回架构团队")
@@ -104,6 +104,18 @@ public class BackMsgController {
             return R.ok().put("list",list);
         }
         return R.ok().put("comList",list);
+    }
+
+    //张毅泷
+    @ApiOperation("工号回显姓名")
+    @PostMapping("/searchNameById")
+    public R SearchNameById(@RequestBody CeInsertPojo ceInsertPojo) {
+        String result1 = ylAgentCertificateService.SearchNameById(ceInsertPojo);
+        if (result1!=null) {
+            return R.ok().put("agentName", result1);
+        }else {
+            return R.ok().put("code",501).put("msg","数据库没有此工号");
+        }
     }
 
 }

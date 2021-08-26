@@ -33,18 +33,6 @@ export const constantRoutes = [
       }
     }]
   },
-  // {
-  //   path: '/dajia',
-  //   component: Layout,
-  //   children: [{
-  //     path: '',
-  //     component: () => import ('@/views/dajia/index'),
-  //     meta: {
-  //       title: '大家首页',
-  //       icon: 'el-icon-s-home'
-  //     }
-  //   }]
-  // },
   {
     path: '/person-management',
     component: Layout,

@@ -1,10 +1,10 @@
 package com.cms.controller;
 
-import com.cms.pojo.GradeTeamPojo;
+import com.cms.pojo.*;
+import com.cms.service.GetManageInfoService;
 import com.cms.service.YlAgentInfoService;
+import com.cms.service.impl.RCertificateImpl;
 import com.cms.util.R;
-import com.cms.pojo.GroupPojo;
-import com.cms.pojo.StaffPojo;
 import com.cms.service.EchoGroupService;
 import com.cms.service.EchoManagerService;
 import com.cms.util.R;
@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,37 +27,83 @@ import java.util.Map;
 public class BackMsgController {
     @Autowired
     YlAgentInfoService ylAgentInfoService;
+
+    @Autowired
+    RCertificateImpl rCertificateService;
+
+    @Autowired
+    GetManageInfoService getManageInfoService;
+
     @PostMapping("/gradeteam")
     @ApiOperation("根据职级返回架构团队")
-    public R getgradeteam(@RequestBody GradeTeamPojo gradeTeam){
+    public R getgradeteam(@RequestBody GradeTeamPojo gradeTeam) {
         return ylAgentInfoService.getgradeteam(gradeTeam);
     }
+
     /*回显团队架构*/
     @Autowired
     EchoGroupService echoGroupService;
+
     @PostMapping("/group")
     @ApiOperation("回显团队架构接口")
     public R echoGroup(@RequestBody StaffPojo staffPojo) {
         List<Map<String, String>> mapList = echoGroupService.getGroup(staffPojo);
         if (mapList != null) {
-            return R.ok().put("list",mapList);
+            return R.ok().put("list", mapList);
         } else {
-            return R.error(501,"失败：无对应团队");
+            return R.error(501, "失败：无对应团队");
         }
     }
 
     /*回显团队主管工号及姓名*/
     @Autowired
     EchoManagerService echoManagerService;
+
     @PostMapping("/manager")
     @ApiOperation("回显团队主管工号及姓名接口")
     public R echoManager(@RequestBody GroupPojo groupPojo) {
-        Map<String,String> map = echoManagerService.getManager(groupPojo);
-        if(map!=null){
-            return R.ok().put("data",map);
-        }else {
-            return R.error(501,"该团队无对应管理员");
+        Map<String, String> map = echoManagerService.getManager(groupPojo);
+        if (map != null) {
+            return R.ok().put("data", map);
+        } else {
+            return R.error(501, "该团队无对应管理员");
         }
+    }
+    //陈益轩
+
+    @ApiOperation("返回负责人信息接口")
+    @PostMapping("/managerinfo")
+    public R retManager(@RequestParam(value = "branchAttr") String branchAttr) {
+        ManagerPojo managerPojo = getManageInfoService.getManageInfo(branchAttr);
+        if (managerPojo == null) {
+            return R.error("团队编码不存在");
+        }
+        return R.ok().put("data", managerPojo);
+    }
+
+    @ApiOperation("返回四级机构列表")
+    @PostMapping("/com4info")
+    public R retCom4() {
+        List<Com4Pojo> list = getManageInfoService.getCom4();
+        return R.ok().put("list", list);
+    }
+
+    @ApiOperation("返回团队信息列表")
+    @PostMapping("/groupinfo")
+    public R retGroup(@RequestParam(value = "manageCode") String agentGroup) {
+        List<GroupInfoPojo> list = getManageInfoService.getGroup(agentGroup);
+        return R.ok().put("list", list);
+    }
+
+    @PostMapping("/returnCom")
+    @ApiOperation("机构回显接口")
+    public R getComSon(@RequestParam(value = "code")String fatherCode){
+        List<Map> list = rCertificateService.getComSon(fatherCode);
+        if(list==null) {
+            list = new ArrayList<>();
+            return R.ok().put("list",list);
+        }
+        return R.ok().put("comList",list);
     }
 
 }

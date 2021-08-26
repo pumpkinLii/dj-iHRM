@@ -344,6 +344,7 @@ export default {
     // 重置按钮
     resetForm() {
       this.$refs['form'].resetFields()
+      this.table = []
     },
     // 获取职级
     getCurAgentGrade() {

@@ -224,6 +224,7 @@ export default {
     // 重置按钮
     resetForm() {
       this.$refs['form'].resetFields()
+      this.table = []
     },
     selectEnable(row) {
       return row['agentStateCom'] === '2'

@@ -116,7 +116,7 @@
       <el-row>
         <el-form-item>
           <el-col style="text-align:left;margin-top: 1rem">
-            <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
+            <el-button type="primary" icon="el-icon-search" @click="page.currentPage=1;handleQuery()">查询</el-button>
             <el-button type="success" icon="el-icon-edit" @click="LeaveAddDialogVisible">新增</el-button>
             <el-button type="warning" icon="el-icon-check" :disabled="selected.length===0" @click="Submit">提交审核</el-button>
             <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
@@ -150,7 +150,7 @@
       <!-- 分页 -->
       <div class="block" style="text-align: right;margin-top: 1rem">
         <el-pagination
-          :current-page="page.currentPage"
+          :current-page.sync="page.currentPage"
           :page-sizes="[10, 20, 50, 100, 200, 500]"
           :page-size="page.pageSize"
           layout="total, sizes, prev, pager, next, jumper"
@@ -242,6 +242,8 @@ export default {
           this.table = r['list']
           this.page.totalCount = r['totalCount']
           this.$message.success('查询完毕')
+        }).catch(r => {
+          this.page.totalCount = 0
         })
     },
     // 下拉框选择弹回

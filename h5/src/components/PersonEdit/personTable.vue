@@ -21,7 +21,7 @@
     <div class="block" style="text-align: right;margin-top: 1rem">
       <el-pagination
         :current-page="page.currentPage"
-        :page-sizes="[10, 20, 50, 100, 200, 500]"
+        :page-sizes="[2, 20, 50, 100, 200, 500]"
         :page-size="page.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="page.totalCount"
@@ -46,7 +46,7 @@ export default {
       page: {
         currentPage: 1, // 当前第几页
         totalCount: 0, // 总共有几条
-        pageSize: 10 // 每页的项目数
+        pageSize: 2 // 每页的项目数
       }
     }
   },
@@ -60,7 +60,10 @@ export default {
           this.list = r.list
           this.page.totalCount = r.totalCount
           this.$message.success('查询完毕')
+        }).catch(() => {
+          this.page.totalCount = 0
         })
+      this.page.currentPage = 1
     })
   },
   beforeDestroy() {

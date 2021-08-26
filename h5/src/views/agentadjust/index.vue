@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <h4>职级调整</h4>
-    <el-form :model="form" :rules="rules" label-width="180px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="180px">
       <!-- 第一行-->
       <el-row>
         <el-col :span="8">
@@ -21,7 +21,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队代码">
-            <el-select v-model="form.agentGroup" placeholder="请选择" clearable style="width:100%;" @change="handleBranchAttrChange">
+            <el-select v-model="form.agentGroup" placeholder="请选择" clearable style="width:100%;">
               <el-option v-for="(option,index) in list.branchAttr" :key="index" :label="option.branchAttr" :value="option.branchAttr">
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ option.name }}</span>
                 <span style="float: left">{{ option.branchAttr }}</span>
@@ -31,12 +31,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="团队名称">
-            <el-select v-model="form.branchName " placeholder="请选择" clearable style="width:100%;" @change="handleBranchNameChange">
-              <el-option v-for="(option,index) in list.branchName" :key="index" :label="option.name" :value="option.branchAttr">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ option.branchAttr }}</span>
-                <span style="float: right">{{ option.name }}</span>
-              </el-option>
-            </el-select>
+            <el-input v-model="form.branchName" placeholder="请输入团队名称" clearable />
           </el-form-item>
         </el-col>
       </el-row>
@@ -81,6 +76,7 @@
         <el-form-item>
           <el-col style="text-align:left;margin-top: 1rem">
             <el-button type="primary" icon="el-icon-search" @click="hello">查询</el-button>
+            <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
           </el-col>
         </el-form-item>
       </el-row>
@@ -113,8 +109,7 @@ export default {
       },
       list: {
         agentGrade: '',
-        branchAttr: '',
-        branchName: ''
+        branchAttr: ''
       },
       rules: {
         phone:
@@ -131,15 +126,19 @@ export default {
   },
   created() {
     V.manage().then((r) => {
-      this.options.push(r.result)
+      this.options.push(r['result'])
     })
     V.staff().then((r) => {
-      this.list.agentGrade = r.list
+      this.list.agentGrade = r['list']
     })
   },
   mounted() {
     this.$bus.$on('refreshAgent', () => {
-      this.hello()
+      if (this.form.manageCom !== undefined && this.form.manageCom !== '' && this.form.manageCom.length !== 0) {
+        this.$bus.$emit('something2', this.form)
+      } else {
+        this.$bus.$emit('something1')
+      }
     })
     // 点击文字即可选中
     setInterval(function() {
@@ -152,10 +151,16 @@ export default {
   },
   beforeDestroy() {
     this.$bus.$off('refreshAgent')
-    // this.$bus.$off()
-    // this.$bus.$off()
   },
   methods: {
+    // handleBranchAttrChange() { // 选择的团队代码改变时调用该函数
+    //   // 设置团队名称下拉框的当前选项为本团队代码对应的选项
+    //   this.form.branchName = this.form.agentGroup
+    // },
+    // handleBranchNameChange() { // 选择的团队名称改变时调用该函数
+    //   // 设置团队代码下拉框的当前选项为本团队名称对应的选项
+    //   this.form.agentGroup = this.form.branchName
+    // },
     // 查询按钮
     hello() {
       if (this.form.manageCom !== undefined && this.form.manageCom !== '' && this.form.manageCom.length !== 0) {
@@ -166,18 +171,23 @@ export default {
     },
     // 下拉框选择弹回
     changeVal() {
+      this.form.agentGroup = ''
       // eslint-disable-next-line prefer-const
       let t
       clearTimeout(t)
       t = setTimeout(() => {
         this.$refs.elcascader.dropDownVisible = false
       }, 300)
+      this.form.agentGroup = ''
     },
     changeVal1() {
       getNextOptions(this.form.manageCom).then(res => {
         this.list.branchAttr = res.list
-        this.list.branchName = res.list
       })
+    },
+    // 重置按钮
+    resetForm() {
+      this.$refs['form'].resetFields()
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <h4>资格证管理</h4>
-    <el-form ref="form" :rules="rules" :model="form" label-width="180px">
+    <el-form ref="form" :model="form" label-width="180px">
       <el-row>
         <el-col :span="8">
           <el-form-item label="二级管理机构" prop="manageCom2">
@@ -59,12 +59,12 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="有效起期">
-            <el-date-picker v-model="form.startEffectiveDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" @change="changeStartEffectiveDate" />
+            <el-date-picker v-model="form.startEffectiveDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" @change="effDateCheck" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="有效止期" prop="endEffectiveDate">
-            <el-date-picker v-model="form.endEffectiveDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" :disabled="form.startEffectiveDate === ''" />
+          <el-form-item label="有效止期">
+            <el-date-picker v-model="form.endEffectiveDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" @change="effDateCheck" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -84,35 +84,35 @@
             <el-button type="primary" icon="el-icon-search" @click="handleQuery(true)">查询</el-button>
             <el-button type="success" icon="el-icon-edit" @click="showQualificationAddDialog">新增</el-button>
             <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
-            <el-button type="primary" icon="el-icon-download" @click="handleExport">批量导出</el-button>
-            <el-button type="primary" icon="el-icon-upload2" @click="handleImport">批量导入</el-button>
-            <el-button type="primary" icon="el-icon-download" @click="handleDownload">模板下载</el-button>
+            <!--            <el-button type="primary" icon="el-icon-download" @click="handleExport">批量导出</el-button>-->
+            <!--            <el-button type="primary" icon="el-icon-upload2" @click="handleImport">批量导入</el-button>-->
+            <!--            <el-button type="primary" icon="el-icon-download" @click="handleDownload">模板下载</el-button>-->
           </el-col>
         </el-form-item>
       </el-row>
     </el-form>
-    <el-dialog
-      title="Excel文件导入"
-      :visible.sync="uploadDialogVisible"
-    >
-      <el-upload
-        v-loading="uploadLoading"
-        drag
-        action="http://10.11.114.128:9999/cert/ExcelInsert"
-        style="text-align: center"
-        :before-close="handleCloseUploadDialog"
-        :on-success="handleUploadSuccess"
-        :on-error="handleUploadError"
-        :before-upload="handleBeforeUpload"
-        :show-file-list="false"
-      >
-        <i class="el-icon-upload" />
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      </el-upload>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="secondary" @click="uploadDialogVisible = false">取 消</el-button>
-      </span>
-    </el-dialog>
+    <!--    <el-dialog-->
+    <!--      title="Excel文件导入"-->
+    <!--      :visible.sync="uploadDialogVisible"-->
+    <!--    >-->
+    <!--      <el-upload-->
+    <!--        v-loading="uploadLoading"-->
+    <!--        drag-->
+    <!--        action="http://10.11.114.128:9999/cert/ExcelInsert"-->
+    <!--        style="text-align: center"-->
+    <!--        :before-close="handleCloseUploadDialog"-->
+    <!--        :on-success="handleUploadSuccess"-->
+    <!--        :on-error="handleUploadError"-->
+    <!--        :before-upload="handleBeforeUpload"-->
+    <!--        :show-file-list="false"-->
+    <!--      >-->
+    <!--        <i class="el-icon-upload" />-->
+    <!--        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>-->
+    <!--      </el-upload>-->
+    <!--      <span slot="footer" class="dialog-footer">-->
+    <!--        <el-button type="secondary" @click="uploadDialogVisible = false">取 消</el-button>-->
+    <!--      </span>-->
+    <!--    </el-dialog>-->
     <el-divider />
     <QualificationTable />
     <QualificationAddDialog />
@@ -129,14 +129,14 @@ export default {
   name: 'Qualification',
   components: { QualificationAddDialog, QualificationTable },
   data() {
-    const dataValid = (rule, value, callback) => {
-      const startDate = new Date(Date.parse(this.form.startEffectiveDate.replace(/-/g, '/')))
-      const endDate = new Date(Date.parse(this.form.endEffectiveDate.replace(/-/g, '/')))
-      if (startDate > endDate) {
-        callback(new Error('截至日期不能小于起始日期'))
-      }
-      callback()
-    }
+    // const dataValid = (rule, value, callback) => {
+    //   const startDate = new Date(Date.parse(this.form.startEffectiveDate.replace(/-/g, '/')))
+    //   const endDate = new Date(Date.parse(this.form.endEffectiveDate.replace(/-/g, '/')))
+    //   if (startDate > endDate) {
+    //     callback(new Error('截至日期不能小于起始日期'))
+    //   }
+    //   callback()
+    // }
     return {
       uploadDialogVisible: false,
       uploadLoading: false,
@@ -158,11 +158,11 @@ export default {
         manageCom4List: [],
         branchAttrList: [],
         certificateTypeList: []
-      },
-      rules: {
-        endEffectiveDate:
-          [{ validator: dataValid, trigger: 'change' }]
       }
+      // rules: {
+      //   endEffectiveDate:
+      //     [{ validator: dataValid, trigger: 'change' }]
+      // }
     }
   },
   beforeDestroy() {
@@ -180,6 +180,14 @@ export default {
     })
   },
   methods: {
+    effDateCheck() {
+      if (this.form.startEffectiveDate.length !== 0 &&
+        this.form.endEffectiveDate.length !== 0 &&
+        new Date(this.form.startEffectiveDate) > new Date(this.form.endEffectiveDate)) {
+        this.form.endEffectiveDate = ''
+        this.$message.warning('有效起期不能大于有效止期')
+      }
+    },
     handleExport() {
       exportList(this.form).then((res) => {
         if (res['type'] !== 'text/xml') {
@@ -199,6 +207,7 @@ export default {
       })
     },
     handleImport() {
+      // 无用注释
       this.uploadDialogVisible = true
     },
     handleDownload() {
@@ -258,7 +267,7 @@ export default {
     handleQuery(withWarning) { // withWarning:表单检查失败时是否会红色提醒用户 true:会 false:不会提醒用户
       this.$refs['form'].validate(valid => {
         if (valid) {
-          this.$bus.$emit('QUERY', this.form)
+          this.$bus.$emit('QUERY1', this.form)
         } else {
           if (withWarning) {
             return false
@@ -304,10 +313,10 @@ export default {
         })
       }
       this.form.branchAttr = ''
-    },
-    changeStartEffectiveDate() {
-      this.form.endEffectiveDate = ''
     }
+    // changeStartEffectiveDate() {
+    //   this.form.endEffectiveDate = ''
+    // }
   }
 }
 </script>

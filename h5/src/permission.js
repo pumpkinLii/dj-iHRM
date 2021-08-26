@@ -1,8 +1,8 @@
 import router from './router'
-import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
+import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
@@ -15,12 +15,11 @@ router.beforeEach(async(to, from, next) => {
   // set page title
   document.title = getPageTitle(to.meta.title)
   // determine whether the user has logged in
-  if (store.getters.user.isLogin === true) {
+  const hasToken = getToken()
+  if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
-      Message.info('您已经登录，无需重复登录')
       next({ path: '/dashboard' })
-      // next({ path: from.path }) // 或许这个更好用？但是可能会有个警告
     } else {
       next()
     }

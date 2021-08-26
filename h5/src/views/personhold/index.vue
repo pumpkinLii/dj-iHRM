@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <h4>人员维护</h4>
-    <el-form :model="form" label-width="180px">
+    <el-form ref="form" :model="form" label-width="180px">
       <!--    第一行-->
       <el-row>
         <el-col :span="8">
           <el-form-item label="二级管理机构" prop="manageCom2">
             <el-select v-model="form.manageCom2" placeholder="请选择" style="width:100%" clearable @change="select(form.manageCom2)">
-              <el-option v-for="(item,index) in list.manageCom2" :key="index" :value="item.comcode" :label="item.name">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.comcode }}</span>
+              <el-option v-for="(item,index) in list.manageCom2" :key="index" :value="item['comcode']" :label="item.name">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ item['comcode'] }}</span>
                 <span style="float: right">{{ item.name }}</span>
               </el-option>
             </el-select>
@@ -17,8 +17,8 @@
         <el-col :span="8">
           <el-form-item label="三级管理机构" prop="manageCom3">
             <el-select v-model="form.manageCom3" placeholder="请选择" style="width:100%" :disabled="!form.manageCom2||form.manageCom2.length===0" clearable @change="select1(form.manageCom3)">
-              <el-option v-for="(item,index) in list.manageCom3" :key="index" :value="item.comcode" :label="item.name">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.comcode }}</span>
+              <el-option v-for="(item,index) in list.manageCom3" :key="index" :value="item['comcode']" :label="item.name">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ item['comcode'] }}</span>
                 <span style="float: right">{{ item.name }}</span>
               </el-option>
             </el-select>
@@ -27,8 +27,8 @@
         <el-col :span="8">
           <el-form-item label="四级管理机构" prop="manageCom4">
             <el-select v-model="form.manageCom4" placeholder="请选择" style="width:100%" :disabled="!form.manageCom3||form.manageCom3.length===0" clearable @change="group(form.manageCom4)">
-              <el-option v-for="(item,index) in list.manageCom4" :key="index" :value="item.comcode" :label="item.name">
-                <span style="float: left; color: #313336; font-size: 13px">{{ item.comcode }}</span>
+              <el-option v-for="(item,index) in list.manageCom4" :key="index" :value="item['comcode']" :label="item.name">
+                <span style="float: left; color: #313336; font-size: 13px">{{ item['comcode'] }}</span>
                 <span style="float: right">{{ item.name }}</span>
               </el-option>
             </el-select>
@@ -63,17 +63,9 @@
         <el-col :span="8">
           <el-form-item label="人员状态">
             <el-select v-model="form.agentState" placeholder="请选择" style="width: 100%" clearable>
-              <el-option label="在职" value="01">
-                <span style="float: left; color: #8492a6; font-size: 13px">01</span>
-                <span style="float: right">在职</span>
-              </el-option>
-              <el-option label="二次入司" value="02">
-                <span style="float: left; color: #8492a6; font-size: 13px">02</span>
-                <span style="float: right">二次入司</span>
-              </el-option>
-              <el-option label="离职" value="03">
-                <span style="float: left; color: #8492a6; font-size: 13px">03</span>
-                <span style="float: right">离职</span>
+              <el-option v-for="(item,index) in list.state" :key="index" :value="item.value" :label="item.label">
+                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+                <span style="float: right">{{ item.label }}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -104,39 +96,41 @@
         </el-col>
       </el-row>
       <!--     第五行-->
+      <!--      拉拉-->
       <el-row>
         <el-form-item>
           <el-col style="text-align:left;margin-top: 1rem">
             <el-button type="primary" icon="el-icon-search" @click="handleQuery1()">查询</el-button>
-            <el-button type="primary" icon="el-icon-download" @click="download2">导出</el-button>
-            <el-button type="primary" icon="el-icon-upload2" disabled @click="uploadDialogVisible=true">Excel导入</el-button>
-            <el-button type="primary" icon="el-icon-download" @click="download1">模板下载</el-button>
+            <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
+            <!--            <el-button type="primary" icon="el-icon-download" @click="download2">导出</el-button>-->
+            <!--                        <el-button type="primary" icon="el-icon-upload2"  @click="uploadDialogVisible=true">Excel导入</el-button>-->
+            <!--            <el-button type="primary" icon="el-icon-download" @click="download1">模板下载</el-button>-->
           </el-col>
         </el-form-item>
       </el-row>
     </el-form>
-    <el-dialog
-      title="Excel文件导入"
-      :visible.sync="uploadDialogVisible"
-    >
-      <el-upload
-        v-loading="uploadLoading"
-        drag
-        action="https://jsonplaceholder.typicode.com/posts/"
-        style="text-align: center"
-        :before-close="handleCloseUploadDialog"
-        :on-success="handleUploadSuccess"
-        :on-error="handleUploadError"
-        :before-upload="handleBeforeUpload"
-        :show-file-list="false"
-      >
-        <i class="el-icon-upload" />
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      </el-upload>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="secondary" @click="uploadDialogVisible = false">取 消</el-button>
-      </span>
-    </el-dialog>
+    <!--        <el-dialog-->
+    <!--          title="Excel文件导入" -->
+    <!--          :visible.sync="uploadDialogVisible"-->
+    <!--        >-->
+    <!--          <el-upload-->
+    <!--            v-loading="uploadLoading"-->
+    <!--            drag-->
+    <!--            action="http://10.11.115.30:9999/down/load"-->
+    <!--            style="text-align: center"-->
+    <!--            :before-close="handleCloseUploadDialog"-->
+    <!--            :on-success="handleUploadSuccess"-->
+    <!--            :on-error="handleUploadError"-->
+    <!--            :before-upload="handleBeforeUpload"-->
+    <!--            :show-file-list="false"-->
+    <!--          >-->
+    <!--            <i class="el-icon-upload" />-->
+    <!--            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>-->
+    <!--          </el-upload>-->
+    <!--          <span slot="footer" class="dialog-footer">-->
+    <!--            <el-button type="secondary" @click="uploadDialogVisible = false">取 消</el-button>-->
+    <!--          </span>-->
+    <!--        </el-dialog>-->
     <!--    分割线-->
     <el-divider />
     <!--    表格-->
@@ -146,6 +140,7 @@
 <script>
 import GroupTable from '@/components/PersonEdit/personTable'
 import * as V from '@/api/personhold'
+import * as Code from '@/api/code'
 
 export default {
   name: 'Zc',
@@ -171,11 +166,13 @@ export default {
         manageCom2: [],
         manageCom3: [],
         manageCom4: [],
-        branchAttr: []
+        branchAttr: [],
+        state: []
       }
     }
   },
   created() {
+    this.getInitOptions() // 获取初始下拉菜单，获取码值
     // 二级下拉列表 渲染
     V.xiala1().then((r) => {
       this.list.manageCom2 = r['list']
@@ -183,23 +180,52 @@ export default {
   },
   mounted() {
     this.$bus.$on('refresh', () => {
-      this.handleQuery1()
+      this.$bus.$emit('form_2', this.form)
     })
   },
   beforeDestroy() {
-    this.$bus.$off('refresh')
+    this.$bus.$emit('form_2', this.form)
   },
   methods: {
+    // 获取码表
+    getInitOptions() {
+      Code.getAllCode().then(
+        r => {
+          this.codes = r['resource']
+          this.fillCodes() // 将获取的码值填入需要的项中
+        })
+    },
+    // 填充码表
+    fillCodes() {
+      if (!this.codes) {
+        this.$message.error('未能正确获取下拉菜单')
+        return
+      }
+      this.setCodes('agentstate', this.list.state)
+    },
+    // 通过以获取的码表数据填充某一列表
+    setCodes(name, buffer) {
+      if (!(this.codes[name])) {
+        return
+      }
+      Object.keys(this.codes[name])
+        .forEach((key) => {
+          buffer.push({
+            label: this.codes[name][key],
+            value: key
+          })
+        })
+    },
     handleCloseUploadDialog() {
       this.uploadDialogVisible = false
     },
-    handleUploadSuccess(response, file, fileList) {
+    handleUploadSuccess(response) {
       this.$message.success('上传成功！')
       this.uploadLoading = false
       this.uploadDialogVisible = false
       console.log(response)
     },
-    handleUploadError(err, file, fileList) {
+    handleUploadError(err) {
       this.uploadLoading = false
       console.log(err)
       this.$message({
@@ -261,7 +287,7 @@ export default {
         const blob = new Blob([res], { type: 'application/vnd.ms-excel' })
         link.style.display = 'none'
         link.href = URL.createObjectURL(blob)
-        link.setAttribute('download', `${'员工批量导入模板'}.xlsx`)
+        link.setAttribute('download', `'员工批量导入模板'.xlsx`)
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
@@ -280,11 +306,15 @@ export default {
         const blob = new Blob([res], { type: 'application/vnd.ms-excel' })
         link.style.display = 'none'
         link.href = URL.createObjectURL(blob)
-        link.setAttribute('download', `${'查询结果导出'}.xlsx`)
+        link.setAttribute('download', `'查询结果导出'.xlsx`)
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
       })
+    },
+    // 重置按钮
+    resetForm() {
+      this.$refs['form'].resetFields()
     }
   }
 }

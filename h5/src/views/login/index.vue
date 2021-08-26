@@ -4,7 +4,8 @@
       <div class="title-container">
         <h3 class="title">大家保险销售管理系统</h3>
       </div>
-      <el-form-item prop="username">
+      <el-form-item prop="userId">
+        <!--      <el-form-item prop="username">-->
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
@@ -27,7 +28,7 @@
           auto-complete="on"
         />
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -129,7 +130,7 @@ export default {
               this.loading = false
             })
         } else {
-          this.$message.error('请检查信息是否有误')
+          this.$message.warning('请检查信息是否有误')
           return false
         }
       })

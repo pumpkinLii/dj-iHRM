@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h4>离司申请</h4>
+    <h4>离司确认</h4>
     <el-form ref="form" :model="form" :rules="rules" label-width="180px">
       <!--      第一行-->
       <el-row>
@@ -49,16 +49,8 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="职级" prop="agentGrade">
-            <el-select
-              v-model="form.agentGrade"
-              placeholder="请选择"
-              style="width:100%"
-              clearable
-            >
-              <el-option v-for="item in agentGradeList" :key="item.gradecode" :value="item.gradecode" :label="item.gradename">
-                <span style="float: left; color: #8492a6; font-size: 13px">{{ item.gradecode }}</span>
-                <span style="float: right">{{ item.gradename }}</span>
-              </el-option>
+            <el-select v-model="form.agentGrade" style="width: 100%" placeholder="请选择" clearable>
+              <el-option label="合同制" value="0" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -117,8 +109,8 @@
         <el-form-item>
           <el-col style="text-align:left;margin-top: 1rem">
             <el-button type="primary" icon="el-icon-search" @click="page.currentPage=1;handleQuery()">查询</el-button>
-            <el-button type="success" icon="el-icon-edit" @click="LeaveAddDialogVisible">新增</el-button>
-            <el-button type="warning" icon="el-icon-check" :disabled="selected.length===0" @click="Submit">提交审核</el-button>
+            <el-button type="primary" @click="check">审核通过</el-button>
+            <el-button type="primary" @click="nocheck">审核不通过</el-button>
             <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
           </el-col>
         </el-form-item>
@@ -127,7 +119,7 @@
     <el-divider />
     <!--    表格-->
     <div>
-      <el-table ref="multipleTable" :data="table" stripe border fit height="300" @selection-change="handleSelectChange">
+      <el-table :data="table" stripe border fit height="300" @selection-change="handleSelectChange">
         <el-table-column type="selection" width="40" :selectable="selectEnable" />
         <el-table-column label="人员代码" prop="agentCode" />
         <el-table-column label="人员姓名" prop="agentName" />
@@ -139,15 +131,11 @@
         <el-table-column label="解约日期" prop="diffDate" />
         <el-table-column label="解约原因" prop="diffCauseName" />
         <el-table-column label="说明" prop="illustrate" />
-        <el-table-column label="审核状态" prop="agentStateName" />
-        <el-table-column label="操作" prop="operator">
-          <template scope="scope">
-            <!-- 修改 -->
-            <el-button type="primary" icon="el-icon-edit" size="mini" @click="LeaveAddDialog(scope.row)">修改</el-button>
-          </template>
-        </el-table-column>
+        <el-table-column label="审核状态" prop="agentStateName" width="110" sortable />
+        <!--        <el-table-column label="操作" prop="operator" />-->
       </el-table>
       <!-- 分页 -->
+      <!--      hhhhh-->
       <div class="block" style="text-align: right;margin-top: 1rem">
         <el-pagination
           :current-page.sync="page.currentPage"
@@ -160,8 +148,6 @@
         />
       </div>
     </div>
-    <ADD />
-    <MODIFY />
 
   </div>
 </template>
@@ -170,13 +156,10 @@ import * as Code from '@/api/code'
 import * as Agent from '@/api/agent'
 import * as Query from '@/api/peopleDepart'
 import { getNextOptions } from '@/api/personChange'
-import ADD from '@/components/leaveCompany/LeaveAddDialog'
-import MODIFY from '@/components/leaveCompany/LeaveModifyDialog'
-import * as API from '@/api/agent'
+import * as V from '@/api/leave'
 
 export default {
   name: 'LeaveCompany',
-  components: { ADD, MODIFY },
   data() {
     return {
       form: {
@@ -195,7 +178,6 @@ export default {
       branchName: [], // 团队名称下拉
       AgydepartList: [], // 审核状态下拉列表
       DiffCauseList: [], // 解约原因下拉列表
-      agentGradeList: [], // 职级下拉列表
       rules: {
       },
       page: {
@@ -205,19 +187,26 @@ export default {
       },
       options: [],
       table: [],
-      selected: []
+      selected: [],
+      list: {
+        agentCodeList: [], // 人员代码
+        manageComList: [], // 管理机构代码
+        agentGroupList: [], // 团队代码
+        agentStateList: [], // 人团职级
+        agydepartStateList: [], // 审核状态
+        reasonList: [] // 离职原因
+      }
     }
   },
   created() {
     this.getInitOptions() // 获取初始下拉菜单，获取码值
-    this.getCurAgentGrade() // 获取职级下拉列表
     Agent.manage().then((r) => {
-      this.options.push(r.result)
+      this.options.push(r['result'])
     })
   },
   mounted() {
-    this.$bus.$on('REFRESH_LEAVE', () => {
-      this.handleQuery()
+    this.$bus.$on('refreshAgent', () => {
+      this.hello()
     })
     // 点击文字即可选中
     setInterval(function() {
@@ -229,9 +218,17 @@ export default {
     }, 1000)
   },
   beforeDestroy() {
-    this.$bus.$off('REFRESH_LEAVE')
+    this.$bus.$off('refreshAgent')
   },
   methods: {
+    // 重置按钮
+    resetForm() {
+      this.$refs['form'].resetFields()
+      this.table = []
+    },
+    selectEnable(row) {
+      return row['agentStateCom'] === '2'
+    },
     // 查询按钮
     handleQuery() {
       this.table = []
@@ -259,7 +256,7 @@ export default {
     // 级联团队代码
     changeValBind() {
       getNextOptions(this.form.manageCom).then(res => {
-        this.branchAttr = res.list
+        this.branchAttr = res['list']
       })
     },
     // 校验日期
@@ -309,52 +306,41 @@ export default {
       this.page.currentPage = page
       this.handleQuery()
     },
-    selectEnable(row) {
-      return row['agentStateCom'] === '1'
-    },
-    handleSelectChange(selection) {
-      this.selected = []
-      for (const item of selection) {
-        this.selected.push(item.agentCode)
-      }
-    },
-    // 显示离职
-    LeaveAddDialogVisible() {
-      this.$bus.$emit('ADD_DIALOG')
-    },
     // 显示修改
     LeaveAddDialog(item) {
-      if (item.agentStateCom === '1') {
-        this.$message.error('未提交审核不可修改')
-      } else if (item.agentStateCom === '4') {
-        this.$message.error('审核已通过不可修改')
-      } else {
-        this.$bus.$emit('MODIFY_DIALOG', item)
+      this.$bus.$emit('MODIFY_DIALOG', item)
+    },
+    // 多选按钮
+    handleSelectChange(selection) {
+      Object.keys(this.list).forEach((key) => {
+        this.list[key] = []
+      })
+      for (const item of selection) {
+        this.list.agentCodeList.push(item.agentCode)
+        this.list.manageComList.push(item.comCode4)
+        this.list.agentGroupList.push(item.agentGroup)
+        this.list.agentStateList.push(item['agentGradeCom'])
+        this.list.agydepartStateList.push(item['agentStateCom'])
+        this.list.reasonList.push(item['diffCauseCom'])
       }
     },
-    // 提交审核
-    Submit() {
-      Query.submit(this.selected).then(
-        r => {
-          if (r.code === 0) {
-            this.$message.success('提交成功')
-            this.handleQuery()
-          }
-        }
-      )
+    //  审核通过
+    check() {
+      const par = 1
+      V.check(this.list, par).then((r) => {
+        this.$message.success(r['msg'])
+      }).then(() => {
+        this.handleQuery()
+      })
     },
-    // 重置按钮
-    resetForm() {
-      this.$refs['form'].resetFields()
-      this.table = []
-    },
-    // 获取职级
-    getCurAgentGrade() {
-      API.getCurAgentGrade().then(
-        (res) => {
-          this.agentGradeList = res.list
-        }
-      )
+    // 审核不通过
+    nocheck() {
+      const par = 0
+      V.check(this.list, par).then((r) => {
+        this.$message.success(r['msg'])
+      }).then(() => {
+        this.handleQuery()
+      })
     }
   }
 }
@@ -362,6 +348,12 @@ export default {
 <style  scoped>
 .app-container{
   padding: 20px 5% 20px 1%;
+}
+/deep/ .el-table th{
+  text-align: center;
+}
+/deep/ .el-table td{
+  text-align: center;
 }
 </style>
 

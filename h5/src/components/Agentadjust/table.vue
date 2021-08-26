@@ -21,7 +21,7 @@
     <!-- 分页 -->
     <div class="block" style="text-align: right;margin-top: 1rem">
       <el-pagination
-        :current-page="page.currentPage"
+        :current-page.sync="page.currentPage"
         :page-sizes="[10, 20, 50, 100, 200, 500]"
         :page-size="page.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
@@ -69,6 +69,7 @@ export default {
         })
     })
     this.$bus.$on('something', res => {
+      this.page.currentPage = 1
       this.list = []
       const res2 = { ...res }
       res2.manageCom = res2.manageCom[res2.manageCom.length - 1]

@@ -57,7 +57,10 @@ public class UYllaBranchGroupController {
         UYllaBranchGroupReturnPojo uYllaBranchGroupReturnPojo = uYllaBranchGroupReturnService.updataRe(manager.getAgentCode());
         if (uYllaBranchGroupReturnPojo != null) {
             if (uYllaBranchGroupReturnPojo.getAgentGrade().equals( "MA01")||uYllaBranchGroupReturnPojo.getAgentGrade().equals( "MA02")||uYllaBranchGroupReturnPojo.getAgentGrade() .equals( "MA03")) {
-                return R.ok().put("data", uYllaBranchGroupReturnPojo);
+                if(uYllaBranchGroupReturnPojo.getAgentState().equals("03")||uYllaBranchGroupReturnPojo.getAgentState().equals("04")){
+                    return R.error("该员工已经离职");
+                }
+                else return R.ok().put("data", uYllaBranchGroupReturnPojo);
             } else return R.error("该员工不是主管");
         } else {
             return R.error("该员工号码不存在");

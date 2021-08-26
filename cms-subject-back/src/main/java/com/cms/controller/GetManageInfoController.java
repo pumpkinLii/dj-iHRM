@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/returnMes")
-@Api("负责人")
+@Api("回显")
 public class GetManageInfoController  {
     @Autowired
     GetManageInfoService getManageInfoService;

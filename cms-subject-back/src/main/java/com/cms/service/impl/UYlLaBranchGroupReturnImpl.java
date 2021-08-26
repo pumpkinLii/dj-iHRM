@@ -23,6 +23,7 @@ public class UYlLaBranchGroupReturnImpl extends ServiceImpl<YllaAgentaDao, YlLaA
             return null;
         }
         UYllaBranchGroupReturnPojo uYllaBranchGroupReturnPojo =list.get(0);
+
         return uYllaBranchGroupReturnPojo;
     }
 

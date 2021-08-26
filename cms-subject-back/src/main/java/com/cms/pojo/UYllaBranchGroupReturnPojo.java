@@ -8,4 +8,5 @@ public class UYllaBranchGroupReturnPojo {
     private String agentName;
     private String phone;
     private String agentGrade;
+    private String agentState;
 }

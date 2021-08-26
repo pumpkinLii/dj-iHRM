@@ -89,32 +89,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/leave-company',
-    component: Layout,
-    meta: {
-      title: '离司管理',
-      icon: 'el-icon-s-check'
-    },
-    children: [
-      {
-        path: 'apply',
-        name: 'leaveCompany',
-        component: () => import ('@/views/leaveCompany/index'),
-        meta: {
-          title: '离司申请'
-        }
-      },
-      {
-        path: 'confirm',
-        name: 'leave',
-        component: () => import ('@/views/leave/index2'),
-        meta: {
-          title: '离职确认'
-        }
-      }
-    ]
-  },
-  {
     path: '/team-maintenance',
     component: Layout,
     children: [{
@@ -139,6 +113,32 @@ export const constantRoutes = [
         icon: 'el-icon-s-management'
       }
     }]
+  },
+  {
+    path: '/leave-company',
+    component: Layout,
+    meta: {
+      title: '离司管理',
+      icon: 'el-icon-s-check'
+    },
+    children: [
+      {
+        path: 'apply',
+        name: 'leaveCompany',
+        component: () => import ('@/views/leaveCompany/index'),
+        meta: {
+          title: '离司申请'
+        }
+      },
+      {
+        path: 'confirm',
+        name: 'leave',
+        component: () => import ('@/views/leave/index2'),
+        meta: {
+          title: '离职确认'
+        }
+      }
+    ]
   },
   { path: '*', redirect: '/404', hidden: true }
 ]

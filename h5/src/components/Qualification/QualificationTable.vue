@@ -25,7 +25,7 @@
     <div class="block" style="text-align: right;margin-top: 1rem">
       <el-pagination
         :current-page.sync="page.currentPage"
-        :page-sizes="[2, 20, 50, 100, 200, 500]"
+        :page-sizes="[10, 20, 50, 100, 200, 500]"
         :page-size="page.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="page.totalCount"
@@ -51,7 +51,7 @@ export default {
       page: {
         currentPage: 1,
         totalCount: 0,
-        pageSize: 2
+        pageSize: 10
       }
     }
   },

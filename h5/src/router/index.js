@@ -6,30 +6,6 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
-/**
- * Note: sub-menu only appear when route children.length >= 1
- * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
- *
- * hidden: true                   if set true, item will not show in the sidebar(default is false)
- * alwaysShow: true               if set true, will always show the root menu
- *                                if not set alwaysShow, when item has more than one children route,
- *                                it will becomes nested mode, otherwise not show the root menu
- * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
- * name:'router-name'             the name is used by <keep-alive> (must set!!!)
- * meta : {
-    roles: ['admin','editor']    control the page roles (you can set multiple roles)
-    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
-    icon: 'svg-name'/'el-icon-x' the icon show in the sidebar
-    breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
-    activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
-  }
- */
-
-/**
- * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
- */
 export const constantRoutes = [
   {
     path: '/',
@@ -52,93 +28,94 @@ export const constantRoutes = [
       path: '',
       component: () => import ('@/views/dashboard/index'),
       meta: {
-        title: '首页',
+        title: '仪表盘',
         icon: 'dashboard'
       }
     }]
   },
   {
-    path: '/employeeEntry',
+    path: '/dajia',
     component: Layout,
     children: [{
       path: '',
-      name: 'PersonImport',
-      component: () => import ('@/views/employeeEntry/index'),
+      component: () => import ('@/views/dajia/index'),
       meta: {
-        title: '人员录入',
-        icon: 'el-icon-user'
-      }
-    }],
-    hidden: false
-  },
-  {
-    path: '/personhold',
-    component: Layout,
-    children: [{
-      path: '',
-      name: 'PersonHold',
-      component: () => import ('@/views/personhold/index'),
-      meta: {
-        title: '人员维护',
-        icon: 'el-icon-ship'
+        title: '大家首页',
+        icon: 'el-icon-s-home'
       }
     }]
   },
   {
-    path: '/agentadjust',
+    path: '/person-management',
     component: Layout,
-    children: [{
-      path: '',
-      name: 'Agentadjust',
-      component: () => import ('@/views/agentadjust/index'),
-      meta: {
-        title: '职级调整',
-        icon: 'el-icon-s-data'
+    name: 'PersonImport',
+    meta: {
+      title: '人员管理',
+      icon: 'el-icon-user'
+    },
+    children: [
+      {
+        path: 'entry',
+        name: 'PersonImport',
+        component: () => import ('@/views/employeeEntry/index'),
+        meta: {
+          title: '人员录入'
+        }
+      },
+      {
+        path: 'maintenance',
+        name: 'PersonHold',
+        component: () => import ('@/views/personhold/index'),
+        meta: {
+          title: '人员维护'
+        }
+      },
+      {
+        path: 'change',
+        name: 'personelChange',
+        component: () => import ('@/views/personnelChange/index'),
+        meta: {
+          title: '人员异动'
+        }
+      },
+      {
+        path: 'adjust',
+        name: 'Agentadjust',
+        component: () => import ('@/views/agentadjust/index'),
+        meta: {
+          title: '职级调整'
+        }
       }
-    }]
+    ]
   },
   {
-    path: '/leaveCompany',
+    path: '/leave-company',
     component: Layout,
-    children: [{
-      path: '',
-      name: 'leaveCompany',
-      component: () => import ('@/views/leaveCompany/index'),
-      meta: {
-        title: '离司申请',
-        icon: 'el-icon-user'
+    meta: {
+      title: '离司管理',
+      icon: 'el-icon-s-check'
+    },
+    children: [
+      {
+        path: 'apply',
+        name: 'leaveCompany',
+        component: () => import ('@/views/leaveCompany/index'),
+        meta: {
+          title: '离司申请'
+        }
+      },
+      {
+        path: 'confirm',
+        name: 'leave',
+        component: () => import ('@/views/leave/index2'),
+        meta: {
+          title: '离职确认'
+        }
       }
-    }],
-    hidden: false
+    ]
   },
   {
-    path: '/leave',
-    component: Layout,
-    children: [{
-      path: '',
-      name: 'leave',
-      component: () => import ('@/views/leave/index2'),
-      meta: {
-        title: '离职确认', // hhhhhhhh
-        icon: 'el-icon-document-checked'
-      }
-    }]
-  },
-  {
-    path: '/personelChange',
-    component: Layout,
-    children: [{
-      path: '',
-      name: 'personelChange',
-      component: () => import ('@/views/personnelChange/index'),
-      meta: {
-        title: '人员异动',
-        icon: 'el-icon-suitcase-1'
-      }
-    }]
-  },
-  {
-    path: '/teamMaintenance',
+    path: '/team-maintenance',
     component: Layout,
     children: [{
       path: '',
@@ -148,11 +125,10 @@ export const constantRoutes = [
         title: '团队维护',
         icon: 'el-icon-s-cooperation'
       }
-    }],
-    hidden: false
+    }]
   },
   {
-    path: '/qualificationManagement',
+    path: '/qualification-management',
     component: Layout,
     children: [{
       path: '',
@@ -162,25 +138,8 @@ export const constantRoutes = [
         title: '资格证管理',
         icon: 'el-icon-s-management'
       }
-    }],
-    hidden: false
+    }]
   },
-  // {
-  //   path: '/leaderChange',
-  //   component: Layout,
-  //   children: [{
-  //     path: '',
-  //     name: 'LeaderChange',
-  //     component: () => import ('@/views/leaderChange/index'),
-  //     meta: {
-  //       title: '团队主管任命免职',
-  //       icon: 'el-icon-s-check'
-  //     }
-  //   }],
-  //   hidden: false
-  // },
-  // 404 page must be placed at the end !!!
-  //
   { path: '*', redirect: '/404', hidden: true }
 ]
 

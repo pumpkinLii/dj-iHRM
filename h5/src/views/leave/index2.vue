@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <h4>离司确认</h4>
-    <el-form :model="form" :rules="rules" label-width="180px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="180px">
       <!--      第一行-->
       <el-row>
         <el-col :span="8">
@@ -20,7 +20,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="团队代码">
+          <el-form-item label="团队代码" prop="agentGroup">
             <el-select v-model="form.agentGroup" placeholder="请选择" clearable style="width:100%;">
               <el-option v-for="(option,index) in branchAttr" :key="index" :label="option.branchAttr" :value="option.branchAttr">
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ option.name }}</span>
@@ -30,7 +30,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="团队名称">
+          <el-form-item label="团队名称" prop="branchName">
             <el-input v-model="form.branchName" placeholder="请输入团队名称" clearable />
           </el-form-item>
         </el-col>
@@ -38,17 +38,17 @@
       <!--      第二行-->
       <el-row>
         <el-col :span="8">
-          <el-form-item label="人员代码">
+          <el-form-item label="人员代码" prop="agentCode">
             <el-input v-model="form.agentCode" placeholder="请输入代理人代码" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="人员姓名">
+          <el-form-item label="人员姓名" prop="agentName">
             <el-input v-model="form.agentName" placeholder="请输入代理人姓名" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="职级">
+          <el-form-item label="职级" prop="agentGrade">
             <el-select v-model="form.agentGrade" style="width: 100%" placeholder="请选择" clearable>
               <el-option label="合同制" value="0" />
             </el-select>
@@ -58,7 +58,7 @@
       <!--      第三行-->
       <el-row>
         <el-col :span="8">
-          <el-form-item label="审核状态">
+          <el-form-item label="审核状态" prop="agydepart">
             <el-select v-model="form.agydepart" style="width: 100%" placeholder="请选择" clearable>
               <el-option v-for="(item,index) in AgydepartList" :key="index" :value="item.value" :label="item.label">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
@@ -68,7 +68,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="解约原因">
+          <el-form-item label="解约原因" prop="diffCause">
             <el-select v-model="form.diffCause" style="width: 100%" placeholder="请选择" clearable>
               <el-option v-for="(item,index) in DiffCauseList" :key="index" :value="item.value" :label="item.label">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ item.value }}</span>
@@ -111,6 +111,7 @@
             <el-button type="primary" icon="el-icon-search" @click="handleQuery">查询</el-button>
             <el-button type="primary" @click="check">审核通过</el-button>
             <el-button type="primary" @click="nocheck">审核不通过</el-button>
+            <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
           </el-col>
         </el-form-item>
       </el-row>
@@ -220,6 +221,10 @@ export default {
     this.$bus.$off('refreshAgent')
   },
   methods: {
+    // 重置按钮
+    resetForm() {
+      this.$refs['form'].resetFields()
+    },
     selectEnable(row) {
       return row['agentStateCom'] === '2'
     },

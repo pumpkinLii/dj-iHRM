@@ -5,7 +5,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="管理机构" prop="manageComCode">
-            <el-select v-model="form.manageComCode" placeholder="请选择" style="width:100%;">
+            <el-select v-model="form.manageComCode" placeholder="请选择" style="width:100%;" clearable>
               <el-option v-for="(option,index) in list.manageComCode" :key="index" :label="option.label" :value="option.value">
                 <span style="float: left; color: #8492a6; font-size: 13px">{{ option.value }}</span>
                 <span style="float: right">{{ option.label }}</span>
@@ -14,8 +14,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="团队级别">
-            <el-select v-model="form.branchLevel" style="width:100%;">
+          <el-form-item label="团队级别" prop="branchLevel">
+            <el-select v-model="form.branchLevel" placeholder="请选择" style="width:100%;" clearable>
               <el-option label="行政区划" value="1">
                 <span style="float: left; color: #8492a6; font-size: 13px">1</span>
                 <span style="float: right">行政区划</span>
@@ -24,36 +24,36 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="团队代码">
-            <el-input v-model="form.branchAttr" type="text" style="width:100%;" placeholder="可选项" />
+          <el-form-item label="团队代码" prop="branchAttr">
+            <el-input v-model="form.branchAttr" type="text" style="width:100%;" placeholder="可选项" clearable />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="负责人代码">
-            <el-input v-model="form.branchManager" type="text" style="width:100%;" placeholder="可选项" />
+          <el-form-item label="负责人代码" prop="branchManager">
+            <el-input v-model="form.branchManager" type="text" style="width:100%;" placeholder="可选项" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="负责人姓名">
-            <el-input v-model="form.branchManagerName" type="text" style="width:100%;" placeholder="可选项" />
+          <el-form-item label="负责人姓名" prop="branchManagerName">
+            <el-input v-model="form.branchManagerName" type="text" style="width:100%;" placeholder="可选项" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="负责人手机号" prop="branchManagerPhone">
-            <el-input v-model="form.branchManagerPhone" type="text" style="width:100%;" placeholder="可选项" />
+            <el-input v-model="form.branchManagerPhone" type="text" style="width:100%;" placeholder="可选项" clearable />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item label="成立时间">
-            <el-date-picker v-model="form.branchEffDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" />
+          <el-form-item label="成立时间" prop="branchEffDate">
+            <el-date-picker v-model="form.branchEffDate" value-format="yyyy-MM-dd" type="date" placeholder="可选项" style="width:100%;" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="停业标志">
+          <el-form-item label="停业标志" prop="branchStatus">
             <el-select v-model="form.branchStatus" clearable placeholder="可选项" style="width:100%;">
               <el-option label="否" value="N" />
               <el-option label="是" value="Y" />
@@ -92,7 +92,7 @@ export default {
       },
       form: {
         manageComCode: '',
-        branchLevel: '1', // 团队级别 label='行政区划' value='1' 写死
+        branchLevel: '', // 团队级别 label='行政区划' value='1' 写死
         branchAttr: '',
         branchManager: '',
         branchManagerName: '',

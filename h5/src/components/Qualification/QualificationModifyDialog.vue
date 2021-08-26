@@ -157,6 +157,7 @@ export default {
       this.form = { ...item } // 对象的深拷贝浅拷贝
       this.form.approveBy = undefined
       this.$set(this.form, 'approver', item.approveBy)
+      // this.form.approver = item.approveBy
       // this.form.approver = item.approveBy // 接口格式谈崩，做的补丁化处理 []与.的区别
       // 通过资格证中文查找码值
       for (const item of this.list.certificateObject) {
@@ -194,7 +195,7 @@ export default {
     },
     sendSubmitRequest(data) {
       update(data)
-        .then(r => {
+        .then(() => {
           this.$bus.$emit('QUALIFICATION_SUCCESS')
           this.$refs['form'].resetFields()
           this.config.visible = false

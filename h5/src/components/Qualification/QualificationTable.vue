@@ -59,6 +59,7 @@ export default {
     this.$bus.$on('QUERY', (data) => {
       // 把表单的数据,页面大小,当前页面传给服务器
       this.handleQueryQualification(data)
+      this.page.currentPage = 1
     })
     // this.$bus.$on('QUALIFICATION_SUCCESS', (data) => {
     //   this.handleQueryQualification(data)
@@ -73,7 +74,7 @@ export default {
     this.$bus.$off('QUERY')
   },
   methods: {
-    showModifyDialog(item, row) {
+    showModifyDialog(item) {
       // console.log(this.list[row].certificateCode)
       this.$bus.$emit('OPEN_QUALIFICATION_MODIFY_DIALOG', item)
     },
@@ -85,6 +86,8 @@ export default {
           this.list = r.list
           this.page.totalCount = r.totalcount
           this.$message.success('查询完毕')
+        }).catch(err => {
+          this.page.totalCount = err.totalcount
         })
     },
     handleSizeChange(size) {

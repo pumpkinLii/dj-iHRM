@@ -189,10 +189,13 @@ export default {
               this.table = r['list']
               this.page.totalCount = r['totalCount']
               this.$message.success('查询完毕')
+            }).catch(err => {
+              this.page.totalCount = err['totalCount']
             })
         } else {
           return false
         }
+        this.page.currentPage = 1
       })
     },
     handleOpenChangeDialog() {

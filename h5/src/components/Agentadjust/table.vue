@@ -64,7 +64,10 @@ export default {
           this.list = r.list
           this.page.totalCount = r.totalCount
           this.$message.success('查询完毕')
+        }).catch(() => {
+          this.page.totalCount = 0
         })
+      this.page.currentPage = 1
     })
     this.$bus.$on('something1', () => {
       this.list = []

@@ -118,7 +118,7 @@ public class RankAlterServiceImpl extends ServiceImpl<RankAlterDao, YlLaAgentEnt
         }
 
         ylLaAgentManoeuvreEntity.setOperator("wxy");
-        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
         String time = df.format(date);
         ylLaAgentManoeuvreEntity.setMakeDate(date);
         ylLaAgentManoeuvreEntity.setMakeTime(time);

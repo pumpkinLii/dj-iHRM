@@ -3,7 +3,6 @@ package com.cms.controller;
 import com.cms.pojo.DepartModifyPojo;
 import com.cms.pojo.DepartQueryReturnPojo;
 import com.cms.service.DepartModifyService;
-import com.cms.service.DepartQueryService;
 import com.cms.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,20 +16,6 @@ import java.text.ParseException;
 @RequestMapping("/depart")
 @Api("离司申请修改接口")
 public class LeavingApplicationController {
-    @Autowired
-    DepartQueryService departQueryService;
-
-    @PostMapping("/Query")
-    @ApiOperation("离司申请查询信息接口")
-    public R departQuery(@RequestParam("agentCode") String agentCode) throws ParseException {
-        DepartQueryReturnPojo dqrp = departQueryService.departQuery(agentCode);
-        if (dqrp!=null){
-            return R.ok().put("form",dqrp);
-        }else {
-            return R.error("未查询到相关人员");
-        }
-    }
-
     @Autowired
     DepartModifyService departModifyService;
     @PostMapping("/Modify")

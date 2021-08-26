@@ -3,7 +3,7 @@ package com.cms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.DepartModifyDao;
+import com.cms.dao.YlLaDimissionDao;
 import com.cms.entity.YlLaDimissionEntity;
 import com.cms.pojo.DepartModifyPojo;
 import com.cms.service.DepartModifyService;
@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
-public class DepartModifyServiceImpl extends ServiceImpl<DepartModifyDao, YlLaDimissionEntity> implements DepartModifyService {
+public class DepartModifyServiceImpl extends ServiceImpl<YlLaDimissionDao, YlLaDimissionEntity> implements DepartModifyService {
     @Override
     public String departModify(DepartModifyPojo departModifyPojo) throws ParseException{
         QueryWrapper<YlLaDimissionEntity> queryWrapper = new QueryWrapper<>();

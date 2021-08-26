@@ -2,8 +2,7 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.EchoGroupDao;
-import com.cms.dao.EchoManagerDao;
+import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.YlLaBranchGroupEntity;
 import com.cms.pojo.StaffPojo;
 import com.cms.service.EchoGroupService;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class EchoGroupServiceImpl extends ServiceImpl<EchoGroupDao, YlLaBranchGroupEntity> implements EchoGroupService {
+public class EchoGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBranchGroupEntity> implements EchoGroupService {
     //@Override
     public List<Map<String, String>> getGroup(StaffPojo staffPojo) {
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();

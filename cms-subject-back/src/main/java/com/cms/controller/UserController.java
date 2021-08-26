@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/test")
+@RequestMapping("/user")
 @Api("用户登录的检测")
 public class UserController {
     @Autowired

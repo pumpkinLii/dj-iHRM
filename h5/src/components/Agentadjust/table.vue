@@ -55,6 +55,19 @@ export default {
   },
   mounted() {
     // 查询结果  res 是传过来的数据
+    this.$bus.$on('something2', res => {
+      this.list = []
+      const res2 = { ...res }
+      res2.manageCom = res2.manageCom[res2.manageCom.length - 1]
+      V.find(res2, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
+        .then(r => {
+          this.list = r.list
+          this.page.totalCount = r.totalCount
+          this.$message.success('查询完毕')
+        }).catch(() => {
+          this.page.totalCount = 0
+        })
+    })
     this.$bus.$on('something', res => {
       this.list = []
       const res2 = { ...res }
@@ -67,7 +80,6 @@ export default {
         }).catch(() => {
           this.page.totalCount = 0
         })
-      this.page.currentPage = 1
     })
     this.$bus.$on('something1', () => {
       this.list = []

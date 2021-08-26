@@ -134,7 +134,11 @@ export default {
   },
   mounted() {
     this.$bus.$on('refreshAgent', () => {
-      this.hello()
+      if (this.form.manageCom !== undefined && this.form.manageCom !== '' && this.form.manageCom.length !== 0) {
+        this.$bus.$emit('something2', this.form)
+      } else {
+        this.$bus.$emit('something1')
+      }
     })
     // 点击文字即可选中
     setInterval(function() {

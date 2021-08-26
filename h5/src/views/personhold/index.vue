@@ -180,11 +180,11 @@ export default {
   },
   mounted() {
     this.$bus.$on('refresh', () => {
-      this.handleQuery1()
+      this.$bus.$emit('form_2', this.form)
     })
   },
   beforeDestroy() {
-    this.$bus.$off('refresh')
+    this.$bus.$emit('form_2', this.form)
   },
   methods: {
     // 获取码表

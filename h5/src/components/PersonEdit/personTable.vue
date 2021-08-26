@@ -52,6 +52,16 @@ export default {
   },
   mounted() {
     // 查询结果  res 是传过来的数据
+    this.$bus.$on('form_2', res => {
+      this.list = []
+      V.queryPerson(res, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
+        .then(r => {
+          console.log(r)
+          this.list = r.list
+          this.page.totalCount = r.totalCount
+          this.$message.success('查询完毕')
+        })
+    })
     this.$bus.$on('form2', res => {
       this.list = []
       V.queryPerson(res, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })

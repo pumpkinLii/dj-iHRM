@@ -15,7 +15,7 @@ export function find(data) {
 // asd
 export function check(data, par) {
   return request({
-    url: '/resignate/approval?num=' + par,
+    url: '/regisnate/approval?num=' + par,
     method: 'post',
     data
   })

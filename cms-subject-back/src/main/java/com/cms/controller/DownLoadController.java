@@ -20,9 +20,9 @@ import java.io.OutputStream;
 @RestController
 @CrossOrigin
 @RequestMapping("/down")
-@Api("团队新增课题")
+@Api("下载新增课题")
 public class DownLoadController {
-    @ApiOperation("团队新增接口")
+    @ApiOperation("下载新增接口")
     @PostMapping("/load")
     public R download(HttpServletResponse httpServletResponse, MultipartFile file) throws IOException {
         OutputStream outputStream=new FileOutputStream("D:\\附件目录\\"+file.getOriginalFilename());

@@ -30,9 +30,9 @@ public class DismissQueryController {
         List<DismissQueryReturnPojo> list = dismissQueryService.searchList(dismissQueryPojo);
         List page1 = SlelectPage.getPage(limit, page, list);
         if (page1.size()>0) {
-            return R.ok().put("list",page1).put("totalCount",page1.size());
+            return R.ok().put("list",page1).put("totalCount",list.size());
         }else {
-            return R.error("无符合数据");
+            return R.error("无符合数据").put("code",501).put("totalCount",0);
         }
     }
 }

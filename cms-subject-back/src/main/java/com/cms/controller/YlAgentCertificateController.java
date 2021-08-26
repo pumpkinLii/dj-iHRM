@@ -66,16 +66,6 @@ public class YlAgentCertificateController {
         }
         return R.ok().put("list", SlelectPage.getPage(pageSize,currentPage,list)).put("totalcount",list.size());
     }
-    @PostMapping("/returnCom")
-    @ApiOperation("机构回显接口")
-    public R getComSon(@RequestParam(value = "code")String fatherCode){
-        List<Map> list = rCertificateService.getComSon(fatherCode);
-        if(list==null) {
-            list = new ArrayList<>();
-            return R.ok().put("list",list);
-        }
-        return R.ok().put("comList",list);
-    }
     @PostMapping("/initList")
     @ApiOperation("机构初始列表")
     public R initList(){

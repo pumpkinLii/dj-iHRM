@@ -4,6 +4,7 @@ import com.alibaba.excel.util.StringUtils;
 import com.cms.common.ComnewSon;
 import com.cms.common.ProxyComNewReturn;
 import com.cms.service.*;
+import com.cms.service.impl.AreaServiceImpl;
 import com.cms.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +29,7 @@ import java.io.OutputStream;
 import java.util.List;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -41,6 +43,8 @@ public class DropDownController {
      * 2 * @Date: 2021/8/2 20:10
      * 3 * @ClassName : EmpController
      */
+    @Autowired
+    AreaServiceImpl areaService;
     @Autowired
     private EmpService empService;
     @Autowired
@@ -67,6 +71,12 @@ public class DropDownController {
 
     }
 
+    @ApiOperation("城市列表接口")
+    @PostMapping("/area")
+    public Map getArea(){
+        List list =areaService.getArea();
+        return R.ok().put("province",list);
+    }
     //下面这个是 有树状图的下拉列表 分级管理的模式 根据获取code的长度从而返回不同的
 //请求参数为“”的下拉款 我返回总的数据 请求参数为两位 就返回4位 同理进行操作
     @ApiOperation("树状图管理机构下拉列表")

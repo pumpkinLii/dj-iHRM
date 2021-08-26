@@ -44,7 +44,7 @@ public class BackMsgController {
     @Autowired
     EchoGroupService echoGroupService;
 
-    @PostMapping("/group")
+    @PostMapping("/echoGroup")
     @ApiOperation("回显团队架构接口")
     public R echoGroup(@RequestBody StaffPojo staffPojo) {
         List<Map<String, String>> mapList = echoGroupService.getGroup(staffPojo);
@@ -59,7 +59,7 @@ public class BackMsgController {
     @Autowired
     EchoManagerService echoManagerService;
 
-    @PostMapping("/manager")
+    @PostMapping("/echomanager")
     @ApiOperation("回显团队主管工号及姓名接口")
     public R echoManager(@RequestBody GroupPojo groupPojo) {
         Map<String, String> map = echoManagerService.getManager(groupPojo);

@@ -1,4 +1,0 @@
-13:21:50.339 [main] INFO  com.cms.CmsApplication - [logStarting,55] - Starting CmsApplication on DESKTOP-JJS12OR with PID 540 (D:\ideaPro\DJBX_Service\cms-subject-back\target\classes started by 86155 in D:\ideaPro\DJBX_Service)
-13:21:50.389 [main] DEBUG com.cms.CmsApplication - [logStarting,56] - Running with Spring Boot v2.2.8.RELEASE, Spring v5.2.7.RELEASE
-13:21:50.389 [main] INFO  com.cms.CmsApplication - [logStartupProfileInfo,655] - The following profiles are active: dev
-13:21:58.396 [main] INFO  com.cms.CmsApplication - [logStarted,61] - Started CmsApplication in 8.938 seconds (JVM running for 10.882)

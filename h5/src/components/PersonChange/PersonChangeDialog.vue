@@ -111,12 +111,12 @@ export default {
     changeAgent() {
       change(this.form).then(() => {
         this.$message.success('人员异动成功')
+        this.form.manageCom = ''
+        this.form.agentGroup = ''
+        this.form.modifyDate = ''
+        this.form.adminCode = ''
+        this.form.adminName = ''
       })
-      this.form.manageCom = ''
-      this.form.agentGroup = ''
-      this.form.modifyDate = ''
-      this.form.adminCode = ''
-      this.form.adminName = ''
       // this.$nextTick(() => {
       //   this.$refs['form'].clearValidate()
       // })

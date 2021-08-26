@@ -22,18 +22,6 @@ import java.io.OutputStream;
 @RequestMapping("/down")
 @Api("下载新增课题")
 public class DownLoadController {
-    @ApiOperation("下载新增接口")
-    @PostMapping("/load")
-    public R download(HttpServletResponse httpServletResponse, MultipartFile file) throws IOException {
-        OutputStream outputStream=new FileOutputStream("D:\\附件目录\\"+file.getOriginalFilename());
-        InputStream inputStream = file.getInputStream();
-        byte[] bytes=new byte[1024];
-        while ((inputStream.read(bytes))>0){
-            outputStream.write(bytes);
-        }
-        outputStream.flush();
-        outputStream.close();
-        return R.ok();
-    }
+
 
 }

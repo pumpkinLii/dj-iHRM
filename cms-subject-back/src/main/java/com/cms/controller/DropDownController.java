@@ -31,11 +31,7 @@ public class DropDownController {
      * 2 * @Date: 2021/8/2 20:10
      * 3 * @ClassName : EmpController
      */
-    @RestController
-    @CrossOrigin
-    @RequestMapping("/postToRank")
-    @Api("岗位对应职级")
-    public class EmpController {
+
         @Autowired
         private EmpService empService;
 
@@ -52,6 +48,3 @@ public class DropDownController {
             return R.ok().put("list",list);
         }
     }
-
-
-}

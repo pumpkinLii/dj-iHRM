@@ -1,7 +1,7 @@
 package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.cms.dao.YllaBranchGroupDao;
+import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.pojo.GradeQueryPojo;
 import com.cms.pojo.GradeQueryReturnPojo;
 import com.cms.service.GradeQueryService;
@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class GradeQueryServiceImpl implements GradeQueryService {
     @Autowired
-    YllaBranchGroupDao yllaBranchGroupDao;
+    YlLaBranchGroupDao yllaBranchGroupDao;
     public List<GradeQueryReturnPojo> gradeQuery(GradeQueryPojo gradeQueryPojo) throws ParseException{
         QueryWrapper<GradeQueryReturnPojo> wrapper = new QueryWrapper<>();
         wrapper.likeRight(!StringUtils.isEmpty(gradeQueryPojo.getManageCom()),"t1.manage_com",gradeQueryPojo.getManageCom());

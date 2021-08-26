@@ -2,7 +2,7 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.YllaBranchGroupDao;
+import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.YlLaBranchGroupEntity;
 import com.cms.pojo.GroupPojo;
 import com.cms.service.EchoManagerService;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class EchoManagerServiceImpl extends ServiceImpl<YllaBranchGroupDao, YlLaBranchGroupEntity> implements EchoManagerService {
+public class EchoManagerServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBranchGroupEntity> implements EchoManagerService {
 
     @Override
     public Map<String,String> getManager(GroupPojo groupPojo){

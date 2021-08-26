@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface YllaBranchGroupDao extends BaseMapper<YlLaBranchGroupEntity> {
+public interface YlLaBranchGroupDao extends BaseMapper<YlLaBranchGroupEntity> {
     //职级调整的查询
     List<GradeQueryReturnPojo> gradeQuery(@Param(Constants.WRAPPER) QueryWrapper wrapper);
 

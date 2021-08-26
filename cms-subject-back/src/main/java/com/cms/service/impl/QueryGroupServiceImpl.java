@@ -2,7 +2,7 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.YllaBranchGroupDao;
+import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.YlLaBranchGroupEntity;
 import com.cms.pojo.QueryGroupPojo;
 import com.cms.service.QueryGroupService;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class QueryGroupServiceImpl extends ServiceImpl<YllaBranchGroupDao, YlLaBranchGroupEntity> implements QueryGroupService {
+public class QueryGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBranchGroupEntity> implements QueryGroupService {
     @Override
     public List<Map<String,String>> queryGroup(QueryGroupPojo queryGroupPojo){
         QueryWrapper<YlLaBranchGroupEntity> qw = new QueryWrapper<>();

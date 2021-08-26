@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.cms.dao.YllaBranchGroupDao">
+<mapper namespace="com.cms.dao.YlLaBranchGroupDao">
     <select id="gradeQuery" parameterType="com.cms.pojo.GradeQueryPojo" resultType="com.cms.pojo.GradeQueryReturnPojo">
         SELECT t2.agent_code,
                t2.agent_name,

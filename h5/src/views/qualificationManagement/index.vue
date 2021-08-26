@@ -266,7 +266,7 @@ export default {
     handleQuery(withWarning) { // withWarning:表单检查失败时是否会红色提醒用户 true:会 false:不会提醒用户
       this.$refs['form'].validate(valid => {
         if (valid) {
-          this.$bus.$emit('QUERY', this.form)
+          this.$bus.$emit('QUERY1', this.form)
         } else {
           if (withWarning) {
             return false

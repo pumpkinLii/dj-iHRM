@@ -55,7 +55,12 @@ public class SelectAgentGroupInfo {
      * */
     private YlLaBranchGroupEntity selectOneAgentGroup(String index){
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("agent_group",index);
+        if(index.length() == 11){
+            queryWrapper.eq("agent_group",this.branchAttrToAgentGroup(index));
+        }
+        else{
+            queryWrapper.eq("agent_group",index);
+        }
         YlLaBranchGroupEntity ylLaBranchGroupEntity = this.agentGroup.getBaseMapper().selectOne(queryWrapper);
         return ylLaBranchGroupEntity;
     }
@@ -66,7 +71,13 @@ public class SelectAgentGroupInfo {
     private boolean checkBranchGroupInfo(YlLaAgentChangePojo ylLaAgentChangePojo){
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("manage_com",ylLaAgentChangePojo.getManageCom());
-        queryWrapper.eq("agent_group",ylLaAgentChangePojo.getAgentGroup());
+        if(ylLaAgentChangePojo.getAgentGroup().length() == 11){
+            queryWrapper.eq("agent_group",this.branchAttrToAgentGroup(ylLaAgentChangePojo.getAgentGroup()));
+        }
+        else{
+            queryWrapper.eq("agent_group",ylLaAgentChangePojo.getAgentGroup());
+        }
+
         List<YlLaBranchGroupEntity> resultSet = this.agentGroup.getBaseMapper().selectList(queryWrapper);
         if(resultSet.size() == 1){
             return true;

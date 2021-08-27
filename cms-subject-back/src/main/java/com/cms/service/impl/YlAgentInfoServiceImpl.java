@@ -27,23 +27,33 @@ import java.util.*;
  * @author :zhanhaoze
  * @description :
  * @create :2021-08-03
- * 此类提供两个方法,laAgentSubmit(LaAgentPojo laAgent)用于在数据库的yl_la_agent表插入数据,
+ * 此类提供三个方法,laAgentSubmit(LaAgentPojo laAgent)用于在数据库的yl_la_agent表插入数据,
  * laAgentUpdate(LaAgentUpdatePojo laAgent)用于在数据库的yl_la_agent表更新数据
+ * getgradeteam(GradeTeamPojo gradeTeamPojo)方法用于根据职级返回架构团队
  */
 @Service
 @Slf4j
 public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements YlAgentInfoService {
     @Autowired
-    public IdCheck idCheck;
+    private IdCheck idCheck;
 
     @Autowired
     private SelectAgentGroupInfo selectAgentGroupInfo;
 
+    @Autowired
+    RYlLaBranchGroupServiceImpl rYlLaBranchGroupServiceImpl;
+
+    /**
+     * 此方法根据职级返回架构团队的代码,传入一个GradeTeamPojo对象，返回一个R对象
+     * */
+    @Override
+    public R getgradeteam(GradeTeamPojo gradeTeamPojo){
+        return this.getgrade(gradeTeamPojo);
+    }
+
     /**
      * 增加人员信息方法，传入LaAgentPojo，返回boolean值结果
      */
-    @Autowired
-    RYlLaBranchGroupServiceImpl rYlLaBranchGroupServiceImpl;
     @Override
     public boolean laAgentSubmit(LaAgentPojo laAgent){
         //在此处调用创建YlLaAgentEntity的方法，用于数据库操作
@@ -135,9 +145,11 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
             return "02";
         }
     }
-    //进行根据职级返回架构团队的代码
-    @Override
-    public R getgradeteam(GradeTeamPojo gradeTeamPojo) {
+
+    /**
+     * 封装根据职级返回架构团队
+     * */
+    private R getgrade(GradeTeamPojo gradeTeamPojo) {
         //与前端协商 只有当她请求
         String oldgrade=gradeTeamPojo.getOldgradecode();
         String nowgrade=gradeTeamPojo.getNowgradecode();

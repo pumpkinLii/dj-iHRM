@@ -38,7 +38,7 @@ public class BackMsgController {
     }
 
     /*回显团队架构*/
-    @PostMapping("/echoGroup")
+    @PostMapping("/echogroup")
     @ApiOperation("回显团队架构接口")
     public R echoGroup(@RequestBody StaffPojo staffPojo) {
         List<Map<String, String>> mapList = echoGroupService.getGroup(staffPojo);

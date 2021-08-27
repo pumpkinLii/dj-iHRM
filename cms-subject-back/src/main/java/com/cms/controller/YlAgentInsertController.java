@@ -17,10 +17,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/login/YlAgentInsert")
 @Api("人员录入模块")
 public class YlAgentInsertController {
-
-    //王欣艺
     @Autowired
     private NIdCheckService nIdCheckService;
+    @Autowired
+    private YlAgentAttrInfoService ylAgentAttrInfoService;
+    @Autowired
+    private YlAgentInfoService ylAgentInfoService;
+    @Autowired
+    private YlLaAgentInfoChangeService ylLaAgentInfoChangeService;
+
+    //王欣艺
     @ApiOperation("证件校验接口")
     @PostMapping({"/idCheck"})
     public R idcheck(@RequestBody IdCheckPojo idCheckPojo) {
@@ -49,15 +55,6 @@ public class YlAgentInsertController {
     }
 
     //张晓成
-    @Autowired
-    private YlAgentAttrInfoService ylAgentAttrInfoService;
-
-    @Autowired
-    private YlAgentInfoService ylAgentInfoService;
-
-    @Autowired
-    private YlLaAgentInfoChangeService ylLaAgentInfoChangeService;
-
     private String agentCode;
     @PostMapping("/doSave")
     @ApiOperation("人员录入与导入接口")

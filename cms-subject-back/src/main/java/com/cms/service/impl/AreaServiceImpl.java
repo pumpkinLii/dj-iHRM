@@ -2,6 +2,7 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.dao.AreaDao;
+import com.cms.dao.YlLaAreaDao;
 import com.cms.entity.YlLaAreaEntity;
 import com.cms.pojo.AreaPojo;
 import com.cms.service.AreaService;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AreaServiceImpl extends ServiceImpl<AreaDao, YlLaAreaEntity> implements AreaService {
+public class AreaServiceImpl extends ServiceImpl<YlLaAreaDao, YlLaAreaEntity> implements AreaService {
 
     @Override
     public List<AreaPojo> getArea() {

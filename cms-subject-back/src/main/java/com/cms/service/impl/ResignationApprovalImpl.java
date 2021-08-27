@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.ParseDate;
 import com.cms.dao.ResignationApprovalDao;
+import com.cms.dao.YlLaDimissionDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.entity.YlLaAgentManoeuvreEntity;
 import com.cms.entity.YlLaBranchGroupEntity;
@@ -18,7 +19,7 @@ import java.text.ParseException;
 import java.util.List;
 
 @Service
-public class ResignationApprovalImpl extends ServiceImpl<ResignationApprovalDao, YlLaDimissionEntity> implements ResignationApprovalService {
+public class ResignationApprovalImpl extends ServiceImpl<YlLaDimissionDao, YlLaDimissionEntity> implements ResignationApprovalService {
     @Autowired
     RYlLaBranchGroupServiceImpl rYlLaBranchGroupService;
     @Autowired

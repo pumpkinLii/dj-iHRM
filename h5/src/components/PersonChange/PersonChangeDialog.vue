@@ -124,6 +124,7 @@ export default {
         this.form.modifyDate = ''
         this.form.adminCode = ''
         this.form.adminName = ''
+        this.$bus.$emit('REFRESH_QUALIFICATION')
       })
       // this.$nextTick(() => {
       //   this.$refs['form'].clearValidate()

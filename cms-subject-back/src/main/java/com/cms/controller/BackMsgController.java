@@ -30,6 +30,8 @@ public class BackMsgController {
     EchoGroupService echoGroupService;
     @Autowired
     EchoManagerService echoManagerService;
+    @Autowired
+    UYllaBranchGroupReturnService uYllaBranchGroupReturnService;
 
     @PostMapping("/gradeteam")
     @ApiOperation("根据职级返回架构团队")
@@ -95,6 +97,22 @@ public class BackMsgController {
             return R.ok().put("list",list);
         }
         return R.ok().put("comList",list);
+    }
+
+    @PostMapping("/getgroupmanager")
+    @ApiOperation("查询接口")
+    public R find(@RequestBody ManagerCodePojo manager) {
+        UYllaBranchGroupReturnPojo uYllaBranchGroupReturnPojo = uYllaBranchGroupReturnService.updataRe(manager.getAgentCode());
+        if (uYllaBranchGroupReturnPojo != null) {
+            if (uYllaBranchGroupReturnPojo.getAgentGrade().equals( "MA01")||uYllaBranchGroupReturnPojo.getAgentGrade().equals( "MA02")||uYllaBranchGroupReturnPojo.getAgentGrade() .equals( "MA03")) {
+                if(uYllaBranchGroupReturnPojo.getAgentState().equals("03")||uYllaBranchGroupReturnPojo.getAgentState().equals("04")){
+                    return R.error("该员工已经离职");
+                }
+                else return R.ok().put("data", uYllaBranchGroupReturnPojo);
+            } else return R.error("该员工不是主管");
+        } else {
+            return R.error("该员工号码不存在");
+        }
     }
 
     //张毅泷

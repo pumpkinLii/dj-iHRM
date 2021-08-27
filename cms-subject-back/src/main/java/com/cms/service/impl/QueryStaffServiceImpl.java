@@ -17,9 +17,9 @@ import java.util.*;
 
 @Service
 public class QueryStaffServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements QueryStaffService {
+    //根据给出的条件返回查询结果
     @Autowired
     YlLaAgentDao ylLaAgentDao;
-
     public List<QueryStaffReturn> queryStaff(QueryStaffPojo queryStaffPojo) throws ParseException {
         QueryWrapper<QueryStaffReturn> wrapper = new QueryWrapper<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -37,13 +37,12 @@ public class QueryStaffServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEn
             Date date2=dateFormat.parse(ed);
             wrapper.le("t1.employ_date",date2);
         }
-
-        if(queryStaffPojo.getManageCom4()!=""){
+        if(!"".equals(queryStaffPojo.getManageCom4())){
             wrapper.eq("t2.com_code",queryStaffPojo.getManageCom4());
             wrapper.eq(!StringUtils.isEmpty(queryStaffPojo.getBranchAttr()),"t1.agent_group",queryStaffPojo.getBranchAttr());
-        }else if (queryStaffPojo.getManageCom3()!=""){
+        }else if (!"".equals(queryStaffPojo.getManageCom3())){
             wrapper.likeRight("t2.com_code",queryStaffPojo.getManageCom3());
-        } else if (queryStaffPojo.getManageCom2() != "") {
+        } else if (!"".equals(queryStaffPojo.getManageCom2())) {
             wrapper.likeRight("t2.com_code",queryStaffPojo.getManageCom2());
         }
         List<QueryStaffReturn> list = ylLaAgentDao.queryStaff(wrapper);

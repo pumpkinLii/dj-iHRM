@@ -25,40 +25,40 @@ import java.util.Map;
 @RequestMapping("/login/Team")
 @Api("团队模块")
 public class TeamController {
-    //王佳智
     @Autowired
     CYlLaBranchGroupServiceImpl c_ylLaBranchGroupService;
+    @Autowired
+    RYlLaBranchGroupServiceImpl r_YlLaBranchGroupService;
+    @Autowired
+    QueryGroupService queryGroupService;
+    @Autowired
+    UYllaBranchGroupService uyllaBranchGroupService;
 
+    //王佳智
     @ApiOperation("团队新增接口")
     @PostMapping("/insertgroup")
     public R creat(@RequestBody CYlLaBranchGroupPojo c_ylLaBranchGroupPojo) throws ParseException {
         //抛出异常 是因为 前端传进来的Date的不会有错误的
         return c_ylLaBranchGroupService.creat(c_ylLaBranchGroupPojo);
     }
+
     //王佳智
     //接受传进来的Pojo对象
-    @Autowired
-    RYlLaBranchGroupServiceImpl r_YlLaBranchGroupService;
-
     @ApiOperation("团队查询接口")
     @PostMapping("/querygroup")
     public R creat(@RequestBody RYlLaBranchGroupPojo r_ylLaBranchGroupPojo, int page, int limit) {
         //page为页面的限制 就是一个页面存多少数据 limit是代表第几页
         //将会接受进来的数据封装为 一个 Pojo对象
         //  List<RYlLaBranchGrouReturn> list = r_YlLaBranchGroupService.Retrieve_group(r_ylLaBranchGroupPojo,page,limit);
-
         List list = r_YlLaBranchGroupService.Retrieve_group(r_ylLaBranchGroupPojo);
         Integer totalcount=0;
         if (list!=null){
             totalcount = list.size();
         }
-
         return R.ok().put("list", SlelectPage.getPage(limit,page,list)).put("totalcount", totalcount);
     }
-    //王佳智
-    @Autowired
-    QueryGroupService queryGroupService;
 
+    //王佳智
     @PostMapping("/queryGroupbyCom4")
     @ApiOperation("查询团队四级机构接口")
     public R queryGroup(@RequestBody QueryGroupPojo queryGroupPojo) {
@@ -71,9 +71,6 @@ public class TeamController {
     }
 
     //陈益轩
-    @Autowired
-    UYllaBranchGroupService uyllaBranchGroupService;
-
     @PostMapping("/updateGroup")
     @ApiOperation("团队修改接口")
     public R updataGroup(@RequestBody UYllabranchGroupPojo uYllabranchGroupPojo) {

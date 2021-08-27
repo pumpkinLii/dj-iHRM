@@ -35,14 +35,14 @@ public class YlLaAgentInfoChangeServiceImpl extends ServiceImpl<YlLaAgentDao, Yl
      *此方法使用时传入一个YlLaAgentChangePojo对象，该对象中包含了人员异动后的信息，成功返回true，失败返回false
      * */
     @Override
-    public boolean ylLaAgentChange(YlLaAgentChangePojo ylLaAgentChangePojo) {
+    public String ylLaAgentChange(YlLaAgentChangePojo ylLaAgentChangePojo) {
         return this.agentChange(ylLaAgentChangePojo);
     }
 
     /**
      * 此私有方法用于检查YlLaAgentChangePojo中的信息是否合法，如果合法则在数据库中更新信息以及在异动表中插入数据然后返回true，失败则返回false
      * */
-    private boolean agentChange(YlLaAgentChangePojo ylLaAgentChangePojo){
+    private String agentChange(YlLaAgentChangePojo ylLaAgentChangePojo){
         QueryWrapper queryWrapper = new QueryWrapper();
         for (String i: ylLaAgentChangePojo.getAgentCodeList()) {
             queryWrapper.eq("agent_code",i);
@@ -50,10 +50,22 @@ public class YlLaAgentInfoChangeServiceImpl extends ServiceImpl<YlLaAgentDao, Yl
         }
         List<YlLaAgentEntity> resultSet = this.baseMapper.selectList(queryWrapper);
         if(resultSet.size() != ylLaAgentChangePojo.getAgentCodeList().size()){
-            return false;
+            return "您选择的员工工号有错误";
         }
         if(!selectAgentGroupInfo.checkBranchGroup(ylLaAgentChangePojo)){
-            return false;
+            return "您选择的团队不存在或团队与管理机构无关";
+        }
+        if((ylLaAgentChangePojo.getManageCom() == null) || (ylLaAgentChangePojo.getManageCom().equals(""))){
+            return "您选择的管理机构为空！";
+        }
+        if((ylLaAgentChangePojo.getModifyDate() == null) || (ylLaAgentChangePojo.getModifyDate().equals(""))){
+            return "您选择的异动日期为空！";
+        }
+        if(!ylLaAgentChangePojo.getModifyDate().matches("\\d{4}-\\d{2}-\\d{2}")){
+            return "您输入的异动日期格式错误";
+        }
+        if((ylLaAgentChangePojo.getOperator() == null) || (ylLaAgentChangePojo.getOperator().equals(""))){
+            return "操作员为空！";
         }
         UpdateWrapper<YlLaAgentEntity> updateWrapper = new UpdateWrapper<>();
         updateWrapper.set("manage_com",ylLaAgentChangePojo.getManageCom());
@@ -77,8 +89,8 @@ public class YlLaAgentInfoChangeServiceImpl extends ServiceImpl<YlLaAgentDao, Yl
         }
         int result = this.baseMapper.update(null,updateWrapper);
         if(result == ylLaAgentChangePojo.getAgentCodeList().size() && ylLaAgentManoeuvreService.buildNewAgentManoeuvre(resultSet,ylLaAgentChangePojo)){
-            return true;
+            return "success";
         }
-        return false;
+        return "fail";
     }
 }

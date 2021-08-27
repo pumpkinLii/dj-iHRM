@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.ComnewSon;
 import com.cms.dao.SearchListDao;
+import com.cms.dao.YlLaAgentDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.pojo.ResultListPojo;
 import com.cms.pojo.SearchListPojo;
@@ -14,7 +15,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 @Service
-public class SearchListServiceImpl extends ServiceImpl<SearchListDao, YlLaAgentEntity>implements SearchLIstService {
+public class SearchListServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity>implements SearchLIstService {
     @Autowired
     SearchListDao searchListDao;
     @Autowired

@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.text.ParseException;
 import java.util.List;
 @Service
 public class GradeQueryServiceImpl implements GradeQueryService {
+    //代理人职级调整时的按条件查询
     @Autowired
     YlLaBranchGroupDao yllaBranchGroupDao;
-    public List<GradeQueryReturnPojo> gradeQuery(GradeQueryPojo gradeQueryPojo) throws ParseException{
+    public List<GradeQueryReturnPojo> gradeQuery(GradeQueryPojo gradeQueryPojo){
         QueryWrapper<GradeQueryReturnPojo> wrapper = new QueryWrapper<>();
         wrapper.likeRight(!StringUtils.isEmpty(gradeQueryPojo.getManageCom()),"t1.manage_com",gradeQueryPojo.getManageCom());
         wrapper.eq(!StringUtils.isEmpty(gradeQueryPojo.getAgentGroup()),"t1.agent_group",gradeQueryPojo.getAgentGroup());

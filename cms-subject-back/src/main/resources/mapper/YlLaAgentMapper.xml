@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cms.dao.YlLaAgentDao">
+
+    <select id="queryStaff" parameterType="com.cms.pojo.QueryStaffPojo"
+            resultType="com.cms.pojo.QueryStaffReturn">
+        SELECT t1.agent_code,
+        t1.agent_name,
+        t1.agent_grade,
+        t1.agent_state,
+        t1.employ_date,
+        t1.out_work_date,
+        t2.com_code,
+        t2.yl_name     AS manage_com4,
+        t3.agent_group,
+        t3.branch_attr,
+        t3.branch_name,
+        t4.grade_name,
+        (SELECT code_name
+        FROM ld_code
+        WHERE t1.agent_state=ld_code.code
+        AND ld_code.code_type='agentstate') AS stateName,
+        (SELECT yl_name
+        FROM ld_com_new
+        WHERE ld_com_new.yl = 'Y'
+        AND com_code = (SELECT LEFT(t2.com_code, 6))) AS manage_com3,
+        (SELECT yl_name
+        FROM ld_com_new
+        WHERE ld_com_new.yl='Y'
+        AND com_code=(SELECT LEFT (t2.com_code, 4))) AS manage_com2
+        FROM yl_la_agent AS t1
+        JOIN ld_com_new AS t2
+        ON t1.manage_com=t2.com_code
+        JOIN yl_la_branch_group AS t3 ON t1.agent_group=t3.agent_group
+        JOIN la_agent_grade AS t4 ON t1.agent_grade=t4.grade_code
+        ${ew.customSqlSegment}
+    </select>
+
+    <select id="queryInfo" parameterType="String"
+            resultType="com.cms.pojo.QueryWithCodeReturn">
+        SELECT t1.agent_code,
+               t1.sap_code,
+               t1.agent_name,
+               t2.id_type,
+               t2.id_no,
+               t2.birthday,
+               t2.sex,
+               t2.rgt_type,
+               t2.reg_address as rgtProvince,
+               t2.highest_degree,
+               t2.first_degree,
+               t2.degree,
+               t2.graduate_school,
+               t2.major,
+               t2.nationality,
+               t2.nativeplace,
+               t2.old_industry_type,
+               t2.old_occupation,
+               t2.old_com,
+               t2.old_job_duty,
+               t2.work_age,
+               t2.address     as homeAddress,
+               t2.postcode,
+               t2.homephone,
+               t2.phone,
+               t2.email,
+               t2.outlook_status,
+               t2.bank_code,
+               t2.bank_account,
+               t2.unite_bank_num,
+               t2.bank_province,
+               t2.bank_city,
+               t2.certificate_no,
+               t1.agent_job,
+               t1.agent_grade,
+               t3.branch_attr,
+               t3.branch_manager,
+               t3.branch_manager_name,
+               t2.contract_type,
+               t2.contract_start_date,
+               t2.contract_end_date,
+               t1.employ_date,
+               t1.operator,
+               t4.grade_name  as agentGradeName,
+               t3.branch_name,
+               t1.out_work_date,
+               t1.agent_state,
+               t1.repeat_flag,
+               (SELECT yl_name FROM ld_com_new WHERE ld_com_new.yl='Y' and com_code=t1.manage_com) as manageCom4,
+               (SELECT up_com_code FROM ld_com_new WHERE ld_com_new.yl='Y' and com_code=t1.manage_com) as comCode3,
+               (SELECT yl_name FROM ld_com_new WHERE ld_com_new.yl='Y' and com_code=comCode3) as manageCom3,
+               (SELECT up_com_code FROM ld_com_new WHERE ld_com_new.yl='Y' and com_code=comCode3) as comCode2,
+               (SELECT yl_name FROM ld_com_new WHERE ld_com_new.yl='Y' and com_code=comCode2) as manageCom2
+        FROM yl_la_agent AS t1
+                 JOIN yl_la_agent_attr AS t2 ON t1.agent_code=t2.agent_code
+                 JOIN yl_la_branch_group AS t3 ON t1.agent_group=t3.agent_group
+                 JOIN la_agent_grade AS t4 ON t1.agent_grade=t4.grade_code
+            ${ew.customSqlSegment}
+    </select>
+
+    <select id="getManagerInfo" parameterType="com.cms.pojo.UYllaBranchGroupReturnPojo"
+            resultType="com.cms.pojo.UYllaBranchGroupReturnPojo">
+        SELECT yl_la_agent.agent_code  as agentCode,
+               yl_la_agent.agent_name  as agentName,
+               yl_la_agent_attr.phone  as phone,
+               yl_la_agent.agent_grade as agentGrade,
+               yl_la_agent.agent_state as agentState
+        FROM yl_la_agent
+                 join yl_la_agent_attr on yl_la_agent.agent_code = yl_la_agent_attr.agent_code
+            ${ew.customSqlSegment}
+    </select>
+
+    <select id="getAllYlLaAgent" parameterType="com.cms.pojo.IdCheckPojo" resultType="com.cms.pojo.IdCheckAllPojo">
+        select ylaa.*, yl_la_agent.*
+        from yl_la_agent
+                 join yl_la_agent_attr ylaa
+                      on yl_la_agent.agent_code = ylaa.agent_code
+            ${ew.customSqlSegment}
+    </select>
+
+    <select id="DismissQueryList" parameterType="com.cms.pojo.DismissQueryPojo"
+            resultType="com.cms.pojo.DismissQueryReturnPojo">
+        select t1.agent_code,
+               t1.agent_name,
+               t2.manage_com as comCode4,
+               t2.branch_attr as branchAttr,
+               (SELECT yl_name FROM ld_com_new WHERE ld_com_new.com_code=t1.manage_com) AS manageCom4,
+               t1.agent_group,
+               t2.branch_name,
+               t1.agent_grade as agentGradeCom,
+               (SELECT grade_name FROM la_agent_grade WHERE la_agent_grade.grade_code=t1.agent_grade) AS agentGradeName,
+               t3.depart_date as diffDate,
+               t3.depart_reason as diffCauseCom,
+               (select ld_code.code_name from ld_code where ld_code.code_type='departreason' and t3.depart_reason=ld_code.code) as diffCauseName,
+               t3.noti as illustrate,
+               t3.depart_state as agentStateCom,
+               (select ld_code.code_name from ld_code where ld_code.code_type='agydepartstate' and t3.depart_state=ld_code.code)as agentStateName
+        from yl_la_agent as t1
+                 JOIN yl_la_branch_group AS t2
+                      ON t1.agent_group = t2.agent_group
+                 JOIN yl_la_dimission AS t3
+                      ON t1.agent_code = t3.agent_code
+            ${ew.customSqlSegment}
+    </select>
+
+
+    <select id="SearchDimission" parameterType="com.cms.pojo.AcceptDimissionPojo"
+            resultType="com.cms.pojo.SearchDimissionPojo">
+        SELECT yla.agent_name           AS agentName,
+               yla.manage_com           AS manageCom,
+               ylbg.branch_attr         AS branchAttr,
+               ylbg.branch_name         AS branchName,
+               yla.agent_grade          AS agentGrade,
+               (SELECT yl_name FROM ld_com_new WHERE ld_com_new.com_code=yla.manage_com) AS ylName
+        FROM yl_la_agent yla
+                 JOIN yl_la_branch_group ylbg
+                      ON yla.agent_group = ylbg.agent_group
+            ${ew.customSqlSegment}
+    </select>
+
+    <select id="SearchList" parameterType="com.cms.pojo.SearchListPojo"
+            resultType="com.cms.pojo.ResultListPojo">
+        select t1.agent_code,
+               t1.agent_name,
+               t1.employ_date,
+               t1.agent_state,
+               t1.agent_grade,
+               t1.agent_group,
+               t3.contract_type,
+               t4.branch_name,
+               t4.manage_com as com_code4 ,
+               (SELECT yl_name FROM ld_com_new WHERE ld_com_new.com_code=com_code4) AS manageCom4,
+               (SELECT up_com_code FROM ld_com_new WHERE t4.manage_com=ld_com_new.com_code) AS com_code3,
+               (SELECT yl_name FROM ld_com_new WHERE ld_com_new.com_code=com_code3) AS manageCom3,
+               (SELECT up_com_code FROM ld_com_new WHERE ld_com_new.com_code=com_code3) AS com_code2,
+               (SELECT yl_name FROM ld_com_new WHERE ld_com_new.com_code=com_code2) AS manageCom2,
+               (SELECT code_name FROM ld_code WHERE ld_code.code_type='agentstate' AND code=t1.agent_state) AS agentState,
+               (SELECT code_name FROM ld_code WHERE ld_code.code_type='contracttype' AND code=t3.contract_type) AS contractType,
+               (SELECT grade_name FROM la_agent_grade WHERE la_agent_grade.grade_code=t1.agent_grade) AS agentGrade
+        from yl_la_agent AS t1
+                 JOIN yl_la_agent_attr AS t3
+                      ON t1.agent_code = t3.agent_code
+                 JOIN yl_la_branch_group AS t4
+                      ON t1.agent_group = t4.agent_group
+            ${ew.customSqlSegment}
+    </select>
+
+
+    <select id="YlSelectExcell" parameterType="com.cms.pojo.YlMSelectExcellPojo"
+            resultType="com.cms.pojo.YlMSelectExcellPojo">
+        SELECT     t5.com_code as manageCom4,
+                   t5.yl_name  as manageName4,
+                   (select la_agent_grade.grade_name from la_agent_grade where la_agent_grade.grade_code=t1.agent_grade)  agentGrade,
+                   t1.sap_code as sapCode,
+                   t1.agent_name as agentName,
+                   (select ld_code.code_name from ld_code where ld_code.code_type='agentstate' and t1.agent_state=ld_code.code) agentState,
+                   (select ld_code.code_name from ld_code where ld_code.code_type='ylpost' and t1.agent_job=ld_code.code) agentJob,
+                   t1.agent_grade as agentGrade,
+                   (select y.code_name from ld_code y where y.code_type='sex' and t2.sex=y.code) sex,
+                   t2.birthday as birthday,
+                   (select y.code_name from ld_code y where y.code_type='idtype' and t2.id_type=y.code) as idType,
+                   t2.id_no as idNo,
+                   t1.employ_date as employDate,
+                   t1.out_work_date as outDate,
+                   (select ld_code.code_name from ld_code where ld_code.code_type='rgttype' and t2.rgt_type=ld_code.code)as rgtType,
+                   (select yl_la_area.place_name from yl_la_area where yl_la_area.place_type='01' and t2.reg_address=yl_la_area.place_code)as rgtProvince,
+                   (select ld_code.code_name from ld_code where ld_code.code_type='highestdegree' and t2.highest_degree=ld_code.code) as highestDegree,
+                   (select ld_code.code_name from ld_code where ld_code.code_type='highestdegree' and t2.first_degree=ld_code.code) as firstDegree,
+                   (select ld_code.code_name from ld_code where ld_code.code_type='degree' and t2.degree=ld_code.code) as degree,
+                   t2.graduate_school as graduateSchool,
+                   t2.major as major,
+                   (select ld_code.code_name from ld_code where ld_code.code_type='nationality' and t2.nationality=ld_code.code)as nationality,
+                   (select ld_code.code_name from ld_code where ld_code.code_type='nativeplace' and t2.nativeplace=ld_code.code) as nativeplace,
+                   (select ld_code.code_name from ld_code where ld_code.code_type='industrytype' and t2.old_industry_type=ld_code.code) as oldIndustryType,
+                   t2.old_occupation as oldOccupation,
+                   t2.old_com as oldCom,
+                   t2.old_job_duty as oldJobDuty,
+                   t2.work_age as workAge,
+                   t2.address as homeAddress,
+                   t2.postcode as postcode,
+                   t2.homephone as homephone,
+                   t2.phone as phone,
+                   t2.email as email,
+                   (select ld_code.code_name from ld_code where ld_code.code_type='polityvisage' and t2.outlook_status=ld_code.code) as outlookStatus,
+                   (select ld_code.code_name from ld_code where ld_code.code_type='bankcode' and t2.bank_code=ld_code.code) as bankCode,
+                   t2.bank_account as bankAccount,
+                   t2.unite_bank_num as uniteBankNum,
+                   (select yl_la_area.place_name from yl_la_area where yl_la_area.place_type='01' and t2.bank_province=yl_la_area.place_code) as bankProvince ,
+                   (select yl_la_area.place_name from yl_la_area where yl_la_area.place_type='02' and t2.bank_city=yl_la_area.place_code)as bankCity,
+                   t2.contract_type as contractType,
+                   t2.contract_start_date as contractStartDate,
+                   t2.contract_end_date as contractEndDate,
+                   t3.branch_attr as branchAttr,
+                   t3.branch_name as branchName,
+                   t3.branch_manager as branchManagerCode,
+                   t3.branch_manager_name as branchManagerName,
+                   t3.branch_manager_phone as branchManagerPhone
+        FROM yl_la_agent AS t1
+                 JOIN yl_la_agent_attr AS t2 ON t1.agent_code=t2.agent_code
+                 JOIN yl_la_branch_group AS t3 ON t1.agent_group=t3.agent_group
+                 JOIN la_agent_grade AS t4 ON t1.agent_grade=t4.grade_code
+                 JOIN ld_com_new AS t5 ON t1.manage_com=t5.com_code
+            ${ew.customSqlSegment}
+    </select>
+</mapper>

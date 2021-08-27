@@ -1,9 +1,12 @@
 package com.cms.controller;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.write.metadata.style.WriteCellStyle;
+import com.alibaba.excel.write.metadata.style.WriteFont;
+import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 import com.cms.common.ModelExcelListener;
 import com.cms.common.MyDoUtils;
-import com.cms.common.nowHandler;
+import com.cms.common.NowHandler;
 import com.cms.pojo.*;
 import com.cms.service.*;
 import com.cms.service.impl.RCertificateImpl;
@@ -27,6 +30,7 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 @RestController
@@ -487,7 +491,7 @@ public class ExcelController {
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
         HashMap annotationMAP=new HashMap();
         HashMap dropMap=new HashMap();
-        MyDoUtils.writeExcelWithModel(outputStream,new ArrayList(),YlLaAgentAttrExcelUpdatePojo.class,"new",new nowHandler(colunmindex,colorindex,annotationMAP,dropMap));
+        MyDoUtils.writeExcelWithModel(outputStream,new ArrayList(),YlLaAgentAttrExcelUpdatePojo.class,"new",new NowHandler(colunmindex,colorindex,annotationMAP,dropMap));
         //标头的设置
     }
     @PostMapping("/update")

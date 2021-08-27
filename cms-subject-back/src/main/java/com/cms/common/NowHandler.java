@@ -13,29 +13,29 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
-
-public class nowHandler implements CellWriteHandler {
+public class NowHandler implements CellWriteHandler {
     List<Integer> columIndexs;//字段的下标
     Short colorIndex;//颜色的下标
     HashMap<Integer,String> annotationMaps;//注解下标
     HashMap<Integer,String[]> DropDownMaps;//用于装配下拉框的内容
     //三种构造方法
 
-    public nowHandler(List<Integer> columIndexs, Short colorIndex, HashMap<Integer, String> annotationMaps) {
+    public NowHandler(List<Integer> columIndexs, Short colorIndex, HashMap<Integer, String> annotationMaps) {
         this.columIndexs = columIndexs;
         this.colorIndex = colorIndex;
         this.annotationMaps = annotationMaps;
     }
 
-    public nowHandler(List<Integer> columIndexs, Short colorIndex) {
+    public NowHandler(List<Integer> columIndexs, Short colorIndex) {
         this.columIndexs = columIndexs;
         this.colorIndex = colorIndex;
     }
 
-    public nowHandler(List<Integer> columIndexs, Short colorIndex, HashMap<Integer, String> annotationMaps, HashMap<Integer, String[]> dropDownMaps) {
+    public NowHandler(List<Integer> columIndexs, Short colorIndex, HashMap<Integer, String> annotationMaps, HashMap<Integer, String[]> dropDownMaps) {
         this.columIndexs = columIndexs;
         this.colorIndex = colorIndex;
         this.annotationMaps = annotationMaps;

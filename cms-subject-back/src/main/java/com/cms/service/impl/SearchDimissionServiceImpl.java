@@ -2,7 +2,6 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.SearchDimissionDao;
 import com.cms.dao.YlLaAgentDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.pojo.AcceptDimissionPojo;
@@ -15,11 +14,9 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 @Service
-public class SearchDimissionServiceImpl extends ServiceImpl<SearchDimissionDao, YlLaAgentEntity> implements SearchDimissionService {
+public class SearchDimissionServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements SearchDimissionService {
     @Autowired
-    SearchDimissionDao searchDimissionDao;
-    @Autowired
-    YlLaAgentDao ylLaAgentDao;
+    private YlLaAgentDao ylLaAgentDao;
 
     @Override
     public R SearchDimission(AcceptDimissionPojo acceptDimissionPojo) {
@@ -28,7 +25,7 @@ public class SearchDimissionServiceImpl extends ServiceImpl<SearchDimissionDao, 
         }
         QueryWrapper<SearchDimissionPojo> qw = new QueryWrapper();
         qw.eq(!StringUtils.isEmpty(acceptDimissionPojo.getAgentCode()), "yla.agent_code", acceptDimissionPojo.getAgentCode());
-        List<SearchDimissionPojo> list = searchDimissionDao.SearchDimission(qw);
+        List<SearchDimissionPojo> list = ylLaAgentDao.SearchDimission(qw);
         QueryWrapper<YlLaAgentEntity> qw1 = new QueryWrapper();
         qw1.eq("agent_code", acceptDimissionPojo.getAgentCode());
         List<YlLaAgentEntity> list1 = ylLaAgentDao.selectList(qw1);

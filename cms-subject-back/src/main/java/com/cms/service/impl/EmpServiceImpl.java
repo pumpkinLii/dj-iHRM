@@ -2,7 +2,7 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.EmpDao;
+import com.cms.dao.LaAgentGradeDao;
 import com.cms.entity.LaAgentGradeEntity;
 import com.cms.service.EmpService;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.Map;
  * 3 * @ClassName : EmpServicelmpl
  */
 @Service
-public class EmpServiceImpl extends ServiceImpl<EmpDao, LaAgentGradeEntity> implements EmpService {
+public class EmpServiceImpl extends ServiceImpl<LaAgentGradeDao, LaAgentGradeEntity> implements EmpService {
     @Override
     public List<Map<String, String>> SearchM() {
         List list = new ArrayList();

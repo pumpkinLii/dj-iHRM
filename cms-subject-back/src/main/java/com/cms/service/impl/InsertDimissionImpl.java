@@ -3,6 +3,7 @@ package com.cms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.dao.InsertDimissionDao;
+import com.cms.dao.YlLaDimissionDao;
 import com.cms.entity.YlLaDimissionEntity;
 import com.cms.pojo.AccInsertDimissionPojo;
 import com.cms.service.InsertDimissionService;
@@ -12,7 +13,7 @@ import java.util.Date;
 
 
 @Service
-public class InsertDimissionImpl extends ServiceImpl<InsertDimissionDao, YlLaDimissionEntity> implements InsertDimissionService {
+public class InsertDimissionImpl extends ServiceImpl<YlLaDimissionDao, YlLaDimissionEntity> implements InsertDimissionService {
     @Override
     public int InsertDimission(AccInsertDimissionPojo accInsertDimissionPojo) {
         QueryWrapper queryWrapper=new QueryWrapper();

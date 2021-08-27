@@ -26,7 +26,7 @@ public class QueryStaffServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEn
         wrapper.eq(!StringUtils.isEmpty(queryStaffPojo.getAgentCode()),"t1.agent_code",queryStaffPojo.getAgentCode());
         wrapper.like(!StringUtils.isEmpty(queryStaffPojo.getAgentName()),"t1.agent_name",queryStaffPojo.getAgentName());
         wrapper.eq(!StringUtils.isEmpty(queryStaffPojo.getAgentState()),"t1.agent_state",queryStaffPojo.getAgentState());
-        //wrapper.eq(!StringUtils.isEmpty(queryStaffPojo.getBranchAttr()),"t1.branch_attr",queryStaffPojo.getBranchAttr());
+        wrapper.eq(!StringUtils.isEmpty(queryStaffPojo.getBranchAttr()),"t3.branch_attr",queryStaffPojo.getBranchAttr());
         if (queryStaffPojo.getStartDate()!=null){
             String sd = dateFormat.format(queryStaffPojo.getStartDate());
             Date date1=dateFormat.parse(sd);
@@ -39,7 +39,7 @@ public class QueryStaffServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEn
         }
         if(!"".equals(queryStaffPojo.getManageCom4())){
             wrapper.eq("t2.com_code",queryStaffPojo.getManageCom4());
-            wrapper.eq(!StringUtils.isEmpty(queryStaffPojo.getBranchAttr()),"t1.agent_group",queryStaffPojo.getBranchAttr());
+            //wrapper.eq(!StringUtils.isEmpty(queryStaffPojo.getBranchAttr()),"t3.branch_attr",queryStaffPojo.getBranchAttr());
         }else if (!"".equals(queryStaffPojo.getManageCom3())){
             wrapper.likeRight("t2.com_code",queryStaffPojo.getManageCom3());
         } else if (!"".equals(queryStaffPojo.getManageCom2())) {

@@ -61,7 +61,7 @@ export function posit1() {
 // 团队架构 池浩玥 已改
 export function zhiji(data) {
   return request({
-    url: '/login/back/echoGroup',
+    url: '/login/back/echogroup',
     method: 'post',
     data
   })

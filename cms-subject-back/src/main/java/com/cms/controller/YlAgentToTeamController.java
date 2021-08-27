@@ -1,10 +1,8 @@
 package com.cms.controller;
 
-import com.cms.pojo.QueryWithCodeReturn;
 import com.cms.pojo.ResultListPojo;
 import com.cms.pojo.SearchListPojo;
 import com.cms.pojo.YlLaAgentChangePojo;
-import com.cms.service.QueryWithCodeService;
 import com.cms.service.SearchLIstService;
 import com.cms.service.YlLaAgentInfoChangeService;
 import com.cms.util.R;
@@ -14,7 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -22,10 +19,12 @@ import java.util.List;
 @RequestMapping("/login/YlAgentInsert")
 @Api("人员异动模块")
 public class YlAgentToTeamController {
-
-    //张毅珑
     @Autowired
     SearchLIstService searchLIstService;
+    @Autowired
+    private YlLaAgentInfoChangeService ylLaAgentInfoChangeService;
+
+    //张毅珑
     @PostMapping("/return")
     @ApiOperation("列表查询接口")
     @ResponseBody
@@ -40,8 +39,6 @@ public class YlAgentToTeamController {
     }
 
     //张晓成
-    @Autowired
-    private YlLaAgentInfoChangeService ylLaAgentInfoChangeService;
     @PostMapping("/change")
     @ApiOperation("人员异动接口")
     public R laAgentChange(@RequestBody YlLaAgentChangePojo ylLaAgentChangePojo){

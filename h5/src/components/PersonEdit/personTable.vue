@@ -62,7 +62,7 @@ export default {
           this.$message.success('查询完毕')
         })
     })
-    this.$bus.$on('form2', res => {
+    this.$bus.$on('form_2', res => {
       this.list = []
       V.queryPerson(res, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
         .then(r => {
@@ -76,6 +76,7 @@ export default {
     })
   },
   beforeDestroy() {
+    this.$bus.$off('form2')
     this.$bus.$off('form2')
   },
   methods: {

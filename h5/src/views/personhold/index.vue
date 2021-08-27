@@ -184,7 +184,7 @@ export default {
     })
   },
   beforeDestroy() {
-    this.$bus.$emit('form_2', this.form)
+    this.$bus.$off('refresh')
   },
   methods: {
     // 获取码表

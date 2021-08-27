@@ -61,7 +61,7 @@ public class YlLaAgentInfoChangeServiceImpl extends ServiceImpl<YlLaAgentDao, Yl
         if((ylLaAgentChangePojo.getModifyDate() == null) || (ylLaAgentChangePojo.getModifyDate().equals(""))){
             return "您选择的异动日期为空！";
         }
-        if(!ylLaAgentChangePojo.getModifyDate().matches("\\d{4}-\\d{1,2}-\\d{2}")){
+        if(!ylLaAgentChangePojo.getModifyDate().matches("\\d{4}-\\d{1,2}-\\d{1,2}")){
             return "您输入的异动日期格式错误";
         }
         if((ylLaAgentChangePojo.getOperator() == null) || (ylLaAgentChangePojo.getOperator().equals(""))){

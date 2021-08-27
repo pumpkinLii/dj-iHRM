@@ -1,21 +1,9 @@
 import request from '@/utils/request'
 
-export function find(data) {
-  // const url = ''
-  // const param = '?limit=' + page.pageSize + '&' + 'page=' + page.currentPage
-  return request({
-    // url: url + param,
-    url: '/test',
-    method: 'post',
-    data
-  })
-}
-
-// 审核通过 王佳智
-// asd
+// 审核通过 王佳智 已改
 export function check(data, par) {
   return request({
-    url: '/regisnate/approval?num=' + par,
+    url: '/login/YlAgentDimission/approval?num=' + par,
     method: 'post',
     data
   })

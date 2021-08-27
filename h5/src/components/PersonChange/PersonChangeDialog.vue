@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="人员异动" :visible.sync="config.dialogFormVisible">
+  <el-dialog title="人员异动" :visible.sync="config.dialogFormVisible" :before-close="handleDialogClose">
     <el-form ref="form" :model="form" label-width="130px">
       <el-row>
         <el-col :span="12">
@@ -51,7 +51,7 @@
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="config.dialogFormVisible = false">取 消</el-button>
+      <el-button @click="handleDialogClose">取 消</el-button>
       <el-button type="primary" @click="changeAgent">确 定</el-button>
     </div>
   </el-dialog>
@@ -95,6 +95,14 @@ export default {
     this.$off('OPEN_PERSON_CHANGE_DIALOG')
   },
   methods: {
+    handleDialogClose() {
+      this.form.manageCom = ''
+      this.form.agentGroup = ''
+      this.form.modifyDate = ''
+      this.form.adminCode = ''
+      this.form.adminName = ''
+      this.config.dialogFormVisible = false
+    },
     getAgentGroupList() {
       getNextOptions(this.form.manageCom).then(res => {
         this.form.agentGroup = ''

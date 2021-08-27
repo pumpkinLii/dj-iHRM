@@ -1,50 +1,50 @@
 import request from '@/utils/request'
 
-// 添加一个新的资格证信息
+// 添加一个新的资格证信息 张毅珑 已改
 export function insert(data) {
   return request({
-    url: '/certificate/insert',
+    url: '/login/YlAgentCertificate/insert',
     method: 'post',
     data
   })
 }
 
-// 修改一个新的资格证信息
+// 修改一个新的资格证信息 王佳智 已改
 export function update(data) {
   return request({
-    url: '/certificate/Update',
+    url: '/login/YlAgentCertificate/update',
     method: 'post',
     data
   })
 }
 
-// 通过人员工号获取人员姓名
+// 通过人员工号获取人员姓名 张毅隆  已改
 export function getAgentNameByAgentCode(data) {
   return request({
-    url: '/certificate/searchNameById',
+    url: '/login/back/searchNameById',
     method: 'post',
     data
   })
 }
-
+// 陈益轩 已改
 export function queryQualification(data, page) {
   return request({
-    url: '/certificate/retrieve?pageSize=' + page.pageSize + '&' + 'currentPage=' + page.currentPage,
+    url: '/login/YlAgentCertificate/retrieve?pageSize=' + page.pageSize + '&' + 'currentPage=' + page.currentPage,
     method: 'post',
     data
   })
 }
-
+// 陈益轩 已改
 export function getNextOptions(code) {
   return request({
-    url: '/certificate/returnCom?code=' + code,
+    url: '/login/YlAgentCertificate/returnCom?code=' + code,
     method: 'post'
   })
 }
-
+// 陈益轩 已改
 export function getInitializeList() {
   return request({
-    url: '/certificate/initList',
+    url: '/login/YlAgentCertificate/initList',
     method: 'post'
   })
 }

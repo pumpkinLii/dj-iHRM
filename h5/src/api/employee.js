@@ -1,25 +1,18 @@
 import request from '@/utils/request'
 
-// 用于获得下拉菜单选项
-export function getSelectOptional() {
-  return request({
-    url: '/start/get',
-    method: 'post'
-  })
-}
-
+// 王欣艺 已改
 export function idCheck(data) {
   return request({
-    url: '/test/idCheck',
+    url: '/login/YlAgentInsert/idCheck',
     method: 'post',
     data
   })
 }
 
-// 获得城市列表  //王欣艺的ip
+// 获得城市列表 已改
 export function getCityList() {
   return request({
-    url: '/area/get',
+    url: '/login/get/area',
     method: 'post'
   })
 }
@@ -27,15 +20,15 @@ export function getCityList() {
 // 获取码表
 export function getCodes() {
   return request({
-    url: '/start/get',
+    url: '/login/get/idcode',
     method: 'post'
   })
 }
 
-// 提交新增人员
+// 提交新增人员 张晓成 已改
 export function submit(data) {
   return request({
-    url: '/agent/doSave',
+    url: '/login/YlAgentInsert/doSave',
     method: 'post',
     data
   })
@@ -49,52 +42,52 @@ export function getManageCom(code) {
   })
 }
 
-// 总监
+// 总监 张毅珑 已改
 export function posit() {
   return request({
-    url: '/tes/g',
+    url: '/login/get/director',
     method: 'post'
   })
 }
 
-// 经理
+// 经理 张毅珑 已改
 export function posit1() {
   return request({
-    url: '/tes/m',
+    url: '/login/get/manage',
     method: 'post'
   })
 }
 
-// 团队架构
+// 团队架构 池浩玥 已改
 export function zhiji(data) {
   return request({
-    url: '/test/EchoGroup',
+    url: '/login/back/echoGroup',
     method: 'post',
     data
   })
 }
 
-// 回显
+// 回显 池浩玥 已改
 export function huixian(data) {
   return request({
-    url: '/test/EchoManager',
+    url: '/login/back/echoManager',
     method: 'post',
     data
   })
 }
 
-// 根据agentCode查询人员信息接口
+// 根据agentCode查询人员信息接口 池浩玥 已改
 export function queryAgent(agentCode) {
   return request({
-    url: '/test/QueryWithCode?agentCode=' + agentCode,
+    url: '/login/YlAgentUpdate/queryWithCode?agentCode=' + agentCode,
     method: 'post'
   })
 }
 
-// 修改团队信息
+// 修改团队信息 张晓成 已改
 export function editPerson(data) {
   return request({
-    url: '/agent/update',
+    url: '/login/YlAgentUpdate/update',
     method: 'post',
     data
   })

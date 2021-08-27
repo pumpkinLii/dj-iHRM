@@ -2,10 +2,8 @@ package com.cms.controller;
 
 import com.cms.pojo.GradeQueryPojo;
 import com.cms.pojo.GradeQueryReturnPojo;
-import com.cms.pojo.IdCheckPojo;
 import com.cms.pojo.RankAlterPojo;
 import com.cms.service.GradeQueryService;
-import com.cms.service.NIdCheckService;
 import com.cms.service.RankAlterService;
 import com.cms.util.R;
 import io.swagger.annotations.Api;
@@ -23,10 +21,12 @@ import static com.cms.util.SlelectPage.getPage;
 @RequestMapping({"/login/rank"})
 @Api("职级调整模块")
 public class RankAlterController {
-
-    //王欣艺
     @Autowired
     private RankAlterService rankAlterService;
+    @Autowired
+    GradeQueryService gradeQueryService;
+
+    //王欣艺
     @ApiOperation("职级调整保存接口")
     @PostMapping({"/alter"})
     public R rankAlter(@RequestBody RankAlterPojo rankAlterPojo) {
@@ -40,8 +40,6 @@ public class RankAlterController {
     }
 
     //池浩玥
-    @Autowired
-    GradeQueryService gradeQueryService;
     @PostMapping("/gradeQuery")
     @ApiOperation("职级查询接口")
     public R gradeQuery(@RequestBody GradeQueryPojo gradeQueryPojo, int limit, int page) throws ParseException {

@@ -4,11 +4,7 @@ import com.cms.pojo.*;
 import com.cms.service.*;
 import com.cms.service.impl.RCertificateImpl;
 import com.cms.util.R;
-import com.cms.util.R;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,15 +20,16 @@ import java.util.Map;
 public class BackMsgController {
     @Autowired
     YlAgentInfoService ylAgentInfoService;
-
     @Autowired
     RCertificateImpl rCertificateService;
-
     @Autowired
     GetManageInfoService getManageInfoService;
-
     @Autowired
     YlAgentCertificateService ylAgentCertificateService;
+    @Autowired
+    EchoGroupService echoGroupService;
+    @Autowired
+    EchoManagerService echoManagerService;
 
     @PostMapping("/gradeteam")
     @ApiOperation("根据职级返回架构团队")
@@ -41,10 +38,7 @@ public class BackMsgController {
     }
 
     /*回显团队架构*/
-    @Autowired
-    EchoGroupService echoGroupService;
-
-    @PostMapping("/echogroup")
+    @PostMapping("/echoGroup")
     @ApiOperation("回显团队架构接口")
     public R echoGroup(@RequestBody StaffPojo staffPojo) {
         List<Map<String, String>> mapList = echoGroupService.getGroup(staffPojo);
@@ -56,9 +50,6 @@ public class BackMsgController {
     }
 
     /*回显团队主管工号及姓名*/
-    @Autowired
-    EchoManagerService echoManagerService;
-
     @PostMapping("/echomanager")
     @ApiOperation("回显团队主管工号及姓名接口")
     public R echoManager(@RequestBody GroupPojo groupPojo) {
@@ -69,8 +60,8 @@ public class BackMsgController {
             return R.error(501, "该团队无对应管理员");
         }
     }
-    //陈益轩
 
+    //陈益轩
     @ApiOperation("返回负责人信息接口")
     @PostMapping("/managerinfo")
     public R retManager(@RequestParam(value = "branchAttr") String branchAttr) {
@@ -114,7 +105,7 @@ public class BackMsgController {
         if (result1!=null) {
             return R.ok().put("agentName", result1);
         }else {
-            return R.ok().put("code",501).put("msg","数据库没有此工号");
+            return R.ok().put("code",501).put("msg","该工号不存在");
         }
     }
 

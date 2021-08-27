@@ -43,8 +43,6 @@ public class UserController {
                 return R.ok().put("code",502).put("msg","您的token过期请您重新登陆");
             }
         }
-
-
     }
     @PostMapping("/logout")
     @ApiOperation("登陆接口")

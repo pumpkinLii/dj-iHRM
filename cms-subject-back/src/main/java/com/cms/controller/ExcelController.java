@@ -40,6 +40,26 @@ import java.util.List;
 @Api("Excel模块")
 @Slf4j
 public class ExcelController {
+    @Autowired
+    private NIdCodeService nIdCodeService;
+    @Autowired
+    private IdCodePojo idCodePojo;
+    @Autowired
+    private YlSelectExcellService ylSelectExcellService;
+    @Autowired
+    private QueryStaffService queryStaffService;
+    @Autowired
+    CertInsertExcellService certInsertExcellService;
+    @Autowired
+    RCertificateImpl rCertificateService;
+    @Autowired
+    CertOutExcellService certOutExcellService;
+    @Autowired
+    private YlExcellInsertService ylExcellService;
+    @Autowired
+    YlLaAgentAttrExcelUpdateDao ylLaAgentAttrExcelUpdateDao;
+    @Autowired
+    ModelExcelListener modelExcelListener;
 
     //王佳智
     @ApiOperation("下载新增接口")
@@ -57,15 +77,8 @@ public class ExcelController {
     }
 
     //王欣艺
-    @Autowired
-    private NIdCodeService nIdCodeService;
-
-    @Autowired
-    private IdCodePojo idCodePojo;
-
     @ApiOperation("员工批量导入模板下载")
     @PostMapping({"/YlInsertboard"})
-
     public R getData1(HttpServletResponse response) throws FileNotFoundException {
         try {
             XSSFWorkbook workbook = new XSSFWorkbook();
@@ -82,7 +95,6 @@ public class ExcelController {
             cell0.setCellStyle(titleStyle);//设置标题样式
             CellRangeAddress region=new CellRangeAddress(0, 0, 0, 39);//            firstRow 区域中第一个单元格的行号,lastRow 区域中最后一个单元格的行号,firstCol 区域中第一个单元格的列号,lastCol 区域中最后一个单元格的列号
             sheet.addMergedRegion(region);
-
 
             String[] str = new String[]{"四级管理机构代码*", "姓名*", "性别*", "出生日期*", "证件类型*", "证件号码*", "入司日期*", "户口类型*", "户口所在省*", "最高学历*", "第一学历", "最高学位*", "毕业院校*", "专业*", "民族*", "籍贯*", "最近一份工作行业类型*", "最近一份职业*", "最近一家工作单位*", "最近一份工作职务*", "从业年限*", "家庭地址*", "邮编", "住宅电话","手机*", "E-mail*", "政治面貌*", "账户银行总行*", "银行账号*", "银行卡开户行联行号*", "开户行省份*", "开户行所在市*", "岗位*", "人员职级*", "合同类型*", "劳动合同起期*", "劳动合同止期*", "专业资格证书号", "团队架构代码*", "SAP工号"};
             XSSFCellStyle textStyle = genTextStyle(workbook);//创建标题样式
@@ -246,7 +258,6 @@ public class ExcelController {
     //王欣艺
     @ApiOperation("资格证导入模板下载")
     @PostMapping({"/board"})
-
     public void getData2(HttpServletResponse response) throws FileNotFoundException {
         try {
             log.info("项目启动");
@@ -303,9 +314,6 @@ public class ExcelController {
     }
 
     //王欣艺
-    @Autowired
-    CertInsertExcellService certInsertExcellService;
-
     @ApiOperation("资格证批量导入")
     @PostMapping({"/ExcelInsert"})
     public R certInsert(@RequestParam("file") MultipartFile file) throws IOException, ParseException {
@@ -334,11 +342,6 @@ public class ExcelController {
         }
     }
 
-    @Autowired
-    RCertificateImpl rCertificateService;
-
-    @Autowired
-    CertOutExcellService certOutExcellService;
     @ApiOperation("资格证批量导出")
     @PostMapping({"/ExcelOut"})
     //@RequestBody CertificateConditionPojo getCertificateConditionPojo,
@@ -449,11 +452,6 @@ public class ExcelController {
     }
 
     //王欣艺
-    @Autowired
-    private YlExcellInsertService ylExcellService;
-    @Autowired
-    private ExcelLaAgentService laAgentService;
-
     @ApiOperation("测试接口")
     @PostMapping({"/ylLaAgentAttrIn"})
     public R ylLaAgentAttrExcelIn(@RequestParam("file") MultipartFile file) throws IOException, ParseException {
@@ -482,11 +480,6 @@ public class ExcelController {
     }
 
     //王佳智
-    @Autowired
-    YlLaAgentAttrExcelUpdateDao ylLaAgentAttrExcelUpdateDao;
-
-    @Autowired
-    ModelExcelListener modelExcelListener;
     @PostMapping("/dowload")
     @ApiOperation("模板下载模块未完待续")
     public void exceldowload(HttpServletResponse httpServletResponse) throws IOException {
@@ -517,16 +510,8 @@ public class ExcelController {
     }
 
     //王欣艺
-    @Autowired
-    private YlSelectExcellService ylSelectExcellService;
-
-    @Autowired
-    private QueryStaffService queryStaffService;
-
-
     @ApiOperation("员工查询批量导出接口")
     @PostMapping({"/ylLaAgentAttrExcelOut"})
-
     private R getData(@RequestBody QueryStaffPojo queryStaffPojo,HttpServletResponse response) throws FileNotFoundException {
         try {
             XSSFWorkbook workbook = new XSSFWorkbook();

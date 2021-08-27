@@ -5,6 +5,8 @@ import com.alibaba.excel.write.metadata.style.WriteCellStyle;
 import com.alibaba.excel.write.metadata.style.WriteFont;
 import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 import com.cms.common.ModelExcelListener;
+import com.cms.common.MyDoUtils;
+import com.cms.common.nowHandler;
 import com.cms.dao.YlLaAgentAttrExcelUpdateDao;
 import com.cms.pojo.*;
 import com.cms.service.*;
@@ -29,6 +31,7 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 @RestController
@@ -481,26 +484,18 @@ public class ExcelController {
     @ApiOperation("模板下载模块未完待续")
     public void exceldowload(HttpServletResponse httpServletResponse) throws IOException {
         //获取所有的数据库注释信息然后插入Excel表中
+        List<Integer> colunmindex=new ArrayList();
+        for (int i = 0; i < 51; i++) {
+            colunmindex.add(i);
+        }
+        Short colorindex=IndexedColors.AUTOMATIC.getIndex();
         httpServletResponse.setHeader("Content-Disposition", "attachment;filename=\""+"Updatefile.xlsx"+"\"");
         httpServletResponse.setContentType("\"application/x-excel");
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+        HashMap annotationMAP=new HashMap();
+        HashMap dropMap=new HashMap();
+        MyDoUtils.writeExcelWithModel(outputStream,new ArrayList(),YlLaAgentAttrExcelUpdatePojo.class,"new",new nowHandler(colunmindex,colorindex,annotationMAP,dropMap));
         //标头的设置
-        WriteCellStyle headwriteCellStyle=new WriteCellStyle();
-        headwriteCellStyle.setFillForegroundColor(IndexedColors.CORAL.getIndex());
-        WriteFont writeFont=new WriteFont();
-        writeFont.setFontHeightInPoints((short)11);
-        headwriteCellStyle.setWriteFont(writeFont);
-        WriteCellStyle contentWriteCellStyle = new WriteCellStyle();
-        WriteFont contentWriteFont = new WriteFont();
-        contentWriteFont.setFontHeightInPoints((short) 15);
-        contentWriteCellStyle.setWriteFont(contentWriteFont);
-        // 这个策略是 头是头的样式 内容是内容的样式 其他的策略可以自己实现
-        contentWriteCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);//设置字体居中
-        HorizontalCellStyleStrategy horizontalCellStyleStrategy = new HorizontalCellStyleStrategy(headwriteCellStyle, contentWriteCellStyle);
-        ArrayList arrayList=new ArrayList();
-        EasyExcel.write(outputStream, YlLaAgentAttrExcelUpdatePojo.class).registerWriteHandler(horizontalCellStyleStrategy).sheet("第一个Sheet").relativeHeadRowIndex(1).doWrite(arrayList);
-        outputStream.flush();
-
     }
     @PostMapping("/update")
     @ApiOperation("人员导入模块")

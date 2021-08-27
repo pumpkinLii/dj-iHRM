@@ -56,7 +56,6 @@ export default {
     }
   },
   mounted() {
-    // 无用注释
     this.$bus.$on('QUERY1', (data) => {
       // 把表单的数据,页面大小,当前页面传给服务器
       this.page.currentPage = 1
@@ -77,6 +76,8 @@ export default {
   },
   beforeDestroy() {
     this.$bus.$off('QUERY')
+    this.$bus.$off('QUERY1')
+    this.$bus.$off('RESET_QUALIFICATION_TABLE')
   },
   methods: {
     showModifyDialog(item) {

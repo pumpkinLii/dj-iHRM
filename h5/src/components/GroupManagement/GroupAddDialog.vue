@@ -98,7 +98,7 @@
     </span>
     <!-- 底部 -->
     <span slot="footer" class="dialog-footer">
-      <el-button type="secondary" @click="$emit('CLOSE_GROUP_ADD_DIALOG')">取 消</el-button>
+      <el-button type="secondary" @click="handleCancle">取 消</el-button>
       <el-button type="primary" @click="handleSubmit">保 存</el-button>
     </span>
   </el-dialog>
@@ -169,6 +169,12 @@ export default {
           }
         )
     },
+    handleCancle(){
+      this.$emit('CLOSE_GROUP_ADD_DIALOG');
+      Object.keys(this.form).forEach((key)=>{
+        this.form[key]=''
+      })
+    },
     handleSubmit() {
       this.$refs['form'].validate(
         (valid) => {
@@ -216,6 +222,7 @@ export default {
       callback()
     },
     handleDialogClose() {
+      this.$refs['form'].resetFields()
       this.$emit('CLOSE_GROUP_ADD_DIALOG')
     },
     sendSubmitRequest(data) {

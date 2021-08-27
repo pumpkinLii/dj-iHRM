@@ -207,7 +207,6 @@ export default {
       })
     },
     handleImport() {
-      // 无用注释
       this.uploadDialogVisible = true
     },
     handleDownload() {
@@ -282,6 +281,7 @@ export default {
         this.code = this.form.manageCom2
         getNextOptions(this.code).then(res => {
           this.list.manageCom3List = res.comList
+          console.log(this.list.manageCom3List)
         })
       }
       this.form.manageCom3 = ''

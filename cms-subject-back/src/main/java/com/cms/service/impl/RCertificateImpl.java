@@ -18,9 +18,9 @@ import java.util.*;
 @Service
 public class RCertificateImpl implements RCertificateService {
     @Autowired
-    IdCodeDao idCodeDao;
+    LdCodeDao idCodeDao;
     @Autowired
-    ComCodeDao comCodeDao;
+    LdComNewDao comCodeDao;
     @Autowired
     YlLaAgentDao ylLaAgentDao;
     @Autowired

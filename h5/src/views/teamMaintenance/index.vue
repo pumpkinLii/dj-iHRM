@@ -121,6 +121,8 @@ export default {
       this.$refs.groupTableData.list = []
     },
     handleGroupAddDialogClose() {
+      this.$refs['form'].resetFields()
+
       this.config.groupAddDialogVisible = false
     },
     handleQuery(withWarning) { // withWarning:表单检查失败时是否会红色提醒用户 true:会 false:不会提醒用户

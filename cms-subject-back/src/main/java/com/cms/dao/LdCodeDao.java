@@ -1,4 +1,9 @@
 package com.cms.dao;
 
-public interface LdCodeDao {
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.cms.entity.LdCodeEntity;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface LdCodeDao extends BaseMapper<LdCodeEntity> {
 }

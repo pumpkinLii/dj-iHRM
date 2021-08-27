@@ -2,6 +2,7 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cms.dao.ComCodeDao;
+import com.cms.dao.LdComNewDao;
 import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.YlLaBranchGroupEntity;
 import com.cms.pojo.Com4Pojo;
@@ -19,7 +20,7 @@ public class GetManageInfoServiceImpl implements GetManageInfoService {
     @Autowired
     YlLaBranchGroupDao yllaBranchGroupDao;
     @Autowired
-    ComCodeDao comCodeDao;
+    LdComNewDao comCodeDao;
     @Override
     //返回负责人信息
     public ManagerPojo getManageInfo(String branchAttr){

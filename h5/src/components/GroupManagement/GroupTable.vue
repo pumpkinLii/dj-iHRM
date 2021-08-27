@@ -70,12 +70,16 @@ export default {
       this.config.groupModifyDialogVisible = false
     },
     handleQueryGroup(data) {
+      this.list = []
       queryGroup(data, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
         .then(r => {
           this.list = r.list
           this.page.totalCount = r.totalcount
           this.$message.success('查询完毕')
+        }).catch(err => {
+          this.page.totalCount = err['totalCount']
         })
+      this.page.currentPage = 1
     },
     handleSizeChange(size) {
       this.page.pageSize = size

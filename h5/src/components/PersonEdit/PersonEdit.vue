@@ -444,8 +444,8 @@
                   v-model="form.employDate"
                   value-format="yyyy-MM-dd"
                   type="date"
-                  placeholder="选择日期"
                   style="width:100%"
+                  disabled
                 />
               </el-form-item>
             </el-col>
@@ -476,7 +476,7 @@
 <script>
 import * as API from '@/api/employee'
 import * as validator from '@/utils/validate'
-
+// asd
 export default {
   name: 'PersonEdit',
   data() {

@@ -39,12 +39,12 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="出生日期" prop="birthday">
-            <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="填写您的出生日期" style="width:100%;" :disabled="form.idType === '01'" />
+            <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" :placeholder="form.idType==='01'?'填写身份证号后自动获取':'填写您的出生日期'" style="width:100%;" :disabled="form.idType === '01'" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="性别" prop="sex">
-            <el-select v-model="form.sex" type="text" style="width:100%;" :disabled="form.idType === '01'">
+            <el-select v-model="form.sex" type="text" style="width:100%;" :disabled="form.idType === '01'" :placeholder="form.idType==='01'?'填写身份证号后自动获取':'请选择您的性别'">
               <el-option v-for="(option,index) in list.sex" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </el-form-item>
@@ -412,7 +412,7 @@ export default {
   name: 'EmployeeEntry',
   data() {
     const checkIdentityId = (rule, value, callback) => {
-      if (this.form.idType === '0') {
+      if (this.form.idType === '01') {
         const errorMsg = validator.isIdentityId(value)
         if (errorMsg !== '') {
           callback(new Error(errorMsg))

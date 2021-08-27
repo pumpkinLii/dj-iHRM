@@ -9,5 +9,5 @@ public interface YlLaAgentInfoChangeService {
     /**
      * 此方法用于人员异动(更改团队),传入一个YlLaAgentChangePojo,如果异动成功返回true，异动失败返回false
      * */
-    public boolean ylLaAgentChange(YlLaAgentChangePojo ylLaAgentChangePojo);
+    public String ylLaAgentChange(YlLaAgentChangePojo ylLaAgentChangePojo);
 }

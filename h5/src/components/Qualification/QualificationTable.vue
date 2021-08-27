@@ -24,7 +24,7 @@
     <!-- 分页 -->
     <div class="block" style="text-align: right;margin-top: 1rem">
       <el-pagination
-        :current-page="page.currentPage"
+        :current-page.sync="page.currentPage"
         :page-sizes="[10, 20, 50, 100, 200, 500]"
         :page-size="page.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
@@ -56,6 +56,12 @@ export default {
     }
   },
   mounted() {
+    // 无用注释
+    this.$bus.$on('QUERY1', (data) => {
+      // 把表单的数据,页面大小,当前页面传给服务器
+      this.page.currentPage = 1
+      this.handleQueryQualification(data)
+    })
     this.$bus.$on('QUERY', (data) => {
       // 把表单的数据,页面大小,当前页面传给服务器
       this.handleQueryQualification(data)
@@ -73,7 +79,7 @@ export default {
     this.$bus.$off('QUERY')
   },
   methods: {
-    showModifyDialog(item, row) {
+    showModifyDialog(item) {
       // console.log(this.list[row].certificateCode)
       this.$bus.$emit('OPEN_QUALIFICATION_MODIFY_DIALOG', item)
     },
@@ -85,6 +91,8 @@ export default {
           this.list = r.list
           this.page.totalCount = r.totalcount
           this.$message.success('查询完毕')
+        }).catch(() => {
+          this.page.totalCount = 0
         })
     },
     handleSizeChange(size) {

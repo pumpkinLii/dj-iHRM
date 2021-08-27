@@ -1,6 +1,7 @@
 <template>
+  <!--  人员维护表格-->
   <div>
-    <el-table :data="list" stripe border fit height="300">
+    <el-table :data="list" stripe border fit height="300" :default-sort="{prop: 'stateName'}">
       <el-table-column label="人员工号" prop="agentCode" />
       <el-table-column label="人员姓名" prop="agentName" />
       <el-table-column label="当前职级" prop="gradeName" />
@@ -8,7 +9,7 @@
       <el-table-column label="三级管理机构" prop="manageCom3" />
       <el-table-column label="四级管理机构" prop="manageCom4" />
       <el-table-column label="入司日期" prop="employDate" />
-      <el-table-column label="人员状态" prop="stateName" />
+      <el-table-column label="人员状态" prop="stateName" sortable />
       <el-table-column label="操作" width="100px" fixed="right">
         <template scope="scope">
           <!-- 修改 -->
@@ -19,7 +20,7 @@
     <!-- 分页 -->
     <div class="block" style="text-align: right;margin-top: 1rem">
       <el-pagination
-        :current-page="page.currentPage"
+        :current-page.sync="page.currentPage"
         :page-sizes="[10, 20, 50, 100, 200, 500]"
         :page-size="page.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
@@ -51,6 +52,16 @@ export default {
   },
   mounted() {
     // 查询结果  res 是传过来的数据
+    this.$bus.$on('form_2', res => {
+      this.list = []
+      V.queryPerson(res, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
+        .then(r => {
+          console.log(r)
+          this.list = r.list
+          this.page.totalCount = r.totalCount
+          this.$message.success('查询完毕')
+        })
+    })
     this.$bus.$on('form2', res => {
       this.list = []
       V.queryPerson(res, { pageSize: this.page.pageSize, currentPage: this.page.currentPage })
@@ -59,6 +70,8 @@ export default {
           this.list = r.list
           this.page.totalCount = r.totalCount
           this.$message.success('查询完毕')
+        }).catch(() => {
+          this.page.totalCount = 0
         })
     })
   },

@@ -182,6 +182,11 @@ export default {
     },
     // 通过负责人代码查询负责人姓名和负责人电话号
     handleBranchManagerQuery() {
+      if (this.form.branchManager.length === 0) {
+        this.form.branchManagerName = ''
+        this.form.branchManagerPhone = ''
+        return
+      }
       const data = {
         'agentCode': this.form.branchManager
       }

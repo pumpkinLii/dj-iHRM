@@ -67,12 +67,12 @@ public class DropDownController {
     //请求参数为“”的下拉款 我返回总的数据 请求参数为两位 就返回4位 同理进行操作
     @ApiOperation("树状图管理机构下拉列表")
     @PostMapping("/gets")
-    public R getMap(String Code) {
+    public R getMap(String code) {
         //这里进行条件的判断
-        if (StringUtils.isEmpty(Code) == true) {
+        if (StringUtils.isEmpty(code) == true) {
             return R.ok().put("list", comnewSon.getHighManageCom());
         } else {
-            return R.ok().put("list", comnewSon.getSonManageCom(Code));
+            return R.ok().put("list", comnewSon.getSonManageCom(code));
         }
     }
 

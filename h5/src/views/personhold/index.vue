@@ -180,7 +180,7 @@ export default {
   },
   mounted() {
     this.$bus.$on('refresh', () => {
-      this.$bus.$emit('form_2', this.form)
+      this.$bus.$emit('refresh_personhold_table_query', this.form)
     })
   },
   beforeDestroy() {
@@ -261,7 +261,7 @@ export default {
     },
     // 查询按钮
     handleQuery1() {
-      this.$bus.$emit('form2', this.form)
+      this.$bus.$emit('query_personhold', this.form)
     },
     // 三四级下拉列表渲染
     select(abc) {

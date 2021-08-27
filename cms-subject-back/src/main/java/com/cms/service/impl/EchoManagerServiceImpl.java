@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Service
 public class EchoManagerServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBranchGroupEntity> implements EchoManagerService {
-
+    //根据团队代码查询团队主管编号以及姓名
     @Override
     public Map<String,String> getManager(GroupPojo groupPojo){
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();

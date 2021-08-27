@@ -1,5 +1,6 @@
 package com.cms.service.impl;
 
+import com.alibaba.excel.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.dao.YlLaBranchGroupDao;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 @Service
 public class EchoGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBranchGroupEntity> implements EchoGroupService {
-    //@Override
+    //根据四级管理机构与职级查询团队，总监查询无主管团队，客户经理查询所有团队
     public List<Map<String, String>> getGroup(StaffPojo staffPojo) {
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
         Map<String,Object> eqMap = new HashMap<>();
@@ -26,14 +27,13 @@ public class EchoGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBr
             if (list.size() > 0) {
                 for (YlLaBranchGroupEntity branchGroup:list){
                     Map<String,String> map = new HashMap<>();
-                    if(staffPojo.getGradeName().equals(/*"总监"*/"0") && branchGroup.getBranchManager()!=null)
+                    //若职级为总监，前端传参为“0”，需查询无主管团队
+                    if("0".equals(staffPojo.getGradeName()) && !StringUtils.isEmpty(branchGroup.getBranchManager()))
                     {
                         continue;
                     }
                     map.put("value",branchGroup.getBranchAttr());
                     map.put("label",branchGroup.getBranchName());
-                    /*map.put("label",branchGroup.getBranchAttr());
-                    map.put("value",branchGroup.getBranchName());*/
                     listMap.add(map);
                 }
                 return listMap;

@@ -26,7 +26,7 @@ import java.util.List;
 @Slf4j
 public class YlAgentAttrInfoServiceImpl extends ServiceImpl<YlLaAgentAttrDao, YlLaAgentAttrEntity> implements YlAgentAttrInfoService {
     @Autowired
-    public IdCheck idCheck;
+    private IdCheck idCheck;
 
     /**
      * 获取生成的工号，无参方法，调用私有方法生成新工号

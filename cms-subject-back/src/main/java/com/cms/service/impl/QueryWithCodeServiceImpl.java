@@ -8,22 +8,22 @@ import com.cms.pojo.QueryWithCodeReturn;
 import com.cms.service.QueryWithCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.text.ParseException;
+import org.springframework.util.StringUtils;
 
 @Service
 public class QueryWithCodeServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements QueryWithCodeService {
+    //根据员工工号进行查询
     @Autowired
     YlLaAgentDao ylLaAgentDao;
     @Override
-    public QueryWithCodeReturn queryInfo(String agentCode) throws ParseException{
-        if (agentCode.equals("")||agentCode==null){
+    public QueryWithCodeReturn queryInfo(String agentCode){
+        if (StringUtils.isEmpty(agentCode)){
             return null;
         }
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq("t1.agent_code",agentCode);
-        QueryWithCodeReturn qwcr = ylLaAgentDao.queryInfo(wrapper);
-        return qwcr;
+        QueryWithCodeReturn info = ylLaAgentDao.queryInfo(wrapper);
+        return info;
     }
 
 }

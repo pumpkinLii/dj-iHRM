@@ -15,6 +15,7 @@ import java.util.Map;
 
 @Service
 public class QueryGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBranchGroupEntity> implements QueryGroupService {
+    //根据管理机构查询团队
     @Override
     public List<Map<String,String>> queryGroup(QueryGroupPojo queryGroupPojo){
         QueryWrapper<YlLaBranchGroupEntity> qw = new QueryWrapper<>();
@@ -22,10 +23,11 @@ public class QueryGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaB
         List<YlLaBranchGroupEntity> list = this.baseMapper.selectList(qw);
         List<Map<String ,String>> list0 = new ArrayList<>();
         if (list.size()>0) {
-            for (YlLaBranchGroupEntity ybge : list) {
+            for (YlLaBranchGroupEntity entity : list) {
                 Map<String, String> map = new HashMap<>();
-                map.put("label", ybge.getBranchName());
-                map.put("value", ybge.getAgentGroup());
+                map.put("label", entity.getBranchName());
+                map.put("value", entity.getBranchAttr());
+                //map.put("value", entity.getAgentGroup());
                 list0.add(map);
             }
             return list0;

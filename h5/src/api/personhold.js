@@ -32,13 +32,13 @@ export function download1(data) {
 // 管理机构下拉列表 王佳智 已改
 export function xiala(abc) {
   return request({
-    url: '/login/get/gets?Code=' + abc,
+    url: '/login/get/gets?code=' + abc,
     method: 'post'
   })
 }
 export function xiala1() {
   return request({
-    url: '/login/get/gets?Code=86',
+    url: '/login/get/gets?code=86',
     method: 'post'
   })
 }

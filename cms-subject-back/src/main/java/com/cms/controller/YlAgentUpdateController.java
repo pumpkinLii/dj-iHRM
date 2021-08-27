@@ -20,11 +20,16 @@ import static com.cms.util.SlelectPage.getPage;
 @RequestMapping("/login/YlAgentUpdate")
 @Api("人员维护模块")
 public class YlAgentUpdateController {
-
-    //池浩玥
     @Autowired
     QueryStaffService queryStaffService;
+    @Autowired
+    QueryWithCodeService queryWithCodeService;
+    @Autowired
+    private YlAgentInfoService ylAgentInfoService;
+    @Autowired
+    private YlAgentAttrInfoService ylAgentAttrInfoService;
 
+    //池浩玥
     @PostMapping("/queryStaff")
     @ApiOperation("查询人员接口")
     public R queryStaff(@RequestBody QueryStaffPojo queryStaffPojo, int limit, int page) throws ParseException {
@@ -37,8 +42,6 @@ public class YlAgentUpdateController {
         }
     }
     //池浩玥
-    @Autowired
-    QueryWithCodeService queryWithCodeService;
     @PostMapping("/queryWithCode")
     @ApiOperation("根据agentcode查询接口")
     public R queryWithCode(@RequestParam("agentCode") String agentCode) throws ParseException {
@@ -51,12 +54,6 @@ public class YlAgentUpdateController {
     }
 
     //张晓成
-    @Autowired
-    private YlAgentInfoService ylAgentInfoService;
-    @Autowired
-    private YlAgentAttrInfoService ylAgentAttrInfoService;
-    @Autowired
-    private YlLaAgentInfoChangeService ylLaAgentInfoChangeService;
     @PostMapping("/update")
     @ApiOperation("人员信息修改接口")
     public R laAgentUpdate(@RequestBody LaAgentUpdatePojo laAgent){

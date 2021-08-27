@@ -125,6 +125,12 @@ export default {
         this.form.adminCode = ''
         this.form.adminName = ''
         this.$bus.$emit('REFRESH_QUALIFICATION')
+      }).catch(() => {
+        this.form.manageCom = ''
+        this.form.agentGroup = ''
+        this.form.modifyDate = ''
+        this.form.adminCode = ''
+        this.form.adminName = ''
       })
       // this.$nextTick(() => {
       //   this.$refs['form'].clearValidate()

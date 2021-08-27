@@ -1,11 +1,10 @@
 package com.cms.service.impl;
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.IdCheck;
-import com.cms.dao.LaAgentAttrDao;
 
+import com.cms.dao.YlLaAgentAttrDao;
 import com.cms.entity.YlLaAgentAttrEntity;
 import com.cms.entity.YlUserInfoEntity;
 import com.cms.pojo.LaAgentPojo;
@@ -25,7 +24,7 @@ import java.util.*;
 import static com.cms.service.impl.LaAgentServiceAttrImpl.getYlNo;
 
 @Service
-public class YlExcellServiceImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgentAttrEntity> implements YlExcellInsertService {
+public class YlExcellServiceImpl extends ServiceImpl<YlLaAgentAttrDao, YlLaAgentAttrEntity> implements YlExcellInsertService {
 
     @Autowired
     public IdCheck idCheck;

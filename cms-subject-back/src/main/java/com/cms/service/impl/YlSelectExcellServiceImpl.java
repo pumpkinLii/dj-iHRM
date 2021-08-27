@@ -3,15 +3,10 @@ package com.cms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.ComnewSon;
-import com.cms.dao.IdCheckDao;
-import com.cms.dao.YlSelectExcellDao;
-import com.cms.entity.LdCodeEntity;
+import com.cms.dao.YlLaAgentDao;
 import com.cms.entity.YlLaAgentEntity;
-import com.cms.pojo.IdCheckAllPojo;
-import com.cms.pojo.IdCodePojo;
 import com.cms.pojo.YlMSelectExcellPojo;
 import com.cms.pojo.YlSelectExcellPojo;
-import com.cms.service.IdCheckService;
 import com.cms.service.YlSelectExcellService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +16,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 @Service
 @Slf4j
-public class YlSelectExcellServiceImpl  extends ServiceImpl<YlSelectExcellDao, YlLaAgentEntity> implements YlSelectExcellService {
+public class YlSelectExcellServiceImpl  extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements YlSelectExcellService {
     @Autowired
     ComnewSon comnewSon;
 
     @Autowired
-    YlSelectExcellDao ylSelectExcellDao;
+    YlLaAgentDao ylLaAgentDao;
 
 
 

@@ -3,7 +3,8 @@ package com.cms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.ComnewSon;
-import com.cms.dao.DismissQueryDao;
+import com.cms.dao.YlLaAgentDao;
+import com.cms.dao.YlLaDimissionDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.pojo.DismissQueryPojo;
 import com.cms.pojo.DismissQueryReturnPojo;
@@ -15,9 +16,9 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 @Service
-public class DismissQueryServiceImpl extends ServiceImpl<DismissQueryDao, YlLaAgentEntity> implements DismissQueryService {
+public class DismissQueryServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements DismissQueryService {
     @Autowired
-    DismissQueryDao dismissQueryDao;
+    YlLaAgentDao ylLaAgentDao;
 
     public List<DismissQueryReturnPojo> searchList(DismissQueryPojo dismissQueryPojo){
         QueryWrapper<DismissQueryReturnPojo> qw =new QueryWrapper();
@@ -35,7 +36,7 @@ public class DismissQueryServiceImpl extends ServiceImpl<DismissQueryDao, YlLaAg
         qw.ge(!StringUtils.isEmpty(dismissQueryPojo.getDiffStartDate()),"t3.depart_date",dismissQueryPojo.getDiffStartDate());
         qw.le(!StringUtils.isEmpty(dismissQueryPojo.getDiffEndDate()),"t3.depart_date",dismissQueryPojo.getDiffEndDate());
 
-        List<DismissQueryReturnPojo> list = dismissQueryDao.DismissQueryList(qw);
+        List<DismissQueryReturnPojo> list = ylLaAgentDao.DismissQueryList(qw);
         return list;
     }
 }

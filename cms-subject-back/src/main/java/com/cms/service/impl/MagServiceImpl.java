@@ -1,9 +1,7 @@
 package com.cms.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.dao.LdComNewDao;
-import com.cms.dao.MagDao;
 import com.cms.entity.LdComNewEntity;
 import com.cms.service.MagService;
 import org.springframework.stereotype.Service;

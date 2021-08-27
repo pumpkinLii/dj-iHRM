@@ -1,13 +1,13 @@
 package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.RYlLaBranchGroupDao;
+import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.YlLaBranchGroupEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class AgentGroupImpl extends ServiceImpl<RYlLaBranchGroupDao, YlLaBranchGroupEntity>implements com.cms.service.AgentGroup {
+public class AgentGroupImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBranchGroupEntity>implements com.cms.service.AgentGroup {
 
     @Override
     public String getAgentGroup() {

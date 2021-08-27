@@ -20,15 +20,15 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class RankAlterServiceImpl extends ServiceImpl<RankAlterDao, YlLaAgentEntity> implements RankAlterService {
+public class RankAlterServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements RankAlterService {
     @Autowired
-    RankAlterTrackDao rankAltexrTrackDao;
+    YlLaAgentManoeuvreDao rankAltexrTrackDao;
 
     @Autowired
-    RankAlterGroupDao rankAlterGroupDao;
+    YlLaBranchGroupDao rankAlterGroupDao;
 
     @Autowired
-    LaAgentAttrDao laAgentAttrDao;
+    YlLaAgentAttrDao yllaAgentAttrDao;
 
 
     public String rankAlter(RankAlterPojo rankAlterPojo) {
@@ -38,7 +38,7 @@ public class RankAlterServiceImpl extends ServiceImpl<RankAlterDao, YlLaAgentEnt
 
         QueryWrapper<YlLaAgentAttrEntity> queryWrapper1 = new QueryWrapper<>();
         queryWrapper1.eq("agent_code",rankAlterPojo.getAgentCode());
-        YlLaAgentAttrEntity old1 = laAgentAttrDao.selectOne(queryWrapper1);
+        YlLaAgentAttrEntity old1 = yllaAgentAttrDao.selectOne(queryWrapper1);
 
         if(rankAlterPojo.getTargetAgentGrade()==null||rankAlterPojo.getTargetAgentGrade().equals(""))
         {

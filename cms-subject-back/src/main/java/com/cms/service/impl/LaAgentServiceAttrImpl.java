@@ -3,7 +3,7 @@ package com.cms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.IdCheck;
-import com.cms.dao.LaAgentAttrDao;
+import com.cms.dao.YlLaAgentAttrDao;
 import com.cms.entity.YlLaAgentAttrEntity;
 import com.cms.entity.YlUserInfoEntity;
 import com.cms.pojo.LaAgentPojo;
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class LaAgentServiceAttrImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgentAttrEntity> implements ExcelLaAgentServiceAttr {
+public class LaAgentServiceAttrImpl extends ServiceImpl<YlLaAgentAttrDao, YlLaAgentAttrEntity> implements ExcelLaAgentServiceAttr {
     @Autowired
     public IdCheck idCheck;
 

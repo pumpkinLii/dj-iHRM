@@ -2,17 +2,16 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.YllaAgentaDao;
+import com.cms.dao.YlLaAgentDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.pojo.UYllaBranchGroupReturnPojo;
 import com.cms.service.UYllaBranchGroupReturnService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UYlLaBranchGroupReturnImpl extends ServiceImpl<YllaAgentaDao, YlLaAgentEntity> implements UYllaBranchGroupReturnService {
+public class UYlLaBranchGroupReturnImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements UYllaBranchGroupReturnService {
 
     @Override
     public UYllaBranchGroupReturnPojo updataRe(String agentCode){

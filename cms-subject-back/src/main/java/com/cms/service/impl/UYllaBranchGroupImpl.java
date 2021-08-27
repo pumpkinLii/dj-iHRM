@@ -3,7 +3,7 @@ package com.cms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.YllaAgentaDao;
+import com.cms.dao.YlLaAgentDao;
 import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.entity.YlLaBranchGroupEntity;
@@ -24,7 +24,7 @@ public class UYllaBranchGroupImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBr
     @Autowired
     YlLaBranchGroupDao groupMapper;
     @Autowired
-    YllaAgentaDao yllaAgentaDao;
+    YlLaAgentDao yllaAgentaDao;
 
     @Override
     public YlLaBranchGroupEntity update(UYllabranchGroupPojo mes) {

@@ -1,10 +1,9 @@
 package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.IdCodeDao;
+import com.cms.dao.LdCodeDao;
 import com.cms.entity.LdCodeEntity;
 import com.cms.service.IdCodeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @Service
-public class IdCodeServiceImpl extends ServiceImpl<IdCodeDao, LdCodeEntity> implements IdCodeService {
+public class IdCodeServiceImpl extends ServiceImpl<LdCodeDao, LdCodeEntity> implements IdCodeService {
     @Override
     public Map<String, Map<String, String>> getResource() {
         List<LdCodeEntity> list = this.baseMapper.selectList(null);

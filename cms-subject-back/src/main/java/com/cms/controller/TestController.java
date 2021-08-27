@@ -39,6 +39,5 @@ public class TestController {
         System.out.println("fsdfsdfsdf");
         System.out.println("hello world");
         return R.ok().put("page", map);
-//        return "hello world";
     }
 }

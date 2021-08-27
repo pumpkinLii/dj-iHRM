@@ -1,6 +1,5 @@
 package com.cms.controller;
 
-import com.cms.entity.YlLaAgentCertificateEntity;
 import com.cms.pojo.CertificateConditionPojo;
 import com.cms.pojo.ChangeCertificatePojo;
 import com.cms.pojo.RetrieveCertificatePojo;
@@ -13,16 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import com.cms.entity.YlLaAgentCertificateEntity;
 import com.cms.pojo.CeInsertPojo;
 import com.cms.service.YlAgentCertificateService;
-import com.cms.service.impl.CYlLaBranchGroupServiceImpl;
-import com.cms.util.R;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -40,13 +31,12 @@ import java.util.Map;
 @RequestMapping("/login/YlAgentCertificate")
 @Api("资格证管理")
 public class YlAgentCertificateController {
-    //王佳智
     @Autowired
     YlAgentCertificateService ylAgentCertificateService;
-
     @Autowired
     RCertificateImpl rCertificateService;
 
+    //王佳智
     @PostMapping("/update")
     @ApiOperation("资格证书修改接口")
     public R Change(@RequestBody ChangeCertificatePojo changeCertificatePojo) throws ParseException {
@@ -68,6 +58,7 @@ public class YlAgentCertificateController {
         }
         return R.ok().put("list", SlelectPage.getPage(pageSize,currentPage,list)).put("totalcount",list.size());
     }
+
     //陈益轩
     @PostMapping("/initList")
     @ApiOperation("机构初始列表")
@@ -84,6 +75,7 @@ public class YlAgentCertificateController {
         String result = ylAgentCertificateService.Idcheck(ceInsertPojo);
         return result;
     }
+
     //张毅珑
     @ApiOperation("工号回显姓名")
     @PostMapping("/searchNameById")
@@ -95,6 +87,7 @@ public class YlAgentCertificateController {
             return R.ok().put("code",501).put("msg","数据库没有此工号");
         }
     }
+
     //张毅珑
     @ApiOperation("插入资格证信息")
     @PostMapping("/insert")

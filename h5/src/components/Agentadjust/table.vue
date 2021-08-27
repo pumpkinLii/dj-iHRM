@@ -17,7 +17,7 @@
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="showModifyDialog(scope.row)">职级调整</el-button>
         </template>
       </el-table-column>
-    </el-table>s
+    </el-table>
     <!-- 分页 -->
     <div class="block" style="text-align: right;margin-top: 1rem">
       <el-pagination

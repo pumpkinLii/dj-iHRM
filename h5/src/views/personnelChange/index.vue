@@ -139,6 +139,10 @@ export default {
     }
   },
   mounted() {
+    this.$bus.$on('REFRESH_QUALIFICATION', () => {
+      this.page.currentPage = 1
+      this.handleQuery()
+    })
     threeOptions().then((r) => {
       this.options.push(r['result'])
     })

@@ -6,6 +6,7 @@ import com.cms.common.ComnewSon;
 import com.cms.dao.AgentCountDao;
 import com.cms.dao.ComCodeDao;
 import com.cms.dao.RYlLaBranchGroupDao;
+import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.LdCodeEntity;
 import com.cms.entity.LdComNewEntity;
 import com.cms.entity.YlLaBranchGroupEntity;
@@ -22,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao, YlLaBranchGroupEntity> implements RYlLaBranchGroupService {
+public class RYlLaBranchGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBranchGroupEntity> implements RYlLaBranchGroupService {
 
 
     //王佳智

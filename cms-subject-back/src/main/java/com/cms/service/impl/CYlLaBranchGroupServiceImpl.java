@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.cms.dao.CYlLaBranchGroupDao;
+import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.entity.YlLaBranchGroupEntity;
 import com.cms.pojo.CYlLaBranchGroupPojo;
@@ -19,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
-public class CYlLaBranchGroupServiceImpl extends ServiceImpl<CYlLaBranchGroupDao,YlLaBranchGroupEntity> implements CYlLaBranchGroupService {
+public class CYlLaBranchGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao,YlLaBranchGroupEntity> implements CYlLaBranchGroupService {
     @Autowired
     AgentGroupImpl agentGroup;
 

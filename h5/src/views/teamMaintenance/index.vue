@@ -124,13 +124,13 @@ export default {
       this.config.groupAddDialogVisible = false
     },
     handleQuery(withWarning) { // withWarning:表单检查失败时是否会红色提醒用户 true:会 false:不会提醒用户
+      if(!withWarning){
+        this.$refs.groupTableData.handleQueryGroup(this.form)
+        return
+      }
       this.$refs['form'].validate(valid => {
         if (valid) {
           this.$refs.groupTableData.handleQueryGroup(this.form)
-        } else {
-          if (withWarning) {
-            return false
-          }
         }
       })
     },

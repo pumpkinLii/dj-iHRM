@@ -42,14 +42,18 @@ public class YlAgentToTeamController {
     //张晓成
     @Autowired
     private YlLaAgentInfoChangeService ylLaAgentInfoChangeService;
+
+    private String resultInfo;
+
     @PostMapping("/change")
     @ApiOperation("人员异动接口")
     public R laAgentChange(@RequestBody YlLaAgentChangePojo ylLaAgentChangePojo){
-        if(ylLaAgentInfoChangeService.ylLaAgentChange(ylLaAgentChangePojo)){
+        resultInfo = ylLaAgentInfoChangeService.ylLaAgentChange(ylLaAgentChangePojo);
+        if(resultInfo.equals("success")){
             return R.ok("操作成功！");
         }
         else{
-            return R.error("操作失败！");
+            return R.error("操作失败！" + resultInfo);
         }
     }
 }

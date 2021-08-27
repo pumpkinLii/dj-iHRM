@@ -37,7 +37,7 @@ export function queryQualification(data, page) {
 // 陈益轩 已改
 export function getNextOptions(code) {
   return request({
-    url: '/login/YlAgentCertificate/returnCom?code=' + code,
+    url: '/login/back/returnCom?code=' + code,
     method: 'post'
   })
 }

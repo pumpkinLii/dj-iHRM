@@ -1,9 +1,9 @@
 package com.cms.common;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.YlLaBranchGroupEntity;
 import com.cms.pojo.YlLaAgentChangePojo;
-import com.cms.service.impl.AgentGroupImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ import java.util.List;
 public class SelectAgentGroupInfo {
 
     @Autowired
-    private AgentGroupImpl agentGroup;
+    private YlLaBranchGroupDao agentGroup;
 
     /**
      * 此方法用于将团队内码转换为团队外码
@@ -61,7 +61,7 @@ public class SelectAgentGroupInfo {
         else{
             queryWrapper.eq("agent_group",index);
         }
-        YlLaBranchGroupEntity ylLaBranchGroupEntity = this.agentGroup.getBaseMapper().selectOne(queryWrapper);
+        YlLaBranchGroupEntity ylLaBranchGroupEntity = this.agentGroup.selectOne(queryWrapper);
         return ylLaBranchGroupEntity;
     }
 
@@ -78,7 +78,7 @@ public class SelectAgentGroupInfo {
             queryWrapper.eq("agent_group",ylLaAgentChangePojo.getAgentGroup());
         }
 
-        List<YlLaBranchGroupEntity> resultSet = this.agentGroup.getBaseMapper().selectList(queryWrapper);
+        List<YlLaBranchGroupEntity> resultSet = this.agentGroup.selectList(queryWrapper);
         if(resultSet.size() == 1){
             return true;
         }
@@ -91,7 +91,7 @@ public class SelectAgentGroupInfo {
     private String groupToAttr(String agentGroupIndex){
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("agent_group",agentGroupIndex);
-        YlLaBranchGroupEntity ylLaBranchGroupEntity = agentGroup.getBaseMapper().selectOne(queryWrapper);
+        YlLaBranchGroupEntity ylLaBranchGroupEntity = agentGroup.selectOne(queryWrapper);
         return ylLaBranchGroupEntity.getBranchAttr();
     }
 
@@ -101,7 +101,7 @@ public class SelectAgentGroupInfo {
     private String attrToGroup(String branchAttrIndex){
         QueryWrapper<YlLaBranchGroupEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("branch_attr",branchAttrIndex);
-        YlLaBranchGroupEntity ylLaBranchGroupEntity = agentGroup.getBaseMapper().selectOne(queryWrapper);
+        YlLaBranchGroupEntity ylLaBranchGroupEntity = agentGroup.selectOne(queryWrapper);
         return ylLaBranchGroupEntity.getAgentGroup();
     }
 

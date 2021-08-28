@@ -75,7 +75,7 @@ public class ExcelController {
 
     //王欣艺
     @ApiOperation("员工批量导入模板下载")
-    @PostMapping({"/YlInsertboard"})
+    @PostMapping({"/ylInsertboard"})
     public R getData1(HttpServletResponse response) throws FileNotFoundException {
         try {
             XSSFWorkbook workbook = new XSSFWorkbook();
@@ -110,7 +110,7 @@ public class ExcelController {
                 }
                 else if(i==4)
                 {
-                    CodeType(i,"idtype",sheet);
+                    CodeType(i,"dajiaidtype",sheet);
                 }
                 else if(i==7)
                 {
@@ -156,7 +156,7 @@ public class ExcelController {
 //                {
 //                    CodeType(i,"nativeplace",sheet);
 //                }
-//                else if(i==31)//*********************************
+//                else if(i==31)//
 //                {
 //                    CodeType(i,"nativeplace",sheet);
 //                }
@@ -164,7 +164,7 @@ public class ExcelController {
 //                {
 //                    CodeType(i,"ylpost",sheet);
 //                }
-//                else if(i==33)//*************************************
+//                else if(i==33)//
 //                {
 //                    CodeType(i,"ylpost",sheet);
 //                }
@@ -174,18 +174,12 @@ public class ExcelController {
 //                }
             }
 
-            //FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\LENOVO\\Desktop\\员工批量导入.xlsx"));\
 
-//          response.setContentType("application/vnd.ms-excel");
-//          response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             ServletOutputStream outputStream=response.getOutputStream();
             response.setHeader("content-disposition","attachment;fileName="+ URLEncoder.encode("员工批量导入模板.xlsx","UTF-8"));
             workbook.write(outputStream);
             outputStream.flush();
             outputStream.close();
-//            workbook.write(fos);
-//            fos.flush(); 吧
-//            fos.close();
         } catch (IOException var11) {
             var11.printStackTrace();
         }
@@ -312,7 +306,7 @@ public class ExcelController {
 
     //王欣艺
     @ApiOperation("资格证批量导入")
-    @PostMapping({"/ExcelInsert"})
+    @PostMapping({"/excelInsert"})
     public R certInsert(@RequestParam("file") MultipartFile file) throws IOException, ParseException {
         ArrayList<HashMap<String,String>> list=new ArrayList<HashMap<String,String>>();
         list=this.certInsertExcellService.check(file);
@@ -323,7 +317,34 @@ public class ExcelController {
             map = list.get(0);
             if(map.get("msg").equals("批量导入失败！Excel文件的内容不能为空！"))
             {
-//                return R.error(500,"批量导入失败！Excel文件的内容不能为空！");
+                return R.ok().put("code",501).put("msg","参数错误").put("list",list);
+            }
+            else if(map.get("msg").equals("导入成功！"))
+            {
+                return R.ok().put("msg","导入成功！");
+            }
+            else{
+                return R.ok().put("code",501).put("msg","参数错误").put("list",list);
+            }
+        }
+        else {
+            return R.ok().put("code",501).put("msg","参数错误").put("list",list);
+        }
+    }
+
+    //王欣艺
+    @ApiOperation("人员录入excel导入")
+    @PostMapping({"/ylLaAgentAttrIn"})
+    public R ylLaAgentAttrExcelIn(@RequestParam("file") MultipartFile file) throws IOException, ParseException {
+        ArrayList<HashMap<String,String>> list=new ArrayList<HashMap<String,String>>();
+        list=this.ylExcellService.check(file);
+        HashMap<String,String> mapp=new HashMap<String,String>();
+        if(list.size()==1)
+        {
+            HashMap<String,String> map= new HashMap<String, String>();
+            map = list.get(0);
+            if(map.get("msg").equals("批量导入失败！Excel文件的内容不能为空！"))
+            {
                 return R.ok().put("code",501).put("msg","参数错误").put("list",list);
             }
             else if(map.get("msg").equals("导入成功！"))
@@ -340,7 +361,7 @@ public class ExcelController {
     }
 
     @ApiOperation("资格证批量导出")
-    @PostMapping({"/ExcelOut"})
+    @PostMapping({"/excelout"})
     //@RequestBody CertificateConditionPojo getCertificateConditionPojo,
     private R CertExcellOut(@RequestBody CertificateConditionPojo getCertificateConditionPojo, HttpServletResponse response) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -380,8 +401,6 @@ public class ExcelController {
                 qlist.add(list.get(i).getCertificateNo());
             }
         }
-//        qlist.add("123123123125WQE");
-//        qlist.add("11");
 
         List<List> biglist = this.certOutExcellService.certselect(qlist);
         XSSFCellStyle DataStyle = genDataStyle(workbook);//创建标题样式
@@ -401,14 +420,7 @@ public class ExcelController {
                 {
                     Cell cell = row.createCell(j);
                     cell.setCellValue("");
-//                    if(j==1)
-//                    {
-//                        XSSFCellStyle ActionDataStyle = genActionDataStyle(workbook,pos[j].length());
-//                        cell.setCellStyle(ActionDataStyle);
-//                    }
-//                    else{
                     cell.setCellStyle(DataStyle);
-//                    }
                 }
                 else {
                     Cell cell = row.createCell(j);
@@ -419,10 +431,6 @@ public class ExcelController {
         }
 
 
-//            FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\LENOVO\\Desktop\\员工批量导出.xlsx"));
-//            workbook.write(fos);
-//            fos.flush();
-//            fos.close();
         ServletOutputStream outputStream=response.getOutputStream();
         response.setHeader("content-disposition","attachment;fileName="+ URLEncoder.encode("员工批量导出.xlsx","UTF-8"));
         workbook.write(outputStream);
@@ -448,33 +456,6 @@ public class ExcelController {
         return style;
     }
 
-    //王欣艺
-    @ApiOperation("测试接口")
-    @PostMapping({"/ylLaAgentAttrIn"})
-    public R ylLaAgentAttrExcelIn(@RequestParam("file") MultipartFile file) throws IOException, ParseException {
-        ArrayList<HashMap<String,String>> list=new ArrayList<HashMap<String,String>>();
-        list=this.ylExcellService.check(file);
-        HashMap<String,String> mapp=new HashMap<String,String>();
-        if(list.size()==1)
-        {
-            HashMap<String,String> map= new HashMap<String, String>();
-            map = list.get(0);
-            if(map.get("批量导入失败！Excel文件的内容不能为空！")!=null)
-            {
-                return R.error(500,"批量导入失败！Excel文件的内容不能为空！");
-            }
-            else if(map.get("导入成功！")!=null)
-            {
-                return R.ok().put("0","导入成功!");
-            }
-            else{
-                return R.error().put("500",list);
-            }
-        }
-        else {
-            return R.error(500,"批量导入失败！").put("错误原因:",list);
-        }
-    }
 
     //王佳智
     @PostMapping("/dowload")
@@ -494,6 +475,7 @@ public class ExcelController {
         MyDoUtils.writeExcelWithModel(outputStream,new ArrayList(),YlLaAgentAttrExcelUpdatePojo.class,"new",new NowHandler(colunmindex,colorindex,annotationMAP,dropMap));
         //标头的设置
     }
+    //王佳智
     @PostMapping("/update")
     @ApiOperation("人员导入模块")
     public R readExcel(@RequestParam("file") MultipartFile file){
@@ -508,7 +490,7 @@ public class ExcelController {
 
     //王欣艺
     @ApiOperation("员工查询批量导出接口")
-    @PostMapping({"/ylLaAgentAttrExcelOut"})
+    @PostMapping({"/ylLaAgentAttrOut"})
     private R getData(@RequestBody QueryStaffPojo queryStaffPojo,HttpServletResponse response) throws FileNotFoundException {
         try {
             XSSFWorkbook workbook = new XSSFWorkbook();
@@ -577,12 +559,6 @@ public class ExcelController {
                     }
                 }
             }
-
-
-//            FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\LENOVO\\Desktop\\员工批量导出.xlsx"));
-//            workbook.write(fos);
-//            fos.flush();
-//            fos.close();
             ServletOutputStream outputStream=response.getOutputStream();
             response.setHeader("content-disposition","attachment;fileName="+ URLEncoder.encode("员工批量导出.xlsx","UTF-8"));
             workbook.write(outputStream);

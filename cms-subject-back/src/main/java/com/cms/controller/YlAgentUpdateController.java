@@ -21,9 +21,7 @@ import static com.cms.util.SlelectPage.getPage;
 @Api("人员维护模块")
 public class YlAgentUpdateController {
     @Autowired
-    QueryStaffService queryStaffService;
-    @Autowired
-    QueryWithCodeService queryWithCodeService;
+    YlAgentUpdateService ylAgentUpdateService;
     @Autowired
     private YlAgentInfoService ylAgentInfoService;
     @Autowired
@@ -33,7 +31,7 @@ public class YlAgentUpdateController {
     @PostMapping("/queryStaff")
     @ApiOperation("查询人员接口")
     public R queryStaff(@RequestBody QueryStaffPojo queryStaffPojo, int limit, int page) throws ParseException {
-        List<QueryStaffReturn> list = queryStaffService.queryStaff(queryStaffPojo);
+        List<QueryStaffReturn> list = ylAgentUpdateService.queryStaff(queryStaffPojo);
         List<QueryStaffReturn> list1 = getPage(limit,page,list);
         if (list1.size()>=0){
             return R.ok().put("list",list1).put("totalCount",list.size());
@@ -45,7 +43,7 @@ public class YlAgentUpdateController {
     @PostMapping("/queryWithCode")
     @ApiOperation("根据agentcode查询接口")
     public R queryWithCode(@RequestParam("agentCode") String agentCode) throws ParseException {
-        QueryWithCodeReturn qwcr = queryWithCodeService.queryInfo(agentCode);
+        QueryWithCodeReturn qwcr = ylAgentUpdateService.queryInfo(agentCode);
         if (!qwcr.getAgentName().equals("")){
             return R.ok().put("form",qwcr);
         }else {

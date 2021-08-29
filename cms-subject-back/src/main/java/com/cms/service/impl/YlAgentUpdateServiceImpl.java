@@ -6,7 +6,8 @@ import com.cms.dao.YlLaAgentDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.pojo.QueryStaffPojo;
 import com.cms.pojo.QueryStaffReturn;
-import com.cms.service.QueryStaffService;
+import com.cms.pojo.QueryWithCodeReturn;
+import com.cms.service.YlAgentUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -16,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class QueryStaffServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements QueryStaffService {
+public class YlAgentUpdateServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements YlAgentUpdateService {
     //根据给出的条件返回查询结果
     @Autowired
     YlLaAgentDao ylLaAgentDao;
@@ -48,4 +49,17 @@ public class QueryStaffServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEn
         List<QueryStaffReturn> list = ylLaAgentDao.queryStaff(wrapper);
         return list;
     }
+
+    //根据员工工号进行查询
+    @Override
+    public QueryWithCodeReturn queryInfo(String agentCode){
+        if (StringUtils.isEmpty(agentCode)){
+            return null;
+        }
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("t1.agent_code",agentCode);
+        QueryWithCodeReturn info = ylLaAgentDao.queryInfo(wrapper);
+        return info;
+    }
+
 }

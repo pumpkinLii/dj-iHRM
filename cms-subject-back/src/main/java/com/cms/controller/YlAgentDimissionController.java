@@ -23,7 +23,7 @@ public class YlAgentDimissionController {
     @Autowired
     InsertDimissionService insertDimissionService;
     @Autowired
-    DepartModifyService departModifyService;
+    YlAgentDimissionService ylAgentDimissionService;
     @Autowired
     ResignationApprovalImpl resignationApproval;
     @Autowired
@@ -61,7 +61,7 @@ public class YlAgentDimissionController {
     @PostMapping("/modify")
     @ApiOperation("离司申请修改接口")
     public R departModify(@RequestBody DepartModifyPojo departModifyPojo) throws ParseException{
-        String keyString = departModifyService.departModify(departModifyPojo);
+        String keyString = ylAgentDimissionService.departModify(departModifyPojo);
         if (keyString.equals("0")){
             return R.ok().put("msg","修改成功");
         }else if (keyString.equals("1")){

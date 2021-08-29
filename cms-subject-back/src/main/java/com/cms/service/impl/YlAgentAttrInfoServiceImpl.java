@@ -39,7 +39,6 @@ public class YlAgentAttrInfoServiceImpl extends ServiceImpl<YlLaAgentAttrDao, Yl
     /**
      * 新增人员信息，传入一个LaAgentPojo对象，返回字符串，成功则返回"success",校验失败则返回失败原因。导入失败则返回“请联系管理员”
      */
-    @Override
     public String agentSubmit(LaAgentPojo laAgent){
         //在这调用验证信息的方法
         String checkAgentInfoResult = this.checkAgentInformation(laAgent);

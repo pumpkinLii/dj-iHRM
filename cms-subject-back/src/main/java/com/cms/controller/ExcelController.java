@@ -474,15 +474,29 @@ public class ExcelController {
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
         HashMap annotationMAP=new HashMap();
         HashMap<Integer,String[]> dropMap=new HashMap();
-        String s="北京市、天津市、上海市、重庆市、河北省、山西省、辽宁省、吉林省、黑龙江省、江苏省、浙江省、安徽省、福建省、江西省、山东省、河南省、湖北省、湖南省、广东省、海南省、四川省、贵州省、云南省、陕西省、甘肃省、青海省、台湾省、内蒙古自治区、广西壮族自治区、西藏自治区、宁夏回族自治区、新疆维吾尔自治区、香港特别行政区、澳门特别行政区";
-        dropMap.put(19,s.split("、"));
         Map<String, Map<String, String>> resource = idCodeService.getResource();
-        List list=new ArrayList();
-        Map<String, String> map = resource.get("bankcode");
-        for (Map.Entry entry:map.entrySet()){
-            list.add(entry.getValue());
+
+        //可以写个工具类方便存放 暂时不设置
+        List nativeplacelist=new ArrayList();
+        Map<String, String> placemap = resource.get("nativeplace");
+        for (Map.Entry entry:placemap.entrySet()){
+            nativeplacelist.add(entry.getKey()+"_"+entry.getValue());
         }
-        dropMap.put(38,(String[]) list.toArray(new String[list.size()]));
+
+        List banklist=new ArrayList();
+        Map<String, String> bankmap = resource.get("bankcode");
+        for (Map.Entry entry:bankmap.entrySet()){
+            banklist.add(entry.getKey()+"_"+entry.getValue());
+        }
+        Map<String, String> nationalitymap = resource.get("nationality");
+        List nationalitylist=new ArrayList();
+        for (Map.Entry entry:nationalitymap.entrySet()){
+            nationalitylist.add(entry.getKey()+"_"+entry.getValue());
+        }
+
+        dropMap.put(19,(String[]) nativeplacelist.toArray(new String[nativeplacelist.size()]));
+        dropMap.put(25,(String[]) nationalitylist.toArray(new String[nationalitylist.size()]));
+        dropMap.put(38,(String[]) banklist.toArray(new String[banklist.size()]));
         MyDoUtils.writeExcelWithModel(outputStream,new ArrayList(),YlLaAgentAttrExcelUpdatePojo.class,"new",new NowHandler(colunmindex,colorindex,annotationMAP,dropMap));
         //标头的设置
     }

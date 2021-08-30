@@ -55,17 +55,6 @@ public class CYlLaBranchGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao,
         String agentGroup = this.agentGroup.getAgentGroup();
         if (StringUtils.isEmpty(c_ylLaBranchGroupPojo.getBranchManager())==false){
             List<YlLaBranchGroupEntity> laBranchGroupEntities = this.baseMapper.selectList(null);
-            if (laBranchGroupEntities.size()==0){
-
-            }else {
-                for (int i = 0; i < laBranchGroupEntities.size(); i++) {
-                    if (null!=laBranchGroupEntities.get(i).getBranchManager()){
-                        if (laBranchGroupEntities.get(i).getBranchManager().equals(c_ylLaBranchGroupPojo.getBranchManager())){
-                            return R.ok("该主管已经任免团队").put("code",501);
-                        }
-                    }
-                }
-            }
             ybge.setBranchManager(c_ylLaBranchGroupPojo.getBranchManager());//负责人代码
             ybge.setBranchManagerName(c_ylLaBranchGroupPojo.getBranchManagerName());
             ybge.setBranchManagerPhone(c_ylLaBranchGroupPojo.getBranchManagerPhone());

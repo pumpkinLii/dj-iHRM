@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@HeadRowHeight(30)
+@HeadRowHeight(20)
 @ContentRowHeight(18)
 @ColumnWidth(30)
 public class YlLaAgentAttrExcelUpdatePojo  extends BaseRowModel implements Serializable {

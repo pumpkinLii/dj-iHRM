@@ -5,7 +5,7 @@ import com.cms.pojo.CYlLaBranchGroupPojo;
 import com.cms.pojo.QueryGroupPojo;
 import com.cms.pojo.RYlLaBranchGroupPojo;
 import com.cms.pojo.UYllabranchGroupPojo;
-import com.cms.service.QueryGroupService;
+import com.cms.service.TeamService;
 import com.cms.service.UYllaBranchGroupService;
 import com.cms.service.impl.CYlLaBranchGroupServiceImpl;
 import com.cms.service.impl.RYlLaBranchGroupServiceImpl;
@@ -30,7 +30,7 @@ public class TeamController {
     @Autowired
     RYlLaBranchGroupServiceImpl r_YlLaBranchGroupService;
     @Autowired
-    QueryGroupService queryGroupService;
+    TeamService teamService;
     @Autowired
     UYllaBranchGroupService uyllaBranchGroupService;
 
@@ -58,11 +58,11 @@ public class TeamController {
         return R.ok().put("list", SlelectPage.getPage(limit,page,list)).put("totalcount", totalcount);
     }
 
-    //王佳智
+    //池浩玥
     @PostMapping("/queryGroupbyCom4")
     @ApiOperation("查询团队四级机构接口")
     public R queryGroup(@RequestBody QueryGroupPojo queryGroupPojo) {
-        List<Map<String,String>> list = queryGroupService.queryGroup(queryGroupPojo);
+        List<Map<String,String>> list = teamService.queryGroup(queryGroupPojo);
         if(list!=null){
             return R.ok().put("list",list);
         }else {

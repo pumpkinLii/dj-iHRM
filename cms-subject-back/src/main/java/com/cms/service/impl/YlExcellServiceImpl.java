@@ -52,14 +52,16 @@ public class YlExcellServiceImpl extends ServiceImpl<YlLaAgentAttrDao, YlLaAgent
         //逻辑判断
         if (sheet.getFirstRowNum() == sheet.getLastRowNum()) {
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("批量导入失败！Excel文件的内容不能为空！","第0行,第0列");
+            map.put("address","第0行,第0列");
+            map.put("msg","批量导入失败！Excel文件的内容不能为空！");
             lmm.add(map);
             return lmm;
         } else {
             if(sheet.getPhysicalNumberOfRows()==2)//Excel文件的内容为空
             {
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("批量导入失败！Excel文件的内容不能为空！","第0行,第0列");
+                map.put("address","第0行,第0列");
+                map.put("msg","批量导入失败！Excel文件的内容不能为空！");
                 lmm.add(map);
                 return lmm;
             }
@@ -685,7 +687,8 @@ public class YlExcellServiceImpl extends ServiceImpl<YlLaAgentAttrDao, YlLaAgent
                 }
             }
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("导入成功！", "第0行,第0列");
+            map.put("address","第0行,第0列");
+            map.put("msg","导入成功！");
             lmm.add(map);
         }
         workbook.close();
@@ -732,7 +735,8 @@ public class YlExcellServiceImpl extends ServiceImpl<YlLaAgentAttrDao, YlLaAgent
         String strrow="第"+row+"行";
         String str=strrow+","+strcol;
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put(error, str);
+        map.put("address",str);
+        map.put("msg",error);
         return map;
     }
 }

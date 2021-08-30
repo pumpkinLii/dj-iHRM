@@ -78,6 +78,7 @@ export default {
   beforeDestroy() {
     this.$bus.$off('form2')
     this.$bus.$off('form2')
+    this.$bus.$off('query_personhold')
   },
   methods: {
     showModifyDialog(item) {

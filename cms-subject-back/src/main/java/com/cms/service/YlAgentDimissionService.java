@@ -4,6 +4,6 @@ import com.cms.pojo.DepartModifyPojo;
 
 import java.text.ParseException;
 
-public interface DepartModifyService {
+public interface YlAgentDimissionService {
     public String departModify(DepartModifyPojo departModifyPojo) throws ParseException;
 }

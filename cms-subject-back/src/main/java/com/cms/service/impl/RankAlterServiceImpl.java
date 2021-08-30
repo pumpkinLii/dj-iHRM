@@ -8,12 +8,13 @@ import com.cms.entity.YlLaAgentAttrEntity;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.entity.YlLaAgentManoeuvreEntity;
 import com.cms.entity.YlLaBranchGroupEntity;
+import com.cms.pojo.GradeQueryPojo;
+import com.cms.pojo.GradeQueryReturnPojo;
 import com.cms.pojo.RankAlterPojo;
-import com.cms.service.ExcelLaAgentService;
-import com.cms.service.QueryStaffService;
 import com.cms.service.RankAlterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -215,6 +216,20 @@ public class RankAlterServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEnt
             int edorNo = Integer.parseInt(newEdorNo) + 1;
             return "YL" + String.format("%08d", edorNo);
         }
+    }
+
+    public List<GradeQueryReturnPojo> gradeQuery(GradeQueryPojo gradeQueryPojo){
+        QueryWrapper<GradeQueryReturnPojo> wrapper = new QueryWrapper<>();
+        wrapper.likeRight(!StringUtils.isEmpty(gradeQueryPojo.getManageCom()),"t1.manage_com",gradeQueryPojo.getManageCom());
+        wrapper.eq(!StringUtils.isEmpty(gradeQueryPojo.getAgentGroup()),"t1.agent_group",gradeQueryPojo.getAgentGroup());
+        wrapper.like(!StringUtils.isEmpty(gradeQueryPojo.getBranchName()),"t1.branch_name",gradeQueryPojo.getBranchName());//效率，判不判空
+        wrapper.eq(!StringUtils.isEmpty(gradeQueryPojo.getAgentCode()),"t2.agent_code",gradeQueryPojo.getAgentCode());
+        wrapper.like(!StringUtils.isEmpty(gradeQueryPojo.getAgentName()),"t2.agent_name",gradeQueryPojo.getAgentName());
+        wrapper.eq(!StringUtils.isEmpty(gradeQueryPojo.getPhone()),"t3.phone",gradeQueryPojo.getPhone());
+        wrapper.eq(!StringUtils.isEmpty(gradeQueryPojo.getIdNo()),"t3.id_no",gradeQueryPojo.getIdNo());
+        wrapper.eq(!StringUtils.isEmpty(gradeQueryPojo.getAgentGrade()),"t2.agent_grade",gradeQueryPojo.getAgentGrade());
+        List<GradeQueryReturnPojo> list = rankAlterGroupDao.gradeQuery(wrapper);
+        return list;
     }
 
 }

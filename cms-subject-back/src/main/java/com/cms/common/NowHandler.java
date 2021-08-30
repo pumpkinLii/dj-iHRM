@@ -13,10 +13,10 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
+
 public class NowHandler implements CellWriteHandler {
     List<Integer> columIndexs;//字段的下标
     Short colorIndex;//颜色的下标
@@ -52,13 +52,16 @@ public class NowHandler implements CellWriteHandler {
 
     }
 
+    @Override
+    public void afterCellDataConverted(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, CellData cellData, Cell cell, Head head, Integer integer, Boolean aBoolean) {
 
+    }
 
     @Override
     public void afterCellDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, List<CellData> list, Cell cell, Head head, Integer integer, Boolean aBoolean) {
         Sheet sheet = writeSheetHolder.getSheet();
-        sheet.getRow(0).setHeight((short) (1.8*256));//设置第一行的行高为 普通行的1.8倍
-        sheet.setColumnWidth(cell.getColumnIndex(),30*256);//为当前列的元素设置宽带
+        sheet.getRow(0).setHeight((short) (1.5*256));//设置第一行的行高为 普通行的1.8倍
+        sheet.setColumnWidth(cell.getColumnIndex(),24*256);//为当前列的元素设置宽带
         //列宽列高设置完毕以后 进行设置表头的数据 也就是第一行标题的数据
 
         //工作溥 相当于一张表
@@ -72,7 +75,7 @@ public class NowHandler implements CellWriteHandler {
         WriteFont headwriteFont=new WriteFont();
         headwriteFont.setBold(true);
         headwriteFont.setFontName("楷体");
-        headwriteFont.setFontHeightInPoints((short)18);
+        headwriteFont.setFontHeightInPoints((short)15);
         if (CollectionUtils.isNotEmpty(columIndexs)&&colorIndex!=null&&columIndexs.contains(cell.getColumnIndex())){
             headwriteFont.setColor(colorIndex);
         }
@@ -90,7 +93,7 @@ public class NowHandler implements CellWriteHandler {
         }
 
         //设置下拉框
-        if (null!=DropDownMaps&&DropDownMaps.containsKey(cell.getColumnIndex())){
+        if (null!=DropDownMaps&&DropDownMaps.containsKey(cell.getColumnIndex())&&cell.getRow().getRowNum()!=0){
             //存在的时候 进行值的设置
             String[] datas=DropDownMaps.get(cell.getColumnIndex());
             String sheetname="hidden"+cell.getColumnIndex();
@@ -108,9 +111,7 @@ public class NowHandler implements CellWriteHandler {
             DataValidationConstraint explicitListConstraint =dvh.createFormulaListConstraint(sheetname);
             DataValidation dataValidation= dvh.createValidation(explicitListConstraint,addressList);
             sheet.addValidationData(dataValidation);
-
         }
 
     }
-
 }

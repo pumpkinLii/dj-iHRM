@@ -3,7 +3,6 @@ package com.cms.controller;
 import com.cms.pojo.GradeQueryPojo;
 import com.cms.pojo.GradeQueryReturnPojo;
 import com.cms.pojo.RankAlterPojo;
-import com.cms.service.GradeQueryService;
 import com.cms.service.RankAlterService;
 import com.cms.util.R;
 import io.swagger.annotations.Api;
@@ -23,8 +22,6 @@ import static com.cms.util.SlelectPage.getPage;
 public class RankAlterController {
     @Autowired
     private RankAlterService rankAlterService;
-    @Autowired
-    GradeQueryService gradeQueryService;
 
     //王欣艺
     @ApiOperation("职级调整保存接口")
@@ -46,7 +43,7 @@ public class RankAlterController {
         if (gradeQueryPojo.getManageCom().isEmpty()){
             return R.error(501,"请补全必填项");
         }
-        List<GradeQueryReturnPojo> list = gradeQueryService.gradeQuery(gradeQueryPojo);
+        List<GradeQueryReturnPojo> list = rankAlterService.gradeQuery(gradeQueryPojo);
         List<GradeQueryReturnPojo> list1 = getPage(limit,page,list);
         if (list1.size()>=0){
             return R.ok().put("list",list1).put("totalCount",list.size());

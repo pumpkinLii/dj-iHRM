@@ -55,6 +55,13 @@ public class CYlLaBranchGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao,
         String agentGroup = this.agentGroup.getAgentGroup();
         if (StringUtils.isEmpty(c_ylLaBranchGroupPojo.getBranchManager())==false){
             List<YlLaBranchGroupEntity> laBranchGroupEntities = this.baseMapper.selectList(null);
+            for (int i = 0; i < laBranchGroupEntities.size(); i++) {
+                for (int i1 = 0; i1 < laBranchGroupEntities.size(); i1++) {
+                    if (StringUtils.isEmpty(laBranchGroupEntities.get(i).getBranchManager())==false&&laBranchGroupEntities.get(i).getBranchManager().equals(c_ylLaBranchGroupPojo.getBranchManager())){
+                        return R.ok("该员工已经是主管").put("code",501);
+                    }
+                }
+            }
             ybge.setBranchManager(c_ylLaBranchGroupPojo.getBranchManager());//负责人代码
             ybge.setBranchManagerName(c_ylLaBranchGroupPojo.getBranchManagerName());
             ybge.setBranchManagerPhone(c_ylLaBranchGroupPojo.getBranchManagerPhone());

@@ -30,7 +30,6 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 @RestController
@@ -46,8 +45,6 @@ public class ExcelController {
     @Autowired
     private YlSelectExcellService ylSelectExcellService;
     @Autowired
-    private QueryStaffService queryStaffService;
-    @Autowired
     CertInsertExcellService certInsertExcellService;
     @Autowired
     RCertificateImpl rCertificateService;
@@ -57,7 +54,8 @@ public class ExcelController {
     private YlExcellInsertService ylExcellService;
     @Autowired
     ModelExcelListener modelExcelListener;
-
+    @Autowired
+    YlAgentUpdateService ylAgentUpdateService;
     //王佳智
     @ApiOperation("下载新增接口")
     @PostMapping("/load")
@@ -519,7 +517,7 @@ public class ExcelController {
             }
 
             ArrayList qlist=new ArrayList();
-            List<QueryStaffReturn> list = queryStaffService.queryStaff(queryStaffPojo);
+            List<QueryStaffReturn> list =ylAgentUpdateService.queryStaff(queryStaffPojo);
             System.out.println(list.size());
             if(list.size()==0)
             {

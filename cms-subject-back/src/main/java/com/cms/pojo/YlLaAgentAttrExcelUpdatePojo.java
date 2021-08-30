@@ -12,9 +12,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@HeadRowHeight(30)
+@HeadRowHeight(20)
 @ContentRowHeight(18)
-@ColumnWidth(30)
+@ColumnWidth(32)
 public class YlLaAgentAttrExcelUpdatePojo  extends BaseRowModel implements Serializable {
     @ExcelProperty(value = {"人员信息收集","二级管理机构代码"},index = 0)
     private String comCode2;

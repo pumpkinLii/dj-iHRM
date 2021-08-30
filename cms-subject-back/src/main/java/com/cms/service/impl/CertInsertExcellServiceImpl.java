@@ -2,7 +2,7 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.LaAgentAttrDao;
+import com.cms.dao.YlLaAgentAttrDao;
 import com.cms.dao.YlLaAgentCertificateDao;
 import com.cms.entity.YlLaAgentAttrEntity;
 import com.cms.entity.YlLaAgentCertificateEntity;
@@ -26,7 +26,7 @@ import java.util.*;
 @Service
 public class CertInsertExcellServiceImpl extends ServiceImpl<YlLaAgentCertificateDao, YlLaAgentCertificateEntity> implements CertInsertExcellService {
     @Autowired
-    LaAgentAttrDao laAgentAttrDao;
+    YlLaAgentAttrDao ylLaAgentAttrDao;
 
     @Override
     public ArrayList<HashMap<String, String>> check(MultipartFile file) throws IOException, ParseException {
@@ -170,7 +170,7 @@ public class CertInsertExcellServiceImpl extends ServiceImpl<YlLaAgentCertificat
                     YlLaAgentAttrEntity ylLaAgentAttrEntity = new YlLaAgentAttrEntity();
                     QueryWrapper<YlLaAgentAttrEntity> qw = new QueryWrapper<>();
                     qw.eq("agent_code", value.get(0));
-                    List<YlLaAgentAttrEntity> list2= laAgentAttrDao.selectList(qw);
+                    List<YlLaAgentAttrEntity> list2= ylLaAgentAttrDao.selectList(qw);
                     if(list2.size()==0)
                     {
                         successfg=true;

@@ -20,15 +20,18 @@ import static com.cms.util.SlelectPage.getPage;
 @RequestMapping("/login/YlAgentUpdate")
 @Api("人员维护模块")
 public class YlAgentUpdateController {
+    @Autowired
+    YlAgentUpdateService ylAgentUpdateService;
+    @Autowired
+    private YlAgentInfoService ylAgentInfoService;
+    @Autowired
+    private YlAgentAttrInfoService ylAgentAttrInfoService;
 
     //池浩玥
-    @Autowired
-    QueryStaffService queryStaffService;
-
     @PostMapping("/queryStaff")
     @ApiOperation("查询人员接口")
     public R queryStaff(@RequestBody QueryStaffPojo queryStaffPojo, int limit, int page) throws ParseException {
-        List<QueryStaffReturn> list = queryStaffService.queryStaff(queryStaffPojo);
+        List<QueryStaffReturn> list = ylAgentUpdateService.queryStaff(queryStaffPojo);
         List<QueryStaffReturn> list1 = getPage(limit,page,list);
         if (list1.size()>=0){
             return R.ok().put("list",list1).put("totalCount",list.size());
@@ -37,12 +40,10 @@ public class YlAgentUpdateController {
         }
     }
     //池浩玥
-    @Autowired
-    QueryWithCodeService queryWithCodeService;
     @PostMapping("/queryWithCode")
     @ApiOperation("根据agentcode查询接口")
     public R queryWithCode(@RequestParam("agentCode") String agentCode) throws ParseException {
-        QueryWithCodeReturn qwcr = queryWithCodeService.queryInfo(agentCode);
+        QueryWithCodeReturn qwcr = ylAgentUpdateService.queryInfo(agentCode);
         if (!qwcr.getAgentName().equals("")){
             return R.ok().put("form",qwcr);
         }else {
@@ -51,12 +52,6 @@ public class YlAgentUpdateController {
     }
 
     //张晓成
-    @Autowired
-    private YlAgentInfoService ylAgentInfoService;
-    @Autowired
-    private YlAgentAttrInfoService ylAgentAttrInfoService;
-    @Autowired
-    private YlLaAgentInfoChangeService ylLaAgentInfoChangeService;
     @PostMapping("/update")
     @ApiOperation("人员信息修改接口")
     public R laAgentUpdate(@RequestBody LaAgentUpdatePojo laAgent){

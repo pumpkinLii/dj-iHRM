@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.IdCheck;
 import com.cms.common.SelectAgentGroupInfo;
 import com.cms.dao.YlLaAgentDao;
+import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.entity.YlLaBranchGroupEntity;
 import com.cms.pojo.GradeTeamPojo;
@@ -27,34 +28,57 @@ import java.util.*;
  * @author :zhanhaoze
  * @description :
  * @create :2021-08-03
- * 此类提供两个方法,laAgentSubmit(LaAgentPojo laAgent)用于在数据库的yl_la_agent表插入数据,
+ * 此类提供三个方法,laAgentSubmit(LaAgentPojo laAgent)用于在数据库的yl_la_agent表插入数据,
  * laAgentUpdate(LaAgentUpdatePojo laAgent)用于在数据库的yl_la_agent表更新数据
+ * getgradeteam(GradeTeamPojo gradeTeamPojo)方法用于根据职级返回架构团队
  */
 @Service
 @Slf4j
 public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements YlAgentInfoService {
     @Autowired
-    public IdCheck idCheck;
+    private IdCheck idCheck;
 
     @Autowired
     private SelectAgentGroupInfo selectAgentGroupInfo;
 
+    @Autowired
+    private YlLaBranchGroupDao rYlLaBranchGroupServiceImpl;
+
+    /**
+     * 此方法根据职级返回架构团队的代码,传入一个GradeTeamPojo对象，返回一个R对象
+     * */
+    @Override
+    public R getgradeteam(GradeTeamPojo gradeTeamPojo){
+        return this.getgrade(gradeTeamPojo);
+    }
+
     /**
      * 增加人员信息方法，传入LaAgentPojo，返回boolean值结果
      */
-    @Autowired
-    RYlLaBranchGroupServiceImpl rYlLaBranchGroupServiceImpl;
     @Override
     public boolean laAgentSubmit(LaAgentPojo laAgent){
         //在此处调用创建YlLaAgentEntity的方法，用于数据库操作
         YlLaAgentEntity ylLaAgentEntity = this.buildAgentEntity(laAgent);
-
         //存入数据库
         int result = this.baseMapper.insert(ylLaAgentEntity);
-        if(result > 0){
+        int resultManger = this.buildManage(ylLaAgentEntity,laAgent.getPhone());
+        if((result > 0) && (resultManger == 1)){
             return true;
         }
         return false;
+    }
+
+    /**
+     * 任命主管方法，传入YlLaAgentEntity对象和String电话号码
+     * */
+    private int buildManage(YlLaAgentEntity ylLaAgentEntity,String phone){
+        UpdateWrapper<YlLaBranchGroupEntity> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set("branch_manager",ylLaAgentEntity.getAgentCode());
+        updateWrapper.set("branch_manager_name",ylLaAgentEntity.getAgentName());
+        updateWrapper.set("branch_manager_phone",phone);
+        updateWrapper.set("manager_eff_date",ylLaAgentEntity.getMakeDate());
+        updateWrapper.eq("agent_group",ylLaAgentEntity.getAgentGroup());
+        return rYlLaBranchGroupServiceImpl.update(null,updateWrapper);
     }
 
     /**
@@ -95,7 +119,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
         ylLaAgentEntity.setBranchType("4");
         /*****************************************************************************/
         Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
         String time = df.format(date);
         ylLaAgentEntity.setMakeDate(date);
         ylLaAgentEntity.setMakeTime(time);
@@ -115,7 +139,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
         ylLaAgentEntity.setAgentGrade(laAgent.getAgentGrade());
         ylLaAgentEntity.setOperator(laAgent.getOperator());
         Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
         String time = df.format(date);
         ylLaAgentEntity.setModifyDate(date);
         ylLaAgentEntity.setModifyTime(time);
@@ -135,9 +159,11 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
             return "02";
         }
     }
-    //进行根据职级返回架构团队的代码
-    @Override
-    public R getgradeteam(GradeTeamPojo gradeTeamPojo) {
+
+    /**
+     * 封装根据职级返回架构团队
+     * */
+    private R getgrade(GradeTeamPojo gradeTeamPojo) {
         //与前端协商 只有当她请求
         String oldgrade=gradeTeamPojo.getOldgradecode();
         String nowgrade=gradeTeamPojo.getNowgradecode();
@@ -150,7 +176,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
             //总监的情况 返回所有机构以下的团队
             QueryWrapper queryWrapper=new QueryWrapper();
             queryWrapper.eq("manage_com",comcode);
-            List<YlLaBranchGroupEntity> laBranchGroupEntities = rYlLaBranchGroupServiceImpl.getBaseMapper().selectList(queryWrapper);
+            List<YlLaBranchGroupEntity> laBranchGroupEntities = rYlLaBranchGroupServiceImpl.selectList(queryWrapper);
             if (laBranchGroupEntities.size()==0){return R.ok("没有团队可选");}
             for (int i = 0; i < laBranchGroupEntities.size(); i++) {
                 Map map=new HashMap();
@@ -166,7 +192,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
                 YlLaAgentEntity ylLaAgentEntity = this.getBaseMapper().selectOne(queryWrapper);
                 QueryWrapper queryWrapper1=new QueryWrapper();
                 queryWrapper1.eq("agent_group",ylLaAgentEntity.getAgentGroup());
-                YlLaBranchGroupEntity ylLaBranchGroupEntity = rYlLaBranchGroupServiceImpl.getBaseMapper().selectOne(queryWrapper1);
+                YlLaBranchGroupEntity ylLaBranchGroupEntity = rYlLaBranchGroupServiceImpl.selectOne(queryWrapper1);
                 Map map=new HashMap();
                 map.put("groupname",ylLaBranchGroupEntity.getBranchName());
                 map.put("groupcode",ylLaBranchGroupEntity.getAgentGroup());
@@ -176,7 +202,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
                 QueryWrapper qw=new QueryWrapper();
                 qw.eq("branch_status","N");
                 qw.eq("manage_com",comcode);
-                List<YlLaBranchGroupEntity> laBranchGroupEntities = rYlLaBranchGroupServiceImpl.getBaseMapper().selectList(qw);
+                List<YlLaBranchGroupEntity> laBranchGroupEntities = rYlLaBranchGroupServiceImpl.selectList(qw);
                 if (laBranchGroupEntities.size()==0){
                     return R.ok("无符合条件的团队");
                 }

@@ -61,7 +61,7 @@ public class YlLaAgentInfoChangeServiceImpl extends ServiceImpl<YlLaAgentDao, Yl
         if((ylLaAgentChangePojo.getModifyDate() == null) || (ylLaAgentChangePojo.getModifyDate().equals(""))){
             return "您选择的异动日期为空！";
         }
-        if(!ylLaAgentChangePojo.getModifyDate().matches("\\d{4}-\\d{2}-\\d{2}")){
+        if(!ylLaAgentChangePojo.getModifyDate().matches("\\d{4}-\\d{1,2}-\\d{1,2}")){
             return "您输入的异动日期格式错误";
         }
         if((ylLaAgentChangePojo.getOperator() == null) || (ylLaAgentChangePojo.getOperator().equals(""))){
@@ -79,7 +79,7 @@ public class YlLaAgentInfoChangeServiceImpl extends ServiceImpl<YlLaAgentDao, Yl
         ParsePosition pos = new ParsePosition(0);
         Date strtodate = formatter.parse(ylLaAgentChangePojo.getModifyDate(), pos);
         updateWrapper.set("modify_date",strtodate);
-        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");//设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");//设置日期格式
         String time = df.format(new Date());//获取String类型的时间
         updateWrapper.set("modify_time",time);
         updateWrapper.set("operator",ylLaAgentChangePojo.getOperator());

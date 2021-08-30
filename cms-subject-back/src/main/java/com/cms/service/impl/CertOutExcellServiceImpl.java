@@ -2,19 +2,12 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.common.ComnewSon;
-import com.cms.dao.IdCodeDao;
+import com.cms.dao.LdCodeDao;
 import com.cms.dao.YlLaAgentCertificateDao;
-import com.cms.dao.YlSelectExcellDao;
 import com.cms.entity.LdCodeEntity;
-import com.cms.entity.YlLaAgentAttrEntity;
 import com.cms.entity.YlLaAgentCertificateEntity;
-import com.cms.entity.YlLaAgentEntity;
 import com.cms.pojo.CertOutPojo;
-import com.cms.pojo.YlMSelectExcellPojo;
-import com.cms.pojo.YlSelectExcellPojo;
 import com.cms.service.CertOutExcellService;
-import com.cms.service.YlSelectExcellService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,14 +15,13 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 @Service
 @Slf4j
 public class CertOutExcellServiceImpl  extends ServiceImpl<YlLaAgentCertificateDao, YlLaAgentCertificateEntity> implements CertOutExcellService {
     @Autowired
-    IdCodeDao idCodeDao;
+    LdCodeDao ldCodeDao;
     public List<List> certselect(List list) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         List<List> bigList=new ArrayList<>();
@@ -46,7 +38,7 @@ public class CertOutExcellServiceImpl  extends ServiceImpl<YlLaAgentCertificateD
             QueryWrapper<LdCodeEntity> queryWrapper1 = new QueryWrapper<>();
             queryWrapper1.eq("code",certificateEntity.getCertificateName());
             queryWrapper1.eq("code_type","certificatename");
-            LdCodeEntity name = idCodeDao.selectOne(queryWrapper1);
+            LdCodeEntity name = ldCodeDao.selectOne(queryWrapper1);
 
             certOutPojo.setCertificateName(name.getCodeName());
             certOutPojo.setCertificateNo(certificateEntity.getCertificateNo());

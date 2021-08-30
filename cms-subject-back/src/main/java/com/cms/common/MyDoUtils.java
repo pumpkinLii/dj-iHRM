@@ -5,10 +5,11 @@ import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.alibaba.excel.write.handler.CellWriteHandler;
 import com.alibaba.excel.write.metadata.style.WriteCellStyle;
 import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
+import org.springframework.stereotype.Component;
 
 import java.io.OutputStream;
 import java.util.List;
-
+@Component
 public class MyDoUtils {
 
     /*

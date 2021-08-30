@@ -1,13 +1,8 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.IdCheckDao;
+import com.cms.dao.YlLaAgentDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.pojo.IdCheckPojo;
 import com.cms.pojo.IdCheckAllPojo;
@@ -22,9 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-class IdCheckServiceImpl extends ServiceImpl<IdCheckDao, YlLaAgentEntity> implements IdCheckService {
+class IdCheckServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements IdCheckService {
     @Autowired
-    IdCheckDao idCheckDao;
+    YlLaAgentDao ylLaAgentDao;
 
     public int idcheck(LaAgentPojo laAgent) {
         String idtype = laAgent.getIdType();
@@ -44,7 +39,7 @@ class IdCheckServiceImpl extends ServiceImpl<IdCheckDao, YlLaAgentEntity> implem
             QueryWrapper<IdCheckAllPojo> qw = new QueryWrapper();
             qw.eq("id_no", idno);
             qw.eq("id_type", idtype);
-            List<IdCheckAllPojo> list = ((IdCheckDao)this.baseMapper).getAllYlLaAgent(qw);
+            List<IdCheckAllPojo> list = this.baseMapper.getAllYlLaAgent(qw);
             if (list.size() == 0) {
                 return 1;
             } else {

@@ -77,7 +77,7 @@ public class YlLaAgentManoeuvreServiceImpl extends ServiceImpl<YlLaAgentManoeuvr
         ylLaAgentManoeuvreEntity.setCurDepartmentManager(newAgentGroupInfo.getBranchManager());
         ylLaAgentManoeuvreEntity.setCurAgentGroupName(newAgentGroupInfo.getBranchName());
         ylLaAgentManoeuvreEntity.setOperator(ylLaAgentChangePojo.getOperator());
-        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");//设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");//设置日期格式
         String time = df.format(new Date());//获取String类型的时间
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         ParsePosition pos = new ParsePosition(0);

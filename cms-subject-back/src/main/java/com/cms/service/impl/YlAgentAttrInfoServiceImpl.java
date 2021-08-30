@@ -26,7 +26,7 @@ import java.util.List;
 @Slf4j
 public class YlAgentAttrInfoServiceImpl extends ServiceImpl<YlLaAgentAttrDao, YlLaAgentAttrEntity> implements YlAgentAttrInfoService {
     @Autowired
-    public IdCheck idCheck;
+    private IdCheck idCheck;
 
     /**
      * 获取生成的工号，无参方法，调用私有方法生成新工号
@@ -39,7 +39,6 @@ public class YlAgentAttrInfoServiceImpl extends ServiceImpl<YlLaAgentAttrDao, Yl
     /**
      * 新增人员信息，传入一个LaAgentPojo对象，返回字符串，成功则返回"success",校验失败则返回失败原因。导入失败则返回“请联系管理员”
      */
-    @Override
     public String agentSubmit(LaAgentPojo laAgent){
         //在这调用验证信息的方法
         String checkAgentInfoResult = this.checkAgentInformation(laAgent);
@@ -407,7 +406,7 @@ public class YlAgentAttrInfoServiceImpl extends ServiceImpl<YlLaAgentAttrDao, Yl
         ylLaAgentAttrEntity.setWorkAge(laAgent.getWorkAge());
         ylLaAgentAttrEntity.setOperator(laAgent.getOperator());
         Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");//设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");//设置日期格式
         String time = df.format(date);//获取String类型的时间
         ylLaAgentAttrEntity.setMakeDate(date);
         ylLaAgentAttrEntity.setMakeTime(time);
@@ -632,7 +631,7 @@ public class YlAgentAttrInfoServiceImpl extends ServiceImpl<YlLaAgentAttrDao, Yl
         ylLaAgentAttrEntity.setWorkAge(laAgent.getWorkAge());
         ylLaAgentAttrEntity.setOperator(laAgent.getOperator());
         Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");//设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");//设置日期格式
         String time = df.format(date);//获取String类型的时间
         ylLaAgentAttrEntity.setModifyDate(date);
         ylLaAgentAttrEntity.setModifyTime(time);

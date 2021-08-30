@@ -28,5 +28,15 @@ public interface YlLaAgentDao extends BaseMapper<YlLaAgentEntity> {
     //人员异动下拉列表查询
     List<ResultListPojo> SearchList(@Param("ew") QueryWrapper<ResultListPojo> qw);
 
+    //离职查询
+    List<DismissQueryReturnPojo> DismissQueryList(@Param("ew") QueryWrapper<DismissQueryReturnPojo> qw);
+
+    //证件校验
+    List<IdCheckAllPojo> getAllYlLaAgent(@Param("ew") QueryWrapper<IdCheckAllPojo> qw);
+
+    //excel人员导入
+    YlMSelectExcellPojo YlSelectExcell(@Param("ew") QueryWrapper<YlMSelectExcellPojo> qw);
+
+    List<UYllaBranchGroupReturnPojo> getManagerInfo(@Param(Constants.WRAPPER) QueryWrapper<UYllaBranchGroupReturnPojo> qw);
 
 }

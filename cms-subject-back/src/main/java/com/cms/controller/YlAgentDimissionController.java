@@ -18,10 +18,20 @@ import java.util.List;
 @RequestMapping("/login/YlAgentDimission")
 @Api("人员离职模块")
 public class YlAgentDimissionController {
-    //王欣艺
     @Autowired
     DismissQueryService dismissQueryService;
+    @Autowired
+    InsertDimissionService insertDimissionService;
+    @Autowired
+    YlAgentDimissionService ylAgentDimissionService;
+    @Autowired
+    ResignationApprovalImpl resignationApproval;
+    @Autowired
+    SearchDimissionService searchDimissionService;
+    @Autowired
+    SubmitAuditService submitAuditService;
 
+    //王欣艺
     @PostMapping("/query")
     @ApiOperation("离职申请查询")
     @ResponseBody
@@ -34,9 +44,8 @@ public class YlAgentDimissionController {
             return R.error("无符合数据").put("code",501).put("totalCount",0);
         }
     }
+
     //张毅珑
-    @Autowired
-    InsertDimissionService insertDimissionService;
     @ApiOperation("插入离职信息")
     @PostMapping("/insertDimission")
     public R InsertDimission(@RequestBody AccInsertDimissionPojo accInsertDimissionPojo) {
@@ -48,14 +57,11 @@ public class YlAgentDimissionController {
         }
     }
 
-
     //池浩玥
-    @Autowired
-    DepartModifyService departModifyService;
     @PostMapping("/modify")
     @ApiOperation("离司申请修改接口")
     public R departModify(@RequestBody DepartModifyPojo departModifyPojo) throws ParseException{
-        String keyString = departModifyService.departModify(departModifyPojo);
+        String keyString = ylAgentDimissionService.departModify(departModifyPojo);
         if (keyString.equals("0")){
             return R.ok().put("msg","修改成功");
         }else if (keyString.equals("1")){
@@ -67,8 +73,6 @@ public class YlAgentDimissionController {
     }
 
     //王佳智
-    @Autowired
-    ResignationApprovalImpl resignationApproval;
     @ApiOperation("离职审核模块接口")
     @PostMapping("/approval")
     public R approval(@RequestBody ResignationApprovalPojo resignationApprovalPojo,int num) throws ParseException {
@@ -76,18 +80,13 @@ public class YlAgentDimissionController {
     }
 
     //张毅珑
-    @Autowired
-    SearchDimissionService searchDimissionService;
     @PostMapping("/dimission")
     @ApiOperation("离职接口")
     public R SearchDimission(@RequestBody AcceptDimissionPojo acceptDimissionPojo ) {
         return searchDimissionService.SearchDimission(acceptDimissionPojo);
     }
 
-
     //陈益轩
-    @Autowired
-    SubmitAuditService submitAuditService;
     @ApiOperation("提交审核接口")
     @PostMapping("/audit")
     public  R audit(@RequestBody List<String> list){

@@ -7,7 +7,7 @@ package com.cms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.IdCheckDao;
+import com.cms.dao.YlLaAgentDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.pojo.IdCheckAllPojo;
 import com.cms.pojo.IdCheckPojo;
@@ -24,9 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-class NIdCheckServiceImpl extends ServiceImpl<IdCheckDao, YlLaAgentEntity> implements NIdCheckService {
+class NIdCheckServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements NIdCheckService {
     @Autowired
-    IdCheckDao idCheckDao;
+    YlLaAgentDao ylLaAgentDao;
 
     public int idcheck(IdCheckPojo idCheckPojo) {
         String idtype = idCheckPojo.getIdType();
@@ -46,7 +46,7 @@ class NIdCheckServiceImpl extends ServiceImpl<IdCheckDao, YlLaAgentEntity> imple
             QueryWrapper<IdCheckAllPojo> qw = new QueryWrapper();
             qw.eq("id_no", idno);
             qw.eq("id_type", idtype);
-            List<IdCheckAllPojo> list = ((IdCheckDao)this.baseMapper).getAllYlLaAgent(qw);
+            List<IdCheckAllPojo> list = this.baseMapper.getAllYlLaAgent(qw);
             if (list.size() == 0) {
                 return 1;
             } else {

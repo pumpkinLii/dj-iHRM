@@ -1,9 +1,8 @@
 package com.cms.service.impl;
 
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cms.dao.LaAgentDao;
+import com.cms.dao.YlLaAgentDao;
 import com.cms.entity.YlLaAgentEntity;
 import com.cms.pojo.LaAgentPojo;
 import com.cms.service.ExcelLaAgentService;
@@ -13,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
-public class LaAgentServiceImpl extends ServiceImpl<LaAgentDao, YlLaAgentEntity> implements ExcelLaAgentService {
+public class LaAgentServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEntity> implements ExcelLaAgentService {
     @Override
     public boolean laAgentSubmit(LaAgentPojo laAgent){
         YlLaAgentEntity ylLaAgentEntity = new YlLaAgentEntity();

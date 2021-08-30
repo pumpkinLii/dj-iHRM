@@ -1,11 +1,10 @@
 package com.cms.service.impl;
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.IdCheck;
-import com.cms.dao.LaAgentAttrDao;
 
+import com.cms.dao.YlLaAgentAttrDao;
 import com.cms.entity.YlLaAgentAttrEntity;
 import com.cms.entity.YlUserInfoEntity;
 import com.cms.pojo.LaAgentPojo;
@@ -25,7 +24,7 @@ import java.util.*;
 import static com.cms.service.impl.LaAgentServiceAttrImpl.getYlNo;
 
 @Service
-public class YlExcellServiceImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgentAttrEntity> implements YlExcellInsertService {
+public class YlExcellServiceImpl extends ServiceImpl<YlLaAgentAttrDao, YlLaAgentAttrEntity> implements YlExcellInsertService {
 
     @Autowired
     public IdCheck idCheck;
@@ -53,14 +52,16 @@ public class YlExcellServiceImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgentAt
         //逻辑判断
         if (sheet.getFirstRowNum() == sheet.getLastRowNum()) {
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("批量导入失败！Excel文件的内容不能为空！","第0行,第0列");
+            map.put("address","第0行,第0列");
+            map.put("msg","批量导入失败！Excel文件的内容不能为空！");
             lmm.add(map);
             return lmm;
         } else {
             if(sheet.getPhysicalNumberOfRows()==2)//Excel文件的内容为空
             {
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("批量导入失败！Excel文件的内容不能为空！","第0行,第0列");
+                map.put("address","第0行,第0列");
+                map.put("msg","批量导入失败！Excel文件的内容不能为空！");
                 lmm.add(map);
                 return lmm;
             }
@@ -686,7 +687,8 @@ public class YlExcellServiceImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgentAt
                 }
             }
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("导入成功！", "第0行,第0列");
+            map.put("address","第0行,第0列");
+            map.put("msg","导入成功！");
             lmm.add(map);
         }
         workbook.close();
@@ -733,7 +735,8 @@ public class YlExcellServiceImpl extends ServiceImpl<LaAgentAttrDao, YlLaAgentAt
         String strrow="第"+row+"行";
         String str=strrow+","+strcol;
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put(error, str);
+        map.put("address",str);
+        map.put("msg",error);
         return map;
     }
 }

@@ -3,17 +3,13 @@ package com.cms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.common.ComnewSon;
-import com.cms.dao.AgentCountDao;
-import com.cms.dao.ComCodeDao;
-import com.cms.dao.RYlLaBranchGroupDao;
-import com.cms.entity.LdCodeEntity;
-import com.cms.entity.LdComNewEntity;
+import com.cms.dao.LdComNewDao;
+import com.cms.dao.YlLaAgentDao;
+import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.YlLaBranchGroupEntity;
 import com.cms.pojo.RYlLaBranchGrouReturn;
 import com.cms.pojo.RYlLaBranchGroupPojo;
 import com.cms.service.RYlLaBranchGroupService;
-import com.cms.service.YlAgentCertificateService;
-import com.cms.util.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -22,14 +18,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao, YlLaBranchGroupEntity> implements RYlLaBranchGroupService {
-
-
+public class RYlLaBranchGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBranchGroupEntity> implements RYlLaBranchGroupService {
     //王佳智
     @Autowired
-    AgentCountDao agentCountDao;
+    YlLaAgentDao ylLaAgent;
     @Autowired
-    ComCodeDao comCodeDao;
+    LdComNewDao ldComNewDao;
     @Autowired
     ComnewSon comnewSon;
     //二级机构查询错误
@@ -86,7 +80,7 @@ public class RYlLaBranchGroupServiceImpl extends ServiceImpl<RYlLaBranchGroupDao
                         queryWrapper1.eq("agent_group", list.get(i).getAgentGroup());
                         //在人员表中 获取与团队名称相同的人的
                         queryWrapper1.eq("agent_state","01");
-                        List list1 = agentCountDao.selectList(queryWrapper1);
+                        List list1 =ylLaAgent.selectList(queryWrapper1);
                         String number = String.valueOf(list1.size());
                         r_ylLaBranchGrou_return.setAgentCount(number);//表格只读项	团队下当前实时统计在职代理人个数
                         if (list.get(i).getBranchTerminateEffDate() != null) {

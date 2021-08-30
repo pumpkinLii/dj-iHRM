@@ -23,25 +23,23 @@ public class BackMsgController {
     @Autowired
     RCertificateImpl rCertificateService;
     @Autowired
-    GetManageInfoService getManageInfoService;
-    @Autowired
     YlAgentCertificateService ylAgentCertificateService;
     @Autowired
-    EchoGroupService echoGroupService;
+    BackMsgService backMsgService;
     @Autowired
-    EchoManagerService echoManagerService;
+    UYllaBranchGroupReturnService uYllaBranchGroupReturnService;
 
     @PostMapping("/gradeteam")
     @ApiOperation("根据职级返回架构团队")
     public R getgradeteam(@RequestBody GradeTeamPojo gradeTeam) {
-        return ylAgentInfoService.getgradeteam(gradeTeam);
+        return backMsgService.getgradeteam(gradeTeam);
     }
 
     /*回显团队架构*/
-    @PostMapping("/echoGroup")
+    @PostMapping("/echogroup")
     @ApiOperation("回显团队架构接口")
     public R echoGroup(@RequestBody StaffPojo staffPojo) {
-        List<Map<String, String>> mapList = echoGroupService.getGroup(staffPojo);
+        List<Map<String, String>> mapList = backMsgService.getGroup(staffPojo);
         if (mapList != null) {
             return R.ok().put("list", mapList);
         } else {
@@ -53,7 +51,7 @@ public class BackMsgController {
     @PostMapping("/echomanager")
     @ApiOperation("回显团队主管工号及姓名接口")
     public R echoManager(@RequestBody GroupPojo groupPojo) {
-        Map<String, String> map = echoManagerService.getManager(groupPojo);
+        Map<String, String> map = backMsgService.getManager(groupPojo);
         if (map != null) {
             return R.ok().put("data", map);
         } else {
@@ -65,7 +63,7 @@ public class BackMsgController {
     @ApiOperation("返回负责人信息接口")
     @PostMapping("/managerinfo")
     public R retManager(@RequestParam(value = "branchAttr") String branchAttr) {
-        ManagerPojo managerPojo = getManageInfoService.getManageInfo(branchAttr);
+        ManagerPojo managerPojo = backMsgService.getManageInfo(branchAttr);
         if (managerPojo == null) {
             return R.error("团队编码不存在");
         }
@@ -75,14 +73,14 @@ public class BackMsgController {
     @ApiOperation("返回四级机构列表")
     @PostMapping("/com4info")
     public R retCom4() {
-        List<Com4Pojo> list = getManageInfoService.getCom4();
+        List<Com4Pojo> list = backMsgService.getCom4();
         return R.ok().put("list", list);
     }
 
     @ApiOperation("返回团队信息列表")
     @PostMapping("/groupinfo")
     public R retGroup(@RequestParam(value = "manageCode") String agentGroup) {
-        List<GroupInfoPojo> list = getManageInfoService.getGroup(agentGroup);
+        List<GroupInfoPojo> list = backMsgService.getGroup(agentGroup);
         return R.ok().put("list", list);
     }
 
@@ -95,6 +93,22 @@ public class BackMsgController {
             return R.ok().put("list",list);
         }
         return R.ok().put("comList",list);
+    }
+
+    @PostMapping("/getgroupmanager")
+    @ApiOperation("查询接口")
+    public R find(@RequestBody ManagerCodePojo manager) {
+        UYllaBranchGroupReturnPojo uYllaBranchGroupReturnPojo = uYllaBranchGroupReturnService.updataRe(manager.getAgentCode());
+        if (uYllaBranchGroupReturnPojo != null) {
+            if (uYllaBranchGroupReturnPojo.getAgentGrade().equals( "MA01")||uYllaBranchGroupReturnPojo.getAgentGrade().equals( "MA02")||uYllaBranchGroupReturnPojo.getAgentGrade() .equals( "MA03")) {
+                if(uYllaBranchGroupReturnPojo.getAgentState().equals("03")||uYllaBranchGroupReturnPojo.getAgentState().equals("04")){
+                    return R.error("该员工已经离职");
+                }
+                else return R.ok().put("data", uYllaBranchGroupReturnPojo);
+            } else return R.error("该员工不是主管");
+        } else {
+            return R.error("该员工号码不存在");
+        }
     }
 
     //张毅泷

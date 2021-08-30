@@ -6,8 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.dao.YlLaDimissionDao;
 import com.cms.entity.YlLaDimissionEntity;
 import com.cms.pojo.DepartModifyPojo;
-import com.cms.service.DepartModifyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.cms.service.YlAgentDimissionService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -16,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
-public class DepartModifyServiceImpl extends ServiceImpl<YlLaDimissionDao, YlLaDimissionEntity> implements DepartModifyService {
+public class YlAgentDimissionServiceImpl extends ServiceImpl<YlLaDimissionDao, YlLaDimissionEntity> implements YlAgentDimissionService {
     //离司申请的修改
     @Override
     public String departModify(DepartModifyPojo departModifyPojo) throws ParseException{

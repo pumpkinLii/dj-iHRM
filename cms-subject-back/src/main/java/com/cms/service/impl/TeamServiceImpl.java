@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cms.dao.YlLaBranchGroupDao;
 import com.cms.entity.YlLaBranchGroupEntity;
 import com.cms.pojo.QueryGroupPojo;
-import com.cms.service.QueryGroupService;
+import com.cms.service.TeamService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class QueryGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBranchGroupEntity> implements QueryGroupService {
+public class TeamServiceImpl extends ServiceImpl<YlLaBranchGroupDao, YlLaBranchGroupEntity> implements TeamService {
     //根据管理机构查询团队
     @Override
     public List<Map<String,String>> queryGroup(QueryGroupPojo queryGroupPojo){

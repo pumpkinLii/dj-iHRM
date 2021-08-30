@@ -61,10 +61,10 @@ export function isZip(rule, value, callback) {
 }
 
 export function isNum(rule, value, callback) {
-  if ((/^[1-9][0-9]*$/.test(value)) || value === '') {
+  if ((/^[0-9][0-9]*$/.test(value)) || value === '') {
     return callback()
   }
-  callback(new Error('请输入数字!'))
+  callback(new Error('请输入正确的数字!'))
 }
 
 // 身份证校验

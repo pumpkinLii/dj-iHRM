@@ -70,7 +70,7 @@ export function zhiji(data) {
 // 回显 池浩玥 已改
 export function huixian(data) {
   return request({
-    url: '/login/back/echoManager',
+    url: '/login/back/echomanager',
     method: 'post',
     data
   })

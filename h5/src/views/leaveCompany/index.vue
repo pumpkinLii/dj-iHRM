@@ -117,7 +117,7 @@
         <el-form-item>
           <el-col style="text-align:left;margin-top: 1rem">
             <el-button type="primary" icon="el-icon-search" @click="page.currentPage=1;handleQuery()">查询</el-button>
-            <el-button type="success" icon="el-icon-edit" @click="LeaveAddDialogVisible">新增</el-button>
+            <el-button type="success" icon="el-icon-edit" @click="LeaveAddDialogVisible">离职</el-button>
             <el-button type="warning" icon="el-icon-check" :disabled="selected.length===0" @click="Submit">提交审核</el-button>
             <el-button type="secondary" icon="el-icon-refresh-left" @click="resetForm">重置</el-button>
           </el-col>

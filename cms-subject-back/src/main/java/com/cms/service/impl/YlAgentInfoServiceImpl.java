@@ -119,7 +119,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
         ylLaAgentEntity.setBranchType("4");
         /*****************************************************************************/
         Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
         String time = df.format(date);
         ylLaAgentEntity.setMakeDate(date);
         ylLaAgentEntity.setMakeTime(time);
@@ -139,7 +139,7 @@ public class YlAgentInfoServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentE
         ylLaAgentEntity.setAgentGrade(laAgent.getAgentGrade());
         ylLaAgentEntity.setOperator(laAgent.getOperator());
         Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
         String time = df.format(date);
         ylLaAgentEntity.setModifyDate(date);
         ylLaAgentEntity.setModifyTime(time);

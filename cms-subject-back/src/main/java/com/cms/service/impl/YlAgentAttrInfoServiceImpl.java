@@ -406,7 +406,7 @@ public class YlAgentAttrInfoServiceImpl extends ServiceImpl<YlLaAgentAttrDao, Yl
         ylLaAgentAttrEntity.setWorkAge(laAgent.getWorkAge());
         ylLaAgentAttrEntity.setOperator(laAgent.getOperator());
         Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");//设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");//设置日期格式
         String time = df.format(date);//获取String类型的时间
         ylLaAgentAttrEntity.setMakeDate(date);
         ylLaAgentAttrEntity.setMakeTime(time);
@@ -631,7 +631,7 @@ public class YlAgentAttrInfoServiceImpl extends ServiceImpl<YlLaAgentAttrDao, Yl
         ylLaAgentAttrEntity.setWorkAge(laAgent.getWorkAge());
         ylLaAgentAttrEntity.setOperator(laAgent.getOperator());
         Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("HH-mm-ss");//设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");//设置日期格式
         String time = df.format(date);//获取String类型的时间
         ylLaAgentAttrEntity.setModifyDate(date);
         ylLaAgentAttrEntity.setModifyTime(time);

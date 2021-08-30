@@ -32,12 +32,16 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @RestController
 @CrossOrigin
 @RequestMapping({"/login/Excel"})
 @Api("Excel模块")
 @Slf4j
 public class ExcelController {
+    @Autowired
+    IdCodeService idCodeService;
     @Autowired
     private NIdCodeService nIdCodeService;
     @Autowired
@@ -465,11 +469,20 @@ public class ExcelController {
             colunmindex.add(i);
         }
         Short colorindex=IndexedColors.AUTOMATIC.getIndex();
-        httpServletResponse.setHeader("Content-Disposition", "attachment;filename=\""+"Updatefile.xlsx"+"\"");
-        httpServletResponse.setContentType("\"application/x-excel");
+        httpServletResponse.setHeader("Content-Disposition", "attachment;filename="+"Updatefile.xlsx");
+        httpServletResponse.setContentType("application/vnd.ms-excel");
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
         HashMap annotationMAP=new HashMap();
-        HashMap dropMap=new HashMap();
+        HashMap<Integer,String[]> dropMap=new HashMap();
+        String s="北京市、天津市、上海市、重庆市、河北省、山西省、辽宁省、吉林省、黑龙江省、江苏省、浙江省、安徽省、福建省、江西省、山东省、河南省、湖北省、湖南省、广东省、海南省、四川省、贵州省、云南省、陕西省、甘肃省、青海省、台湾省、内蒙古自治区、广西壮族自治区、西藏自治区、宁夏回族自治区、新疆维吾尔自治区、香港特别行政区、澳门特别行政区";
+        dropMap.put(19,s.split("、"));
+        Map<String, Map<String, String>> resource = idCodeService.getResource();
+        List list=new ArrayList();
+        Map<String, String> map = resource.get("bankcode");
+        for (Map.Entry entry:map.entrySet()){
+            list.add(entry.getValue());
+        }
+        dropMap.put(38,(String[]) list.toArray(new String[list.size()]));
         MyDoUtils.writeExcelWithModel(outputStream,new ArrayList(),YlLaAgentAttrExcelUpdatePojo.class,"new",new NowHandler(colunmindex,colorindex,annotationMAP,dropMap));
         //标头的设置
     }

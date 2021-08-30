@@ -23,8 +23,6 @@ public class BackMsgController {
     @Autowired
     RCertificateImpl rCertificateService;
     @Autowired
-    GetManageInfoService getManageInfoService;
-    @Autowired
     YlAgentCertificateService ylAgentCertificateService;
     @Autowired
     BackMsgService backMsgService;

@@ -166,7 +166,7 @@
                t1.employ_date,
                t1.agent_state,
                t1.agent_grade,
-               t1.agent_group,
+               t4.branch_attr as agentGroup,
                t3.contract_type,
                t4.branch_name,
                t4.manage_com as com_code4 ,

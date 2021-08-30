@@ -59,8 +59,10 @@ public class CYlLaBranchGroupServiceImpl extends ServiceImpl<YlLaBranchGroupDao,
 
             }else {
                 for (int i = 0; i < laBranchGroupEntities.size(); i++) {
-                    if (laBranchGroupEntities.get(i).getBranchManager()!=null&&laBranchGroupEntities.get(i).getBranchManager().equals(c_ylLaBranchGroupPojo.getBranchManager())){
-                        return R.ok("该主管已经任免团队").put("code",501);
+                    if (laBranchGroupEntities.get(i).getBranchManager()!=null){
+                        if (laBranchGroupEntities.get(i).getBranchManager().equals(c_ylLaBranchGroupPojo.getBranchManager())){
+                            return R.ok("该主管已经任免团队").put("code",501);
+                        }
                     }
                 }
             }

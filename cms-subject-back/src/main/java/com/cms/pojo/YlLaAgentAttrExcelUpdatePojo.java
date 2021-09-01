@@ -69,7 +69,7 @@ public class YlLaAgentAttrExcelUpdatePojo  extends BaseRowModel implements Seria
     private String graduateSchool;
     @ExcelProperty(value = {"人员信息收集","专业"},index = 24)
     private String major;
-    @ExcelProperty(value = {"人员信息收集","名族"},index = 25)
+    @ExcelProperty(value = {"人员信息收集","民族"},index = 25)
     private String nationality;
     @ExcelProperty(value = {"人员信息收集","籍贯"},index = 26)
     private String nativeplace;

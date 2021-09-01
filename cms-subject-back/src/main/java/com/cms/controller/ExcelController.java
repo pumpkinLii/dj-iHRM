@@ -38,7 +38,6 @@ import java.util.Map;
 @CrossOrigin
 @RequestMapping({"/login/Excel"})
 @Api("Excel模块")
-@Slf4j
 public class ExcelController {
     @Autowired
     IdCodeService idCodeService;
@@ -253,7 +252,6 @@ public class ExcelController {
     @PostMapping({"/board"})
     public void getData2(HttpServletResponse response) throws FileNotFoundException {
         try {
-            log.info("项目启动");
             XSSFWorkbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("资格证导入模板");
             sheet.createFreezePane(0,1,0,1);
@@ -261,7 +259,6 @@ public class ExcelController {
             sheet.setDefaultColumnWidth(20);            //默认列宽
             sheet.setDefaultRowHeightInPoints(23);      //默认行高
 
-            log.debug("创建工作区样式，获取到sheet为：'{}' ",sheet);
 
             Row row0 = sheet.createRow(0);
             Cell cell0 = row0.createCell(0);
@@ -271,8 +268,6 @@ public class ExcelController {
             CellRangeAddress region=new CellRangeAddress(0, 0, 0, 7);//            firstRow 区域中第一个单元格的行号,lastRow 区域中最后一个单元格的行号,firstCol 区域中第一个单元格的列号,lastCol 区域中最后一个单元格的列号
             sheet.addMergedRegion(region);
 
-            log.debug("创建标题样式，获取到sheet为：'{}' ",sheet);
-            log.debug("创建标题样式，获取到cell为：'{}' ",cell0);
 
             String[] str = new String[]{"人员工号*","资格证书名称*","资格证书号*","发放日期*","补发日期","有效起期*","有效止期*","批准单位"};
             XSSFCellStyle textStyle = genTextStyle(workbook);//创建标题样式
@@ -283,7 +278,6 @@ public class ExcelController {
                 cell1.setCellStyle(textStyle);
             }
 
-            log.debug("创建表头样式，获取到sheet为：'{}'",sheet);
 
             for(int i=0;i<40;i++)
             {
@@ -293,12 +287,10 @@ public class ExcelController {
                 }
             }
 
-            log.debug("创建数据样式，获取到sheet为：'{}'",sheet);
 
             ServletOutputStream outputStream=response.getOutputStream();
             response.setHeader("content-disposition","attachment;fileName="+ URLEncoder.encode("导入资格证模版.xlsx","UTF-8"));
             workbook.write(outputStream);
-            log.debug("获取输出流为：'{}'",outputStream);
             outputStream.flush();
             outputStream.close();
         } catch (IOException var11) {
@@ -545,7 +537,6 @@ public class ExcelController {
 
             ArrayList qlist=new ArrayList();
             List<QueryStaffReturn> list =ylAgentUpdateService.queryStaff(queryStaffPojo);
-            System.out.println(list.size());
             if(list.size()==0)
             {
                 return R.error(500, "查询不到值");
@@ -587,7 +578,7 @@ public class ExcelController {
             ServletOutputStream outputStream=response.getOutputStream();
             response.setHeader("content-disposition","attachment;fileName="+ URLEncoder.encode("员工批量导出.xlsx","UTF-8"));
             workbook.write(outputStream);
-            outputStream.flush();
+//            outputStream.flush();
             outputStream.close();
         } catch (IOException | ParseException var11) {
             var11.printStackTrace();

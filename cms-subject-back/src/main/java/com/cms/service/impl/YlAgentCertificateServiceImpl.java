@@ -161,9 +161,13 @@ public class YlAgentCertificateServiceImpl extends ServiceImpl<YlLaAgentCertific
         }
 
 
-        @Override
-        public int InsertCertificate(CeInsertPojo ceInsertPojo) throws Exception {
-
+    @Override
+    public int InsertCertificate(CeInsertPojo ceInsertPojo) throws Exception {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("agent_code",ceInsertPojo.getAgentCode());
+        queryWrapper.eq("certificate_name", ceInsertPojo.getCertificateName());
+        YlLaAgentCertificateEntity ylLaAgentCertificateEntity1 = this.baseMapper.selectOne(queryWrapper);
+        if (ylLaAgentCertificateEntity1 == null) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date newDat = new Date();
             //按照pojo的值插入到数据库
@@ -183,7 +187,7 @@ public class YlAgentCertificateServiceImpl extends ServiceImpl<YlLaAgentCertific
                 ylLaAgentCertificateEntity.setStartEffectiveDate(sd.parse(ceInsertPojo.getStartEffectiveDate()));
             }
 
-            if (!StringUtils.isEmpty(ceInsertPojo.getEndEffectiveDate())){
+            if (!StringUtils.isEmpty(ceInsertPojo.getEndEffectiveDate())) {
                 ylLaAgentCertificateEntity.setEndEffectiveDate(sd.parse(ceInsertPojo.getEndEffectiveDate()));
             }
             ylLaAgentCertificateEntity.setReleaseDate(sd.parse(ceInsertPojo.getReleaseDate()));
@@ -195,13 +199,15 @@ public class YlAgentCertificateServiceImpl extends ServiceImpl<YlLaAgentCertific
             ylLaAgentCertificateEntity.setModifyTime(ParseDate.getCurrentTime());
             QueryWrapper<YlLaAgentCertificateEntity> qw = new QueryWrapper<>();
             qw.eq("certificate_no", ylLaAgentCertificateEntity.getCertificateNo());
-            YlLaAgentCertificateEntity ylLaAgentCertificateEntity1 = this.baseMapper.selectOne(qw);
+            YlLaAgentCertificateEntity ylLaAgentCertificateEntity2 = this.baseMapper.selectOne(qw);
             int insert = 0;
-            if (ylLaAgentCertificateEntity1 == null) {
+            if (ylLaAgentCertificateEntity2 == null) {
                 insert = this.baseMapper.insert(ylLaAgentCertificateEntity);
             }
             return insert;
+        } else {
+            return 2;
         }
     }
-
+}
 

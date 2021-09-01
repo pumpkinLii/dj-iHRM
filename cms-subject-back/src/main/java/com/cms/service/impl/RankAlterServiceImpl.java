@@ -57,7 +57,7 @@ public class RankAlterServiceImpl extends ServiceImpl<YlLaAgentDao, YlLaAgentEnt
         {
             return "调整原因不能为空";
         }
-        if(!rankAlterPojo.getAgentState().equals("01"))
+        if(rankAlterPojo.getAgentState().equals("03")||rankAlterPojo.getAgentState().equals("04"))
         {
             return "当前人员不处于在职状态，无法进行职级调动";
         }

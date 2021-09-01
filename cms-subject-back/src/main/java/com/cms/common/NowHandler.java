@@ -106,7 +106,7 @@ public class NowHandler implements CellWriteHandler {
             for (int i = 0; i < datas.length; i++) {
                 sheet1.createRow(i+100).createCell(cell.getColumnIndex()).setCellValue(datas[i]);
             }
-            CellRangeAddressList addressList=new CellRangeAddressList(1,100,cell.getColumnIndex(),cell.getColumnIndex());
+            CellRangeAddressList addressList=new CellRangeAddressList(2,100,cell.getColumnIndex(),cell.getColumnIndex());
             DataValidationHelper dvh=sheet.getDataValidationHelper();
             DataValidationConstraint explicitListConstraint =dvh.createFormulaListConstraint(sheetname);
             DataValidation dataValidation= dvh.createValidation(explicitListConstraint,addressList);

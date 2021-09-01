@@ -126,7 +126,7 @@
                t2.manage_com as comCode4,
                t2.branch_attr as branchAttr,
                (SELECT yl_name FROM ld_com_new WHERE ld_com_new.com_code=t1.manage_com) AS manageCom4,
-               t1.agent_group,
+               t2.branch_attr as agentGroup,
                t2.branch_name,
                t1.agent_grade as agentGradeCom,
                (SELECT grade_name FROM la_agent_grade WHERE la_agent_grade.grade_code=t1.agent_grade) AS agentGradeName,

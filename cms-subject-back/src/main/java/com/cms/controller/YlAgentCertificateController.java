@@ -91,7 +91,6 @@ public class YlAgentCertificateController {
     //张毅珑
     @ApiOperation("插入资格证信息")
     @PostMapping("/insert")
-    //@RequestBody注解是接收前端返回的json并封装为****pojo
     public R insertCertificate(@RequestBody CeInsertPojo ceInsertPojo) throws Exception {
         if (StringUtils.isEmpty(ceInsertPojo.getAgentCode())){
             return R.error("人员工号不能为空");
@@ -107,11 +106,14 @@ public class YlAgentCertificateController {
         }
         ylAgentCertificateService.initializeEdorno(ceInsertPojo);
         int i = ylAgentCertificateService.InsertCertificate(ceInsertPojo);
-        if(i > 0) {
+        if(i == 1) {
             return R.ok();
         }else if(i == 0) {
             return R.error("插入资格证信息重复");
-        }else {
+        }else if (i == 2){
+            return R.error("资格证信息重复");
+        }
+        else {
             return R.error("插入资格证信息失败");
         }
     }

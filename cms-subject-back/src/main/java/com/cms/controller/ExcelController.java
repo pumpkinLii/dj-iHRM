@@ -578,7 +578,7 @@ public class ExcelController {
             ServletOutputStream outputStream=response.getOutputStream();
             response.setHeader("content-disposition","attachment;fileName="+ URLEncoder.encode("员工批量导出.xlsx","UTF-8"));
             workbook.write(outputStream);
-//            outputStream.flush();
+            outputStream.flush();
             outputStream.close();
         } catch (IOException | ParseException var11) {
             var11.printStackTrace();

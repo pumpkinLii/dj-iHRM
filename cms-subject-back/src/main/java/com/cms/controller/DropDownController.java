@@ -97,7 +97,7 @@ public class DropDownController {
     @ApiOperation("下载新增接口")
     @PostMapping("/load")
     public R download(HttpServletResponse httpServletResponse, MultipartFile file) throws IOException {
-        OutputStream outputStream = new FileOutputStream("D:\\附件目录\\" + file.getOriginalFilename());
+        OutputStream outputStream = new FileOutputStream("F:\\附件目录\\" + file.getOriginalFilename());
         InputStream inputStream = file.getInputStream();
         byte[] bytes = new byte[1024];
         while ((inputStream.read(bytes)) > 0) {

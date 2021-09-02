@@ -199,7 +199,7 @@
                    t1.agent_grade as agentGrade,
                    (select y.code_name from ld_code y where y.code_type='sex' and t2.sex=y.code) sex,
                    t2.birthday as birthday,
-                   (select y.code_name from ld_code y where y.code_type='idtype' and t2.id_type=y.code) as idType,
+                   (select y.code_name from ld_code y where y.code_type='dajiaidtype' and t2.id_type=y.code) as idType,
                    t2.id_no as idNo,
                    t1.employ_date as employDate,
                    t1.out_work_date as outDate,

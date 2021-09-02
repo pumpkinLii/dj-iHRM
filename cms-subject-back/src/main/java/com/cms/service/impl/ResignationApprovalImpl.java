@@ -78,7 +78,7 @@ public class ResignationApprovalImpl extends ServiceImpl<YlLaDimissionDao, YlLaD
                 ylLaAgentManoeuvreEntity.setPreManageCom(manageCom);
                 ylLaAgentManoeuvreEntity.setPreBranchCode(agentGroup);
                 QueryWrapper qw = new QueryWrapper();
-                qw.eq("agent_group", agentGroup);
+                qw.eq("branch_attr", agentGroup);
                 YlLaBranchGroupEntity ylLaBranchGroupEntity1 = rYlLaBranchGroupService.getBaseMapper().selectOne(qw);
                 if (ylLaBranchGroupEntity1 != null) {
                     ylLaAgentManoeuvreEntity.setPreDepartmentManager(ylLaBranchGroupEntity1.getBranchManager());

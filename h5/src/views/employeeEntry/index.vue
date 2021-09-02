@@ -537,7 +537,7 @@ export default {
           [{ required: true, message: '请选择第一学历', trigger: 'change' }],
         highestDegree:
           [{ required: true, message: '请选择最高学位', trigger: 'change' }],
-        graduatedSchool:
+        graduateSchool:
           [{ required: true, message: '请输入毕业院校', trigger: 'blur' }],
         major:
           [{ required: true, message: '请输入专业', trigger: 'blur' }],

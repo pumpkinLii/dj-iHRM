@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bb4f753c-b15d-4588-b7c5-dcc472f1f9bc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/cms-subject-back/src/main/resources/application-dj.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/common/ComnewSon.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/common/ComnewSon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/config/SwaggerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/controller/BackMsgController.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/controller/BackMsgController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/controller/RankAlterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/controller/RankAlterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/controller/TeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/controller/TeamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/dao/LdComNewDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/dao/LdComNewDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/LaAgentGradeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/LaAgentGradeEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/LdCodeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/LdCodeEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/LdComNewEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/LdComNewEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaAgentAttrEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaAgentAttrEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaAgentCertificateBEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaAgentCertificateBEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaAgentCertificateEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaAgentCertificateEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaAgentEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaAgentEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaAgentManoeuvreEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaAgentManoeuvreEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaAreaEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaAreaEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaBranchGroupEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaBranchGroupEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaDimissionEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlLaDimissionEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlUserInfoEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/entity/YlUserInfoEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/service/impl/MagServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/java/com/cms/service/impl/MagServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cms-subject-back/src/main/resources/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/cms-subject-back/src/main/resources/logback-spring.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../resource/apache-maven-3.6.1" />
+        <option name="userSettingsFile" value="D:\resource\apache-maven-3.6.1\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="11" />
+  </component>
+  <component name="ProjectId" id="2tClQCfbUP9JnRuHW2LYX7OAuNa" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bb4f753c-b15d-4588-b7c5-dcc472f1f9bc" name="Default Changelist" comment="" />
+      <created>1739863918094</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1739863918094</updated>
+      <workItem from="1739863919355" duration="313000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+</project>

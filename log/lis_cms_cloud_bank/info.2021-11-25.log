@@ -1,0 +1,4 @@
+16:37:45.291 [main] INFO  com.cms.CmsApplication - [logStarting,55] - Starting CmsApplication on LAPTOP-H1HEF7Q9 with PID 12712 (G:\dj\cms-subject-back\target\classes started by LENOVO in G:\dj)
+16:37:45.294 [main] DEBUG com.cms.CmsApplication - [logStarting,56] - Running with Spring Boot v2.2.8.RELEASE, Spring v5.2.7.RELEASE
+16:37:45.294 [main] INFO  com.cms.CmsApplication - [logStartupProfileInfo,655] - The following profiles are active: dj
+16:37:56.237 [main] INFO  com.cms.CmsApplication - [logStarted,61] - Started CmsApplication in 11.868 seconds (JVM running for 17.628)

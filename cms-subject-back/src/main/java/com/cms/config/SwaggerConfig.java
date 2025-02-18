@@ -40,7 +40,7 @@ public class SwaggerConfig {
      */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("养老渠道接口测试")
+                .title("人事管理测试")
                 .contact("dj")
                 .version("1.0")
                 .build();

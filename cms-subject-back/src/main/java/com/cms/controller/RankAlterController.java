@@ -23,7 +23,6 @@ public class RankAlterController {
     @Autowired
     private RankAlterService rankAlterService;
 
-    //王欣艺
     @ApiOperation("职级调整保存接口")
     @PostMapping({"/alter"})
     public R rankAlter(@RequestBody RankAlterPojo rankAlterPojo) {
@@ -36,7 +35,6 @@ public class RankAlterController {
         return R.error(500,str);
     }
 
-    //池浩玥
     @PostMapping("/gradeQuery")
     @ApiOperation("职级查询接口")
     public R gradeQuery(@RequestBody GradeQueryPojo gradeQueryPojo, int limit, int page) throws ParseException {

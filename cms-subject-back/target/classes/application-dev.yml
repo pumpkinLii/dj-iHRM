@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    username: cmssubjectdev
+    password: CmsSubjectdev#123
+    url: jdbc:mysql://10.219.112.221:3306/cms_subject_dev?characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 9999
+#mybatis:
+#  type-aliases-package: com.cms.entity
+#  mapper-locations: classpath:mapper/*.xml
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  typeAliasesPackage: com.cms.entity
+  global-config:
+    db-config:
+      id-type: none
+      field-strategy: ignored
+      logic-delete-value: -1
+      logic-not-delete-value: 0
+    banner: false
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+#logging:
+#  level:
+#    com:
+#      edm:
+#        mapper: debug
+#日志打印
+logging.config=classpath:
+  logback-spring.xml
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+

@@ -6,11 +6,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * @author :zhanhaoze
- * @description :
- * @create :2021-07-26
- */
 @Data
 @TableName("ld_code")
 public class LdCodeEntity implements Serializable {

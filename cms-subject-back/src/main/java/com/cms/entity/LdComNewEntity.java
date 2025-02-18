@@ -7,11 +7,6 @@ import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
-/**
- * @author :zhanhaoze
- * @description :
- * @create :2021-07-26
- */
 @TableName("ld_com_new")
 @Data
 @EqualsAndHashCode(callSuper = false)

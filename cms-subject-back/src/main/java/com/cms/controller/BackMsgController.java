@@ -59,7 +59,6 @@ public class BackMsgController {
         }
     }
 
-    //陈益轩
     @ApiOperation("返回负责人信息接口")
     @PostMapping("/managerinfo")
     public R retManager(@RequestParam(value = "branchAttr") String branchAttr) {
@@ -111,7 +110,6 @@ public class BackMsgController {
         }
     }
 
-    //张毅泷
     @ApiOperation("工号回显姓名")
     @PostMapping("/searchNameById")
     public R SearchNameById(@RequestBody CeInsertPojo ceInsertPojo) {

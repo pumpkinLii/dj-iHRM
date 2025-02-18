@@ -8,11 +8,6 @@ import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
-/**
- * @author zhanhaoze
- * @description
- * @date 2021/7/22
- **/
 @TableName("yl_user_info")
 @Data
 @EqualsAndHashCode(callSuper = false)

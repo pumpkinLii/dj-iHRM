@@ -1,6 +1,7 @@
 package com.cms.common;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cms.dao.LdComNewDao;
 import com.cms.entity.LdComNewEntity;
 import com.cms.service.impl.MagServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.Map;
 public class ComnewSon {
     @Autowired
     MagServiceImpl magService;
+//    @Autowired
+//    LdComNewDao ldComNewDao;
 
     public List<Map<String, String>> getSon(String fatherComcode) {
         //Map放三个值 name code
@@ -24,6 +27,7 @@ public class ComnewSon {
             QueryWrapper queryWrapper = new QueryWrapper();
             queryWrapper.eq("com_grade", "04");
             List<LdComNewEntity> ldComNewEntities = this.magService.getBaseMapper().selectList(queryWrapper);
+//            List<LdComNewEntity> ldComNewEntities = ldComNewDao.selectList(queryWrapper);
             for (int i = 0; i < ldComNewEntities.size(); i++) {
                 Map map = new HashMap();
                 map.put("name", ldComNewEntities.get(i).getYlName());
@@ -36,6 +40,7 @@ public class ComnewSon {
             QueryWrapper queryWrapper = new QueryWrapper();
             queryWrapper.eq("com_code", fatherComcode);
             LdComNewEntity ldComNewEntity = this.magService.getBaseMapper().selectOne(queryWrapper);
+//            LdComNewEntity ldComNewEntity = ldComNewDao.selectOne(queryWrapper);
             Map map = new HashMap();
             map.put("name", ldComNewEntity.getYlName());
             map.put("comcode", fatherComcode);
@@ -47,6 +52,7 @@ public class ComnewSon {
             QueryWrapper queryWrapper = new QueryWrapper();
             queryWrapper.eq("up_com_code", fatherComcode);
             List<LdComNewEntity> list = this.magService.getBaseMapper().selectList(queryWrapper);
+//            List<LdComNewEntity> list = ldComNewDao.selectList(queryWrapper);
             for (int i = 0; i < list.size(); i++) {
                 Map map = new HashMap();
                 map.put("name", list.get(i).getYlName());
@@ -58,12 +64,14 @@ public class ComnewSon {
             QueryWrapper queryWrapper = new QueryWrapper();
             queryWrapper.eq("up_com_code", fatherComcode);
             List<LdComNewEntity> list = this.magService.getBaseMapper().selectList(queryWrapper);
+//            List<LdComNewEntity> list = ldComNewDao.selectList(queryWrapper);
             //获取三级机构的结果集了 861101
             for (int i = 0; i < list.size(); i++) {
                 //三级选四级
                 QueryWrapper queryWrapperson = new QueryWrapper();
-                queryWrapperson.eq("up_com_code", list.get(i).getComCode());
+//                queryWrapperson.eq("up_com_code", list.get(i).getComCode());
                 List<LdComNewEntity> listson = this.magService.getBaseMapper().selectList(queryWrapperson);
+//                List<LdComNewEntity> listson =ldComNewDao.selectList(queryWrapperson);
                 for (int i1 = 0; i1 < listson.size(); i1++) {
                     Map map = new HashMap();
                     map.put("name", listson.get(i1).getYlName());
@@ -83,6 +91,7 @@ public class ComnewSon {
         queryWrapper.eq("com_code", ManageComcode);
         Map map = new HashMap();
         LdComNewEntity ldComNewEntity = magService.getBaseMapper().selectOne(queryWrapper);
+//        LdComNewEntity ldComNewEntity = ldComNewDao.selectOne(queryWrapper);
         if (ldComNewEntity == null) {
             return null;
         } else {
@@ -90,6 +99,7 @@ public class ComnewSon {
             QueryWrapper q=new QueryWrapper();
             q.eq("com_code",ldComNewEntity.getUpComCode());
             LdComNewEntity ldComNewEntity1 = magService.getBaseMapper().selectOne(q);
+//            LdComNewEntity ldComNewEntity1 = ldComNewDao.selectOne(q);
             map.put("name", ldComNewEntity1.getYlName());
             return map;
         }
@@ -100,6 +110,7 @@ public class ComnewSon {
         queryWrapper.eq("up_com_code", ManageComcode);//这个机构码是
         List re = new ArrayList();
         List<LdComNewEntity> list = this.magService.getBaseMapper().selectList(queryWrapper);//获取子集
+//        List<LdComNewEntity> list = ldComNewDao.selectList(queryWrapper);//获取子集
         if (list.size() == 0) {
             return null;
         } else {
@@ -117,6 +128,7 @@ public class ComnewSon {
         QueryWrapper queryWrapper=new QueryWrapper();
         queryWrapper.eq("com_grade","01");
         List<LdComNewEntity> list = magService.getBaseMapper().selectList(queryWrapper);
+//        List<LdComNewEntity> list = ldComNewDao.selectList(queryWrapper);
         List result=new ArrayList();
         for (int i = 0; i < list.size(); i++) {
             Map map=new HashMap();

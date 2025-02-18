@@ -34,7 +34,6 @@ public class TeamController {
     @Autowired
     UYllaBranchGroupService uyllaBranchGroupService;
 
-    //王佳智
     @ApiOperation("团队新增接口")
     @PostMapping("/insertgroup")
     public R creat(@RequestBody CYlLaBranchGroupPojo c_ylLaBranchGroupPojo) throws ParseException {
@@ -42,7 +41,6 @@ public class TeamController {
         return c_ylLaBranchGroupService.creat(c_ylLaBranchGroupPojo);
     }
 
-    //王佳智
     //接受传进来的Pojo对象
     @ApiOperation("团队查询接口")
     @PostMapping("/querygroup")

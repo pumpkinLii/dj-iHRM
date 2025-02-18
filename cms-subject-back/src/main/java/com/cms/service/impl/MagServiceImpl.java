@@ -36,7 +36,6 @@ public class MagServiceImpl extends ServiceImpl<LdComNewDao, LdComNewEntity> imp
             map.put("label",ldComNewEntity.getYlName());
             map.put("value",ldComNewEntity.getComCode());
             if ("02".equals(ldComNewEntity.getComGrade())){
-                //
                 list2.add(map);
             }else if ("03".equals(grade)){
                 list3.add(map);

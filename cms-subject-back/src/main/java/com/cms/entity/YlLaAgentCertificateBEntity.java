@@ -7,11 +7,6 @@ import lombok.EqualsAndHashCode;
 
 import java.sql.Timestamp;
 
-/**
- * @author :zhanhaoze
- * @description :
- * @create :2021-07-26
- */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("yl_la_agent_certificate_b")

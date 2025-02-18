@@ -7,11 +7,6 @@ import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
-/**
- * @author :zhanhaoze
- * @description :
- * @create :2021-07-26
- */
 @Data
 @TableName("la_agent_grade")
 @EqualsAndHashCode(callSuper = false)
